@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>QLineMapPreview</class>
+ <widget class="QDialog" name="QLineMapPreview">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1102</width>
+    <height>868</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>QLineMapPreview</string>
+  </property>
+  <widget class="QGroupBox" name="m_grpTrainNum">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>70</y>
+     <width>314</width>
+     <height>69</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Train Number</string>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLineEdit" name="m_leTrainNumber"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="m_pbTNInput">
+        <property name="text">
+         <string>Input</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QGroupBox" name="m_grpDistList">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>150</y>
+     <width>280</width>
+     <height>231</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>DistanceList</string>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <widget class="QTableView" name="m_tblStopPtnRoutes"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QGroupBox" name="m_grpProgBar">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>400</y>
+     <width>108</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Progress bar</string>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_3">
+    <item row="0" column="0">
+     <widget class="QSlider" name="m_ctlProgress">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
