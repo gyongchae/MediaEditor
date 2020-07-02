@@ -34,7 +34,7 @@
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IncludePath>$(OneDrive)\Library\freetype-2.7.1\include;$(OneDrive)\Library\SFML-2.4.1-build\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(OneDrive)\Library\freetype-2.7.1\objs\win32\vc2008;$(OneDrive)\Library\SFML-2.4.1-build\lib\Release;$(OneDrive)\Library\SFML-2.4.1-build\lib\Debug;$(LibraryPath)</LibraryPath>
-    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+    <ExecutablePath>$(VC_ExecutablePath_x86);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
