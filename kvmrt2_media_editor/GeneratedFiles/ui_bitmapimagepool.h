@@ -35,14 +35,14 @@ public:
     QGroupBox *groupBox;
     QGridLayout *gridLayout;
     QSplitter *splitter;
-    QWidget *widget;
+    QWidget *layoutWidget;
     QVBoxLayout *verticalLayout_2;
     QHBoxLayout *horizontalLayout_3;
     QPushButton *btnAddBitmap;
     QPushButton *btnDelBitmap;
     QSpacerItem *horizontalSpacer;
     QTableView *m_tblBitmapImagePool;
-    QWidget *widget1;
+    QWidget *layoutWidget1;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout_2;
     QPushButton *btnColor;
@@ -56,7 +56,7 @@ public:
     {
         if (bitmapImagePool->objectName().isEmpty())
             bitmapImagePool->setObjectName(QStringLiteral("bitmapImagePool"));
-        bitmapImagePool->resize(577, 393);
+        bitmapImagePool->resize(564, 309);
         QFont font;
         font.setFamily(QStringLiteral("Arial"));
         bitmapImagePool->setFont(font);
@@ -73,9 +73,9 @@ public:
         splitter = new QSplitter(groupBox);
         splitter->setObjectName(QStringLiteral("splitter"));
         splitter->setOrientation(Qt::Horizontal);
-        widget = new QWidget(splitter);
-        widget->setObjectName(QStringLiteral("widget"));
-        verticalLayout_2 = new QVBoxLayout(widget);
+        layoutWidget = new QWidget(splitter);
+        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
+        verticalLayout_2 = new QVBoxLayout(layoutWidget);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
@@ -83,12 +83,12 @@ public:
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setSpacing(6);
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        btnAddBitmap = new QPushButton(widget);
+        btnAddBitmap = new QPushButton(layoutWidget);
         btnAddBitmap->setObjectName(QStringLiteral("btnAddBitmap"));
 
         horizontalLayout_3->addWidget(btnAddBitmap);
 
-        btnDelBitmap = new QPushButton(widget);
+        btnDelBitmap = new QPushButton(layoutWidget);
         btnDelBitmap->setObjectName(QStringLiteral("btnDelBitmap"));
 
         horizontalLayout_3->addWidget(btnDelBitmap);
@@ -100,7 +100,7 @@ public:
 
         verticalLayout_2->addLayout(horizontalLayout_3);
 
-        m_tblBitmapImagePool = new QTableView(widget);
+        m_tblBitmapImagePool = new QTableView(layoutWidget);
         m_tblBitmapImagePool->setObjectName(QStringLiteral("m_tblBitmapImagePool"));
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
@@ -113,10 +113,10 @@ public:
         verticalLayout_2->addWidget(m_tblBitmapImagePool);
 
         verticalLayout_2->setStretch(1, 2);
-        splitter->addWidget(widget);
-        widget1 = new QWidget(splitter);
-        widget1->setObjectName(QStringLiteral("widget1"));
-        verticalLayout = new QVBoxLayout(widget1);
+        splitter->addWidget(layoutWidget);
+        layoutWidget1 = new QWidget(splitter);
+        layoutWidget1->setObjectName(QStringLiteral("layoutWidget1"));
+        verticalLayout = new QVBoxLayout(layoutWidget1);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
@@ -124,7 +124,7 @@ public:
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        btnColor = new QPushButton(widget1);
+        btnColor = new QPushButton(layoutWidget1);
         btnColor->setObjectName(QStringLiteral("btnColor"));
 
         horizontalLayout_2->addWidget(btnColor);
@@ -136,7 +136,7 @@ public:
 
         verticalLayout->addLayout(horizontalLayout_2);
 
-        frame = new QFrame(widget1);
+        frame = new QFrame(layoutWidget1);
         frame->setObjectName(QStringLiteral("frame"));
         QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Minimum);
         sizePolicy1.setHorizontalStretch(0);
@@ -149,7 +149,7 @@ public:
         verticalLayout->addWidget(frame);
 
         verticalLayout->setStretch(1, 2);
-        splitter->addWidget(widget1);
+        splitter->addWidget(layoutWidget1);
 
         gridLayout->addWidget(splitter, 0, 0, 1, 1);
 
@@ -180,7 +180,7 @@ public:
 
     void retranslateUi(QDialog *bitmapImagePool)
     {
-        bitmapImagePool->setWindowTitle(QApplication::translate("bitmapImagePool", "bitmapImagePool", Q_NULLPTR));
+        bitmapImagePool->setWindowTitle(QApplication::translate("bitmapImagePool", "Bitmap", Q_NULLPTR));
         groupBox->setTitle(QApplication::translate("bitmapImagePool", "Bitmap List", Q_NULLPTR));
         btnAddBitmap->setText(QApplication::translate("bitmapImagePool", "Add", Q_NULLPTR));
         btnDelBitmap->setText(QApplication::translate("bitmapImagePool", "Del", Q_NULLPTR));

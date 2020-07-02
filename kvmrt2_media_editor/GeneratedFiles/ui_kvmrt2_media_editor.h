@@ -557,7 +557,10 @@ public:
 #ifndef QT_NO_TOOLTIP
         actionSetting->setToolTip(QApplication::translate("kvmrt2_media_editorClass", "ME Setting", Q_NULLPTR));
 #endif // QT_NO_TOOLTIP
-        actionAudioVideoPool->setText(QApplication::translate("kvmrt2_media_editorClass", "Audio and Video", Q_NULLPTR));
+        actionAudioVideoPool->setText(QApplication::translate("kvmrt2_media_editorClass", "Audio && Video", Q_NULLPTR));
+#ifndef QT_NO_TOOLTIP
+        actionAudioVideoPool->setToolTip(QApplication::translate("kvmrt2_media_editorClass", "Audio and Video", Q_NULLPTR));
+#endif // QT_NO_TOOLTIP
         actionFontPool->setText(QApplication::translate("kvmrt2_media_editorClass", "Font", Q_NULLPTR));
         actionTextPool->setText(QApplication::translate("kvmrt2_media_editorClass", "Text", Q_NULLPTR));
         actionRouteMapPool->setText(QApplication::translate("kvmrt2_media_editorClass", "Route Map", Q_NULLPTR));

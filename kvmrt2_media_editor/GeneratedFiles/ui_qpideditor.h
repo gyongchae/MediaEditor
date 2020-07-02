@@ -35,7 +35,7 @@ public:
 
     void retranslateUi(QDialog *QPIDEditor)
     {
-        QPIDEditor->setWindowTitle(QApplication::translate("QPIDEditor", "QPIDEditor", Q_NULLPTR));
+        QPIDEditor->setWindowTitle(QApplication::translate("QPIDEditor", "Display Editor", Q_NULLPTR));
     } // retranslateUi
 
 };

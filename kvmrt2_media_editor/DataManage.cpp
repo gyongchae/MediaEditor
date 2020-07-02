@@ -350,11 +350,17 @@ void CDataManage::setCurrPath(QString & currPath)
 	m_iconTile15 = QIcon(m_currPath + "/Res/Tile/tile_15c_rd.png");
 	m_iconTile16 = QIcon(m_currPath + "/Res/Tile/tile_16c_ru.png");
 
-	// spot context menu
-	m_iconAddNode =		QIcon(m_currPath + "/Res/Context/node_red.ico");
-	m_iconEditNode =	QIcon(m_currPath + "/Res/Kidcon OS Win/Icons/Apps 2.ico");
-	m_iconEditSpot =	QIcon(m_currPath + "/Res/Kidcon OS Win/Icons/triangle 2.ico");
-	m_iconDelete =		QIcon(m_currPath + "/Res/Context/delete.ico");
+	// route map spot context menu
+	m_iconAddNode		=	QIcon(m_currPath + "/Res/Context/node_red.ico");
+	m_iconEditNode		=	QIcon(m_currPath + "/Res/Kidcon OS Win/Icons/Apps 2.ico");
+	m_iconEditSpot		=	QIcon(m_currPath + "/Res/Kidcon OS Win/Icons/triangle 2.ico");
+	m_iconDelMapItem	=	QIcon(m_currPath + "/Res/Context/delete.ico");
+
+	// display pool normal / meta display item
+	m_iconAddMeta		=	QIcon(m_currPath + "/Res/Kidcons Win/Icons/add.ico");;
+	m_iconEditProp		=	QIcon(m_currPath + "/Res/Kidcons Win/Icons/green star.ico");;
+	m_iconDelDispItem	=	QIcon(m_currPath + "/Res/Kidcons Win/Icons/multiply.ico");;
+	m_iconRemoveProp		=	QIcon(m_currPath + "/Res/Kidcons Win/Icons/subtract.ico");;
 }
 
 QString & CDataManage::currPath()

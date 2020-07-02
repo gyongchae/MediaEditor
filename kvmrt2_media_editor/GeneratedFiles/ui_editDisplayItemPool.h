@@ -120,7 +120,7 @@ public:
 
     void retranslateUi(QDialog *editDisplayItemPool)
     {
-        editDisplayItemPool->setWindowTitle(QApplication::translate("editDisplayItemPool", "editDisplayItemPool", Q_NULLPTR));
+        editDisplayItemPool->setWindowTitle(QApplication::translate("editDisplayItemPool", "DRMD & PID", Q_NULLPTR));
         gbDispItemList->setTitle(QApplication::translate("editDisplayItemPool", "Display Item List", Q_NULLPTR));
         btnAddDisplayPool->setText(QApplication::translate("editDisplayItemPool", "Add", Q_NULLPTR));
         btnDelDisplayPool->setText(QApplication::translate("editDisplayItemPool", "Del", Q_NULLPTR));

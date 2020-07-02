@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>577</width>
-    <height>393</height>
+    <width>564</width>
+    <height>309</height>
    </rect>
   </property>
   <property name="font">
@@ -16,7 +16,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>bitmapImagePool</string>
+   <string>Bitmap</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3" stretch="2,0">
    <item>
@@ -30,7 +30,7 @@
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
          <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,2">
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -84,7 +84,7 @@
           </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
          <layout class="QVBoxLayout" name="verticalLayout" stretch="0,2">
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_2">

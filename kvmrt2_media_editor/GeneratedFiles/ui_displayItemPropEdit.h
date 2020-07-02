@@ -351,7 +351,7 @@ public:
 
     void retranslateUi(QDialog *displayItemPropEdit)
     {
-        displayItemPropEdit->setWindowTitle(QApplication::translate("displayItemPropEdit", "displayItemPropEdit", Q_NULLPTR));
+        displayItemPropEdit->setWindowTitle(QApplication::translate("displayItemPropEdit", "Normal Item Property", Q_NULLPTR));
         groupBox->setTitle(QApplication::translate("displayItemPropEdit", "Position", Q_NULLPTR));
         label->setText(QApplication::translate("displayItemPropEdit", "X", Q_NULLPTR));
         label_2->setText(QApplication::translate("displayItemPropEdit", "Y", Q_NULLPTR));

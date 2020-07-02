@@ -171,7 +171,13 @@ public:
 	QIcon m_iconAddNode;
 	QIcon m_iconEditSpot;
 	QIcon m_iconEditNode;
-	QIcon m_iconDelete;
+	QIcon m_iconDelMapItem;
+
+	// display pool normal / meta item
+	QIcon m_iconAddMeta;
+	QIcon m_iconEditProp;
+	QIcon m_iconDelDispItem;
+	QIcon m_iconRemoveProp;
 };
 
 

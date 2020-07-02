@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>639</width>
-    <height>594</height>
+    <width>574</width>
+    <height>306</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>imageListPool</string>
+   <string>Image List</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,0">
    <item>

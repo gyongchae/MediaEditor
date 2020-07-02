@@ -50,7 +50,7 @@ public:
     {
         if (stationImagePool->objectName().isEmpty())
             stationImagePool->setObjectName(QStringLiteral("stationImagePool"));
-        stationImagePool->resize(528, 524);
+        stationImagePool->resize(296, 306);
         verticalLayout_2 = new QVBoxLayout(stationImagePool);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         groupBox = new QGroupBox(stationImagePool);
@@ -132,7 +132,7 @@ public:
 
     void retranslateUi(QDialog *stationImagePool)
     {
-        stationImagePool->setWindowTitle(QApplication::translate("stationImagePool", "Station Image Pool", Q_NULLPTR));
+        stationImagePool->setWindowTitle(QApplication::translate("stationImagePool", "Text", Q_NULLPTR));
         groupBox->setTitle(QApplication::translate("stationImagePool", "Text List", Q_NULLPTR));
         btnAddText->setText(QApplication::translate("stationImagePool", "Add", Q_NULLPTR));
         btnDelText->setText(QApplication::translate("stationImagePool", "Del", Q_NULLPTR));

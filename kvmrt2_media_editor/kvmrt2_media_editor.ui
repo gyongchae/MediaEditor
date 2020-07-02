@@ -401,6 +401,9 @@
      <normaloff>Resources/More Kidcons Win/Icons/Bubble Stuff.ico</normaloff>Resources/More Kidcons Win/Icons/Bubble Stuff.ico</iconset>
    </property>
    <property name="text">
+    <string>Audio &amp;&amp; Video</string>
+   </property>
+   <property name="toolTip">
     <string>Audio and Video</string>
    </property>
   </action>
@@ -545,7 +548,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="res.qrc"/>
+  <include location="kvmrt2_media_editor.qrc"/>
  </resources>
  <connections/>
 </ui>

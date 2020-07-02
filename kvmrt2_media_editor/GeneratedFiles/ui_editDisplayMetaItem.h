@@ -406,7 +406,7 @@ public:
 
     void retranslateUi(QDialog *editDisplayMetaItem)
     {
-        editDisplayMetaItem->setWindowTitle(QApplication::translate("editDisplayMetaItem", "editDisplayMetaItem", Q_NULLPTR));
+        editDisplayMetaItem->setWindowTitle(QApplication::translate("editDisplayMetaItem", "Meta Item Property", Q_NULLPTR));
         label_4->setText(QApplication::translate("editDisplayMetaItem", "TAG", Q_NULLPTR));
         m_pbTagApply->setText(QApplication::translate("editDisplayMetaItem", "ApplyTag", Q_NULLPTR));
         label_9->setText(QApplication::translate("editDisplayMetaItem", "Pivot Point", Q_NULLPTR));

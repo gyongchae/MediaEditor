@@ -191,83 +191,83 @@ void QGLESLineMapCanvas::initLinkMenu()
 		switch (i)
 		{
 		case TILE_NONE:
-			pAction = new QAction(pDM->m_iconTile01, "TILE_NONE", this);
+			pAction = new QAction(pDM->m_iconTile01, "NONE (&0)", this);
 			pAction->setData(i);
 			m_pLinkMenu->addAction(pAction);
 			break;
 		case TILE_H_U:
-			pAction = new QAction(pDM->m_iconTile02, "TILE_H_U", this);
+			pAction = new QAction(pDM->m_iconTile02, "H_U (&1)", this);
 			pAction->setData(i);
 			m_pLinkMenu->addAction(pAction);
 			break;
 		case TILE_H_D:
-			pAction = new QAction(pDM->m_iconTile03, "TILE_H_D", this);
+			pAction = new QAction(pDM->m_iconTile03, "H_D (&2)", this);
 			pAction->setData(i);
 			m_pLinkMenu->addAction(pAction);
 			break;
 		case TILE_H_L:
-			pAction = new QAction(pDM->m_iconTile04, "TILE_H_L", this);
+			pAction = new QAction(pDM->m_iconTile04, "H_L (&3)", this);
 			pAction->setData(i);
 			m_pLinkMenu->addAction(pAction);
 			break;
 		case TILE_H_R:
-			pAction = new QAction(pDM->m_iconTile05, "TILE_H_R", this);
+			pAction = new QAction(pDM->m_iconTile05, "H_R (&4)", this);
 			pAction->setData(i);
 			m_pLinkMenu->addAction(pAction);
 			break;
 		case TILE_F_UD:
-			pAction = new QAction(pDM->m_iconTile06, "TILE_F_UD", this);
+			pAction = new QAction(pDM->m_iconTile06, "F_UD (&5)", this);
 			pAction->setData(i);
 			m_pLinkMenu->addAction(pAction);
 			break;
 		case TILE_F_LR:
-			pAction = new QAction(pDM->m_iconTile07, "TILE_F_LR", this);
+			pAction = new QAction(pDM->m_iconTile07, "F_LR (&6)", this);
 			pAction->setData(i);
 			m_pLinkMenu->addAction(pAction);
 			break;
 		case TILE_CROSS:
-			pAction = new QAction(pDM->m_iconTile08, "TILE_CROSS", this);
+			pAction = new QAction(pDM->m_iconTile08, "CROSS (&7)", this);
 			pAction->setData(i);
 			m_pLinkMenu->addAction(pAction);
 			
 			break;
 		case TILE_F_UD_H_L:
-			pAction = new QAction(pDM->m_iconTile09, "TILE_F_UD_H_L", this);
+			pAction = new QAction(pDM->m_iconTile09, "F_UD_H_L (&8)", this);
 			pAction->setData(i);
 			m_pLinkMenu->addAction(pAction);
 			break;
 		case TILE_F_UD_H_R:
-			pAction = new QAction(pDM->m_iconTile10, "TILE_F_UD_H_R", this);
+			pAction = new QAction(pDM->m_iconTile10, "F_UD_H_R (&9)", this);
 			pAction->setData(i);
 			m_pLinkMenu->addAction(pAction);
 			break;
 		case TILE_F_LR_H_U:
-			pAction = new QAction(pDM->m_iconTile11, "TILE_F_LR_H_U", this);
+			pAction = new QAction(pDM->m_iconTile11, "F_LR_H_U (&Q)", this);
 			pAction->setData(i);
 			m_pLinkMenu->addAction(pAction);
 			break;
 		case TILE_F_LR_H_D:
-			pAction = new QAction(pDM->m_iconTile12, "TILE_F_LR_H_D", this);
+			pAction = new QAction(pDM->m_iconTile12, "F_LR_H_D (&W)", this);
 			pAction->setData(i);
 			m_pLinkMenu->addAction(pAction);
 			break;
 		case TILE_C_LU:
-			pAction = new QAction(pDM->m_iconTile13, "TILE_C_LU", this);
+			pAction = new QAction(pDM->m_iconTile13, "C_LU (&E)", this);
 			pAction->setData(i);
 			m_pLinkMenu->addAction(pAction);
 			break;
 		case TILE_C_LD:
-			pAction = new QAction(pDM->m_iconTile14, "TILE_C_LD", this);
+			pAction = new QAction(pDM->m_iconTile14, "C_LD (&R)", this);
 			pAction->setData(i);
 			m_pLinkMenu->addAction(pAction);
 			break;
 		case TILE_C_RD:
-			pAction = new QAction(pDM->m_iconTile15, "TILE_C_RD", this);
+			pAction = new QAction(pDM->m_iconTile15, "C_RD (&T)", this);
 			pAction->setData(i);
 			m_pLinkMenu->addAction(pAction);
 			break;
 		case TILE_C_RU:
-			pAction = new QAction(pDM->m_iconTile16, "TILE_C_RU", this);
+			pAction = new QAction(pDM->m_iconTile16, "C_RU (&Y)", this);
 			pAction->setData(i);
 			
 			m_pLinkMenu->addAction(pAction);
@@ -291,7 +291,7 @@ void QGLESLineMapCanvas::initNodeMenu()
 	pAction->setData(1);
 	m_pNodeMenu->addAction(pAction);
 
-	pAction = new QAction(pDM->m_iconDelete, "Delete Node", this);
+	pAction = new QAction(pDM->m_iconDelMapItem, "Delete Node", this);
 	pAction->setData(2);
 	m_pNodeMenu->addAction(pAction);
 
@@ -314,7 +314,7 @@ void QGLESLineMapCanvas::initArrowMenu()
 	auto *pDM = CDataManage::GetInstance();
 	m_pArrowMenu = new QMenu("Edit Arrow", this);
 
-	pAction = new QAction(pDM->m_iconDelete, "Delete arrow", this);
+	pAction = new QAction(pDM->m_iconDelMapItem, "Delete arrow", this);
 	pAction->setData(1);
 	m_pArrowMenu->addAction(pAction);
 

@@ -158,8 +158,9 @@ public:
 
     void retranslateUi(QDialog *displayItemPreset)
     {
-        displayItemPreset->setWindowTitle(QApplication::translate("displayItemPreset", "displayItemPreset", Q_NULLPTR));
+        displayItemPreset->setWindowTitle(QApplication::translate("displayItemPreset", "Preset", Q_NULLPTR));
         label->setText(QApplication::translate("displayItemPreset", "Title", Q_NULLPTR));
+        m_leDescription->setPlaceholderText(QApplication::translate("displayItemPreset", "Title goes here...", Q_NULLPTR));
         label_2->setText(QApplication::translate("displayItemPreset", "Size", Q_NULLPTR));
         label_5->setText(QApplication::translate("displayItemPreset", "Width:", Q_NULLPTR));
         label_3->setText(QApplication::translate("displayItemPreset", "Height:", Q_NULLPTR));

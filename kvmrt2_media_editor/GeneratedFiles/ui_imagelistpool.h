@@ -59,7 +59,7 @@ public:
     {
         if (imageListPool->objectName().isEmpty())
             imageListPool->setObjectName(QStringLiteral("imageListPool"));
-        imageListPool->resize(639, 594);
+        imageListPool->resize(574, 306);
         verticalLayout_3 = new QVBoxLayout(imageListPool);
         verticalLayout_3->setSpacing(6);
         verticalLayout_3->setContentsMargins(11, 11, 11, 11);
@@ -193,7 +193,7 @@ public:
 
     void retranslateUi(QDialog *imageListPool)
     {
-        imageListPool->setWindowTitle(QApplication::translate("imageListPool", "imageListPool", Q_NULLPTR));
+        imageListPool->setWindowTitle(QApplication::translate("imageListPool", "Image List", Q_NULLPTR));
         groupBox->setTitle(QApplication::translate("imageListPool", "Image List Pool", Q_NULLPTR));
         btnAddImgListPool->setText(QApplication::translate("imageListPool", "Add", Q_NULLPTR));
         btnDelImgListPool->setText(QApplication::translate("imageListPool", "Del", Q_NULLPTR));

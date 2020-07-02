@@ -346,9 +346,10 @@ void QGLESPIDCanvas::paintGL()
 
 void QGLESPIDCanvas::initActions()
 {
-	m_pActDelItem = new QAction("Delete", this);
-	m_pActEditProp = new QAction("Edit property", this);
-	m_pActDelProp = new QAction("Delete property",this);
+	auto *pDM = CDataManage::GetInstance();
+	m_pActDelItem = new QAction(pDM->m_iconDelDispItem, "&Delete", this);
+	m_pActEditProp = new QAction(pDM->m_iconEditProp, "&Property", this);
+	m_pActDelProp = new QAction(pDM->m_iconRemoveProp, "&Remove Current Property",this);
 
 	m_pMenu = new QMenu(this);
 	m_pMenu->addAction(m_pActDelItem);
@@ -360,13 +361,13 @@ void QGLESPIDCanvas::initActions()
 	connect(m_pActEditProp, SIGNAL(triggered()), this, SLOT(editProperties()));
 	connect(m_pActDelProp, SIGNAL(triggered()), this, SLOT(delPropAtCurTime()));
 
-	m_pAddMetaItem = new QAction("Add a meta image item", this);
+	m_pAddMetaItem = new QAction(pDM->m_iconAddMeta, "&Add Meta Item", this);
+	m_pDeleteMetaItem = new QAction(pDM->m_iconDelDispItem, "&Delete", this);
+	m_pEditMetaItem = new QAction(pDM->m_iconEditProp, "&Property", this);
+	m_pDelMetaProp = new QAction(pDM->m_iconRemoveProp, "&Remove Current Property", this);
 	m_pAddMetaItem->setData(1);
-	m_pDeleteMetaItem = new QAction("Delete the meta image item", this);
 	m_pDeleteMetaItem->setData(2);
-	m_pEditMetaItem = new QAction("Edit the meta image item", this);
 	m_pEditMetaItem->setData(3);
-	m_pDelMetaProp = new QAction("Delete the meta image property", this);
 	m_pDelMetaProp->setData(4);
 
 	m_pMetaItemMenu = new QMenu(this);

@@ -143,9 +143,12 @@ void QPIDEditor::initTableView()
 	m_tblItemList->setAcceptDrops(true);
 	m_tblItemList->setDropIndicatorShown(false);
 	m_tblItemList->setDragDropMode(QAbstractItemView::DragOnly);
-
+	
 	QHeaderView *header = m_tblItemList->horizontalHeader();
 	header->resizeSections(QHeaderView::ResizeToContents);
+	header->hideSection(0); // table index col
+	header->hideSection(1); // order col
+	header->hideSection(2); // duration col
 }
 
 void QPIDEditor::acceptedChanges()

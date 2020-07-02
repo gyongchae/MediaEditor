@@ -58,7 +58,7 @@ public:
     {
         if (Dialog->objectName().isEmpty())
             Dialog->setObjectName(QStringLiteral("Dialog"));
-        Dialog->resize(750, 597);
+        Dialog->resize(631, 308);
         gridLayout_3 = new QGridLayout(Dialog);
         gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
         verticalLayout_3 = new QVBoxLayout();
@@ -175,7 +175,7 @@ public:
 
     void retranslateUi(QDialog *Dialog)
     {
-        Dialog->setWindowTitle(QApplication::translate("Dialog", "Dialog", Q_NULLPTR));
+        Dialog->setWindowTitle(QApplication::translate("Dialog", "Audio & Video", Q_NULLPTR));
         groupBox->setTitle(QApplication::translate("Dialog", "Audio File List", Q_NULLPTR));
         btnPlayAudio->setText(QApplication::translate("Dialog", "Play", Q_NULLPTR));
         btnAddAudio->setText(QApplication::translate("Dialog", "Add", Q_NULLPTR));

@@ -78,8 +78,8 @@ void QGLESLineMapCanvas::dropEvent(QDropEvent * e)
 void QGLESLineMapCanvas::initActions()
 {
 	auto *pDM = CDataManage::GetInstance();
-	m_pActDelItem = new QAction(pDM->m_iconDelete, "Delete", this);
-	m_pActEditProp = new QAction(pDM->m_iconEditSpot, "Edit properties", this);
+	m_pActDelItem = new QAction(pDM->m_iconDelMapItem, "&Delete Item", this);
+	m_pActEditProp = new QAction(pDM->m_iconEditSpot, "&Edit Property", this);
 	m_pActDelItem->setStatusTip(tr("Delete selected item"));
 	m_pActEditProp->setStatusTip(tr("Edit properties of selected item"));
 	connect(m_pActDelItem, SIGNAL(triggered()), this, SLOT(deleteItem()));

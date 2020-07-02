@@ -989,8 +989,8 @@ void kvmrt2_media_editor::showContextMenu(const QPoint &pos)
 
 void kvmrt2_media_editor::initContextMenu()
 {
-	m_pActCopyItem = new QAction("Copy", this);
-	m_pActPasteItem = new QAction("Paste", this);
+	m_pActCopyItem = new QAction("&Copy", this);
+	m_pActPasteItem = new QAction("&Paste", this);
 	connect(m_pActCopyItem, SIGNAL(triggered()), this, SLOT(copyItemTriggered()));
 	connect(m_pActPasteItem, SIGNAL(triggered()), this, SLOT(pasteItemTriggered()));
 }

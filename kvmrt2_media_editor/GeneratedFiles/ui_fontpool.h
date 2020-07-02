@@ -45,7 +45,7 @@ public:
     {
         if (fontPool->objectName().isEmpty())
             fontPool->setObjectName(QStringLiteral("fontPool"));
-        fontPool->resize(596, 619);
+        fontPool->resize(296, 306);
         verticalLayout_2 = new QVBoxLayout(fontPool);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
@@ -116,7 +116,7 @@ public:
 
     void retranslateUi(QDialog *fontPool)
     {
-        fontPool->setWindowTitle(QApplication::translate("fontPool", "fontPool", Q_NULLPTR));
+        fontPool->setWindowTitle(QApplication::translate("fontPool", "Font", Q_NULLPTR));
         groupBox->setTitle(QApplication::translate("fontPool", "Font List", Q_NULLPTR));
         btnAddFont->setText(QApplication::translate("fontPool", "Add", Q_NULLPTR));
         btnDelFont->setText(QApplication::translate("fontPool", "Delete", Q_NULLPTR));
