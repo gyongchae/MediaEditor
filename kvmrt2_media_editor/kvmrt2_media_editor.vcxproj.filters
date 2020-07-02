@@ -537,9 +537,6 @@
     <QtMoc Include="scrollingmapcanvas.h">
       <Filter>SUBCLASS\WIDGET</Filter>
     </QtMoc>
-    <QtMoc Include="QGLESLineMapPreview.h">
-      <Filter>SCREEN\ROUTE MAP\PREVIEW</Filter>
-    </QtMoc>
     <QtMoc Include="QLineMapPreview.h">
       <Filter>SCREEN\ROUTE MAP\PREVIEW</Filter>
     </QtMoc>
@@ -861,6 +858,9 @@
     </CustomBuild>
     <CustomBuild Include="kvmrt2_media_editor.qrc">
       <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="QGLESLineMapPreview.h">
+      <Filter>SCREEN\ROUTE MAP\PREVIEW</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

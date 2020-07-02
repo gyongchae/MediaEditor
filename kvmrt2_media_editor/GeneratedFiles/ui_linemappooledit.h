@@ -115,7 +115,7 @@ public:
 
     void retranslateUi(QDialog *LineMapPoolEdit)
     {
-        LineMapPoolEdit->setWindowTitle(QApplication::translate("LineMapPoolEdit", "LineMapPoolEdit", Q_NULLPTR));
+        LineMapPoolEdit->setWindowTitle(QApplication::translate("LineMapPoolEdit", "Route Map", Q_NULLPTR));
         groupBox->setTitle(QApplication::translate("LineMapPoolEdit", "Route Map List", Q_NULLPTR));
         btnAddMap->setText(QApplication::translate("LineMapPoolEdit", "Add", Q_NULLPTR));
         btnDelMap->setText(QApplication::translate("LineMapPoolEdit", "Del", Q_NULLPTR));

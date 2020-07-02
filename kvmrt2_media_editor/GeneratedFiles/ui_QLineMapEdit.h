@@ -64,6 +64,7 @@ public:
     QRadioButton *m_ctlTile;
     QRadioButton *m_ctlArrow;
     QRadioButton *m_ctlNode;
+    QRadioButton *m_ctlImageList;
     QGroupBox *groupBox_2;
     QGridLayout *gridLayout_6;
     QFormLayout *formLayout_2;
@@ -105,9 +106,9 @@ public:
     QVBoxLayout *verticalLayout_5;
     QHBoxLayout *horizontalLayout_5;
     QPushButton *btnCopyProp;
-    QSpacerItem *horizontalSpacer_2;
     QPushButton *btnPasteNode;
     QPushButton *btnPasteSpot;
+    QSpacerItem *horizontalSpacer_2;
     QHBoxLayout *horizontalLayout_7;
     QPushButton *btnShowSpotDefault;
     QPushButton *btnShowSpotCustom;
@@ -131,6 +132,9 @@ public:
     QGridLayout *gridLayout_7;
     QHBoxLayout *horizontalLayout_2;
     QTableView *m_tblDisplayItemPool;
+    QWidget *pageImageList;
+    QGridLayout *gridLayout_10;
+    QTableView *m_tblImageIndexList;
     QHBoxLayout *horizontalLayout_4;
     QSpacerItem *horizontalSpacer_4;
     QPushButton *btnClose;
@@ -139,7 +143,7 @@ public:
     {
         if (QLineMapEdit->objectName().isEmpty())
             QLineMapEdit->setObjectName(QStringLiteral("QLineMapEdit"));
-        QLineMapEdit->resize(1042, 679);
+        QLineMapEdit->resize(1121, 607);
         verticalLayout_4 = new QVBoxLayout(QLineMapEdit);
         verticalLayout_4->setSpacing(6);
         verticalLayout_4->setContentsMargins(11, 11, 11, 11);
@@ -149,7 +153,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 1022, 348));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 1101, 276));
         gridLayout_9 = new QGridLayout(scrollAreaWidgetContents);
         gridLayout_9->setSpacing(6);
         gridLayout_9->setContentsMargins(11, 11, 11, 11);
@@ -243,7 +247,7 @@ public:
         m_ctlDisplayItem = new QRadioButton(m_grpEditMode);
         m_ctlDisplayItem->setObjectName(QStringLiteral("m_ctlDisplayItem"));
 
-        gridLayout->addWidget(m_ctlDisplayItem, 3, 0, 1, 1);
+        gridLayout->addWidget(m_ctlDisplayItem, 4, 0, 1, 1);
 
         m_ctlTile = new QRadioButton(m_grpEditMode);
         m_ctlTile->setObjectName(QStringLiteral("m_ctlTile"));
@@ -259,6 +263,11 @@ public:
         m_ctlNode->setObjectName(QStringLiteral("m_ctlNode"));
 
         gridLayout->addWidget(m_ctlNode, 1, 0, 1, 1);
+
+        m_ctlImageList = new QRadioButton(m_grpEditMode);
+        m_ctlImageList->setObjectName(QStringLiteral("m_ctlImageList"));
+
+        gridLayout->addWidget(m_ctlImageList, 3, 0, 1, 1);
 
 
         verticalLayout_3->addWidget(m_grpEditMode);
@@ -459,10 +468,6 @@ public:
 
         horizontalLayout_5->addWidget(btnCopyProp);
 
-        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_5->addItem(horizontalSpacer_2);
-
         btnPasteNode = new QPushButton(pageNodeEdit);
         btnPasteNode->setObjectName(QStringLiteral("btnPasteNode"));
 
@@ -472,6 +477,10 @@ public:
         btnPasteSpot->setObjectName(QStringLiteral("btnPasteSpot"));
 
         horizontalLayout_5->addWidget(btnPasteSpot);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_5->addItem(horizontalSpacer_2);
 
 
         verticalLayout_5->addLayout(horizontalLayout_5);
@@ -594,6 +603,18 @@ public:
         gridLayout_7->addLayout(horizontalLayout_2, 0, 0, 1, 1);
 
         m_ctlStackedWidget->addWidget(pageDisplayEdit);
+        pageImageList = new QWidget();
+        pageImageList->setObjectName(QStringLiteral("pageImageList"));
+        gridLayout_10 = new QGridLayout(pageImageList);
+        gridLayout_10->setSpacing(6);
+        gridLayout_10->setContentsMargins(11, 11, 11, 11);
+        gridLayout_10->setObjectName(QStringLiteral("gridLayout_10"));
+        m_tblImageIndexList = new QTableView(pageImageList);
+        m_tblImageIndexList->setObjectName(QStringLiteral("m_tblImageIndexList"));
+
+        gridLayout_10->addWidget(m_tblImageIndexList, 0, 0, 1, 1);
+
+        m_ctlStackedWidget->addWidget(pageImageList);
 
         horizontalLayout_3->addWidget(m_ctlStackedWidget);
 
@@ -621,7 +642,7 @@ public:
 
         retranslateUi(QLineMapEdit);
 
-        m_ctlStackedWidget->setCurrentIndex(2);
+        m_ctlStackedWidget->setCurrentIndex(5);
 
 
         QMetaObject::connectSlotsByName(QLineMapEdit);
@@ -629,7 +650,7 @@ public:
 
     void retranslateUi(QDialog *QLineMapEdit)
     {
-        QLineMapEdit->setWindowTitle(QApplication::translate("QLineMapEdit", "QLineMapEdit", Q_NULLPTR));
+        QLineMapEdit->setWindowTitle(QApplication::translate("QLineMapEdit", "Route Map Editor", Q_NULLPTR));
         gbBasicMenu->setTitle(QApplication::translate("QLineMapEdit", "Property", Q_NULLPTR));
         label_13->setText(QApplication::translate("QLineMapEdit", "Title", Q_NULLPTR));
         label_14->setText(QApplication::translate("QLineMapEdit", "Tile Size", Q_NULLPTR));
@@ -637,10 +658,11 @@ public:
         label_16->setText(QApplication::translate("QLineMapEdit", "Width", Q_NULLPTR));
         label_17->setText(QApplication::translate("QLineMapEdit", "Height", Q_NULLPTR));
         m_grpEditMode->setTitle(QApplication::translate("QLineMapEdit", "Edit Mode", Q_NULLPTR));
-        m_ctlDisplayItem->setText(QApplication::translate("QLineMapEdit", "Display Item", Q_NULLPTR));
-        m_ctlTile->setText(QApplication::translate("QLineMapEdit", "Tile", Q_NULLPTR));
+        m_ctlDisplayItem->setText(QApplication::translate("QLineMapEdit", "Display Pool", Q_NULLPTR));
+        m_ctlTile->setText(QApplication::translate("QLineMapEdit", "Tile (Line)", Q_NULLPTR));
         m_ctlArrow->setText(QApplication::translate("QLineMapEdit", "Arrow", Q_NULLPTR));
-        m_ctlNode->setText(QApplication::translate("QLineMapEdit", "Node", Q_NULLPTR));
+        m_ctlNode->setText(QApplication::translate("QLineMapEdit", "Node (Station Name / Icon)", Q_NULLPTR));
+        m_ctlImageList->setText(QApplication::translate("QLineMapEdit", "Image List", Q_NULLPTR));
         groupBox_2->setTitle(QApplication::translate("QLineMapEdit", "Colour", Q_NULLPTR));
         label->setText(QApplication::translate("QLineMapEdit", "Background", Q_NULLPTR));
         m_ctlBackgroundColor->setText(QApplication::translate("QLineMapEdit", "Change Colour", Q_NULLPTR));
@@ -665,11 +687,11 @@ public:
         pushButton_2->setText(QApplication::translate("QLineMapEdit", "Spare", Q_NULLPTR));
         pushButton_3->setText(QApplication::translate("QLineMapEdit", "Spare", Q_NULLPTR));
         pushButton_4->setText(QApplication::translate("QLineMapEdit", "Spare", Q_NULLPTR));
-        btnCopyProp->setText(QApplication::translate("QLineMapEdit", "Copy Node && Spot Property", Q_NULLPTR));
-        btnPasteNode->setText(QApplication::translate("QLineMapEdit", "Paste Node Property", Q_NULLPTR));
-        btnPasteSpot->setText(QApplication::translate("QLineMapEdit", "Paste Spot Property", Q_NULLPTR));
-        btnShowSpotDefault->setText(QApplication::translate("QLineMapEdit", "Set Spot Image Default", Q_NULLPTR));
-        btnShowSpotCustom->setText(QApplication::translate("QLineMapEdit", "Set Spot Image Custom", Q_NULLPTR));
+        btnCopyProp->setText(QApplication::translate("QLineMapEdit", "Copy Selected Node Property", Q_NULLPTR));
+        btnPasteNode->setText(QApplication::translate("QLineMapEdit", "Paste Node Name Property", Q_NULLPTR));
+        btnPasteSpot->setText(QApplication::translate("QLineMapEdit", "Paste Node Icon Property", Q_NULLPTR));
+        btnShowSpotDefault->setText(QApplication::translate("QLineMapEdit", "Set All Nodes Icon Default", Q_NULLPTR));
+        btnShowSpotCustom->setText(QApplication::translate("QLineMapEdit", "Set All Nodes Icon Custom", Q_NULLPTR));
         label_6->setText(QApplication::translate("QLineMapEdit", "Forward ", Q_NULLPTR));
         label_7->setText(QApplication::translate("QLineMapEdit", "Backward", Q_NULLPTR));
         label_8->setText(QApplication::translate("QLineMapEdit", "Width", Q_NULLPTR));

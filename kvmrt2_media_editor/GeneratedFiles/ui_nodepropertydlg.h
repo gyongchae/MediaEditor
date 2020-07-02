@@ -1555,34 +1555,34 @@ public:
 
     void retranslateUi(QDialog *NodePropertyDlg)
     {
-        NodePropertyDlg->setWindowTitle(QApplication::translate("NodePropertyDlg", "NodePropertyDlg", Q_NULLPTR));
+        NodePropertyDlg->setWindowTitle(QApplication::translate("NodePropertyDlg", "Property", Q_NULLPTR));
         groupBox->setTitle(QApplication::translate("NodePropertyDlg", "Passed Station", Q_NULLPTR));
         label->setText(QApplication::translate("NodePropertyDlg", "Pos X", Q_NULLPTR));
         labelAngle_P->setText(QApplication::translate("NodePropertyDlg", "Angle", Q_NULLPTR));
         label_2->setText(QApplication::translate("NodePropertyDlg", "Pos Y", Q_NULLPTR));
         label_5->setText(QApplication::translate("NodePropertyDlg", "Pivot Point", Q_NULLPTR));
-        label_4->setText(QApplication::translate("NodePropertyDlg", "Item Type", Q_NULLPTR));
-        label_22->setText(QApplication::translate("NodePropertyDlg", "Image List Pool Index", Q_NULLPTR));
-        label_6->setText(QApplication::translate("NodePropertyDlg", "Display Pool Index", Q_NULLPTR));
-        chkUseDefaultSpot_P->setText(QApplication::translate("NodePropertyDlg", "Using Default Spot Image", Q_NULLPTR));
+        label_4->setText(QApplication::translate("NodePropertyDlg", "Image Refer to", Q_NULLPTR));
+        label_22->setText(QApplication::translate("NodePropertyDlg", "Image List Item", Q_NULLPTR));
+        label_6->setText(QApplication::translate("NodePropertyDlg", "Display Pool Item", Q_NULLPTR));
+        chkUseDefaultSpot_P->setText(QApplication::translate("NodePropertyDlg", "Using Default Node Icon", Q_NULLPTR));
         groupBox_2->setTitle(QApplication::translate("NodePropertyDlg", "Target Station", Q_NULLPTR));
         label_7->setText(QApplication::translate("NodePropertyDlg", "Pos X", Q_NULLPTR));
         labelAngle_T->setText(QApplication::translate("NodePropertyDlg", "Angle", Q_NULLPTR));
         label_8->setText(QApplication::translate("NodePropertyDlg", "Pos Y", Q_NULLPTR));
         label_10->setText(QApplication::translate("NodePropertyDlg", "Pivot Point", Q_NULLPTR));
-        label_11->setText(QApplication::translate("NodePropertyDlg", "Item Type", Q_NULLPTR));
-        label_23->setText(QApplication::translate("NodePropertyDlg", "Image List Pool Index", Q_NULLPTR));
-        label_12->setText(QApplication::translate("NodePropertyDlg", "Display Pool Index", Q_NULLPTR));
-        chkUseDefaultSpot_T->setText(QApplication::translate("NodePropertyDlg", "Using Default Spot Image", Q_NULLPTR));
+        label_11->setText(QApplication::translate("NodePropertyDlg", "Image Refer to", Q_NULLPTR));
+        label_23->setText(QApplication::translate("NodePropertyDlg", "Image List Item", Q_NULLPTR));
+        label_12->setText(QApplication::translate("NodePropertyDlg", "Display Pool Item", Q_NULLPTR));
+        chkUseDefaultSpot_T->setText(QApplication::translate("NodePropertyDlg", "Using Default Node Icon", Q_NULLPTR));
         groupBox_3->setTitle(QApplication::translate("NodePropertyDlg", "Remain Station", Q_NULLPTR));
-        label_24->setText(QApplication::translate("NodePropertyDlg", "Image List Pool Index", Q_NULLPTR));
+        label_24->setText(QApplication::translate("NodePropertyDlg", "Image List Item", Q_NULLPTR));
         label_14->setText(QApplication::translate("NodePropertyDlg", "Pos Y", Q_NULLPTR));
         label_13->setText(QApplication::translate("NodePropertyDlg", "Pos X", Q_NULLPTR));
         label_16->setText(QApplication::translate("NodePropertyDlg", "Pivot Point", Q_NULLPTR));
         labelAngle_R->setText(QApplication::translate("NodePropertyDlg", "Angle", Q_NULLPTR));
-        label_17->setText(QApplication::translate("NodePropertyDlg", "Item Type", Q_NULLPTR));
-        label_18->setText(QApplication::translate("NodePropertyDlg", "Display Pool Index", Q_NULLPTR));
-        chkUseDefaultSpot_R->setText(QApplication::translate("NodePropertyDlg", "Using Default Spot Image", Q_NULLPTR));
+        label_17->setText(QApplication::translate("NodePropertyDlg", "Image Refer to", Q_NULLPTR));
+        label_18->setText(QApplication::translate("NodePropertyDlg", "Display Pool Item", Q_NULLPTR));
+        chkUseDefaultSpot_R->setText(QApplication::translate("NodePropertyDlg", "Using Default Node Icon", Q_NULLPTR));
         labelStationInfo->setText(QApplication::translate("NodePropertyDlg", "Related Station", Q_NULLPTR));
         btnCopyAll->setText(QApplication::translate("NodePropertyDlg", "Copy All", Q_NULLPTR));
         btnApply->setText(QApplication::translate("NodePropertyDlg", "Apply", Q_NULLPTR));
@@ -1595,7 +1595,7 @@ public:
         label_19->setText(QApplication::translate("NodePropertyDlg", "Item Type", Q_NULLPTR));
         label_25->setText(QApplication::translate("NodePropertyDlg", "Image List Pool Index", Q_NULLPTR));
         label_20->setText(QApplication::translate("NodePropertyDlg", "Display Pool Index", Q_NULLPTR));
-        chkUseDefaultSpot_P_2->setText(QApplication::translate("NodePropertyDlg", "Using Default Spot Image", Q_NULLPTR));
+        chkUseDefaultSpot_P_2->setText(QApplication::translate("NodePropertyDlg", "Using Default Node Icon", Q_NULLPTR));
         groupBox_9->setTitle(QApplication::translate("NodePropertyDlg", "North Bound Target Station", Q_NULLPTR));
         label_31->setText(QApplication::translate("NodePropertyDlg", "Pos X", Q_NULLPTR));
         labelAngle_P_4->setText(QApplication::translate("NodePropertyDlg", "Angle", Q_NULLPTR));
@@ -1604,7 +1604,7 @@ public:
         label_34->setText(QApplication::translate("NodePropertyDlg", "Item Type", Q_NULLPTR));
         label_35->setText(QApplication::translate("NodePropertyDlg", "Image List Pool Index", Q_NULLPTR));
         label_36->setText(QApplication::translate("NodePropertyDlg", "Display Pool Index", Q_NULLPTR));
-        chkUseDefaultSpot_P_4->setText(QApplication::translate("NodePropertyDlg", "Using Default Spot Image", Q_NULLPTR));
+        chkUseDefaultSpot_P_4->setText(QApplication::translate("NodePropertyDlg", "Using Default Node Icon", Q_NULLPTR));
         groupBox_12->setTitle(QApplication::translate("NodePropertyDlg", "North Bound Remain Station", Q_NULLPTR));
         label_43->setText(QApplication::translate("NodePropertyDlg", "Pos X", Q_NULLPTR));
         labelAngle_P_6->setText(QApplication::translate("NodePropertyDlg", "Angle", Q_NULLPTR));
@@ -1613,7 +1613,7 @@ public:
         label_46->setText(QApplication::translate("NodePropertyDlg", "Item Type", Q_NULLPTR));
         label_47->setText(QApplication::translate("NodePropertyDlg", "Image List Pool Index", Q_NULLPTR));
         label_48->setText(QApplication::translate("NodePropertyDlg", "Display Pool Index", Q_NULLPTR));
-        chkUseDefaultSpot_P_6->setText(QApplication::translate("NodePropertyDlg", "Using Default Spot Image", Q_NULLPTR));
+        chkUseDefaultSpot_P_6->setText(QApplication::translate("NodePropertyDlg", "Using Default Node Icon", Q_NULLPTR));
         groupBox_7->setTitle(QApplication::translate("NodePropertyDlg", "South Bound Passed Station", Q_NULLPTR));
         label_21->setText(QApplication::translate("NodePropertyDlg", "Pos X", Q_NULLPTR));
         labelAngle_P_3->setText(QApplication::translate("NodePropertyDlg", "Angle", Q_NULLPTR));
@@ -1622,7 +1622,7 @@ public:
         label_28->setText(QApplication::translate("NodePropertyDlg", "Item Type", Q_NULLPTR));
         label_29->setText(QApplication::translate("NodePropertyDlg", "Image List Pool Index", Q_NULLPTR));
         label_30->setText(QApplication::translate("NodePropertyDlg", "Display Pool Index", Q_NULLPTR));
-        chkUseDefaultSpot_P_3->setText(QApplication::translate("NodePropertyDlg", "Using Default Spot Image", Q_NULLPTR));
+        chkUseDefaultSpot_P_3->setText(QApplication::translate("NodePropertyDlg", "Using Default Node Icon", Q_NULLPTR));
         groupBox_10->setTitle(QApplication::translate("NodePropertyDlg", "South Bound Target Station", Q_NULLPTR));
         label_37->setText(QApplication::translate("NodePropertyDlg", "Pos X", Q_NULLPTR));
         labelAngle_P_5->setText(QApplication::translate("NodePropertyDlg", "Angle", Q_NULLPTR));
@@ -1631,7 +1631,7 @@ public:
         label_40->setText(QApplication::translate("NodePropertyDlg", "Item Type", Q_NULLPTR));
         label_41->setText(QApplication::translate("NodePropertyDlg", "Image List Pool Index", Q_NULLPTR));
         label_42->setText(QApplication::translate("NodePropertyDlg", "Display Pool Index", Q_NULLPTR));
-        chkUseDefaultSpot_P_5->setText(QApplication::translate("NodePropertyDlg", "Using Default Spot Image", Q_NULLPTR));
+        chkUseDefaultSpot_P_5->setText(QApplication::translate("NodePropertyDlg", "Using Default Node Icon", Q_NULLPTR));
         groupBox_13->setTitle(QApplication::translate("NodePropertyDlg", "South Bound Remain Station", Q_NULLPTR));
         label_49->setText(QApplication::translate("NodePropertyDlg", "Pos X", Q_NULLPTR));
         labelAngle_P_7->setText(QApplication::translate("NodePropertyDlg", "Angle", Q_NULLPTR));
@@ -1640,7 +1640,7 @@ public:
         label_52->setText(QApplication::translate("NodePropertyDlg", "Item Type", Q_NULLPTR));
         label_53->setText(QApplication::translate("NodePropertyDlg", "Image List Pool Index", Q_NULLPTR));
         label_54->setText(QApplication::translate("NodePropertyDlg", "Display Pool Index", Q_NULLPTR));
-        chkUseDefaultSpot_P_7->setText(QApplication::translate("NodePropertyDlg", "Using Default Spot Image", Q_NULLPTR));
+        chkUseDefaultSpot_P_7->setText(QApplication::translate("NodePropertyDlg", "Using Default Node Icon", Q_NULLPTR));
         groupBox_5->setTitle(QApplication::translate("NodePropertyDlg", "Out of Range Station", Q_NULLPTR));
         label_55->setText(QApplication::translate("NodePropertyDlg", "Pos X", Q_NULLPTR));
         labelAngle_P_8->setText(QApplication::translate("NodePropertyDlg", "Angle", Q_NULLPTR));
@@ -1649,7 +1649,7 @@ public:
         label_58->setText(QApplication::translate("NodePropertyDlg", "Item Type", Q_NULLPTR));
         label_59->setText(QApplication::translate("NodePropertyDlg", "Image List Pool Index", Q_NULLPTR));
         label_60->setText(QApplication::translate("NodePropertyDlg", "Display Pool Index", Q_NULLPTR));
-        chkUseDefaultSpot_P_8->setText(QApplication::translate("NodePropertyDlg", "Using Default Spot Image", Q_NULLPTR));
+        chkUseDefaultSpot_P_8->setText(QApplication::translate("NodePropertyDlg", "Using Default Node Icon", Q_NULLPTR));
         groupBox_8->setTitle(QApplication::translate("NodePropertyDlg", "Skip Station", Q_NULLPTR));
         label_61->setText(QApplication::translate("NodePropertyDlg", "Pos X", Q_NULLPTR));
         labelAngle_P_9->setText(QApplication::translate("NodePropertyDlg", "Angle", Q_NULLPTR));
@@ -1658,7 +1658,7 @@ public:
         label_64->setText(QApplication::translate("NodePropertyDlg", "Item Type", Q_NULLPTR));
         label_65->setText(QApplication::translate("NodePropertyDlg", "Image List Pool Index", Q_NULLPTR));
         label_66->setText(QApplication::translate("NodePropertyDlg", "Display Pool Index", Q_NULLPTR));
-        chkUseDefaultSpot_P_9->setText(QApplication::translate("NodePropertyDlg", "Using Default Spot Image", Q_NULLPTR));
+        chkUseDefaultSpot_P_9->setText(QApplication::translate("NodePropertyDlg", "Using Default Node Icon", Q_NULLPTR));
     } // retranslateUi
 
 };

@@ -6,6 +6,7 @@
 #include "TableviewHelper.h"
 #include "QGLESLineMapCanvas.h"
 #include <qdebug.h>
+#include "DefineMode.h"
 
 QLineMapEdit::QLineMapEdit(int nIndexRow, QWidget *parent)
 	: QDialog(parent),m_nRow(nIndexRow)
@@ -29,8 +30,15 @@ QLineMapEdit::QLineMapEdit(int nIndexRow, QWidget *parent)
 	CALL_INIT_FUNCTION(LineMapLink);
 	CALL_INIT_FUNCTION(LineMapNode);
 	CALL_INIT_FUNCTION(DisplayItemPool);
+	CALL_INIT_FUNCTION(ImageIndexList);
 
 	connect(ui.btnClose, SIGNAL(clicked()), this, SLOT(acceptedChanges()));
+
+	if (RELEASE_MODE)
+	{
+		ui.m_ctlArrow->setVisible(false);
+		ui.m_ctlImageList->setVisible(false);
+	}
 }
 
 QLineMapEdit::~QLineMapEdit()
@@ -61,8 +69,9 @@ void QLineMapEdit::initWidgets()
 	m_editGroup->addButton(ui.m_ctlNode, 2);
 	m_editGroup->addButton(ui.m_ctlArrow, 3);
 	m_editGroup->addButton(ui.m_ctlDisplayItem, 4);
-	
+	m_editGroup->addButton(ui.m_ctlImageList, 5);
 	m_editGroup->setExclusive(true);
+	
 	connect(m_editGroup, SIGNAL(buttonClicked(int)), ui.openGLWidget, SLOT(setCurrentEditMode(int)));
 	connect(m_editGroup, SIGNAL(buttonClicked(int)), ui.m_ctlStackedWidget, SLOT(setCurrentIndex(int)));
 
@@ -131,6 +140,25 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(QLineMapEdit, DisplayItemPool)
 	ui.m_tblDisplayItemPool->setDragDropMode(QAbstractItemView::DragOnly);
 
 	QHeaderView *header = GET_TABLE(DisplayItemPool)->horizontalHeader();
+	header->resizeSections(QHeaderView::ResizeToContents);
+
+	return false;
+}
+IMPLEMENT_INIT_FUNCTION_FOR_CLASS(QLineMapEdit, ImageIndexList)
+{
+	auto *pDM = CDataManage::GetInstance();
+	SET_MODEL_FOR_TABLE_VIEW(ImageIndexList, pDM);
+	INSTALL_EVENT_FILTER(ImageIndexList);
+	SET_SELECTION_BEHAVIOR(ImageIndexList, QAbstractItemView::SelectRows);
+	SET_SELECTION_MODE(ImageIndexList, QAbstractItemView::SingleSelection);
+	SET_EDIT_TRIGGERS(ImageIndexList, QAbstractItemView::NoEditTriggers);
+
+	ui.m_tblImageIndexList->setDragEnabled(true);
+	ui.m_tblImageIndexList->setAcceptDrops(true);
+	ui.m_tblImageIndexList->setDropIndicatorShown(false);
+	ui.m_tblImageIndexList->setDragDropMode(QAbstractItemView::DragOnly);
+
+	QHeaderView *header = GET_TABLE(ImageIndexList)->horizontalHeader();
 	header->resizeSections(QHeaderView::ResizeToContents);
 
 	return false;

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Adding new Line map</string>
+   <string>Preset</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

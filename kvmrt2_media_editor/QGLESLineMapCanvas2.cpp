@@ -633,7 +633,7 @@ void QGLESLineMapCanvas::editSpot(int nSelectedIndex)
 	if (pit != pVEC->end())
 	{
 		int nRow = std::distance(pVEC->begin(), pit);
-		NodePropertyDlg tEdit(NodePropertyDlg::propertytype::SPOT, nRow, "Spot Property", this);
+		NodePropertyDlg tEdit(NodePropertyDlg::propertytype::SPOT, nRow, "Node Icon Property", this);
 		if (tEdit.exec() != QDialog::Accepted)
 		{
 
@@ -650,7 +650,7 @@ void QGLESLineMapCanvas::editNode(int nSelectedIndex)
 	if (pit != pVEC->end())
 	{
 		int nRow = std::distance(pVEC->begin(), pit);
-		NodePropertyDlg tEdit(NodePropertyDlg::propertytype::NODE, nRow, "Node Property", this);
+		NodePropertyDlg tEdit(NodePropertyDlg::propertytype::NODE, nRow, "Node Name Property", this);
 		if (tEdit.exec() != QDialog::Accepted)
 		{
 

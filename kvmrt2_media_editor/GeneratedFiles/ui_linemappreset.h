@@ -145,7 +145,7 @@ public:
 
     void retranslateUi(QDialog *LineMapPreset)
     {
-        LineMapPreset->setWindowTitle(QApplication::translate("LineMapPreset", "Adding new Line map", Q_NULLPTR));
+        LineMapPreset->setWindowTitle(QApplication::translate("LineMapPreset", "Preset", Q_NULLPTR));
         label_5->setText(QApplication::translate("LineMapPreset", "Title", Q_NULLPTR));
         editTitle->setPlaceholderText(QApplication::translate("LineMapPreset", "Title goes here...", Q_NULLPTR));
         label->setText(QApplication::translate("LineMapPreset", "Tile Size", Q_NULLPTR));

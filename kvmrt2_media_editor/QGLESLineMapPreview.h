@@ -1,6 +1,4 @@
-#ifndef QLINEMAPPREVIEW_H
-#define QLINEMAPPREVIEW_H
-
+#pragma once
 
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
@@ -8,8 +6,6 @@
 #include <vector>
 #include <map>
 #include <memory>
-
-
 
 class MaxRectsPixelBuffer;
 class CTexPool;
@@ -154,6 +150,3 @@ protected slots:
 	void setCurrentTime(int index);
 
 };
-
-
-#endif

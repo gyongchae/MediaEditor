@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>NodePropertyDlg</string>
+   <string>Property</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
@@ -102,7 +102,7 @@
           <item row="4" column="0">
            <widget class="QLabel" name="label_4">
             <property name="text">
-             <string>Item Type</string>
+             <string>Image Refer to</string>
             </property>
             <property name="buddy">
              <cstring>comboType_P</cstring>
@@ -122,7 +122,7 @@
           <item row="6" column="0">
            <widget class="QLabel" name="label_22">
             <property name="text">
-             <string>Image List Pool Index</string>
+             <string>Image List Item</string>
             </property>
             <property name="buddy">
              <cstring>comboImgListPool_P</cstring>
@@ -135,7 +135,7 @@
           <item row="5" column="0">
            <widget class="QLabel" name="label_6">
             <property name="text">
-             <string>Display Pool Index</string>
+             <string>Display Pool Item</string>
             </property>
             <property name="buddy">
              <cstring>comboDisplayPool_P</cstring>
@@ -145,7 +145,7 @@
           <item row="7" column="0" colspan="2">
            <widget class="QCheckBox" name="chkUseDefaultSpot_P">
             <property name="text">
-             <string>Using Default Spot Image</string>
+             <string>Using Default Node Icon</string>
             </property>
            </widget>
           </item>
@@ -237,7 +237,7 @@
           <item row="4" column="0">
            <widget class="QLabel" name="label_11">
             <property name="text">
-             <string>Item Type</string>
+             <string>Image Refer to</string>
             </property>
             <property name="buddy">
              <cstring>comboType_T</cstring>
@@ -257,7 +257,7 @@
           <item row="6" column="0">
            <widget class="QLabel" name="label_23">
             <property name="text">
-             <string>Image List Pool Index</string>
+             <string>Image List Item</string>
             </property>
             <property name="buddy">
              <cstring>comboImgListPool_T</cstring>
@@ -273,7 +273,7 @@
           <item row="5" column="0">
            <widget class="QLabel" name="label_12">
             <property name="text">
-             <string>Display Pool Index</string>
+             <string>Display Pool Item</string>
             </property>
             <property name="buddy">
              <cstring>comboDisplayPool_T</cstring>
@@ -283,7 +283,7 @@
           <item row="7" column="0" colspan="2">
            <widget class="QCheckBox" name="chkUseDefaultSpot_T">
             <property name="text">
-             <string>Using Default Spot Image</string>
+             <string>Using Default Node Icon</string>
             </property>
            </widget>
           </item>
@@ -309,7 +309,7 @@
           <item row="6" column="0">
            <widget class="QLabel" name="label_24">
             <property name="text">
-             <string>Image List Pool Index</string>
+             <string>Image List Item</string>
             </property>
             <property name="buddy">
              <cstring>comboImgListPool_R</cstring>
@@ -401,7 +401,7 @@
           <item row="4" column="0">
            <widget class="QLabel" name="label_17">
             <property name="text">
-             <string>Item Type</string>
+             <string>Image Refer to</string>
             </property>
             <property name="buddy">
              <cstring>comboType_R</cstring>
@@ -411,7 +411,7 @@
           <item row="5" column="0">
            <widget class="QLabel" name="label_18">
             <property name="text">
-             <string>Display Pool Index</string>
+             <string>Display Pool Item</string>
             </property>
             <property name="buddy">
              <cstring>comboDisplayPool_R</cstring>
@@ -421,7 +421,7 @@
           <item row="7" column="0" colspan="2">
            <widget class="QCheckBox" name="chkUseDefaultSpot_R">
             <property name="text">
-             <string>Using Default Spot Image</string>
+             <string>Using Default Node Icon</string>
             </property>
            </widget>
           </item>
@@ -641,7 +641,7 @@
                  <item row="7" column="0" colspan="2">
                   <widget class="QCheckBox" name="chkUseDefaultSpot_P_2">
                    <property name="text">
-                    <string>Using Default Spot Image</string>
+                    <string>Using Default Node Icon</string>
                    </property>
                   </widget>
                  </item>
@@ -779,7 +779,7 @@
                  <item row="7" column="0" colspan="2">
                   <widget class="QCheckBox" name="chkUseDefaultSpot_P_4">
                    <property name="text">
-                    <string>Using Default Spot Image</string>
+                    <string>Using Default Node Icon</string>
                    </property>
                   </widget>
                  </item>
@@ -917,7 +917,7 @@
                  <item row="7" column="0" colspan="2">
                   <widget class="QCheckBox" name="chkUseDefaultSpot_P_6">
                    <property name="text">
-                    <string>Using Default Spot Image</string>
+                    <string>Using Default Node Icon</string>
                    </property>
                   </widget>
                  </item>
@@ -1059,7 +1059,7 @@
                  <item row="7" column="0" colspan="2">
                   <widget class="QCheckBox" name="chkUseDefaultSpot_P_3">
                    <property name="text">
-                    <string>Using Default Spot Image</string>
+                    <string>Using Default Node Icon</string>
                    </property>
                   </widget>
                  </item>
@@ -1197,7 +1197,7 @@
                  <item row="7" column="0" colspan="2">
                   <widget class="QCheckBox" name="chkUseDefaultSpot_P_5">
                    <property name="text">
-                    <string>Using Default Spot Image</string>
+                    <string>Using Default Node Icon</string>
                    </property>
                   </widget>
                  </item>
@@ -1335,7 +1335,7 @@
                  <item row="7" column="0" colspan="2">
                   <widget class="QCheckBox" name="chkUseDefaultSpot_P_7">
                    <property name="text">
-                    <string>Using Default Spot Image</string>
+                    <string>Using Default Node Icon</string>
                    </property>
                   </widget>
                  </item>
@@ -1482,7 +1482,7 @@
             <item row="7" column="0" colspan="2">
              <widget class="QCheckBox" name="chkUseDefaultSpot_P_8">
               <property name="text">
-               <string>Using Default Spot Image</string>
+               <string>Using Default Node Icon</string>
               </property>
              </widget>
             </item>
@@ -1620,7 +1620,7 @@
             <item row="7" column="0" colspan="2">
              <widget class="QCheckBox" name="chkUseDefaultSpot_P_9">
               <property name="text">
-               <string>Using Default Spot Image</string>
+               <string>Using Default Node Icon</string>
               </property>
              </widget>
             </item>

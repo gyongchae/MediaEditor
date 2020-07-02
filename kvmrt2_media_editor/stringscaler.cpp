@@ -43,7 +43,10 @@ public:
     }
 };
 
+#ifndef FT_HAS_KERNING
 #define FT_HAS_KERNING( face ) ( face->face_flags & FT_FACE_FLAG_KERNING )
+#endif // !FT_HAS_KERNING
+
 
 void* CFontScaler::m_pLibrary;
 

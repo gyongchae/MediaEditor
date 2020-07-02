@@ -49,6 +49,7 @@ public:
 	DECLARE_INIT_FUNCTION_FOR_CLASS(LineMapLink);
 	DECLARE_INIT_FUNCTION_FOR_CLASS(LineMapNode);
 	DECLARE_INIT_FUNCTION_FOR_CLASS(DisplayItemPool);
+	DECLARE_INIT_FUNCTION_FOR_CLASS(ImageIndexList);
 
 	std::shared_ptr<CSQLData> m_pCopyLineMapNode;
 
