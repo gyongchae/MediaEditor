@@ -240,3 +240,11 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+
+#ignored folder - jkc
+Win32
+kvmrt2_media_editor/Debug
+kvmrt2_media_editor/File
+kvmrt2_media_editor/GeneratedFiles
+kvmrt2_media_editor/Release
+kvmrt2_media_editor*.db
