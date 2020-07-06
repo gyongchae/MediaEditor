@@ -135,6 +135,9 @@
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
       <ParseFiles>true</ParseFiles>
     </Filter>
+    <Filter Include="FILE UPLOAD">
+      <UniqueIdentifier>{b29cfa99-44ee-4172-847d-9bbd007cc23d}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Form Files">
       <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
       <Extensions>ui</Extensions>
@@ -493,6 +496,15 @@
     <ClCompile Include="GeneratedFiles\qrc_kvmrt2_media_editor.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_fileuploadwindow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_fileuploadwindow.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="FileUpload\fileuploadwindow.cpp">
+      <Filter>FILE UPLOAD</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LEDIndicator.h">
@@ -766,6 +778,9 @@
     <ClInclude Include="DefineMode.h">
       <Filter>MAIN</Filter>
     </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_fileuploadwindow.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="freetype.dll">
@@ -861,6 +876,12 @@
     </CustomBuild>
     <CustomBuild Include="QGLESLineMapPreview.h">
       <Filter>SCREEN\ROUTE MAP\PREVIEW</Filter>
+    </CustomBuild>
+    <CustomBuild Include="FileUpload\fileuploadwindow.h">
+      <Filter>FILE UPLOAD</Filter>
+    </CustomBuild>
+    <CustomBuild Include="FileUpload\fileuploadwindow.ui">
+      <Filter>FILE UPLOAD</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

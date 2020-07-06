@@ -5,6 +5,7 @@
 #include "tableViewHelper.h"
 #include <memory>
 #include <QMediaPlayer.h>
+#include "FileUpload\fileuploadwindow.h"
 
 class dataModel;
 class QTextAligner;
@@ -93,7 +94,9 @@ private slots:
 	void onShowRouteMapPool();
 	void onShowLedPool();
 	void onShowDisplayListPool();
+	void onShowFileUpload();
 
 private:
 	Ui::kvmrt2_media_editorClass ui;
+	FileUploadWindow *m_wndFileUpload;
 };
