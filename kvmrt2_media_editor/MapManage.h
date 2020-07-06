@@ -33,6 +33,11 @@ public:
 	std::map<int, std::wstring> m_mDevTypes;
 	std::map<int, std::wstring> m_mDistanceTypes;
 	std::map<int, std::wstring> m_mDisplayPoolType;
+	std::map<int, std::wstring> m_mAudioType;
+	std::map<int, std::wstring> m_mPlayWithStnName;
+	std::map<int, std::wstring> m_mVideoDevice;
+	std::map<int, std::wstring> m_mVideoGroup;
+
 
 
 };

@@ -53,10 +53,10 @@ DECLARE_STATIC_VARIABLES(StopPtnHeader, false, STOP_PATTERN_HEADER, -1, 5, 0)
 DECLARE_STATIC_TYPESETTINGS(StopPtnHeader, 6) =
 {
 	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),		0,	nullptr,true, false,false, MAKE_T("Table Index"),		100 },
-	{ TYPE_INTEGER,	MAKE_T("DEPARTURE_STATION"),0,	nullptr,false,false,false, MAKE_T("Departure Station"), 100 },
-	{ TYPE_INTEGER,	MAKE_T("ARRIVAL_STATION"),	0,	nullptr,false,false,false, MAKE_T("Arrival Station"),	100 },
+	{ TYPE_INTEGER,	MAKE_T("DEPARTURE_STATION"),0,	nullptr,false,false,false, MAKE_T("Start Station"),		100 },
+	{ TYPE_INTEGER,	MAKE_T("ARRIVAL_STATION"),	0,	nullptr,false,false,false, MAKE_T("Destination"),		100 },
 	{ TYPE_TEXT,	MAKE_T("DESCRIPTION"),		256,nullptr,false,false,false, MAKE_T("Description"),		100 },
-	{ TYPE_INTEGER,	MAKE_T("LINE_MAP_INDEX"),	0,	nullptr,false,false,false, MAKE_T("Line Map Index"),	100 },
+	{ TYPE_INTEGER,	MAKE_T("LINE_MAP_INDEX"),	0,	nullptr,false,false,false, MAKE_T("Route Map Index"),	100 },
 	{ TYPE_INTEGER,	MAKE_T("TABLE_ORDER"),		0,	nullptr,false,true, false, MAKE_T("Order"),				100 },
 
 };

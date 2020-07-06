@@ -4,6 +4,7 @@
 #include <QDragMoveEvent>
 #include <QStringList>
 #include <QMimeData>
+#include <qdebug.h>
 
 ///#ifndef NOMINMAX
 

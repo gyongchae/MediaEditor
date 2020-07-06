@@ -13,7 +13,7 @@ class SQLDelegate : public QItemDelegate
 	Q_OBJECT
 
 public:
-	enum delegatetype {DEFAULT, TEXT_IMAGE, BITMAP_IMAGE};
+	enum delegatetype {DEFAULT, TEXT_IMAGE, BITMAP_IMAGE, AUDIO_NAME};
 	SQLDelegate(QObject *parent, std::vector<std::shared_ptr<CSQLData>> *pvSQL, int nSocCol, int nDesCol, TYPEDEFINE eDesType, bool bCreated = false);
 	SQLDelegate(delegatetype type, QObject *parent,std::vector<std::shared_ptr<CSQLData>> *pvSQL,int nSocCol,int nDesCol,TYPEDEFINE eDesType,bool bCreated=false);
 	~SQLDelegate();

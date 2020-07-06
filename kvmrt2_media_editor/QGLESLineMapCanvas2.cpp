@@ -295,14 +295,13 @@ void QGLESLineMapCanvas::initNodeMenu()
 	pAction->setData(2);
 	m_pNodeMenu->addAction(pAction);
 
-	pAction = new QAction(pDM->m_iconEditNode, "Edit Node", this);
+	pAction = new QAction(pDM->m_iconEditNode, "Edit Node Name", this);
 	pAction->setData(3);
 	m_pNodeMenu->addAction(pAction);
 
-	pAction = new QAction(pDM->m_iconEditSpot, "Edit Spot", this);
+	pAction = new QAction(pDM->m_iconEditSpot, "Edit Node Icon", this);
 	pAction->setData(4);
 	m_pNodeMenu->addAction(pAction);
-
 
 	connect(m_pNodeMenu, SIGNAL(triggered(QAction*)), this, SLOT(selectAction(QAction*)));
 }

@@ -78,16 +78,22 @@ MAPPARAM gMappingVariables[] =
 	{ 1, L"Next station code" },			// use
 	{ 2, L"Current station code" },			// use
 	{ 3, L"Destination station code" },		// use
-	{ 4, L"Destination code" },				// no use
-	{ 5, L"Car number" },					// no use
-	{ 6, L"Door opening side" },			// use
-	{ 7, L"This/Next stop flag" },			// no use
-	{ 8, L"Distance between station" },		// no use
-	{ 9, L"Door state" },					// no use
-	{ 10,L"Current speed" },				// no use
-	{ 11,L"Door isolation information" },	// use
-	{ 12,L"Door fault information" },		// no use
-	{ 13,L"Door Orientation Information" },	// use
+	{ 4, L"Door opening side" },			// use
+	{ 5,L"Door Orientation Information" },	// use
+	//{ 0, L"" },
+	//{ 1, L"Next station code" },			// use
+	//{ 2, L"Current station code" },			// use
+	//{ 3, L"Destination station code" },		// use
+	//{ 4, L"Destination code" },				// no use
+	//{ 5, L"Car number" },					// no use
+	//{ 6, L"Door opening side" },			// use
+	//{ 7, L"This/Next stop flag" },			// no use
+	//{ 8, L"Distance between station" },		// no use
+	//{ 9, L"Door state" },					// no use
+	//{ 10,L"Current speed" },				// no use
+	//{ 11,L"Door isolation information" },	// no use
+	//{ 12,L"Door fault information" },		// no use
+	//{ 13,L"Door Orientation Information" },	// use
 };
 
 
@@ -128,6 +134,36 @@ MAPPARAM gDisplayPoolType[] =
 	{ 0,L"No Startup" },
 	{ 1,L"DRMD Startup" },
 	{ 2,L"PID Startup" },
+};
+
+MAPPARAM gAudioType[] =
+{
+	{ 0,L"" },
+	{ 1,L"Operational" },
+	{ 2,L"Special" },
+	{ 3,L"Emergency" },
+};
+
+MAPPARAM gPlayWithStnName[] =
+{
+	{ 0,L"" },
+	{ 1,L"No" },
+	{ 2,L"Yes" },
+};
+
+MAPPARAM gVideoDevice[] =
+{
+	{ 0,L"" },
+	{ 1,L"DRMD" },
+	{ 2,L"PID" },
+};
+
+MAPPARAM gVideoGroup[] =
+{
+	{ 0,L"DRMD" },
+	{ 1,L"PID 1" },
+	{ 2,L"PID 2" },
+	{ 3,L"PID 3" },
 };
 
 CMapManage::CMapManage(void)
@@ -215,5 +251,25 @@ void CMapManage::InitMaps()
 	for (int i = 0; i < (sizeof(gDisplayPoolType) / sizeof(gDisplayPoolType[0])); i++)
 	{
 		m_mDisplayPoolType[gDisplayPoolType[i].nValue] = std::wstring(gDisplayPoolType[i].szFieldName);
+	}
+
+	for (int i = 0; i < (sizeof(gAudioType) / sizeof(gAudioType[0])); i++)
+	{
+		m_mAudioType[gAudioType[i].nValue] = std::wstring(gAudioType[i].szFieldName);
+	}
+
+	for (int i = 0; i < (sizeof(gPlayWithStnName) / sizeof(gPlayWithStnName[0])); i++)
+	{
+		m_mPlayWithStnName[gPlayWithStnName[i].nValue] = std::wstring(gPlayWithStnName[i].szFieldName);
+	}
+
+	for (int i = 0; i < (sizeof(gVideoDevice) / sizeof(gVideoDevice[0])); i++)
+	{
+		m_mVideoDevice[gVideoDevice[i].nValue] = std::wstring(gVideoDevice[i].szFieldName);
+	}
+
+	for (int i = 0; i < (sizeof(gVideoGroup) / sizeof(gVideoGroup[0])); i++)
+	{
+		m_mVideoGroup[gVideoGroup[i].nValue] = std::wstring(gVideoGroup[i].szFieldName);
 	}
 }

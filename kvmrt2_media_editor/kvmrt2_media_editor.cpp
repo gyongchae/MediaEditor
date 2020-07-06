@@ -850,6 +850,8 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, AudioStationName)
 	QHeaderView *header = GET_TABLE(AudioStationName)->horizontalHeader();
 	header->resizeSections(QHeaderView::ResizeToContents);
 
+	GET_TABLE(AudioStationName)->setItemDelegateForColumn(3, new SQLDelegate(this, &pTM->VECTOR_CLASS(AudioFilePool), 3, 3, TYPE_TEXT));
+
 	SET_SELECTION_BEHAVIOR(AudioStationName, QAbstractItemView::SelectRows);
 	SET_SELECTION_MODE(AudioStationName, QAbstractItemView::SingleSelection);
 
@@ -860,12 +862,19 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, AudioTotal)
 {
 	auto *pDM = CDataManage::GetInstance();
 	auto *pTM = CTableManage::GetInstance();
+	auto *pMM = CMapManage::GetInstance();
+
 	SET_MODEL_FOR_TABLE_VIEW(AudioTotal, pDM);
 	INSTALL_EVENT_FILTER(AudioTotal);
 	SET_DRAG_AND_DROP_ENABLED(AudioTotal);
 
 	QHeaderView *header = GET_TABLE(AudioTotal)->horizontalHeader();
 	header->resizeSections(QHeaderView::ResizeToContents);
+
+	GET_TABLE(AudioTotal)->setItemDelegateForColumn(3, new comboBoxDelegate(this, &pMM->m_mAudioType));
+	GET_TABLE(AudioTotal)->setItemDelegateForColumn(4, new SQLDelegate(this, &pTM->VECTOR_CLASS(AudioFilePool), 3, 3, TYPE_TEXT));
+	GET_TABLE(AudioTotal)->setItemDelegateForColumn(5, new SQLDelegate(this, &pTM->VECTOR_CLASS(AudioFilePool), 3, 3, TYPE_TEXT));
+	GET_TABLE(AudioTotal)->setItemDelegateForColumn(6, new comboBoxDelegate(this, &pMM->m_mPlayWithStnName));
 
 	SET_SELECTION_BEHAVIOR(AudioTotal, QAbstractItemView::SelectRows);
 	SET_SELECTION_MODE(AudioTotal, QAbstractItemView::SingleSelection);
@@ -877,11 +886,16 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, VideoDeviceGroup)
 {
 	auto *pDM = CDataManage::GetInstance();
 	auto *pTM = CTableManage::GetInstance();
+	auto *pMM = CMapManage::GetInstance();
+
 	SET_MODEL_FOR_TABLE_VIEW(VideoDeviceGroup, pDM);
 	INSTALL_EVENT_FILTER(VideoDeviceGroup);
 	QHeaderView *header = GET_TABLE(VideoDeviceGroup)->horizontalHeader();
 
 	header->resizeSections(QHeaderView::ResizeToContents);
+
+	GET_TABLE(VideoDeviceGroup)->setItemDelegateForColumn(2, new comboBoxDelegate(this, &pMM->m_mVideoDevice));
+	GET_TABLE(VideoDeviceGroup)->setItemDelegateForColumn(3, new comboBoxDelegate(this, &pMM->m_mVideoGroup));
 
 	SET_DRAG_AND_DROP_ENABLED(VideoDeviceGroup);
 	SET_SELECTION_BEHAVIOR(VideoDeviceGroup, QAbstractItemView::SelectRows);
@@ -901,6 +915,8 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, VideoPlayList)
 	QHeaderView *header = GET_TABLE(VideoPlayList)->horizontalHeader();
 
 	header->resizeSections(QHeaderView::ResizeToContents);
+
+	GET_TABLE(VideoPlayList)->setItemDelegateForColumn(4, new SQLDelegate(this, &pTM->VECTOR_CLASS(VideoFilePool), 3, 3, TYPE_TEXT));
 
 	SET_DRAG_AND_DROP_ENABLED(VideoPlayList);
 	SET_SELECTION_BEHAVIOR(VideoPlayList, QAbstractItemView::SelectRows);

@@ -131,6 +131,7 @@ void SQLDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
 	wchar_t szBuffer[64];
 	int nSQLIndex=index.model()->data(index,Qt::EditRole).toInt();
+
 	QComboBox *comboBox=qobject_cast<QComboBox*>(editor);
 	if(m_pvSQL)
 	{
@@ -149,9 +150,12 @@ void SQLDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const
 	QComboBox *comboBox;
 	unsigned int  nValue;
 	nValue=index.model()->data(index,Qt::DisplayRole).toUInt();
+	qDebug() << Q_FUNC_INFO << "step1:" << nValue;
 	comboBox=qobject_cast<QComboBox*>(editor);
 	nValue=comboBox->currentIndex();
+	qDebug() << Q_FUNC_INFO << "step2:" << nValue;
 	nValue=comboBox->itemData(nValue).toInt();
+	qDebug() << Q_FUNC_INFO << "step3:" << nValue;
 	model->setData(index,nValue);
 }
 
