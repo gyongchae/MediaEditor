@@ -25,7 +25,7 @@ DECLARE_STATIC_TYPESETTINGS(StationInformation, 19) =
 };
 
 DECLARE_STATIC_VARIABLES(StationDistance, false, STATION_DISTANCE, -1, 5, 0)
-DECLARE_STATIC_TYPESETTINGS(StationDistance, 6) =
+DECLARE_STATIC_TYPESETTINGS(StationDistance, 8) =
 {
 	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),		0,	nullptr,true, false,false, MAKE_T("Table Index"),		100 },
 	{ TYPE_INTEGER,	MAKE_T("DEPARTURE_STATION"),0,	nullptr,false,false,false, MAKE_T("Departure Station"), 100 },
@@ -33,6 +33,8 @@ DECLARE_STATIC_TYPESETTINGS(StationDistance, 6) =
 	{ TYPE_INTEGER,	MAKE_T("DISTANCE"),			0,	nullptr,false,false,false, MAKE_T("Distance"),			100 },
 	{ TYPE_TEXT,	MAKE_T("DESC"),				256,nullptr,false,false,false, MAKE_T("Desc"),				100 },
 	{ TYPE_INTEGER,	MAKE_T("TABLE_ORDER"),		0,	nullptr,false,true, false, MAKE_T("Order"),				100 },
+	{ TYPE_INTEGER,	MAKE_T("DEPARTURE_CODE"),	0,	nullptr,false,false,false, MAKE_T("Departure Code"),	100 },
+	{ TYPE_INTEGER,	MAKE_T("ARRIVAL_CODE"),		0,	nullptr,false,false,false, MAKE_T("Arrival Code"),		100 },
 };
 
 DECLARE_STATIC_VARIABLES(TrainNumber, false, TRAIN_NUMBER, -1, 7, 0)

@@ -15,15 +15,20 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QRadioButton>
+#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTableView>
 #include <QtWidgets/QToolBar>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -58,7 +63,13 @@ public:
     QGridLayout *gridLayout;
     QTableView *m_tblStationInformation;
     QGroupBox *gbDistance;
-    QGridLayout *gridLayout_6;
+    QVBoxLayout *verticalLayout;
+    QHBoxLayout *horizontalLayout;
+    QRadioButton *rbInOrder;
+    QRadioButton *rbInReverseOrder;
+    QRadioButton *rbCustomOrder;
+    QSpacerItem *horizontalSpacer;
+    QPushButton *btnRefreshDistanceTable;
     QTableView *m_tblStationDistance;
     QWidget *tabRoute;
     QGridLayout *gridLayout_11;
@@ -68,7 +79,11 @@ public:
     QGridLayout *gridLayout_8;
     QTableView *m_tblStopPtnHeader;
     QGroupBox *gbTrainRoute;
-    QGridLayout *gridLayout_9;
+    QVBoxLayout *verticalLayout_2;
+    QHBoxLayout *horizontalLayout_2;
+    QPushButton *btnRouteAutoAdd;
+    QPushButton *btnDelRoutes;
+    QSpacerItem *horizontalSpacer_2;
     QTableView *m_tblStopPtnRoutes;
     QSplitter *splitter_2;
     QGroupBox *gbTrainNumber;
@@ -244,15 +259,46 @@ public:
         splitter->addWidget(gbStationName);
         gbDistance = new QGroupBox(splitter);
         gbDistance->setObjectName(QStringLiteral("gbDistance"));
-        gridLayout_6 = new QGridLayout(gbDistance);
-        gridLayout_6->setSpacing(6);
-        gridLayout_6->setContentsMargins(11, 11, 11, 11);
-        gridLayout_6->setObjectName(QStringLiteral("gridLayout_6"));
+        verticalLayout = new QVBoxLayout(gbDistance);
+        verticalLayout->setSpacing(6);
+        verticalLayout->setContentsMargins(11, 11, 11, 11);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        rbInOrder = new QRadioButton(gbDistance);
+        rbInOrder->setObjectName(QStringLiteral("rbInOrder"));
+
+        horizontalLayout->addWidget(rbInOrder);
+
+        rbInReverseOrder = new QRadioButton(gbDistance);
+        rbInReverseOrder->setObjectName(QStringLiteral("rbInReverseOrder"));
+
+        horizontalLayout->addWidget(rbInReverseOrder);
+
+        rbCustomOrder = new QRadioButton(gbDistance);
+        rbCustomOrder->setObjectName(QStringLiteral("rbCustomOrder"));
+
+        horizontalLayout->addWidget(rbCustomOrder);
+
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer);
+
+        btnRefreshDistanceTable = new QPushButton(gbDistance);
+        btnRefreshDistanceTable->setObjectName(QStringLiteral("btnRefreshDistanceTable"));
+
+        horizontalLayout->addWidget(btnRefreshDistanceTable);
+
+
+        verticalLayout->addLayout(horizontalLayout);
+
         m_tblStationDistance = new QTableView(gbDistance);
         m_tblStationDistance->setObjectName(QStringLiteral("m_tblStationDistance"));
 
-        gridLayout_6->addWidget(m_tblStationDistance, 0, 0, 1, 1);
+        verticalLayout->addWidget(m_tblStationDistance);
 
+        verticalLayout->setStretch(1, 1);
         splitter->addWidget(gbDistance);
 
         gridLayout_4->addWidget(splitter, 0, 0, 1, 1);
@@ -286,15 +332,36 @@ public:
         splitter_3->addWidget(gbStopPattern);
         gbTrainRoute = new QGroupBox(splitter_3);
         gbTrainRoute->setObjectName(QStringLiteral("gbTrainRoute"));
-        gridLayout_9 = new QGridLayout(gbTrainRoute);
-        gridLayout_9->setSpacing(6);
-        gridLayout_9->setContentsMargins(11, 11, 11, 11);
-        gridLayout_9->setObjectName(QStringLiteral("gridLayout_9"));
+        verticalLayout_2 = new QVBoxLayout(gbTrainRoute);
+        verticalLayout_2->setSpacing(6);
+        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(6);
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        btnRouteAutoAdd = new QPushButton(gbTrainRoute);
+        btnRouteAutoAdd->setObjectName(QStringLiteral("btnRouteAutoAdd"));
+
+        horizontalLayout_2->addWidget(btnRouteAutoAdd);
+
+        btnDelRoutes = new QPushButton(gbTrainRoute);
+        btnDelRoutes->setObjectName(QStringLiteral("btnDelRoutes"));
+
+        horizontalLayout_2->addWidget(btnDelRoutes);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_2->addItem(horizontalSpacer_2);
+
+
+        verticalLayout_2->addLayout(horizontalLayout_2);
+
         m_tblStopPtnRoutes = new QTableView(gbTrainRoute);
         m_tblStopPtnRoutes->setObjectName(QStringLiteral("m_tblStopPtnRoutes"));
 
-        gridLayout_9->addWidget(m_tblStopPtnRoutes, 0, 0, 1, 1);
+        verticalLayout_2->addWidget(m_tblStopPtnRoutes);
 
+        verticalLayout_2->setStretch(1, 1);
         splitter_3->addWidget(gbTrainRoute);
         splitter_4->addWidget(splitter_3);
         splitter_2 = new QSplitter(splitter_4);
@@ -540,7 +607,7 @@ public:
 
         retranslateUi(kvmrt2_media_editorClass);
 
-        tabMain->setCurrentIndex(0);
+        tabMain->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(kvmrt2_media_editorClass);
@@ -589,9 +656,15 @@ public:
         actionLicenseInfo->setText(QApplication::translate("kvmrt2_media_editorClass", "License Info", Q_NULLPTR));
         gbStationName->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Station Name", Q_NULLPTR));
         gbDistance->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Station Pair (Distance table)", Q_NULLPTR));
+        rbInOrder->setText(QApplication::translate("kvmrt2_media_editorClass", "In Order", Q_NULLPTR));
+        rbInReverseOrder->setText(QApplication::translate("kvmrt2_media_editorClass", "In Reverse Order", Q_NULLPTR));
+        rbCustomOrder->setText(QApplication::translate("kvmrt2_media_editorClass", "Custom Order", Q_NULLPTR));
+        btnRefreshDistanceTable->setText(QApplication::translate("kvmrt2_media_editorClass", "Refresh", Q_NULLPTR));
         tabMain->setTabText(tabMain->indexOf(tabStation), QApplication::translate("kvmrt2_media_editorClass", "Station Information", Q_NULLPTR));
         gbStopPattern->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Stop Pattern", Q_NULLPTR));
         gbTrainRoute->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Train Route", Q_NULLPTR));
+        btnRouteAutoAdd->setText(QApplication::translate("kvmrt2_media_editorClass", "Auto Add", Q_NULLPTR));
+        btnDelRoutes->setText(QApplication::translate("kvmrt2_media_editorClass", "Delete All", Q_NULLPTR));
         gbTrainNumber->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Train Number", Q_NULLPTR));
         gbRouteEvent->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Route Event List", Q_NULLPTR));
         tabMain->setTabText(tabMain->indexOf(tabRoute), QApplication::translate("kvmrt2_media_editorClass", "Train Route Information", Q_NULLPTR));

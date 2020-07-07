@@ -52,7 +52,7 @@ DECLARE_EDITOR_CLASS(StationInformation);
 // StationDistance
 BEGIN_CLASS_FROM_SQLDATA(StationDistance, , );
 COMMON_VAL_FOR_SQLDATA;
-DECLARE_TYPESETTINGS(6);
+DECLARE_TYPESETTINGS(8);
 DECLARE_COMMON_FUNCTIONS OVERRIDE_DUMMY_EDITOR_FUNC;
 BEGIN_MAPPING_MEMBERS
 m_tSettings[0].POINTER = (void*)(&m_nTableIndex);
@@ -61,12 +61,16 @@ m_tSettings[2].POINTER = (void*)(&nArrivalStn);
 m_tSettings[3].POINTER = (void*)(&nDistance);
 m_tSettings[4].POINTER = (void*)(szDesc);
 m_tSettings[5].POINTER = (void*)(&nOrder);
+m_tSettings[6].POINTER = (void*)(&nDepCode);
+m_tSettings[7].POINTER = (void*)(&nArrCode);
 END_MAPPING_MEMBERS
 int nDepartStn{ 0 };
 int nArrivalStn{ 0 };
 int nDistance{ 999 };
 TYC szDesc[256]{ 0 };
 int nOrder{ 1 };
+int nDepCode{-1};
+int nArrCode{-1};
 END_CLASS_FROM_SQLDATA;
 DECLARE_EDITOR_CLASS(StationDistance)
 // !StationDistance
@@ -354,3 +358,54 @@ END_CLASS_FROM_SQLDATA
 DECLARE_EDITOR_CLASS(EditorTagTable);
 // !EditorTagTable
 
+#include <qdebug.h>
+
+struct findStationNameCode : public std::unary_function<SHARED_PTRC(CSQLData), bool>
+{
+	findStationNameCode(int nIndex)
+		:m_nCode(nIndex)
+	{
+
+	}
+	bool operator ()(SHARED_PTRC(CSQLData) &p)
+	{
+		StationInformation *c = dynamic_cast<StationInformation*>(p.get());
+		qDebug() << Q_FUNC_INFO << c->nStationCode;
+		return (c->nStationCode == m_nCode);
+		//return (p->nStationCode == m_nIndex);
+	}
+private:
+	int m_nCode;
+};
+
+struct findDistanceIndexByDeparture : public std::unary_function<SHARED_PTRC(CSQLData), bool>
+{
+	findDistanceIndexByDeparture(int nIndex)
+		:m_nIndex(nIndex)
+	{
+
+	}
+	bool operator ()(SHARED_PTRC(CSQLData) &p)
+	{
+		auto *c = dynamic_cast<StationDistance*>(p.get());
+		return (c->nDepartStn == m_nIndex);
+	}
+private:
+	int m_nIndex;
+};
+
+struct findDistanceIndexByArrival : public std::unary_function<SHARED_PTRC(CSQLData), bool>
+{
+	findDistanceIndexByArrival(int nIndex)
+		:m_nIndex(nIndex)
+	{
+
+	}
+	bool operator ()(SHARED_PTRC(CSQLData) &p)
+	{
+		auto *c = dynamic_cast<StationDistance*>(p.get());
+		return (c->nArrivalStn == m_nIndex);
+	}
+private:
+	int m_nIndex;
+};

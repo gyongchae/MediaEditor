@@ -96,6 +96,11 @@ private slots:
 	void onShowDisplayListPool();
 	void onShowFileUpload();
 
+	// easy to use
+	void onBtnRefreshDistanceTable(); // distance table's desc refresh
+	void onBtnRouteAutoAdd(); // train route auto set
+	void onBtnDelRoutes();
+
 private:
 	Ui::kvmrt2_media_editorClass ui;
 	FileUploadWindow *m_wndFileUpload;
