@@ -607,7 +607,7 @@ public:
 
         retranslateUi(kvmrt2_media_editorClass);
 
-        tabMain->setCurrentIndex(1);
+        tabMain->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(kvmrt2_media_editorClass);
@@ -656,10 +656,10 @@ public:
         actionLicenseInfo->setText(QApplication::translate("kvmrt2_media_editorClass", "License Info", Q_NULLPTR));
         gbStationName->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Station Name", Q_NULLPTR));
         gbDistance->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Station Pair (Distance table)", Q_NULLPTR));
-        rbInOrder->setText(QApplication::translate("kvmrt2_media_editorClass", "In Order", Q_NULLPTR));
-        rbInReverseOrder->setText(QApplication::translate("kvmrt2_media_editorClass", "In Reverse Order", Q_NULLPTR));
-        rbCustomOrder->setText(QApplication::translate("kvmrt2_media_editorClass", "Custom Order", Q_NULLPTR));
-        btnRefreshDistanceTable->setText(QApplication::translate("kvmrt2_media_editorClass", "Refresh", Q_NULLPTR));
+        rbInOrder->setText(QApplication::translate("kvmrt2_media_editorClass", "Auto 1", Q_NULLPTR));
+        rbInReverseOrder->setText(QApplication::translate("kvmrt2_media_editorClass", "Auto 2", Q_NULLPTR));
+        rbCustomOrder->setText(QApplication::translate("kvmrt2_media_editorClass", "Custom", Q_NULLPTR));
+        btnRefreshDistanceTable->setText(QApplication::translate("kvmrt2_media_editorClass", "Fill Description", Q_NULLPTR));
         tabMain->setTabText(tabMain->indexOf(tabStation), QApplication::translate("kvmrt2_media_editorClass", "Station Information", Q_NULLPTR));
         gbStopPattern->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Stop Pattern", Q_NULLPTR));
         gbTrainRoute->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Train Route", Q_NULLPTR));

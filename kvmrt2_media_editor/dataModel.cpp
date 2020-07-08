@@ -152,9 +152,11 @@ bool dataModel::setData(const QModelIndex &index,const QVariant &value,int role)
 	if (!index.isValid() || role != Qt::EditRole ||
 		index.row() < 0 || index.row() >= m_pvVector->size())
 		return false;
+
 	int nIndex=index.row();
 	int nColumn=index.column();
 	bool bOk=false;
+
 	if(nColumn<m_nColumnCount)
 	{
 		(*m_pvVector)[nIndex].get()->MappingMembers();
@@ -218,6 +220,7 @@ bool dataModel::setData(const QModelIndex &index,const QVariant &value,int role)
 	}
 	else
 		Q_ASSERT(false);
+
 	emit dataChanged(index, index);
 	return true;
 }

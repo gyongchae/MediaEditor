@@ -409,3 +409,20 @@ struct findDistanceIndexByArrival : public std::unary_function<SHARED_PTRC(CSQLD
 private:
 	int m_nIndex;
 };
+
+struct findDistanceDepartureCode : public std::unary_function<SHARED_PTRC(CSQLData), bool>
+{
+	findDistanceDepartureCode(int dep, int arr)
+		:m_nDepCode(dep), m_nArrCode(arr)
+	{
+
+	}
+	bool operator ()(SHARED_PTRC(CSQLData) &p)
+	{
+		auto *c = dynamic_cast<StationDistance*>(p.get());
+		return (c->nDepCode == m_nDepCode && c->nArrCode == m_nArrCode);
+	}
+private:
+	int m_nDepCode;
+	int m_nArrCode;
+};

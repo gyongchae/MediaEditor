@@ -6,6 +6,11 @@
 #include <QfutureWatcher>
 #include "TableViewHelper.h"
 
+#include <qmediaplayer.h>
+#include <qmediaplaylist.h>
+
+class QVideoWidget;
+
 class ContentsPool : public QDialog
 {
 	Q_OBJECT
@@ -29,9 +34,33 @@ private slots:
 	void addVideoFilePool(bool bInsert);
 	void deleteVideoFilePool();
 	
+	// audio related func
+	void onAudioPlay();
+	void onAudioPause();
+	void onAudioStop();
+	void onAudioPosChanged(qint64 pos);
+	void onAudioMediaChanged(const QMediaContent &media);
+
+	// video related func
+	void onVideoPlay();
+	void onVideoPause();
+	void onVideoStop();
+	void onVideoPosChanged(qint64 pos);
+	void onVideoMediaChanged(const QMediaContent &media);
 
 private:
 	Ui::Dialog ui;
+
+	// audio related var
+	QMediaPlayer *m_audioPlayer{ 0 };
+	QString m_audioFilePath{""};
+	qint64 m_audioDuration{ 0 };
+
+	// video related var
+	QMediaPlayer *m_videoPlayer{ 0 };
+	QString m_videoFilePath{ "" };
+	qint64 m_videoDuration{ 0 };
+	QVideoWidget *m_videoWidget;
 };
 
 #endif // CREATEUPDATE_H

@@ -407,8 +407,6 @@ void kvmrt2_media_editor::onBtnRefreshDistanceTable()
 	bool bOKArr;
 	bool bOKDistance;
 	int nDistance;
-	wchar_t szSt[32];
-	wchar_t szEn[32];
 	QString strDesc;
 
 	int totalRow = GET_TABLE(StationDistance)->model()->rowCount();
@@ -451,8 +449,6 @@ void kvmrt2_media_editor::onBtnRefreshDistanceTable()
 			}
 		}
 	}
-
-
 }
 
 void kvmrt2_media_editor::onBtnRouteAutoAdd()
@@ -485,7 +481,11 @@ void kvmrt2_media_editor::onBtnRouteAutoAdd()
 	{
 		if (rowCount != 0)
 		{
-			int result = QMessageBox::warning(this, "Train route is not empty", "Do you want to delete current items and refresh all?", QMessageBox::Ok | QMessageBox::Cancel);
+			int result = QMessageBox::warning(this,
+				"Train route is not empty",
+				"Do you want to delete current items and refresh all?",
+				QMessageBox::Ok | QMessageBox::Cancel);
+
 			if (result == QMessageBox::Ok)
 			{
 				// delete current rows
@@ -500,35 +500,40 @@ void kvmrt2_media_editor::onBtnRouteAutoAdd()
 			}
 		}
 
-		// get start - end point code
-		int startStn = 0;
-		int finalStn = 0;
+		// get start - end point table index from stop ptn hdr
+		int startStnTableIdx = 0;
+		int finalStnTableIdx = 0;
 		bool bOK_S;
 		bool bOK_F;
 
 		QModelIndex headerIdx = GET_TABLE(StopPtnHeader)->model()->index(hdrRow, 0);
-		startStn = headerIdx.sibling(headerIdx.row(), 1/*start*/).data().toInt(&bOK_S);
-		finalStn = headerIdx.sibling(headerIdx.row(), 2/*final*/).data().toInt(&bOK_F);
+		startStnTableIdx = headerIdx.sibling(headerIdx.row(), 1/*start*/).data().toInt(&bOK_S);
+		finalStnTableIdx = headerIdx.sibling(headerIdx.row(), 2/*final*/).data().toInt(&bOK_F);
+
+		qDebug() << "start - final table index" << startStnTableIdx << finalStnTableIdx;
+
 
 		std::vector<std::shared_ptr<CSQLData>>::iterator itSt, itEn;
 
 		itSt = find_if(
 			pTM->VECTOR_CLASS(StationInformation).begin(),
 			pTM->VECTOR_CLASS(StationInformation).end(),
-			findSQLData(startStn));
+			findSQLData(startStnTableIdx));
 
 		itEn = find_if(
 			pTM->VECTOR_CLASS(StationInformation).begin(),
 			pTM->VECTOR_CLASS(StationInformation).end(),
-			findSQLData(finalStn));
+			findSQLData(finalStnTableIdx));
 
 		if ((itSt != pTM->VECTOR_CLASS(StationInformation).end()) && (itEn != pTM->VECTOR_CLASS(StationInformation).end()))
 		{
-			StationInformation *pSt = (StationInformation*)itSt->get();
-			StationInformation *pEn = (StationInformation*)itEn->get();
+			auto *pSt = (StationInformation*)itSt->get();
+			auto *pEn = (StationInformation*)itEn->get();
 
-			int startCode = pSt->nStationCode;
-			int finalCode = pEn->nStationCode;
+			int startCode = pSt->nStationCode; // station code
+			int finalCode = pEn->nStationCode; // station code
+
+			// compare code with station distance departure code
 
 			std::vector<std::shared_ptr<CSQLData>>::iterator it;
 
@@ -537,16 +542,56 @@ void kvmrt2_media_editor::onBtnRouteAutoAdd()
 
 			if (startCode - finalCode < 0) // north bound (startCode < finalCode)
 			{
-				for (int i = 0; i < totalRows; ++i)
+				int rowNum = 0;
+				while (startCode <= finalCode)
 				{
-					GET_TABLE(StopPtnRoutes)->model()->insertRows(i, 1);
+					GET_TABLE(StopPtnRoutes)->model()->insertRows(rowNum, 1);
+					GET_TABLE(StopPtnRoutes)->selectRow(rowNum);
+					QModelIndex curIdx(GET_TABLE(StopPtnRoutes)->currentIndex());
+					std::vector<std::shared_ptr<CSQLData>>::iterator itDep;
+
+					// code, code + 1로 등록된 distance index가 있는지 확인
+					itDep = find_if(
+						pTM->VECTOR_CLASS(StationDistance).begin(),
+						pTM->VECTOR_CLASS(StationDistance).end(),
+						findDistanceDepartureCode(startCode, startCode + 1));
+
+					if (itDep != pTM->VECTOR_CLASS(StationDistance).end())
+					{
+						// distance index가 있을 경우 stop ptn routes에 등록
+						int distanceIdx = itDep->get()->m_nTableIndex;
+						qDebug() << "row and dist index:" << rowNum << distanceIdx;
+						GET_TABLE_MODEL(pDM, StopPtnRoutes)->setData(curIdx.sibling(rowNum, 3/*dist col*/), distanceIdx, Qt::EditRole);
+					}
+					rowNum++;
+					startCode++;
 				}
 			}
 			else if (startCode - finalCode > 0) // south bound (finalCode > startCode)
 			{
-				for (int i = 0; i < totalRows; ++i)
+				int rowNum = 0;
+				while (startCode >= finalCode)
 				{
-					GET_TABLE(StopPtnRoutes)->model()->insertRows(i, 1);
+					GET_TABLE(StopPtnRoutes)->model()->insertRows(rowNum, 1);
+					GET_TABLE(StopPtnRoutes)->selectRow(rowNum);
+					QModelIndex curIdx(GET_TABLE(StopPtnRoutes)->currentIndex());
+					std::vector<std::shared_ptr<CSQLData>>::iterator itDep;
+
+					// code, code - 1로 등록된 distance index가 있는지 확인
+					itDep = find_if(
+						pTM->VECTOR_CLASS(StationDistance).begin(),
+						pTM->VECTOR_CLASS(StationDistance).end(),
+						findDistanceDepartureCode(startCode, startCode - 1));
+
+					if (itDep != pTM->VECTOR_CLASS(StationDistance).end())
+					{
+						// distance index가 있을 경우 stop ptn routes에 등록
+						int distanceIdx = itDep->get()->m_nTableIndex;
+						qDebug() << "row and dist index:" << rowNum << distanceIdx;
+						GET_TABLE_MODEL(pDM, StopPtnRoutes)->setData(curIdx.sibling(rowNum, 3/*dist col*/), distanceIdx, Qt::EditRole);
+					}
+					rowNum++;
+					startCode--;
 				}
 			}
 			else
@@ -594,13 +639,47 @@ void kvmrt2_media_editor::onBtnDelRoutes()
 	}
 }
 
+void kvmrt2_media_editor::onAutoFillRouteDestination(const QModelIndex & topLeft, const QModelIndex & bottomRight)
+{
+	// 0번째 destination 항목과 나머지 항목 동일하게 업데이트
+	qDebug() << "route data changed" << topLeft << bottomRight;
+	auto *pTM = CTableManage::GetInstance();
+	auto *pDM = CDataManage::GetInstance();
+	int totalRows = GET_TABLE(StopPtnRoutes)->model()->rowCount();
+
+	int row = topLeft.row();
+	int col = topLeft.column();
+
+	if (row != 0) return;
+
+	if (col == 4 || col == 6) // LED or LCD destination index
+	{
+		if (totalRows > 1)
+		{
+			int targetIdx = GET_TABLE(StopPtnRoutes)->model()->data(topLeft).toInt();
+			qDebug() << "destination index changed" << targetIdx;
+			
+			// 전체 row 순차적으로 첫 번째 destination index와 동일한 값으로 변경
+			for (int r = 1; r < totalRows; ++r)
+			{
+				GET_TABLE(StopPtnRoutes)->selectRow(r);
+				QModelIndex currIdx = GET_TABLE(StopPtnRoutes)->currentIndex();
+				qDebug() << r << currIdx;
+				GET_TABLE_MODEL(pDM, StopPtnRoutes)->setData(currIdx.sibling(r, col), targetIdx, Qt::EditRole);
+			}
+		}
+
+		GET_TABLE(StopPtnRoutes)->selectRow(0);
+	}
+}
+
 void kvmrt2_media_editor::aboutME()
 {
 	// version(major.minor.release)
 
 	QMessageBox::about(this,
 		QString("About Putrajaya Line Media Editor"),
-		QString("Compay: Woojin\n"
+		QString("Company: Woojin\n"
 			"Version: %1.%2.%3\n\n"
 			"Contact: *****@******.***").arg(QString::number(0)).arg(QString::number(0)).arg(QString::number(1)));
 }
@@ -628,6 +707,9 @@ void kvmrt2_media_editor::licenseInfo()
 void kvmrt2_media_editor::updateStopPtnRoutes(const QModelIndex & current, const QModelIndex & previous)
 {
 	QModelIndex index = GET_TABLE(StopPtnHeader)->currentIndex();
+
+	qDebug() << index.row() << index.column();
+
 	auto *pDM = CDataManage::GetInstance();
 	auto *pTM = CTableManage::GetInstance();
 	if (index.isValid())
@@ -651,6 +733,8 @@ void kvmrt2_media_editor::updateStopPtnRoutes(const QModelIndex & current, const
 
 void kvmrt2_media_editor::updateEventLists(const QModelIndex & current, const QModelIndex & previous)
 {
+	qDebug() << "update event list func called" << current << previous;
+
 	auto *pDM = CDataManage::GetInstance();
 	auto *pTM = CTableManage::GetInstance();
 	QModelIndex index = GET_TABLE(StopPtnHeader)->currentIndex();
@@ -713,146 +797,15 @@ void kvmrt2_media_editor::updateVideoPlayList(const QModelIndex & current, const
 	}
 }
 
-//void kvmrt2_media_editor::updateStationDistance(const QModelIndex & topLeft, const QModelIndex & bottomRight)
-//{
-//	// 자동입력 로직 추가하면 update 제대로 안 됨
-//	bool bOKDep;
-//	bool bOKArr;
-//	bool bOKDistance;
-//	int nDistance;
-//	QString strDesc;
-//
-//	int nTotalDistance = 0;
-//	if (topLeft.isValid() && bottomRight.isValid())
-//	{
-//		int nRow = topLeft.row();
-//		int nColumn = topLeft.column();
-//		bool bOk, bParentOk;
-//		int nDepStn = 0, nArrStn = 0;
-//		switch (nColumn)
-//		{
-//		case 1: // departure
-//		{
-//			//nDepStn = topLeft.data().toInt(&bOKDep);
-//			nDepStn = topLeft.sibling(topLeft.row(), 1/*departure col*/).data().toInt(&bOKDep);
-//			nArrStn = topLeft.sibling(topLeft.row(), 2/*arrival col*/).data().toInt(&bOKArr);
-//			nDistance = topLeft.sibling(topLeft.row(), 3/*distance col*/).data().toInt(&bOKDistance);
-//			qDebug() << "Case1: " << nDepStn << nArrStn;
-//			
-//			//auto *pTM = CTableManage::GetInstance();
-//			//auto *pDM = CDataManage::GetInstance();
-//			//
-//			//if (ui.rbInOrder->isChecked()) // in order radio is checked
-//			//{
-//			//	std::vector<std::shared_ptr<CSQLData>>::iterator it;
-//			//	// find departure station table index in station information
-//			//	it = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findSQLData(nDepStn));
-//			//	if (it != pTM->VECTOR_CLASS(StationInformation).end())
-//			//	{
-//			//		// parent class to child class
-//			//		auto *c = dynamic_cast<StationInformation*>(it->get());
-//			//		int departure = c->nStationCode;
-//			//		// find departure + 1 code is valid
-//			//		int target = departure + 1;
-//			//		std::vector<std::shared_ptr<CSQLData>>::iterator it_target;
-//			//		// find using station code
-//			//		it_target = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findStationNameCode(target));
-//
-//			//		if (it_target != pTM->VECTOR_CLASS(StationInformation).end())
-//			//		{
-//			//			// get target's table index
-//			//			int targetIndex = it_target->get()->m_nTableIndex;
-//			//			
-//			//			qDebug() << targetIndex << departure << target;
-//
-//			//			GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 2/*arrival col*/), targetIndex, Qt::EditRole);
-//			//			GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 6/*dep code*/), departure, Qt::EditRole);
-//			//			GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 7/*arr code*/), target, Qt::EditRole);
-//			//		}
-//			//	}
-//
-//			//}
-//			//else if (ui.rbInReverseOrder->isChecked()) // in reverse order is checked
-//			//{
-//			//	std::vector<std::shared_ptr<CSQLData>>::iterator it;
-//			//	// find departure station table index in station information
-//			//	it = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findSQLData(nDepStn));
-//			//	if (it != pTM->VECTOR_CLASS(StationInformation).end())
-//			//	{
-//			//		// parent class to child class
-//			//		StationInformation *c = dynamic_cast<StationInformation*>(it->get());
-//			//		int departure = c->nStationCode;
-//			//		// find departure - 1 code is valid
-//			//		int target = departure - 1;
-//			//		std::vector<std::shared_ptr<CSQLData>>::iterator it_target;
-//			//		// find using station code
-//			//		it_target = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findStationNameCode(target));
-//			//		if (it_target != pTM->VECTOR_CLASS(StationInformation).end())
-//			//		{
-//			//			// get target's table index
-//			//			int targetIndex = it_target->get()->m_nTableIndex;
-//			//			GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 2/*arrival col*/), targetIndex, Qt::EditRole);
-//			//			GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 6/*dep code*/), departure, Qt::EditRole);
-//			//			GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 7/*arr code*/), departure-1, Qt::EditRole);
-//			//		}
-//			//	}
-//			//}
-//		}
-//		break;
-//		case 2: // arrival
-//			nDepStn = topLeft.sibling(topLeft.row(), 1/*departure col*/).data().toInt(&bOKDep);
-//			nArrStn = topLeft.data().toInt(&bOKArr);
-//			nDistance = topLeft.sibling(topLeft.row(), 3).data().toInt(&bOKDistance);
-//			qDebug() << "Case2: " << nDepStn << nArrStn;
-//			break;
-//		case 3: // distnace
-//			nDepStn = topLeft.sibling(topLeft.row(), 1).data().toInt(&bOKDep);
-//			nArrStn = topLeft.sibling(topLeft.row(), 2).data().toInt(&bOKArr);
-//			nDistance = topLeft.data().toInt(&bOKDistance);
-//			qDebug() << "Case3: " << nDepStn << nArrStn;
-//			break;
-//		default:
-//			break;
-//		}
-//
-//		if ((nDepStn&&nArrStn) || nDistance)
-//		{
-//			auto *pTM = CTableManage::GetInstance();
-//			auto *pDM = CDataManage::GetInstance();
-//			std::vector<std::shared_ptr<CSQLData>>::iterator itSt, itEn;
-//			itSt = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findSQLData(nDepStn));
-//			itEn = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findSQLData(nArrStn));
-//			if ((itSt != pTM->VECTOR_CLASS(StationInformation).end()) && (itEn != pTM->VECTOR_CLASS(StationInformation).end()))
-//			{
-//				StationInformation *pSt = (StationInformation*)itSt->get();
-//				StationInformation *pEn = (StationInformation*)itEn->get();
-//				StationDistance* pDistance = (StationDistance*)pTM->VECTOR_CLASS(StationDistance).at(topLeft.row()).get();
-//				strDesc = QString("[%1]%2 -> [%3]%4 (%5m)")
-//					.arg(QString::number(pSt->nStationCode))
-//					.arg(QString::fromStdWString(pSt->szStationName1))
-//					.arg(QString::number(pEn->nStationCode))
-//					.arg(QString::fromStdWString(pEn->szStationName1))
-//					.arg(QString::number(pDistance->nDistance))
-//					;
-//
-//				qDebug() << "change val" << QString::number(pSt->nStationCode) << QString::number(pEn->nStationCode) << QString::number(pDistance->nDistance);
-//				GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 4), strDesc, Qt::EditRole);
-//				GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 6), pSt->nStationCode, Qt::EditRole);
-//				GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 7), pEn->nStationCode, Qt::EditRole);
-//			}
-//		}
-//	}
-//}
-
 void kvmrt2_media_editor::updateStationDistance(const QModelIndex & topLeft, const QModelIndex & bottomRight)
 {
 	// 자동입력 로직 추가하면 update 제대로 안 됨
+
+	qDebug() << Q_FUNC_INFO << topLeft.row() << topLeft.column() << bottomRight.row() << bottomRight.column();
 	bool bOKDep;
 	bool bOKArr;
 	bool bOKDistance;
-	int nDistance;
 	QString strDesc;
-	int nTotalDistance = 0;
 	auto *pTM = CTableManage::GetInstance();
 	auto *pDM = CDataManage::GetInstance();
 
@@ -860,101 +813,107 @@ void kvmrt2_media_editor::updateStationDistance(const QModelIndex & topLeft, con
 	{
 		int nRow = topLeft.row();
 		int nColumn = topLeft.column();
-		bool bOk, bParentOk;
-		int nDepStn = 0, nArrStn = 0;
-		//nDepStn = topLeft.data().toInt(&bOKDep);
-		nDepStn = topLeft.sibling(topLeft.row(), 1/*departure col*/).data().toInt(&bOKDep);
-		nArrStn = topLeft.sibling(topLeft.row(), 2/*arrival col*/).data().toInt(&bOKArr);
-		nDistance = topLeft.sibling(topLeft.row(), 3/*distance col*/).data().toInt(&bOKDistance);
+		int nDepStn = 0;
+		int nArrStn = 0;
+		int nDistance = 0;;
+		int depCode = 0;
+		int arrCode = 0;
 
-		//switch (nColumn)
-		//{
-		//case 1: // departure
-		//	if (ui.rbInOrder->isChecked()) // in order radio is checked
-		//	{
-		//		std::vector<std::shared_ptr<CSQLData>>::iterator it;
-		//		// find departure station table index in station information
-		//		it = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findSQLData(nDepStn));
-		//		if (it != pTM->VECTOR_CLASS(StationInformation).end())
-		//		{
-		//			// parent class to child class
-		//			auto *c = dynamic_cast<StationInformation*>(it->get());
-		//			int departure = c->nStationCode;
-		//			// find departure + 1 code is valid
-		//			int target = departure + 1;
-		//			std::vector<std::shared_ptr<CSQLData>>::iterator it_target;
-		//			// find using station code
-		//			it_target = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findStationNameCode(target));
-
-		//			if (it_target != pTM->VECTOR_CLASS(StationInformation).end())
-		//			{
-		//				// get target's table index
-		//				int targetIndex = it_target->get()->m_nTableIndex;
-
-		//				qDebug() << targetIndex << departure << target;
-
-		//				GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 2/*arrival col*/), targetIndex, Qt::EditRole);
-		//				GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 6/*dep code*/), departure, Qt::EditRole);
-		//				GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 7/*arr code*/), target, Qt::EditRole);
-		//			}
-		//		}
-
-		//	}
-		//	else if (ui.rbInReverseOrder->isChecked()) // in reverse order is checked
-		//	{
-		//		std::vector<std::shared_ptr<CSQLData>>::iterator it;
-		//		// find departure station table index in station information
-		//		it = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findSQLData(nDepStn));
-		//		if (it != pTM->VECTOR_CLASS(StationInformation).end())
-		//		{
-		//			// parent class to child class
-		//			StationInformation *c = dynamic_cast<StationInformation*>(it->get());
-		//			int departure = c->nStationCode;
-		//			// find departure - 1 code is valid
-		//			int target = departure - 1;
-		//			std::vector<std::shared_ptr<CSQLData>>::iterator it_target;
-		//			// find using station code
-		//			it_target = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findStationNameCode(target));
-		//			if (it_target != pTM->VECTOR_CLASS(StationInformation).end())
-		//			{
-		//				// get target's table index
-		//				int targetIndex = it_target->get()->m_nTableIndex;
-		//				GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 2/*arrival col*/), targetIndex, Qt::EditRole);
-		//				GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 6/*dep code*/), departure, Qt::EditRole);
-		//				GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 7/*arr code*/), departure - 1, Qt::EditRole);
-		//			}
-		//		}
-		//	}
-		//	break;
-		//default:
-		//	break;
-		//}
-
-		if ((nDepStn&&nArrStn) || nDistance)
+		switch (nColumn)
 		{
-			auto *pTM = CTableManage::GetInstance();
-			auto *pDM = CDataManage::GetInstance();
-			std::vector<std::shared_ptr<CSQLData>>::iterator itSt, itEn;
-			itSt = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findSQLData(nDepStn));
-			itEn = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findSQLData(nArrStn));
-			if ((itSt != pTM->VECTOR_CLASS(StationInformation).end()) && (itEn != pTM->VECTOR_CLASS(StationInformation).end()))
-			{
-				StationInformation *pSt = (StationInformation*)itSt->get();
-				StationInformation *pEn = (StationInformation*)itEn->get();
-				StationDistance* pDistance = (StationDistance*)pTM->VECTOR_CLASS(StationDistance).at(topLeft.row()).get();
-				strDesc = QString("[%1]%2 -> [%3]%4 (%5m)")
-					.arg(QString::number(pSt->nStationCode))
-					.arg(QString::fromStdWString(pSt->szStationName1))
-					.arg(QString::number(pEn->nStationCode))
-					.arg(QString::fromStdWString(pEn->szStationName1))
-					.arg(QString::number(pDistance->nDistance))
-					;
+		case 1: // departure
+		{
+			nDepStn = topLeft.data().toInt(&bOKDep);
+			//nArrStn = topLeft.sibling(topLeft.row(), 2/*arrival col*/).data().toInt(&bOKArr);
+			//nDistance = topLeft.sibling(topLeft.row(), 3/*distance col*/).data().toInt(&bOKDistance);
+			qDebug() << "Case1: " << nDepStn << nArrStn << nDistance;
 
-				qDebug() << "change val" << QString::number(pSt->nStationCode) << QString::number(pEn->nStationCode) << QString::number(pDistance->nDistance);
-				GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 4), strDesc, Qt::EditRole);
-				//GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 6), pSt->nStationCode, Qt::EditRole);
-				//GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 7), pEn->nStationCode, Qt::EditRole);
+			std::vector<std::shared_ptr<CSQLData>>::iterator it_dep;
+			it_dep = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findSQLData(nDepStn));
+
+			if (it_dep != pTM->VECTOR_CLASS(StationInformation).end())
+			{
+				// parent class to child class
+				auto *c = dynamic_cast<StationInformation*>(it_dep->get());
+				depCode = c->nStationCode;
+				GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 6/*dep code*/), depCode, Qt::EditRole);
 			}
+
+			if (ui.rbInOrder->isChecked()) // in order radio is checked
+			{
+				// find and check departure + 1 code is valid
+				arrCode = depCode + 1;
+				std::vector<std::shared_ptr<CSQLData>>::iterator it_arr;
+				// find using station code
+				it_arr = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findStationNameCode(arrCode));
+
+				if (it_arr != pTM->VECTOR_CLASS(StationInformation).end())
+				{
+					// get target's table index
+					int arrTableIndex = it_arr->get()->m_nTableIndex;
+
+					qDebug() << "in order" << arrTableIndex << depCode << arrCode;
+
+					GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 2/*arrival col*/), arrTableIndex, Qt::EditRole);
+					GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 7/*arr code*/), arrCode, Qt::EditRole);
+				}
+			}
+			else if (ui.rbInReverseOrder->isChecked()) // in reverse order is checked
+			{
+				// find and check departure - 1 code is valid
+				arrCode = depCode - 1;
+				std::vector<std::shared_ptr<CSQLData>>::iterator it_arr;
+				// find using station code
+				it_arr = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findStationNameCode(arrCode));
+
+				if (it_arr != pTM->VECTOR_CLASS(StationInformation).end())
+				{
+					// get target's table index
+					int arrTableIndex = it_arr->get()->m_nTableIndex;
+
+					qDebug() << "in order" << arrTableIndex << depCode << arrCode;
+
+					GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 2/*arrival col*/), arrTableIndex, Qt::EditRole);
+					GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 7/*arr code*/), arrCode, Qt::EditRole);
+				}
+			}
+			else
+			{
+			}
+		}
+		break;
+		case 2: // arrival
+		{
+			nArrStn = topLeft.data().toInt(&bOKArr);
+			qDebug() << "Case2: " << nDepStn << nArrStn << nDistance;
+
+			std::vector<std::shared_ptr<CSQLData>>::iterator it_arr;
+			it_arr = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findSQLData(nArrStn));
+
+			if (it_arr != pTM->VECTOR_CLASS(StationInformation).end())
+			{
+				// parent class to child class
+				auto *c = dynamic_cast<StationInformation*>(it_arr->get());
+				arrCode = c->nStationCode;
+				GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 7/*arr code*/), arrCode, Qt::EditRole);
+			}
+		}
+		break;
+		case 3: // distnace
+			nDistance = topLeft.data().toInt(&bOKDistance);
+			qDebug() << "Case3: " << nDepStn << nArrStn << nDistance;
+			break;
+		case 4:
+			qDebug() << "Case4(DESC)";
+			break;
+		case 5:
+			qDebug() << "Case5(Dep Code)";
+			break;
+		case 6:
+			qDebug() << "Case6(Arr Code)";
+			break;
+		default:
+			break;
 		}
 	}
 }
@@ -1116,6 +1075,10 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, StopPtnRoutes)
 
 	connect(GET_TABLE(StopPtnRoutes), SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(showContextMenu(const QPoint &)));
 	CONNECT_ROW_CHAHANGED_SLOT(StopPtnRoutes, updateEventLists(const QModelIndex &, const QModelIndex &));
+
+
+	connect(GET_TABLE(StopPtnRoutes)->model(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),
+		this, SLOT(onAutoFillRouteDestination(const QModelIndex &, const QModelIndex &)));
 
 	connect(ui.btnRouteAutoAdd, SIGNAL(clicked()), this, SLOT(onBtnRouteAutoAdd()));
 	connect(ui.btnDelRoutes, SIGNAL(clicked()), this, SLOT(onBtnDelRoutes()));

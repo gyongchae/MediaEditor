@@ -4,7 +4,6 @@
 #include "ui_kvmrt2_media_editor.h"
 #include "tableViewHelper.h"
 #include <memory>
-#include <QMediaPlayer.h>
 #include "FileUpload\fileuploadwindow.h"
 
 class dataModel;
@@ -100,6 +99,7 @@ private slots:
 	void onBtnRefreshDistanceTable(); // distance table's desc refresh
 	void onBtnRouteAutoAdd(); // train route auto set
 	void onBtnDelRoutes();
+	void onAutoFillRouteDestination(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 
 private:
 	Ui::kvmrt2_media_editorClass ui;

@@ -30,7 +30,7 @@
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="iconSize">
        <size>
@@ -72,21 +72,21 @@
               <item>
                <widget class="QRadioButton" name="rbInOrder">
                 <property name="text">
-                 <string>In Order</string>
+                 <string>Auto 1</string>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QRadioButton" name="rbInReverseOrder">
                 <property name="text">
-                 <string>In Reverse Order</string>
+                 <string>Auto 2</string>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QRadioButton" name="rbCustomOrder">
                 <property name="text">
-                 <string>Custom Order</string>
+                 <string>Custom</string>
                 </property>
                </widget>
               </item>
@@ -106,7 +106,7 @@
               <item>
                <widget class="QPushButton" name="btnRefreshDistanceTable">
                 <property name="text">
-                 <string>Refresh</string>
+                 <string>Fill Description</string>
                 </property>
                </widget>
               </item>
