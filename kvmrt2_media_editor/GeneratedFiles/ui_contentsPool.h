@@ -37,9 +37,9 @@ public:
     QGroupBox *groupBox;
     QVBoxLayout *verticalLayout_2;
     QHBoxLayout *horizontalLayout;
-    QPushButton *btnAddAudio;
-    QPushButton *btnDelAudio;
-    QPushButton *btnDelAllAudio;
+    QToolButton *btnAddAudio;
+    QToolButton *btnDelAudio;
+    QToolButton *btnDelAllAudio;
     QSpacerItem *horizontalSpacer;
     QTableView *m_tblAudioFilePool;
     QHBoxLayout *horizontalLayout_4;
@@ -50,15 +50,13 @@ public:
     QGroupBox *groupBox_2;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout_2;
-    QPushButton *btnAddVideo;
-    QPushButton *btnDelVideo;
-    QPushButton *btnDelAllVideo;
+    QToolButton *btnAddVideo;
+    QToolButton *btnDelVideo;
+    QToolButton *btnDelAllVideo;
     QSpacerItem *horizontalSpacer_2;
     QTableView *m_tblVideoFilePool;
     QHBoxLayout *horizontalLayout_5;
     QToolButton *btnPlayVideo;
-    QToolButton *btnPauseVideo;
-    QToolButton *btnStopVideo;
     QSpacerItem *horizontalSpacer_4;
     QHBoxLayout *horizontalLayout_3;
     QSpacerItem *horizontalSpacer_3;
@@ -68,7 +66,7 @@ public:
     {
         if (Dialog->objectName().isEmpty())
             Dialog->setObjectName(QStringLiteral("Dialog"));
-        Dialog->resize(883, 615);
+        Dialog->resize(969, 615);
         gridLayout_3 = new QGridLayout(Dialog);
         gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
         verticalLayout_3 = new QVBoxLayout();
@@ -82,17 +80,17 @@ public:
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        btnAddAudio = new QPushButton(groupBox);
+        btnAddAudio = new QToolButton(groupBox);
         btnAddAudio->setObjectName(QStringLiteral("btnAddAudio"));
 
         horizontalLayout->addWidget(btnAddAudio);
 
-        btnDelAudio = new QPushButton(groupBox);
+        btnDelAudio = new QToolButton(groupBox);
         btnDelAudio->setObjectName(QStringLiteral("btnDelAudio"));
 
         horizontalLayout->addWidget(btnDelAudio);
 
-        btnDelAllAudio = new QPushButton(groupBox);
+        btnDelAllAudio = new QToolButton(groupBox);
         btnDelAllAudio->setObjectName(QStringLiteral("btnDelAllAudio"));
 
         horizontalLayout->addWidget(btnDelAllAudio);
@@ -153,17 +151,17 @@ public:
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        btnAddVideo = new QPushButton(groupBox_2);
+        btnAddVideo = new QToolButton(groupBox_2);
         btnAddVideo->setObjectName(QStringLiteral("btnAddVideo"));
 
         horizontalLayout_2->addWidget(btnAddVideo);
 
-        btnDelVideo = new QPushButton(groupBox_2);
+        btnDelVideo = new QToolButton(groupBox_2);
         btnDelVideo->setObjectName(QStringLiteral("btnDelVideo"));
 
         horizontalLayout_2->addWidget(btnDelVideo);
 
-        btnDelAllVideo = new QPushButton(groupBox_2);
+        btnDelAllVideo = new QToolButton(groupBox_2);
         btnDelAllVideo->setObjectName(QStringLiteral("btnDelAllVideo"));
 
         horizontalLayout_2->addWidget(btnDelAllVideo);
@@ -186,16 +184,6 @@ public:
         btnPlayVideo->setObjectName(QStringLiteral("btnPlayVideo"));
 
         horizontalLayout_5->addWidget(btnPlayVideo);
-
-        btnPauseVideo = new QToolButton(groupBox_2);
-        btnPauseVideo->setObjectName(QStringLiteral("btnPauseVideo"));
-
-        horizontalLayout_5->addWidget(btnPauseVideo);
-
-        btnStopVideo = new QToolButton(groupBox_2);
-        btnStopVideo->setObjectName(QStringLiteral("btnStopVideo"));
-
-        horizontalLayout_5->addWidget(btnStopVideo);
 
         horizontalSpacer_4 = new QSpacerItem(34, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -248,9 +236,7 @@ public:
         btnAddVideo->setText(QApplication::translate("Dialog", "Add", Q_NULLPTR));
         btnDelVideo->setText(QApplication::translate("Dialog", "Del", Q_NULLPTR));
         btnDelAllVideo->setText(QApplication::translate("Dialog", "Delete All", Q_NULLPTR));
-        btnPlayVideo->setText(QApplication::translate("Dialog", "Play", Q_NULLPTR));
-        btnPauseVideo->setText(QApplication::translate("Dialog", "Pause", Q_NULLPTR));
-        btnStopVideo->setText(QApplication::translate("Dialog", "Stop", Q_NULLPTR));
+        btnPlayVideo->setText(QApplication::translate("Dialog", "Player", Q_NULLPTR));
         btnClose->setText(QApplication::translate("Dialog", "Close", Q_NULLPTR));
     } // retranslateUi
 

@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 	QSurfaceFormat format;
 	format.setDepthBufferSize(24);
 	QSurfaceFormat::setDefaultFormat(format);
-	
+
 	QString &dbPath = QString(argv[1]);
 	if (dbPath.length() > 0)
 	{

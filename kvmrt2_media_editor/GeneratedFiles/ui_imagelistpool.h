@@ -23,6 +23,7 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QTableView>
+#include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 
 QT_BEGIN_NAMESPACE
@@ -37,16 +38,16 @@ public:
     QGridLayout *gridLayout;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout_2;
-    QPushButton *btnAddImgListPool;
-    QPushButton *btnDelImgListPool;
+    QToolButton *btnAddImgListPool;
+    QToolButton *btnDelImgListPool;
     QSpacerItem *horizontalSpacer_2;
     QTableView *m_tblImageIndexList;
     QGroupBox *groupBox_2;
     QGridLayout *gridLayout_2;
     QVBoxLayout *verticalLayout_2;
     QHBoxLayout *horizontalLayout_3;
-    QPushButton *btnAddImgIndex;
-    QPushButton *btnDelImgIndex;
+    QToolButton *btnAddImgIndex;
+    QToolButton *btnDelImgIndex;
     QSpacerItem *horizontalSpacer_3;
     QTableView *m_tblImageIndex;
     QFrame *frame;
@@ -59,7 +60,7 @@ public:
     {
         if (imageListPool->objectName().isEmpty())
             imageListPool->setObjectName(QStringLiteral("imageListPool"));
-        imageListPool->resize(574, 306);
+        imageListPool->resize(817, 606);
         verticalLayout_3 = new QVBoxLayout(imageListPool);
         verticalLayout_3->setSpacing(6);
         verticalLayout_3->setContentsMargins(11, 11, 11, 11);
@@ -67,6 +68,7 @@ public:
         splitter_2 = new QSplitter(imageListPool);
         splitter_2->setObjectName(QStringLiteral("splitter_2"));
         splitter_2->setOrientation(Qt::Vertical);
+        splitter_2->setChildrenCollapsible(true);
         splitter = new QSplitter(splitter_2);
         splitter->setObjectName(QStringLiteral("splitter"));
         splitter->setOrientation(Qt::Horizontal);
@@ -82,12 +84,12 @@ public:
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        btnAddImgListPool = new QPushButton(groupBox);
+        btnAddImgListPool = new QToolButton(groupBox);
         btnAddImgListPool->setObjectName(QStringLiteral("btnAddImgListPool"));
 
         horizontalLayout_2->addWidget(btnAddImgListPool);
 
-        btnDelImgListPool = new QPushButton(groupBox);
+        btnDelImgListPool = new QToolButton(groupBox);
         btnDelImgListPool->setObjectName(QStringLiteral("btnDelImgListPool"));
 
         horizontalLayout_2->addWidget(btnDelImgListPool);
@@ -126,12 +128,12 @@ public:
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setSpacing(6);
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        btnAddImgIndex = new QPushButton(groupBox_2);
+        btnAddImgIndex = new QToolButton(groupBox_2);
         btnAddImgIndex->setObjectName(QStringLiteral("btnAddImgIndex"));
 
         horizontalLayout_3->addWidget(btnAddImgIndex);
 
-        btnDelImgIndex = new QPushButton(groupBox_2);
+        btnDelImgIndex = new QToolButton(groupBox_2);
         btnDelImgIndex->setObjectName(QStringLiteral("btnDelImgIndex"));
 
         horizontalLayout_3->addWidget(btnDelImgIndex);
@@ -158,6 +160,7 @@ public:
         splitter_2->addWidget(splitter);
         frame = new QFrame(splitter_2);
         frame->setObjectName(QStringLiteral("frame"));
+        frame->setMinimumSize(QSize(0, 200));
         frame->setFrameShape(QFrame::StyledPanel);
         frame->setFrameShadow(QFrame::Raised);
         splitter_2->addWidget(frame);
@@ -184,7 +187,6 @@ public:
 
         verticalLayout_3->addLayout(horizontalLayout);
 
-        verticalLayout_3->setStretch(0, 1);
 
         retranslateUi(imageListPool);
 

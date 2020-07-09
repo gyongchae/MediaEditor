@@ -29,6 +29,8 @@ class QGLESPIDCanvas : public QOpenGLWidget, protected QOpenGLFunctions
 public:
 	explicit QGLESPIDCanvas(QWidget *parent=0);
 	virtual ~QGLESPIDCanvas();
+
+public:
 	void initBaseData();
 	void reorderAllTimeLine();
 	void setBoundRectangle(DisplayItem *pItem);

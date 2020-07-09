@@ -53,6 +53,8 @@ public:
     QAction *actionLoad;
     QAction *actionUpdate;
     QAction *actionLicenseInfo;
+    QAction *actioncanvas_test;
+    QAction *actionTestCanvas;
     QWidget *centralWidget;
     QGridLayout *gridLayout_21;
     QTabWidget *tabMain;
@@ -126,8 +128,8 @@ public:
     QTableView *m_tblEditorTagTable;
     QMenuBar *menuBar;
     QMenu *menuFile;
-    QMenu *menuContents_pool;
-    QMenu *menuEdit;
+    QMenu *menuFilePool;
+    QMenu *menuDisplayConfig;
     QMenu *menuHelp;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -223,6 +225,10 @@ public:
         QIcon icon16;
         icon16.addFile(QStringLiteral("Resources/More Kidcons Win/Icons/Red Book.ico"), QSize(), QIcon::Normal, QIcon::Off);
         actionLicenseInfo->setIcon(icon16);
+        actioncanvas_test = new QAction(kvmrt2_media_editorClass);
+        actioncanvas_test->setObjectName(QStringLiteral("actioncanvas_test"));
+        actionTestCanvas = new QAction(kvmrt2_media_editorClass);
+        actionTestCanvas->setObjectName(QStringLiteral("actionTestCanvas"));
         centralWidget = new QWidget(kvmrt2_media_editorClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout_21 = new QGridLayout(centralWidget);
@@ -547,10 +553,10 @@ public:
         menuBar->setGeometry(QRect(0, 0, 1140, 21));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
-        menuContents_pool = new QMenu(menuBar);
-        menuContents_pool->setObjectName(QStringLiteral("menuContents_pool"));
-        menuEdit = new QMenu(menuBar);
-        menuEdit->setObjectName(QStringLiteral("menuEdit"));
+        menuFilePool = new QMenu(menuBar);
+        menuFilePool->setObjectName(QStringLiteral("menuFilePool"));
+        menuDisplayConfig = new QMenu(menuBar);
+        menuDisplayConfig->setObjectName(QStringLiteral("menuDisplayConfig"));
         menuHelp = new QMenu(menuBar);
         menuHelp->setObjectName(QStringLiteral("menuHelp"));
         kvmrt2_media_editorClass->setMenuBar(menuBar);
@@ -564,24 +570,25 @@ public:
         kvmrt2_media_editorClass->setStatusBar(statusBar);
 
         menuBar->addAction(menuFile->menuAction());
-        menuBar->addAction(menuContents_pool->menuAction());
-        menuBar->addAction(menuEdit->menuAction());
+        menuBar->addAction(menuFilePool->menuAction());
+        menuBar->addAction(menuDisplayConfig->menuAction());
         menuBar->addAction(menuHelp->menuAction());
         menuFile->addAction(actionSave);
         menuFile->addAction(actionSetting);
         menuFile->addAction(actionUpdate);
         menuFile->addSeparator();
         menuFile->addAction(actionExit);
-        menuContents_pool->addAction(actionFontPool);
-        menuContents_pool->addAction(actionAudioVideoPool);
-        menuContents_pool->addAction(actionTextPool);
-        menuContents_pool->addAction(actionBitmapPool);
-        menuEdit->addAction(actionImageListPool);
-        menuEdit->addSeparator();
-        menuEdit->addAction(actionDisplayListPool);
-        menuEdit->addAction(actionRouteMapPool);
-        menuEdit->addSeparator();
-        menuEdit->addAction(actionLedPool);
+        menuFile->addAction(actionTestCanvas);
+        menuFilePool->addAction(actionFontPool);
+        menuFilePool->addAction(actionAudioVideoPool);
+        menuFilePool->addAction(actionTextPool);
+        menuFilePool->addAction(actionBitmapPool);
+        menuDisplayConfig->addAction(actionImageListPool);
+        menuDisplayConfig->addSeparator();
+        menuDisplayConfig->addAction(actionDisplayListPool);
+        menuDisplayConfig->addAction(actionRouteMapPool);
+        menuDisplayConfig->addSeparator();
+        menuDisplayConfig->addAction(actionLedPool);
         menuHelp->addAction(actionAboutME);
         menuHelp->addAction(actionAboutQt);
         menuHelp->addAction(actionLicenseInfo);
@@ -654,6 +661,8 @@ public:
 #endif // QT_NO_SHORTCUT
         actionUpdate->setText(QApplication::translate("kvmrt2_media_editorClass", "DB Update", Q_NULLPTR));
         actionLicenseInfo->setText(QApplication::translate("kvmrt2_media_editorClass", "License Info", Q_NULLPTR));
+        actioncanvas_test->setText(QApplication::translate("kvmrt2_media_editorClass", "canvas test", Q_NULLPTR));
+        actionTestCanvas->setText(QApplication::translate("kvmrt2_media_editorClass", "canvas test", Q_NULLPTR));
         gbStationName->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Station Name", Q_NULLPTR));
         gbDistance->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Station Pair (Distance table)", Q_NULLPTR));
         rbInOrder->setText(QApplication::translate("kvmrt2_media_editorClass", "Auto 1", Q_NULLPTR));
@@ -680,8 +689,8 @@ public:
         groupBox->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Data Tag (Editor tag table)", Q_NULLPTR));
         tabMain->setTabText(tabMain->indexOf(tabDataTag), QApplication::translate("kvmrt2_media_editorClass", "Data Tag", Q_NULLPTR));
         menuFile->setTitle(QApplication::translate("kvmrt2_media_editorClass", "File", Q_NULLPTR));
-        menuContents_pool->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Data File Pool", Q_NULLPTR));
-        menuEdit->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Display Configuration", Q_NULLPTR));
+        menuFilePool->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Data File Pool", Q_NULLPTR));
+        menuDisplayConfig->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Display Configuration", Q_NULLPTR));
         menuHelp->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Help", Q_NULLPTR));
     } // retranslateUi
 

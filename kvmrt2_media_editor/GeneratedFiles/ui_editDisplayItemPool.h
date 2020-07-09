@@ -22,6 +22,7 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QTableView>
+#include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 
 QT_BEGIN_NAMESPACE
@@ -35,8 +36,8 @@ public:
     QGridLayout *gridLayout_2;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout_2;
-    QPushButton *btnAddDisplayPool;
-    QPushButton *btnDelDisplayPool;
+    QToolButton *btnAddDisplayPool;
+    QToolButton *btnDelDisplayPool;
     QSpacerItem *horizontalSpacer;
     QTableView *m_tblDisplayItemPool;
     QHBoxLayout *horizontalLayout;
@@ -47,7 +48,7 @@ public:
     {
         if (editDisplayItemPool->objectName().isEmpty())
             editDisplayItemPool->setObjectName(QStringLiteral("editDisplayItemPool"));
-        editDisplayItemPool->resize(418, 463);
+        editDisplayItemPool->resize(475, 562);
         verticalLayout_2 = new QVBoxLayout(editDisplayItemPool);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
@@ -67,12 +68,12 @@ public:
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        btnAddDisplayPool = new QPushButton(gbDispItemList);
+        btnAddDisplayPool = new QToolButton(gbDispItemList);
         btnAddDisplayPool->setObjectName(QStringLiteral("btnAddDisplayPool"));
 
         horizontalLayout_2->addWidget(btnAddDisplayPool);
 
-        btnDelDisplayPool = new QPushButton(gbDispItemList);
+        btnDelDisplayPool = new QToolButton(gbDispItemList);
         btnDelDisplayPool->setObjectName(QStringLiteral("btnDelDisplayPool"));
 
         horizontalLayout_2->addWidget(btnDelDisplayPool);

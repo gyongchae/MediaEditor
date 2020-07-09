@@ -6,18 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>574</width>
-    <height>306</height>
+    <width>817</width>
+    <height>606</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Image List</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,0">
+  <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0">
    <item>
     <widget class="QSplitter" name="splitter_2">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
+     </property>
+     <property name="childrenCollapsible">
+      <bool>true</bool>
      </property>
      <widget class="QSplitter" name="splitter">
       <property name="orientation">
@@ -33,14 +36,14 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
-             <widget class="QPushButton" name="btnAddImgListPool">
+             <widget class="QToolButton" name="btnAddImgListPool">
               <property name="text">
                <string>Add</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="btnDelImgListPool">
+             <widget class="QToolButton" name="btnDelImgListPool">
               <property name="text">
                <string>Del</string>
               </property>
@@ -85,14 +88,14 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
-             <widget class="QPushButton" name="btnAddImgIndex">
+             <widget class="QToolButton" name="btnAddImgIndex">
               <property name="text">
                <string>Add</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="btnDelImgIndex">
+             <widget class="QToolButton" name="btnDelImgIndex">
               <property name="text">
                <string>Del</string>
               </property>
@@ -129,6 +132,12 @@
       </widget>
      </widget>
      <widget class="QFrame" name="frame">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>200</height>
+       </size>
+      </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>

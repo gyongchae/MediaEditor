@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>883</width>
+    <width>969</width>
     <height>615</height>
    </rect>
   </property>
@@ -29,21 +29,21 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout">
            <item>
-            <widget class="QPushButton" name="btnAddAudio">
+            <widget class="QToolButton" name="btnAddAudio">
              <property name="text">
               <string>Add</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="btnDelAudio">
+            <widget class="QToolButton" name="btnDelAudio">
              <property name="text">
               <string>Del</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="btnDelAllAudio">
+            <widget class="QToolButton" name="btnDelAllAudio">
              <property name="text">
               <string>Delete All</string>
              </property>
@@ -133,21 +133,21 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
-            <widget class="QPushButton" name="btnAddVideo">
+            <widget class="QToolButton" name="btnAddVideo">
              <property name="text">
               <string>Add</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="btnDelVideo">
+            <widget class="QToolButton" name="btnDelVideo">
              <property name="text">
               <string>Del</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="btnDelAllVideo">
+            <widget class="QToolButton" name="btnDelAllVideo">
              <property name="text">
               <string>Delete All</string>
              </property>
@@ -176,21 +176,7 @@
            <item>
             <widget class="QToolButton" name="btnPlayVideo">
              <property name="text">
-              <string>Play</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QToolButton" name="btnPauseVideo">
-             <property name="text">
-              <string>Pause</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QToolButton" name="btnStopVideo">
-             <property name="text">
-              <string>Stop</string>
+              <string>Player</string>
              </property>
             </widget>
            </item>

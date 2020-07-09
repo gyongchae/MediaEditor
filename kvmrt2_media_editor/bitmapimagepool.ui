@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>564</width>
-    <height>309</height>
+    <width>723</width>
+    <height>610</height>
    </rect>
   </property>
   <property name="font">
@@ -35,14 +35,14 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
-             <widget class="QPushButton" name="btnAddBitmap">
+             <widget class="QToolButton" name="btnAddBitmap">
               <property name="text">
                <string>Add</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="btnDelBitmap">
+             <widget class="QToolButton" name="btnDelBitmap">
               <property name="text">
                <string>Del</string>
               </property>
@@ -70,12 +70,6 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>360</width>
-              <height>0</height>
-             </size>
             </property>
             <property name="sortingEnabled">
              <bool>false</bool>
@@ -117,6 +111,12 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>350</width>
+              <height>0</height>
+             </size>
             </property>
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>

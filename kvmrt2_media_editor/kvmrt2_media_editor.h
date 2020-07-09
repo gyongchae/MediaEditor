@@ -104,4 +104,11 @@ private slots:
 private:
 	Ui::kvmrt2_media_editorClass ui;
 	FileUploadWindow *m_wndFileUpload;
+
+	// betatest
+public slots:
+	
+public:
+	void betaInit();
+	
 };

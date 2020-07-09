@@ -27,7 +27,7 @@ stationImagePool::stationImagePool(QWidget *parent)
 	connect(ui.btnClose, SIGNAL(clicked()), this, SLOT(close()));
 	connect(ui.btnColor, SIGNAL(clicked()), this, SLOT(changeBackgroundColor()));
 
-	if (RELEASE_MODE == true)
+	if (OFFICIAL_RELEASE == true)
 	{
 		SET_HIDE_TABLE_COLUMN(StationImagePool, 0);
 		SET_HIDE_TABLE_COLUMN(StationImagePool, 1);

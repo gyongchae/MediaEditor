@@ -379,8 +379,9 @@
     <addaction name="actionUpdate"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
+    <addaction name="actionTestCanvas"/>
    </widget>
-   <widget class="QMenu" name="menuContents_pool">
+   <widget class="QMenu" name="menuFilePool">
     <property name="title">
      <string>Data File Pool</string>
     </property>
@@ -389,7 +390,7 @@
     <addaction name="actionTextPool"/>
     <addaction name="actionBitmapPool"/>
    </widget>
-   <widget class="QMenu" name="menuEdit">
+   <widget class="QMenu" name="menuDisplayConfig">
     <property name="title">
      <string>Display Configuration</string>
     </property>
@@ -409,8 +410,8 @@
     <addaction name="actionLicenseInfo"/>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuContents_pool"/>
-   <addaction name="menuEdit"/>
+   <addaction name="menuFilePool"/>
+   <addaction name="menuDisplayConfig"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
@@ -619,6 +620,16 @@
    </property>
    <property name="text">
     <string>License Info</string>
+   </property>
+  </action>
+  <action name="actioncanvas_test">
+   <property name="text">
+    <string>canvas test</string>
+   </property>
+  </action>
+  <action name="actionTestCanvas">
+   <property name="text">
+    <string>canvas test</string>
    </property>
   </action>
  </widget>

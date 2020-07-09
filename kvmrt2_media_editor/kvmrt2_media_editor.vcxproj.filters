@@ -122,9 +122,6 @@
     <Filter Include="SCREEN\MOLLA\CFontScaler">
       <UniqueIdentifier>{e5eb79b8-cfc0-4dec-a554-458f55b689bc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FIEL POOL\00000MY TEST">
-      <UniqueIdentifier>{c92886ce-147f-4f88-ba7a-0debd007a96e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
@@ -142,6 +139,9 @@
       <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
       <Extensions>ui</Extensions>
       <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="0000000000PRACTICE">
+      <UniqueIdentifier>{9bf9c3f2-0282-4b7c-9afd-f462ead042c8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -505,6 +505,18 @@
     <ClCompile Include="FileUpload\fileuploadwindow.cpp">
       <Filter>FILE UPLOAD</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_qgleslcdcanvas.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_qgleslcdcanvas.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="NewCanvas\qgleslcdcanvas.cpp">
+      <Filter>0000000000PRACTICE</Filter>
+    </ClCompile>
+    <ClCompile Include="betatest.cpp">
+      <Filter>MAIN</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LEDIndicator.h">
@@ -781,6 +793,9 @@
     <ClInclude Include="GeneratedFiles\ui_fileuploadwindow.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_qgleslcdcanvas.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="freetype.dll">
@@ -882,6 +897,12 @@
     </CustomBuild>
     <CustomBuild Include="FileUpload\fileuploadwindow.ui">
       <Filter>FILE UPLOAD</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NewCanvas\qgleslcdcanvas.h">
+      <Filter>0000000000PRACTICE</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NewCanvas\qgleslcdcanvas.ui">
+      <Filter>0000000000PRACTICE</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

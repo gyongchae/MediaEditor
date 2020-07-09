@@ -39,7 +39,7 @@ fontPool::fontPool(QWidget *parent)
 	connect(ui.btnDelFont, SIGNAL(clicked()), this, SLOT(deleteFontPool()));
 	connect(ui.btnClose, SIGNAL(clicked()), this, SLOT(close()));
 
-	if (RELEASE_MODE == true)
+	if (OFFICIAL_RELEASE == true)
 	{
 		SET_HIDE_TABLE_COLUMN(FontPool, 0);
 		SET_HIDE_TABLE_COLUMN(FontPool, 1);

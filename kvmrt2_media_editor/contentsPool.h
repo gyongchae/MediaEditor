@@ -43,10 +43,6 @@ private slots:
 
 	// video related func
 	void onVideoPlay();
-	void onVideoPause();
-	void onVideoStop();
-	void onVideoPosChanged(qint64 pos);
-	void onVideoMediaChanged(const QMediaContent &media);
 
 private:
 	Ui::Dialog ui;

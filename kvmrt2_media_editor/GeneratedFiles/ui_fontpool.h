@@ -21,6 +21,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QTableView>
+#include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 
 QT_BEGIN_NAMESPACE
@@ -33,8 +34,8 @@ public:
     QGridLayout *gridLayout;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
-    QPushButton *btnAddFont;
-    QPushButton *btnDelFont;
+    QToolButton *btnAddFont;
+    QToolButton *btnDelFont;
     QSpacerItem *horizontalSpacer;
     QTableView *m_tblFontPool;
     QHBoxLayout *horizontalLayout_2;
@@ -45,7 +46,7 @@ public:
     {
         if (fontPool->objectName().isEmpty())
             fontPool->setObjectName(QStringLiteral("fontPool"));
-        fontPool->resize(296, 306);
+        fontPool->resize(319, 527);
         verticalLayout_2 = new QVBoxLayout(fontPool);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
@@ -62,12 +63,12 @@ public:
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        btnAddFont = new QPushButton(groupBox);
+        btnAddFont = new QToolButton(groupBox);
         btnAddFont->setObjectName(QStringLiteral("btnAddFont"));
 
         horizontalLayout->addWidget(btnAddFont);
 
-        btnDelFont = new QPushButton(groupBox);
+        btnDelFont = new QToolButton(groupBox);
         btnDelFont->setObjectName(QStringLiteral("btnDelFont"));
 
         horizontalLayout->addWidget(btnDelFont);
@@ -119,7 +120,7 @@ public:
         fontPool->setWindowTitle(QApplication::translate("fontPool", "Font", Q_NULLPTR));
         groupBox->setTitle(QApplication::translate("fontPool", "Font List", Q_NULLPTR));
         btnAddFont->setText(QApplication::translate("fontPool", "Add", Q_NULLPTR));
-        btnDelFont->setText(QApplication::translate("fontPool", "Delete", Q_NULLPTR));
+        btnDelFont->setText(QApplication::translate("fontPool", "Del", Q_NULLPTR));
         btnClose->setText(QApplication::translate("fontPool", "Close", Q_NULLPTR));
     } // retranslateUi
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>296</width>
-    <height>306</height>
+    <width>319</width>
+    <height>527</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,16 +25,16 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,1">
           <item>
-           <widget class="QPushButton" name="btnAddFont">
+           <widget class="QToolButton" name="btnAddFont">
             <property name="text">
              <string>Add</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="btnDelFont">
+           <widget class="QToolButton" name="btnDelFont">
             <property name="text">
-             <string>Delete</string>
+             <string>Del</string>
             </property>
            </widget>
           </item>

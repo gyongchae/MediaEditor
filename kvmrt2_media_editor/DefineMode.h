@@ -1,3 +1,3 @@
 #pragma once
 
-const bool RELEASE_MODE = false;
+const bool OFFICIAL_RELEASE = false;

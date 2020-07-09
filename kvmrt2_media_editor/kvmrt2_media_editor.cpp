@@ -55,9 +55,9 @@ kvmrt2_media_editor::kvmrt2_media_editor(QString & dbPath, QString & currPath, Q
 	initContextMenu();
 	initIcons();
 
-	setHideItemsMainWindow(RELEASE_MODE);
-
 	ui.rbCustomOrder->setChecked(true);
+	
+	setHideItemsMainWindow(OFFICIAL_RELEASE);
 }
 
 kvmrt2_media_editor::~kvmrt2_media_editor()
@@ -68,6 +68,9 @@ void kvmrt2_media_editor::setHideItemsMainWindow(bool isRelease)
 {
 	if (isRelease)
 	{
+		// my test menu
+		ui.actionTestCanvas->setVisible(false);
+		
 		// hidden action
 		ui.actionNew->setVisible(false);
 		ui.actionLoad->setVisible(false);
@@ -108,6 +111,10 @@ void kvmrt2_media_editor::setHideItemsMainWindow(bool isRelease)
 		SET_HIDE_TABLE_COLUMN(VideoPlayList, 3);
 		SET_HIDE_TABLE_COLUMN(EditorTagTable, 0);
 		SET_HIDE_TABLE_COLUMN(EditorTagTable, 3);
+	}
+	else
+	{
+		betaInit();
 	}
 }
 

@@ -23,6 +23,7 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QTableView>
+#include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -38,8 +39,8 @@ public:
     QWidget *layoutWidget;
     QVBoxLayout *verticalLayout_2;
     QHBoxLayout *horizontalLayout_3;
-    QPushButton *btnAddBitmap;
-    QPushButton *btnDelBitmap;
+    QToolButton *btnAddBitmap;
+    QToolButton *btnDelBitmap;
     QSpacerItem *horizontalSpacer;
     QTableView *m_tblBitmapImagePool;
     QWidget *layoutWidget1;
@@ -56,7 +57,7 @@ public:
     {
         if (bitmapImagePool->objectName().isEmpty())
             bitmapImagePool->setObjectName(QStringLiteral("bitmapImagePool"));
-        bitmapImagePool->resize(564, 309);
+        bitmapImagePool->resize(723, 610);
         QFont font;
         font.setFamily(QStringLiteral("Arial"));
         bitmapImagePool->setFont(font);
@@ -83,12 +84,12 @@ public:
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setSpacing(6);
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        btnAddBitmap = new QPushButton(layoutWidget);
+        btnAddBitmap = new QToolButton(layoutWidget);
         btnAddBitmap->setObjectName(QStringLiteral("btnAddBitmap"));
 
         horizontalLayout_3->addWidget(btnAddBitmap);
 
-        btnDelBitmap = new QPushButton(layoutWidget);
+        btnDelBitmap = new QToolButton(layoutWidget);
         btnDelBitmap->setObjectName(QStringLiteral("btnDelBitmap"));
 
         horizontalLayout_3->addWidget(btnDelBitmap);
@@ -107,7 +108,6 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(m_tblBitmapImagePool->sizePolicy().hasHeightForWidth());
         m_tblBitmapImagePool->setSizePolicy(sizePolicy);
-        m_tblBitmapImagePool->setMinimumSize(QSize(360, 0));
         m_tblBitmapImagePool->setSortingEnabled(false);
 
         verticalLayout_2->addWidget(m_tblBitmapImagePool);
@@ -143,6 +143,7 @@ public:
         sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(frame->sizePolicy().hasHeightForWidth());
         frame->setSizePolicy(sizePolicy1);
+        frame->setMinimumSize(QSize(350, 0));
         frame->setFrameShape(QFrame::StyledPanel);
         frame->setFrameShadow(QFrame::Raised);
 

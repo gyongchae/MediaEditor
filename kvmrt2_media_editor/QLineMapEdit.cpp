@@ -34,7 +34,7 @@ QLineMapEdit::QLineMapEdit(int nIndexRow, QWidget *parent)
 
 	connect(ui.btnClose, SIGNAL(clicked()), this, SLOT(acceptedChanges()));
 
-	if (RELEASE_MODE)
+	if (OFFICIAL_RELEASE)
 	{
 		ui.m_ctlArrow->setVisible(false);
 		ui.m_ctlImageList->setVisible(false);

@@ -23,6 +23,7 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QTableView>
+#include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 
 QT_BEGIN_NAMESPACE
@@ -35,8 +36,8 @@ public:
     QGridLayout *gridLayout;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
-    QPushButton *btnAddText;
-    QPushButton *btnDelText;
+    QToolButton *btnAddText;
+    QToolButton *btnDelText;
     QSpacerItem *horizontalSpacer;
     QSplitter *splitter;
     QTableView *m_tblStationImagePool;
@@ -50,7 +51,7 @@ public:
     {
         if (stationImagePool->objectName().isEmpty())
             stationImagePool->setObjectName(QStringLiteral("stationImagePool"));
-        stationImagePool->resize(296, 306);
+        stationImagePool->resize(813, 443);
         verticalLayout_2 = new QVBoxLayout(stationImagePool);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         groupBox = new QGroupBox(stationImagePool);
@@ -61,12 +62,12 @@ public:
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        btnAddText = new QPushButton(groupBox);
+        btnAddText = new QToolButton(groupBox);
         btnAddText->setObjectName(QStringLiteral("btnAddText"));
 
         horizontalLayout->addWidget(btnAddText);
 
-        btnDelText = new QPushButton(groupBox);
+        btnDelText = new QToolButton(groupBox);
         btnDelText->setObjectName(QStringLiteral("btnDelText"));
 
         horizontalLayout->addWidget(btnDelText);
@@ -91,6 +92,7 @@ public:
         splitter->addWidget(m_tblStationImagePool);
         frame = new QFrame(splitter);
         frame->setObjectName(QStringLiteral("frame"));
+        frame->setMinimumSize(QSize(0, 120));
         frame->setFrameShape(QFrame::StyledPanel);
         frame->setFrameShadow(QFrame::Raised);
         splitter->addWidget(frame);

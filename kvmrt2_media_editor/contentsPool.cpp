@@ -28,7 +28,7 @@ ContentsPool::ContentsPool(QWidget *parent)
 
 	connect(ui.btnClose, SIGNAL(clicked()), this, SLOT(close()));
 
-	if (RELEASE_MODE == true)
+	if (OFFICIAL_RELEASE == true)
 	{
 		SET_HIDE_TABLE_COLUMN(AudioFilePool, 0);
 		SET_HIDE_TABLE_COLUMN(AudioFilePool, 1);
@@ -63,16 +63,6 @@ ContentsPool::ContentsPool(QWidget *parent)
 	m_videoWidget = new QVideoWidget();
 
 	connect(ui.btnPlayVideo, SIGNAL(clicked()), this, SLOT(onVideoPlay()));
-	connect(ui.btnPauseVideo, SIGNAL(clicked()), this, SLOT(onVideoPause()));
-	connect(ui.btnStopVideo, SIGNAL(clicked()), this, SLOT(onVideoStop()));
-	connect(m_videoPlayer, SIGNAL(positionChanged(qint64)), this, SLOT(onVideoPosChanged(qint64)));
-	connect(m_videoPlayer, SIGNAL(currentMediaChanged(const QMediaContent&)), this, SLOT(onVideoMediaChanged(const QMediaContent&)));
-	connect(m_videoPlayer, &QMediaPlayer::durationChanged, this,
-		[&](qint64 dur)
-	{
-		m_videoDuration = dur;
-		qDebug() << "duration:" << m_videoDuration;
-	});
 }
 
 ContentsPool::~ContentsPool()
@@ -251,11 +241,10 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(ContentsPool, VideoFilePool)
 		[this](const QModelIndex &index)
 	{
 		auto *pDM = CDataManage::GetInstance();
-		qDebug() << Q_FUNC_INFO << index.sibling(index.row(), 3/*file name col*/).data().toString();
-		qDebug() << Q_FUNC_INFO << pDM->videoPath();
+		qDebug() <<  index.sibling(index.row(), 3/*file name col*/).data().toString();
+		qDebug() << pDM->videoPath();
 		m_videoFilePath = pDM->videoPath() + "/" + index.sibling(index.row(), 3/*file name col*/).data().toString();
-		qDebug() << Q_FUNC_INFO << m_videoFilePath;
-		m_videoPlayer->setMedia(QUrl::fromLocalFile(m_videoFilePath));
+		qDebug() << m_videoFilePath;
 	});
 
 	return false;
@@ -365,28 +354,13 @@ void ContentsPool::onAudioMediaChanged(const QMediaContent & media)
 {
 	// 재생할 audio file이 변경된 경우 호출
 	qDebug() << Q_FUNC_INFO << media.isNull();
-	
 }
 
 void ContentsPool::onVideoPlay()
 {
-	m_videoPlayer->setVideoOutput(m_videoWidget);
-	m_videoWidget->show();
-	m_videoPlayer->play();
-}
-
-void ContentsPool::onVideoPause()
-{
-}
-
-void ContentsPool::onVideoStop()
-{
-}
-
-void ContentsPool::onVideoPosChanged(qint64 pos)
-{
-}
-
-void ContentsPool::onVideoMediaChanged(const QMediaContent & media)
-{
+	// doesn't work
+	// see Media Player Example on QtAssistant
+	//m_videoPlayer->setVideoOutput(m_videoWidget);
+	//m_videoWidget->show();
+	//m_videoPlayer->play();
 }
