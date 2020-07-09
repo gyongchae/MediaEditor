@@ -1,0 +1,27 @@
+# CMake generation dependency list for this directory.
+C:/libraries/SFML-2.4.1/CMakeLists.txt
+C:/libraries/SFML-2.4.1-build/CMakeFiles/3.7.2/CMakeSystem.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/CMakeSystemSpecificInitialize.cmake
+C:/libraries/SFML-2.4.1-build/CMakeFiles/3.7.2/CMakeCCompiler.cmake
+C:/libraries/SFML-2.4.1-build/CMakeFiles/3.7.2/CMakeCXXCompiler.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/CMakeSystemSpecificInformation.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/CMakeGenericSystem.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/Platform/Windows.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/Platform/WindowsPaths.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/CMakeCInformation.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/CMakeLanguageInformation.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/Platform/Windows-MSVC-C.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/Platform/Windows-MSVC.cmake
+C:/libraries/SFML-2.4.1-build/CMakeFiles/3.7.2/CMakeRCCompiler.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/CMakeRCInformation.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/CMakeCommonLanguageInclude.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/CMakeCXXInformation.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/CMakeLanguageInformation.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/Compiler/MSVC-CXX.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/Platform/Windows-MSVC-CXX.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/Platform/Windows-MSVC.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/CMakeCommonLanguageInclude.cmake
+C:/libraries/SFML-2.4.1/cmake/Config.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/CheckTypeSize.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/CheckIncludeFile.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/CheckIncludeFileCXX.cmake
