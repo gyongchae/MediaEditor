@@ -1,12 +1,10 @@
 #include <sb6.h>
+
 #include "kvmrt2_media_editor.h"
 #include "qgleslcdcanvas.h"
-#include <qopenglfunctions.h>
 #include <qdebug.h>
 #include <math.h>
-
-#define MAIN_WINDOW kvmrt2_media_editor
-
+#include "newdisplaypool.h"
 
 #define glCullFace		gl3wCullFace
 #define glFrontFace		gl3wFrontFace
@@ -625,6 +623,8 @@
 #define glTextureStorage2DMultisampleEXT		gl3wTextureStorage2DMultisampleEXT
 #define glTextureStorage3DMultisampleEXT		gl3wTextureStorage3DMultisampleEXT
 
+#define MAIN_WINDOW kvmrt2_media_editor
+
 GLuint compile_shaders(void)
 {
 	GLuint vertexShader;
@@ -633,11 +633,21 @@ GLuint compile_shaders(void)
 
 	static const GLchar * vertexShaderSrc[] =
 	{
+		//"#version 430 core\n"
+		//"void main(void)\n"
+		//"{\n"
+		//"gl_Position = vec4(0.0, 0.0, 0.5, 1.0);\n"
+		//"}"
 		"#version 430 core\n"
 		"void main(void)\n"
 		"{\n"
-		"gl_Position = vec4(0.0, 0.0, 0.5, 1.0);\n"
+		"const vec4 vertices[3] = vec4[3]("
+		"vec4(0.25, -0.25, 0.5, 1.0),"
+		"vec4(-0.25, -0.25, 0.5, 1.0),"
+		"vec4(0.25, 0.25, 0.5, 1.0));\n"
+		"gl_Position = vertices[gl_VertexID];\n"
 		"}"
+
 	};
 
 	static const GLchar * fragShaderSrc[] =
@@ -650,21 +660,21 @@ GLuint compile_shaders(void)
 		"}"
 	};
 
-	vertexShader = gl3wCreateShader(GL_VERTEX_SHADER);
-	gl3wShaderSource(vertexShader, 1, vertexShaderSrc, nullptr);
-	gl3wCompileShader(vertexShader);
+	vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vertexShader, 1, vertexShaderSrc, nullptr);
+	glCompileShader(vertexShader);
 
-	fragmentShader = gl3wCreateShader(GL_FRAGMENT_SHADER);
+	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragmentShader, 1, fragShaderSrc, nullptr);
-	gl3wCompileShader(fragmentShader);
+	glCompileShader(fragmentShader);
 
-	program = gl3wCreateProgram();
-	gl3wAttachShader(program, vertexShader);
-	gl3wAttachShader(program, fragmentShader);
-	gl3wLinkProgram(program);
+	program = glCreateProgram();
+	glAttachShader(program, vertexShader);
+	glAttachShader(program, fragmentShader);
+	glLinkProgram(program);
 
-	gl3wDeleteShader(vertexShader);
-	gl3wDeleteShader(fragmentShader);
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
 
 	return program;
 }
@@ -682,21 +692,26 @@ public:
 	void shutdown()
 	{
 		glDeleteVertexArrays(1, &vao);
-		gl3wDeleteProgram(program);
+		glDeleteProgram(program);
 		glDeleteVertexArrays(1, &vao);
 	}
 	void render(double currentTime)
 	{
-		const GLfloat col[] = { 
-			(float)sin(currentTime)*0.5f, 
-			(float)cos(currentTime)*0.5f,
-			0.0f, 1.0f };
+		float r = (float)sin(currentTime)*0.5f;
+		float g = (float)cos(currentTime)*0.5f;
+		float b = (float)tan(currentTime)*0.5f;
+		float a = 1.0f;
+
+		const GLfloat col[] = { r, g, b, a };
+		//const GLfloat col[] = { 1.0f, 0.0f, 0.0f, 1.0f };
 		glClearBufferfv(GL_COLOR, 0, col);
-
 		glUseProgram(program);
-		glDrawArrays(GL_POINTS, 0, 1);
+		
+		//glDrawArrays(GL_POINTS, 0, 1);
+		//glPointSize(40.0f);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 
-		//qDebug() << Q_FUNC_INFO << currentTime;
+		qDebug() << Q_FUNC_INFO << currentTime << r << g << b << a;
 	}
 
 private:
@@ -710,12 +725,19 @@ void MAIN_WINDOW::betaInit()
 {
 	connect(ui.actionTestCanvas, &QAction::triggered, [this]()
 	{
-		qDebug() << Q_FUNC_INFO;
+		NewDisplayPool dlg(this);
+		if (dlg.exec())
+		{
+		
+		}
 	});
 
-	auto *app = new my_app;
-	app->run(app);
-	delete app;
+	connect(ui.actionLoad, &QAction::triggered, [this]()
+	{
+		my_app *app = new my_app;
+		app->run(app);
+		delete app;
+	});
 }
 
 /*

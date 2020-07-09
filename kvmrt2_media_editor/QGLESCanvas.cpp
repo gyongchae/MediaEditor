@@ -47,7 +47,6 @@ void QGLESPIDCanvas::initializeGL()
 void QGLESPIDCanvas::initShaders()
 {
 	const char vShaderStr[] =
-		//"#version 330 core\n"
 		"attribute vec4 a_position;\n"
 		"attribute vec2 a_texcoord;\n"
 		"varying vec2 v_texcoord;\n"
@@ -59,8 +58,6 @@ void QGLESPIDCanvas::initShaders()
 		"}\n";
 
 	const char fShaderStr[] =
-		//"precision mediump float;\n"
-		//"#version 330 core\n"
 		"varying vec2 v_texcoord;\n"
 		"uniform vec4 u_color;\n"
 		"uniform sampler2D firstTex;\n"

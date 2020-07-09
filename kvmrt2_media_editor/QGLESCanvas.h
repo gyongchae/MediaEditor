@@ -27,7 +27,7 @@ class QGLESPIDCanvas : public QOpenGLWidget, protected QOpenGLFunctions
 	Q_OBJECT
 
 public:
-	explicit QGLESPIDCanvas(QWidget *parent=0);
+	explicit QGLESPIDCanvas(QWidget *parent = 0);
 	virtual ~QGLESPIDCanvas();
 
 public:
@@ -48,43 +48,44 @@ public:
 	void setSelectedItemVectors(void *pItem, int nType);
 	QVector<int> vKeyFrames;
 
+//////////////////////////////// QOpenGLWidget override func ///////////////////////////////
+protected:
+	void initializeGL() Q_DECL_OVERRIDE;
+	void resizeGL(int w, int h) Q_DECL_OVERRIDE;
+	void paintGL() Q_DECL_OVERRIDE;
+//////////////////////////////// QOpenGLWidget override func ///////////////////////////////
+
+	void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+	void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+	void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+	void timerEvent(QTimerEvent *e) Q_DECL_OVERRIDE;
+	void dragMoveEvent(QDragMoveEvent * event) Q_DECL_OVERRIDE;
+	void dragEnterEvent(QDragEnterEvent * event) Q_DECL_OVERRIDE;
+	void contextMenuEvent(QContextMenuEvent * event) Q_DECL_OVERRIDE;
+	void dropEvent(QDropEvent * e) Q_DECL_OVERRIDE;
+
+	void initShaders();
+	void initShadersForLine();
+
+	GLfloat m_fOffsetX;
+	GLfloat m_fOffsetY;
+
 private:
 	std::vector<std::shared_ptr<MaxRectsPixelBuffer>> vBinPacked;
 	std::vector<std::shared_ptr<MaxRectsPixelBuffer>> vBinPackedDest;
 	std::map<GLuint, std::shared_ptr<CTexPool>> m_mImageList;
-	
+
 	QAction *m_pAddMetaItem;
 	QAction *m_pDeleteMetaItem;
 	QAction *m_pEditMetaItem;
 	QAction *m_pDelMetaProp;
-	
+
 	QAction *m_pActDelItem;
 	QAction *m_pActEditProp;
 	QAction *m_pActDelProp;
 
 	QMenu *m_pMenu;
 	QMenu *m_pMetaItemMenu;
-
-protected:
-	void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-	void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-	void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-	void timerEvent(QTimerEvent *e) Q_DECL_OVERRIDE;
-
-	void initializeGL() Q_DECL_OVERRIDE;
-	void resizeGL(int w, int h) Q_DECL_OVERRIDE;
-	void paintGL() Q_DECL_OVERRIDE;
-
-	void initShaders();
-	void initShadersForLine();
-
-	void dragMoveEvent(QDragMoveEvent * event);
-	void dragEnterEvent(QDragEnterEvent * event);
-	void contextMenuEvent(QContextMenuEvent * event);
-	void dropEvent(QDropEvent * e);
-
-	GLfloat m_fOffsetX;
-	GLfloat m_fOffsetY;
 
 private:
 	int m_nWidth;
@@ -96,7 +97,6 @@ private:
 	GLuint m_uColorLoc;
 	GLint m_nFirstTex;
 	QOpenGLShaderProgram program;
-
 
 	GLuint m_uPosLineLoc;
 	GLuint m_uMatrixLineLoc;
@@ -126,8 +126,8 @@ private:
 signals:
 	void positionChanged(const QString &/*str*/);
 	void selectionChanged();
-private slots:
 
+private slots:
 	void selectMetaItemAction(QAction *action);
 	void setCurrentTime(int index);
 	void deleteItem();

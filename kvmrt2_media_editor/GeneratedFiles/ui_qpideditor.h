@@ -26,7 +26,7 @@ public:
     {
         if (QPIDEditor->objectName().isEmpty())
             QPIDEditor->setObjectName(QStringLiteral("QPIDEditor"));
-        QPIDEditor->resize(533, 520);
+        QPIDEditor->resize(924, 686);
 
         retranslateUi(QPIDEditor);
 
