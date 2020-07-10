@@ -150,6 +150,20 @@ void QGLESPIDCanvas::initDisplayItem()
 		auto it = m_mImageList.find(pItem->nRelatedItemListIndex);
 		if (it != m_mImageList.end())
 		{
+			qDebug() << "pItem->nRelatedItemListIndex;" << pItem->nRelatedItemListIndex;
+			qDebug() << "pItem->nInitPosX;" << pItem->nInitPosX;
+			qDebug() << "pItem->nInitPosY;" << pItem->nInitPosY;
+			qDebug() << "pItem->nAppearFrom;" << pItem->nAppearFrom;
+			qDebug() << "pItem->nAppearTo;" << pItem->nAppearTo;
+			qDebug() << "pItem->nParentIndex;" << pItem->nParentIndex;
+			qDebug() << "pItem->nZOrder;" << pItem->nZOrder;
+			qDebug() << "pItem->nOrigin;" << pItem->nOrigin;
+			qDebug() << "pItem->nPrevOrigin;" << pItem->nPrevOrigin;
+			qDebug() << "pItem->uBackColor;"<< pItem->uBackColor;
+			qDebug() << "fOrigX;" << pItem->fOrigX;
+			qDebug() << "fOrigY;" << pItem->fOrigY;
+
+			GLfloat fOrigX, fOrigY;
 			pItem->SetOrigin(pItem->nOrigin);
 			it->second->SetOrigin(pItem->nOrigin, true);
 			pItem->fOrigX = it->second->m_fOrigin[0];
@@ -159,7 +173,6 @@ void QGLESPIDCanvas::initDisplayItem()
 		}
 	}
 }
-
 
 void QGLESPIDCanvas::initMetaDisplayItem()
 {
@@ -235,7 +248,6 @@ void QGLESPIDCanvas::paintGL()
 				glUniformMatrix4fv(m_uMatrixLoc, 1, false, (const GLfloat*)&matrix);
 				for (auto subit : findIt->second->vIdxList)
 				{
-
 					glBindTexture(GL_TEXTURE_2D, subit.nTextureIndex);
 					glDrawElements(GL_TRIANGLES, subit.iCount, GL_UNSIGNED_SHORT, (const void*)(subit.iOffset * sizeof(GLushort)));
 				}

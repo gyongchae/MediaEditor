@@ -578,7 +578,6 @@ public:
         menuFile->addAction(actionUpdate);
         menuFile->addSeparator();
         menuFile->addAction(actionExit);
-        menuFile->addAction(actionTestCanvas);
         menuFilePool->addAction(actionFontPool);
         menuFilePool->addAction(actionAudioVideoPool);
         menuFilePool->addAction(actionTextPool);

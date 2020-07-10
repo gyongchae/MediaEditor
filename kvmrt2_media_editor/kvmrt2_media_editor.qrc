@@ -1,1 +1,6 @@
-<RCC/>
+<RCC>
+    <qresource prefix="/">
+        <file>Res/info.ico</file>
+        <file>Res/Qt.ico</file>
+    </qresource>
+</RCC>

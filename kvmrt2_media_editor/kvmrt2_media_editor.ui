@@ -379,7 +379,6 @@
     <addaction name="actionUpdate"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
-    <addaction name="actionTestCanvas"/>
    </widget>
    <widget class="QMenu" name="menuFilePool">
     <property name="title">

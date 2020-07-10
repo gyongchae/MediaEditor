@@ -633,19 +633,20 @@ GLuint compile_shaders(void)
 
 	static const GLchar * vertexShaderSrc[] =
 	{
-		//"#version 430 core\n"
-		//"void main(void)\n"
-		//"{\n"
-		//"gl_Position = vec4(0.0, 0.0, 0.5, 1.0);\n"
-		//"}"
 		"#version 430 core\n"
+		"layout (location = 0) in vec4 offset;\n"
+		"layout (location = 1) in vec4 color;\n"
+		"out VS_OUT\n"
+		"{ vec4 color; } vs_out;\n"
+		"out vec4 vs_color;\n"
 		"void main(void)\n"
 		"{\n"
 		"const vec4 vertices[3] = vec4[3]("
 		"vec4(0.25, -0.25, 0.5, 1.0),"
 		"vec4(-0.25, -0.25, 0.5, 1.0),"
 		"vec4(0.25, 0.25, 0.5, 1.0));\n"
-		"gl_Position = vertices[gl_VertexID];\n"
+		"gl_Position = vertices[gl_VertexID] + offset;\n"
+		"vs_out.color = color;"
 		"}"
 
 	};
@@ -653,10 +654,12 @@ GLuint compile_shaders(void)
 	static const GLchar * fragShaderSrc[] =
 	{
 		"#version 430 core\n"
+		"in VS_OUT\n"
+		"{ vec4 color; } fs_in;\n"
 		"out vec4 color;\n"
 		"void main(void)\n"
 		"{\n"
-		"color = vec4(0.0, 0.8, 1.0, 1.0);\n"
+		"color = fs_in.color;\n"
 		"}"
 	};
 
@@ -699,7 +702,7 @@ public:
 	{
 		float r = (float)sin(currentTime)*0.5f;
 		float g = (float)cos(currentTime)*0.5f;
-		float b = (float)tan(currentTime)*0.5f;
+		float b = 0.0f;
 		float a = 1.0f;
 
 		const GLfloat col[] = { r, g, b, a };
@@ -707,6 +710,14 @@ public:
 		glClearBufferfv(GL_COLOR, 0, col);
 		glUseProgram(program);
 		
+		GLfloat attrib[] = {
+			(float)sin(currentTime) * 0.5f,
+			(float)cos(currentTime) * 0.5f,
+			0.0f, 0.0f
+		};
+
+		glVertexAttrib4fv(0, attrib);
+
 		//glDrawArrays(GL_POINTS, 0, 1);
 		//glPointSize(40.0f);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
@@ -723,7 +734,7 @@ sb6::application *app = 0;
 
 void MAIN_WINDOW::betaInit()
 {
-	connect(ui.actionTestCanvas, &QAction::triggered, [this]()
+	connect(ui.actionNew, &QAction::triggered, [this]()
 	{
 		NewDisplayPool dlg(this);
 		if (dlg.exec())

@@ -68,9 +68,6 @@ void kvmrt2_media_editor::setHideItemsMainWindow(bool isRelease)
 {
 	if (isRelease)
 	{
-		// my test menu
-		ui.actionTestCanvas->setVisible(false);
-		
 		// hidden action
 		ui.actionNew->setVisible(false);
 		ui.actionLoad->setVisible(false);

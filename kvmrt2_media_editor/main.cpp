@@ -49,11 +49,11 @@ int main(int argc, char *argv[])
 	}
 	QString &currPath = QDir::currentPath();
 	
-	QMessageBox::information(
-		nullptr, 
-		QString("ME Path Information"), 
-		QString("DB Path: %1\n\nRun Path: %2").arg(dbPath).arg(currPath),
-		QMessageBox::Ok);
+	//QMessageBox::information(
+	//	nullptr, 
+	//	QString("ME Path Information"), 
+	//	QString("DB Path: %1\n\nRun Path: %2").arg(dbPath).arg(currPath),
+	//	QMessageBox::Ok);
 	
 	kvmrt2_media_editor w(dbPath, currPath);
 	
