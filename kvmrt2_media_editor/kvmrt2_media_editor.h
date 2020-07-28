@@ -4,7 +4,6 @@
 #include "ui_kvmrt2_media_editor.h"
 #include "tableViewHelper.h"
 #include <memory>
-#include "FileUpload\fileuploadwindow.h"
 
 class dataModel;
 class QTextAligner;
@@ -103,7 +102,6 @@ private slots:
 
 private:
 	Ui::kvmrt2_media_editorClass ui;
-	FileUploadWindow *m_wndFileUpload;
 
 	// betatest
 public slots:

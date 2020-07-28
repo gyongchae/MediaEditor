@@ -32,9 +32,6 @@ kvmrt2_media_editor::kvmrt2_media_editor(QString & dbPath, QString & currPath, Q
 {
 	ui.setupUi(this);
 
-	// create file upload window
-	m_wndFileUpload = new FileUploadWindow(this);
-
 	CSQLData::SetLEDIndicatorParam(256, 24, 64, 32); // led size???
 	auto *pDM = CDataManage::GetInstance();
 	auto *pMM = CMapManage::GetInstance();
@@ -391,7 +388,6 @@ void kvmrt2_media_editor::onShowDisplayListPool()
 
 void kvmrt2_media_editor::onShowFileUpload()
 {
-	m_wndFileUpload->show();
 }
 
 void kvmrt2_media_editor::onBtnRefreshDistanceTable()
