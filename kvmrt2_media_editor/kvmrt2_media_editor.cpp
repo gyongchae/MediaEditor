@@ -106,10 +106,6 @@ void kvmrt2_media_editor::setHideItemsMainWindow(bool isRelease)
 		SET_HIDE_TABLE_COLUMN(EditorTagTable, 0);
 		SET_HIDE_TABLE_COLUMN(EditorTagTable, 3);
 	}
-	else
-	{
-		betaInit();
-	}
 }
 
 void kvmrt2_media_editor::initTables()

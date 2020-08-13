@@ -223,8 +223,8 @@ bool CDataManage::OpenDatabase()
 		return pTM->InitDatabase(m_szDBPath);
 
 	}
-	else
-		return pTM->InitDatabase((wchar_t*)L"C:\\PAPIS_ME\\papisdata.db");
+	else {}
+		//return pTM->InitDatabase((wchar_t*)L"C:\\PAPIS_ME\\papisdata.db");
 #else if
 	boost::filesystem::path full_path = boost::filesystem::path(m_tPathSettings.DATABASE_FILE_PATH) / boost::filesystem::path(DATABASE_FILE_NAME);
 	return pTM->InitDatabase((wchar_t*)full_path.wstring().c_str());

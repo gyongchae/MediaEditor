@@ -10,7 +10,7 @@
 #include <sqlite3.h>
 
 
-#define DATABASE_FILE_NAME				_T("papisdata.db")
+#define DATABASE_FILE_NAME				_T("OP_DATA.DB")
 #define VECTOR_CLASS(CLASS_NAME)		m_v##CLASS_NAME
 #define VECTOR_DELETE_CLASS(CLASS_NAME) m_v##CLASS_NAME##DelItems
 #define EDITOR_POINTER(CLASS_NAME)		m_p##CLASS_NAME##Editor
@@ -49,6 +49,12 @@ private:
 public:
 	static CTableManage *GetInstance();
 	static sqlite3* GetDB();
+
+	bool InitDatabase(TYC *pszPath);
+	bool CloseDatabase();
+	void LoadDatabase();
+	void SaveModified();
+	int BackupDb(sqlite3 *pDb, const TYC *zFilename, void(*xProgress)(int, int) = 0);
 
 	// DECLARE_VECTOR_FOR_CLASS (at least table is parent role) for child table, init temp vector on void CTableManage::LoadDatabase()
 	DECLARE_VECTOR_FOR_CLASS(StationInformation);
@@ -120,12 +126,6 @@ public:
 	DECLARE_EDITOR_POINTER_FOR_CLASS(EDDIndex)
 	DECLARE_EDITOR_POINTER_FOR_CLASS(EDDIndexList)
 	// !DECLARE_EDITOR_POINTER_FOR_CLASS
-
-	bool InitDatabase(TYC *pszPath);
-	bool CloseDatabase();
-	void LoadDatabase();
-	void SaveModified();
-	int BackupDb(sqlite3 *pDb,const TYC *zFilename,void(*xProgress)(int, int)=0);
 };
 
 

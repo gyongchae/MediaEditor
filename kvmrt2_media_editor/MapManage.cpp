@@ -77,9 +77,9 @@ MAPPARAM gMappingVariables[] =
 	{ 0, L"" },
 	{ 1, L"Next station code" },			// use
 	{ 2, L"Current station code" },			// use
-	{ 3, L"Destination station code" },		// use
+	{ 3, L"Final station code" },		// use
 	{ 4, L"Door opening side" },			// use
-	{ 5,L"Door Orientation Information" },	// use
+	{ 5, L"Evacuation Direction" },			// use
 	//{ 0, L"" },
 	//{ 1, L"Next station code" },			// use
 	//{ 2, L"Current station code" },			// use

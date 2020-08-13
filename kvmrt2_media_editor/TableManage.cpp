@@ -11,8 +11,6 @@ CTableManage::~CTableManage(void)
 {
 }
 
-
-
 CTableManage *CTableManage::GetInstance()
 {
 	static CTableManage tDataManage;
@@ -162,7 +160,7 @@ void CTableManage::LoadDatabase()
 	MakeRelationShip2(&VECTOR_CLASS(DisplayItemPool), 1, &TEMP_VECTOR_CLASS(DisplayMetaItem));		//부모 자식 관계
 	MakeRelationShip2(&TEMP_VECTOR_CLASS(DisplayMetaItem), 0, &TEMP_VECTOR_CLASS(DisplayMetaItemProp));		//부모 자식 관계
 	MakeRelationShip2(&VECTOR_CLASS(LineMapPool),0,&TEMP_VECTOR_CLASS(LineMapLink));		//부모 자식 관계
-	MakeRelationShip2(&VECTOR_CLASS(LineMapPool), 1, nullptr);
+	MakeRelationShip2(&VECTOR_CLASS(LineMapPool),1, nullptr);
 	MakeRelationShip2(&VECTOR_CLASS(LineMapPool),2,&TEMP_VECTOR_CLASS(LineMapNode));		//부모 자식 관계
 	MakeRelationShip2(&VECTOR_CLASS(LineMapPool),3,&TEMP_VECTOR_CLASS(LineMapArrowTexture));		//부모 자식 관계
 	MakeRelationShip2(&VECTOR_CLASS(LineMapPool),4,&TEMP_VECTOR_CLASS(LineMapDisplayItem));		//부모 자식 관계

@@ -102,11 +102,4 @@ private slots:
 
 private:
 	Ui::kvmrt2_media_editorClass ui;
-
-	// betatest
-public slots:
-	
-public:
-	void betaInit();
-	
 };

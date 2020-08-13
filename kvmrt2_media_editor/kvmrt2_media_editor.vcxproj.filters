@@ -137,12 +137,6 @@
       <Extensions>ui</Extensions>
       <ParseFiles>true</ParseFiles>
     </Filter>
-    <Filter Include="0000000000BETA_TEST000000000">
-      <UniqueIdentifier>{9bf9c3f2-0282-4b7c-9afd-f462ead042c8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="0000000000BETA_TEST000000000\FILES">
-      <UniqueIdentifier>{a75eb794-14eb-4132-b030-242bc6d8497d}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BinPacked\MaxRectsPixelBuffer.cpp">
@@ -496,36 +490,6 @@
     <ClCompile Include="GeneratedFiles\qrc_kvmrt2_media_editor.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_qgleslcdcanvas.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_qgleslcdcanvas.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="NewCanvas\qgleslcdcanvas.cpp">
-      <Filter>0000000000BETA_TEST000000000</Filter>
-    </ClCompile>
-    <ClCompile Include="betatest.cpp">
-      <Filter>0000000000BETA_TEST000000000</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_newdisplaypool.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_newdisplaypool.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="NewCanvas\newdisplaypool.cpp">
-      <Filter>0000000000BETA_TEST000000000</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_newdisplayeditor.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_newdisplayeditor.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="NewCanvas\newdisplayeditor.cpp">
-      <Filter>0000000000BETA_TEST000000000</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\qrc_shaders.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
@@ -805,15 +769,6 @@
     <ClInclude Include="DefineMode.h">
       <Filter>MAIN</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_qgleslcdcanvas.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_newdisplaypool.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_newdisplayeditor.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
@@ -830,12 +785,6 @@
     </None>
     <None Include="sqlite3.exp">
       <Filter>REFER</Filter>
-    </None>
-    <None Include="fshader.glsl">
-      <Filter>0000000000BETA_TEST000000000\FILES</Filter>
-    </None>
-    <None Include="vshader.glsl">
-      <Filter>0000000000BETA_TEST000000000\FILES</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -919,34 +868,11 @@
     <CustomBuild Include="QGLESLineMapPreview.h">
       <Filter>SCREEN\ROUTE MAP\PREVIEW</Filter>
     </CustomBuild>
-    <CustomBuild Include="NewCanvas\qgleslcdcanvas.h">
-      <Filter>0000000000BETA_TEST000000000</Filter>
-    </CustomBuild>
-    <CustomBuild Include="NewCanvas\qgleslcdcanvas.ui">
-      <Filter>0000000000BETA_TEST000000000</Filter>
-    </CustomBuild>
-    <CustomBuild Include="NewCanvas\newdisplaypool.ui">
-      <Filter>0000000000BETA_TEST000000000</Filter>
-    </CustomBuild>
-    <CustomBuild Include="NewCanvas\newdisplaypool.h">
-      <Filter>0000000000BETA_TEST000000000</Filter>
-    </CustomBuild>
-    <CustomBuild Include="NewCanvas\newdisplayeditor.ui">
-      <Filter>0000000000BETA_TEST000000000</Filter>
-    </CustomBuild>
-    <CustomBuild Include="NewCanvas\newdisplayeditor.h">
-      <Filter>0000000000BETA_TEST000000000</Filter>
-    </CustomBuild>
     <CustomBuild Include="shaders.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
     <CustomBuild Include="textures.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="cube.png">
-      <Filter>0000000000BETA_TEST000000000\FILES</Filter>
-    </Image>
   </ItemGroup>
 </Project>

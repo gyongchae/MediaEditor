@@ -45,7 +45,8 @@ int main(int argc, char *argv[])
 
 	}
 	else {
-		dbPath = QDir::homePath() + "/Papis/papisdata.db";
+		
+		dbPath = QDir::homePath() + "/Papis/" +  "OP_DATA.DB";
 	}
 	QString &currPath = QDir::currentPath();
 	
