@@ -55,6 +55,7 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(stationImagePool,StationImagePool)
 
 	QHeaderView *header=GET_TABLE(StationImagePool)->horizontalHeader();
 	header->resizeSections(QHeaderView::ResizeToContents);
+	header->setStretchLastSection(true);
 	
 	CONNECT_ROW_CHAHANGED_SLOT(StationImagePool,updateStationImage(const QModelIndex &, const QModelIndex &));
 	connect(GET_TABLE_MODEL(pDM,StationImagePool).get(),

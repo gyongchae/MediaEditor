@@ -75,7 +75,7 @@ DECLARE_EDITOR_CLASS(VideoFilePool);
 // StationImagePool
 BEGIN_CLASS_FROM_SQLDATA(StationImagePool, , );
 COMMON_VAL_FOR_SQLDATA;
-DECLARE_TYPESETTINGS(15);
+DECLARE_TYPESETTINGS(16);
 DECLARE_COMMON_FUNCTIONS OVERRIDE_DUMMY_EDITOR_FUNC;
 BEGIN_MAPPING_MEMBERS
 m_tSettings[0].POINTER = (void*)(&m_nTableIndex);
@@ -93,6 +93,7 @@ m_tSettings[11].POINTER = (void*)(&nProp2);
 m_tSettings[12].POINTER = (void*)(&nDataLength);
 m_tSettings[13].POINTER = (void*)(&pByte);
 m_tSettings[14].POINTER = (void*)(&nOrder);
+m_tSettings[15].POINTER = (void*)(szDesc);
 END_MAPPING_MEMBERS
 // fields
 int nType{ 0 };
@@ -109,6 +110,7 @@ int nProp2{ 0 };
 int nDataLength{ 0 };
 SHARED_PTRM(unsigned char) pByte { 0 };
 int nOrder{ 1 };
+TYC szDesc[256]{ 0 };
 // !fields
 int nTextureIndex{ 0 };
 END_CLASS_FROM_SQLDATA

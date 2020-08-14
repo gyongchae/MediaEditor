@@ -1,7 +1,5 @@
 #include "SQLDelegate.h"
 
-
-
 SQLDelegate::SQLDelegate(QObject *parent,std::vector<std::shared_ptr<CSQLData>> *pvSQL,int nSocCol,int nDesCol,TYPEDEFINE eDesType,bool bCreated)
 : QItemDelegate(parent),m_pvSQL(nullptr),m_eDesType(eDesType)
 ,m_nDesCol(nDesCol),m_nSocCol(nSocCol),m_bCreated(bCreated)
@@ -10,7 +8,6 @@ SQLDelegate::SQLDelegate(QObject *parent,std::vector<std::shared_ptr<CSQLData>> 
 		m_pvSQL=pvSQL;
 
 	installEventFilter(this);
-
 }
 
 SQLDelegate::SQLDelegate(delegatetype type, QObject * parent, std::vector<std::shared_ptr<CSQLData>>* pvSQL, int nSocCol, int nDesCol, TYPEDEFINE eDesType, bool bCreated)
@@ -23,14 +20,11 @@ SQLDelegate::SQLDelegate(delegatetype type, QObject * parent, std::vector<std::s
 	m_type = type;
 
 	installEventFilter(this);
-
 }
 
 SQLDelegate::~SQLDelegate()
 {
-
 }
-
 
 void SQLDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
@@ -111,6 +105,12 @@ QWidget* SQLDelegate::createEditor(QWidget *aParent, const QStyleOptionViewItem 
 						nit->get()->GetData(4, &h);
 						strText += QString(" (%1,%2)").arg(QString::number(w)).arg(QString::number(h));
 					}
+					else if (m_type == SQLDelegate::TEXT_IMAGE)
+					{
+						wchar_t szDesc[256];
+						nit->get()->GetData(15, szDesc);
+						strText += QString(" (%1)").arg(QString::fromStdWString(szDesc));
+					}
 					break;
 				case TYPE_DOUBLE:
 					nit->get()->GetData(m_nDesCol,&dValue);
@@ -145,6 +145,7 @@ void SQLDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 		}
 	}
 }
+
 void SQLDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
 	QComboBox *comboBox;

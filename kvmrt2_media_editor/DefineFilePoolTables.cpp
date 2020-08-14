@@ -37,7 +37,7 @@ DECLARE_STATIC_TYPESETTINGS(FontPool, 6) =
 };
 
 DECLARE_STATIC_VARIABLES(StationImagePool, true, STATION_IMAGE_POOL, -1, 14, 0)
-DECLARE_STATIC_TYPESETTINGS(StationImagePool, 15) =
+DECLARE_STATIC_TYPESETTINGS(StationImagePool, 16) =
 {
 	{ TYPE_INTEGER,		MAKE_T("TABLE_INDEX"),	0,	nullptr,true, false,false, MAKE_T("Table Index"),	100 },
 	{ TYPE_INTEGER,		MAKE_T("BITMAP_TYPE"),	0,	nullptr,false,false,false, MAKE_T("Bitmap Type"),	100 },
@@ -54,6 +54,7 @@ DECLARE_STATIC_TYPESETTINGS(StationImagePool, 15) =
 	{ TYPE_DATALENGTH,	MAKE_T("DATALENGTH"),	0,	nullptr,false,false,false, MAKE_T("Data Length"),	100 },
 	{ TYPE_DATA,		MAKE_T("DATAPOINTER"),	0,	nullptr,false,false,false, MAKE_T("Data Pointer"),	100 },
 	{ TYPE_INTEGER,		MAKE_T("TABLE_ORDER"),	0,	nullptr,false,true, false, MAKE_T("Order"),			100 },
+	{ TYPE_TEXT,		MAKE_T("DESCRIPTION"),	256,nullptr,false,false, false,MAKE_T("Description"),	100 },
 };
 
 DECLARE_STATIC_VARIABLES(BitmapImagePool, true, BITMAP_IMAGE_POOL, -1, 7, 0)
