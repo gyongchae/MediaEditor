@@ -83,6 +83,8 @@ void kvmrt2_media_editor::setHideItemsMainWindow(bool isRelease)
 		SET_HIDE_TABLE_COLUMN_RANGE(StationInformation, 5, 18);
 		SET_HIDE_TABLE_COLUMN(StationDistance, 0);
 		SET_HIDE_TABLE_COLUMN(StationDistance, 5);
+		SET_HIDE_TABLE_COLUMN(StationDistance, 6);
+		SET_HIDE_TABLE_COLUMN(StationDistance, 7);
 		SET_HIDE_TABLE_COLUMN(StopPtnHeader, 0);
 		SET_HIDE_TABLE_COLUMN(StopPtnHeader, 5);
 		SET_HIDE_TABLE_COLUMN(StopPtnRoutes, 0);

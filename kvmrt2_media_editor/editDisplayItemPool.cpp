@@ -268,7 +268,7 @@ void editDisplayItemPool::closeEvent(QCloseEvent * ev)
 		if(QMessageBox::Ok == result)
 			ev->accept();
 		else
-			ev->ignore();
+			ev->accept();
 	}
 }
 
