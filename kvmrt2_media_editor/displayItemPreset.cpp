@@ -14,8 +14,8 @@ displayItemPreset::displayItemPreset(int nRow, QWidget *parent)
 	auto *pDM = CDataManage::GetInstance();
 	auto *pMM = CMapManage::GetInstance();
 
-	ui.m_spWidth->setRange(200, 1920);
-	ui.m_spHeight->setRange(200, 1080);
+	ui.m_spWidth->setRange(80, 1920);
+	ui.m_spHeight->setRange(80, 1080);
 	ui.m_spDuration->setRange(1, 30);
 
 	QStringList typeList;
@@ -40,6 +40,10 @@ displayItemPreset::displayItemPreset(int nRow, QWidget *parent)
 
 	connect(ui.buttonBox, SIGNAL(accepted()), this, SLOT(acceptedChanges()));
 	connect(ui.buttonBox, SIGNAL(rejected()), this, SLOT(rejectedChanges()));
+
+	// spin box init value
+	ui.m_spWidth->setValue(200);
+	ui.m_spHeight->setValue(200);
 }
 
 displayItemPreset::~displayItemPreset()

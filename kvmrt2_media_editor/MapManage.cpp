@@ -131,9 +131,13 @@ MAPPARAM gDistanceType[] =
 
 MAPPARAM gDisplayPoolType[] =
 {
-	{ 0,L"No Startup" },
+	{ 0,L"Fragment" },
 	{ 1,L"DRMD Startup" },
 	{ 2,L"PID Startup" },
+	{ 3,L"Emergency"},
+	{ 4,L"Operation"},
+	{ 5,L"DRMD Pattern Test"},
+	{ 6,L"PID Pattern Test"}
 };
 
 MAPPARAM gAudioType[] =

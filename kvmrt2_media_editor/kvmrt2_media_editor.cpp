@@ -69,6 +69,7 @@ void kvmrt2_media_editor::setHideItemsMainWindow(bool isRelease)
 		ui.actionNew->setVisible(false);
 		ui.actionLoad->setVisible(false);
 		ui.actionSetting->setVisible(false);
+		ui.actionLedPool->setVisible(false);
 
 		auto *pDM = CDataManage::GetInstance();
 		auto *pTM = CTableManage::GetInstance();
@@ -386,6 +387,8 @@ void kvmrt2_media_editor::onShowDisplayListPool()
 
 void kvmrt2_media_editor::onShowFileUpload()
 {
+	QProcess *process = new QProcess(this);
+	process->start(QString("C:/PapisProgram/FileUpload/UploadWizard2.exe"));
 }
 
 void kvmrt2_media_editor::onBtnRefreshDistanceTable()
@@ -668,6 +671,40 @@ void kvmrt2_media_editor::onAutoFillRouteDestination(const QModelIndex & topLeft
 		}
 
 		GET_TABLE(StopPtnRoutes)->selectRow(0);
+	}
+}
+
+void kvmrt2_media_editor::onAutoFillDisplayItem(const QModelIndex & topLeft, const QModelIndex & bottomRight)
+{
+	// Display List에 0번째 아이템의 Index 값으로 전체 list에 할당
+	qDebug() << "display data changed" << topLeft << bottomRight;
+	auto *pTM = CTableManage::GetInstance();
+	auto *pDM = CDataManage::GetInstance();
+	int totalRows = GET_TABLE(PIDIndexList)->model()->rowCount();
+
+	int row = topLeft.row();
+	int col = topLeft.column();
+
+	if (row != 0) return;
+
+	if (col == 3) // Display Item Index column
+	{
+		if (totalRows > 1)
+		{
+			int targetIdx = GET_TABLE(PIDIndexList)->model()->data(topLeft).toInt();
+			qDebug() << "display item index changed" << targetIdx;
+
+			// 전체 row 순차적으로 첫 번째 destination index와 동일한 값으로 변경
+			for (int r = 1; r < totalRows; ++r)
+			{
+				GET_TABLE(PIDIndexList)->selectRow(r);
+				QModelIndex currIdx = GET_TABLE(PIDIndexList)->currentIndex();
+				qDebug() << r << currIdx;
+				GET_TABLE_MODEL(pDM, PIDIndexList)->setData(currIdx.sibling(r, col), targetIdx, Qt::EditRole);
+			}
+		}
+
+		GET_TABLE(PIDIndexList)->selectRow(0);
 	}
 }
 
@@ -1123,6 +1160,9 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, PIDIndexList)
 	SET_SELECTION_CHANGED_FOR_TABLE(pDM, PIDIndexList, selectionChangedPIDIndexList(int, int));
 
 	GET_TABLE(PIDIndexList)->setItemDelegateForColumn(3, new SQLDelegate(this, &pTM->VECTOR_CLASS(DisplayItemPool), 0, 1, TYPE_TEXT));
+
+	connect(GET_TABLE(PIDIndexList)->model(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),
+		this, SLOT(onAutoFillDisplayItem(const QModelIndex &, const QModelIndex &)));
 
 	QHeaderView *header = GET_TABLE(PIDIndexList)->horizontalHeader();
 	header->resizeSections(QHeaderView::ResizeToContents);

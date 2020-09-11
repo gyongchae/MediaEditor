@@ -60,9 +60,9 @@ public:
     QVBoxLayout *verticalLayout_3;
     QGroupBox *m_grpEditMode;
     QGridLayout *gridLayout;
-    QRadioButton *m_ctlDisplayItem;
     QRadioButton *m_ctlTile;
     QRadioButton *m_ctlArrow;
+    QRadioButton *m_ctlDisplayItem;
     QRadioButton *m_ctlNode;
     QRadioButton *m_ctlImageList;
     QGroupBox *groupBox_2;
@@ -244,11 +244,6 @@ public:
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        m_ctlDisplayItem = new QRadioButton(m_grpEditMode);
-        m_ctlDisplayItem->setObjectName(QStringLiteral("m_ctlDisplayItem"));
-
-        gridLayout->addWidget(m_ctlDisplayItem, 4, 0, 1, 1);
-
         m_ctlTile = new QRadioButton(m_grpEditMode);
         m_ctlTile->setObjectName(QStringLiteral("m_ctlTile"));
 
@@ -258,6 +253,11 @@ public:
         m_ctlArrow->setObjectName(QStringLiteral("m_ctlArrow"));
 
         gridLayout->addWidget(m_ctlArrow, 2, 0, 1, 1);
+
+        m_ctlDisplayItem = new QRadioButton(m_grpEditMode);
+        m_ctlDisplayItem->setObjectName(QStringLiteral("m_ctlDisplayItem"));
+
+        gridLayout->addWidget(m_ctlDisplayItem, 4, 0, 1, 1);
 
         m_ctlNode = new QRadioButton(m_grpEditMode);
         m_ctlNode->setObjectName(QStringLiteral("m_ctlNode"));
@@ -658,11 +658,11 @@ public:
         label_16->setText(QApplication::translate("QLineMapEdit", "Width", Q_NULLPTR));
         label_17->setText(QApplication::translate("QLineMapEdit", "Height", Q_NULLPTR));
         m_grpEditMode->setTitle(QApplication::translate("QLineMapEdit", "Edit Mode", Q_NULLPTR));
-        m_ctlDisplayItem->setText(QApplication::translate("QLineMapEdit", "Display Pool", Q_NULLPTR));
         m_ctlTile->setText(QApplication::translate("QLineMapEdit", "Tile (Line)", Q_NULLPTR));
-        m_ctlArrow->setText(QApplication::translate("QLineMapEdit", "Arrow", Q_NULLPTR));
+        m_ctlArrow->setText(QApplication::translate("QLineMapEdit", "Arrow (No Use)", Q_NULLPTR));
+        m_ctlDisplayItem->setText(QApplication::translate("QLineMapEdit", "Display Pool", Q_NULLPTR));
         m_ctlNode->setText(QApplication::translate("QLineMapEdit", "Node (Station Name / Icon)", Q_NULLPTR));
-        m_ctlImageList->setText(QApplication::translate("QLineMapEdit", "Image List", Q_NULLPTR));
+        m_ctlImageList->setText(QApplication::translate("QLineMapEdit", "Image List (No Use)", Q_NULLPTR));
         groupBox_2->setTitle(QApplication::translate("QLineMapEdit", "Colour", Q_NULLPTR));
         label->setText(QApplication::translate("QLineMapEdit", "Background", Q_NULLPTR));
         m_ctlBackgroundColor->setText(QApplication::translate("QLineMapEdit", "Change Colour", Q_NULLPTR));
