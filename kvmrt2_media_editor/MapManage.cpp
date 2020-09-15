@@ -80,20 +80,6 @@ MAPPARAM gMappingVariables[] =
 	{ 3, L"Final station code" },		// use
 	{ 4, L"Door opening side" },			// use
 	{ 5, L"Evacuation Direction" },			// use
-	//{ 0, L"" },
-	//{ 1, L"Next station code" },			// use
-	//{ 2, L"Current station code" },			// use
-	//{ 3, L"Destination station code" },		// use
-	//{ 4, L"Destination code" },				// no use
-	//{ 5, L"Car number" },					// no use
-	//{ 6, L"Door opening side" },			// use
-	//{ 7, L"This/Next stop flag" },			// no use
-	//{ 8, L"Distance between station" },		// no use
-	//{ 9, L"Door state" },					// no use
-	//{ 10,L"Current speed" },				// no use
-	//{ 11,L"Door isolation information" },	// no use
-	//{ 12,L"Door fault information" },		// no use
-	//{ 13,L"Door Orientation Information" },	// use
 };
 
 
