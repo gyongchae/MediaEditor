@@ -370,44 +370,11 @@ struct findStationNameCode : public std::unary_function<SHARED_PTRC(CSQLData), b
 	bool operator ()(SHARED_PTRC(CSQLData) &p)
 	{
 		StationInformation *c = dynamic_cast<StationInformation*>(p.get());
-		qDebug() << Q_FUNC_INFO << c->nStationCode;
 		return (c->nStationCode == m_nCode);
 		//return (p->nStationCode == m_nIndex);
 	}
 private:
 	int m_nCode;
-};
-
-struct findDistanceIndexByDeparture : public std::unary_function<SHARED_PTRC(CSQLData), bool>
-{
-	findDistanceIndexByDeparture(int nIndex)
-		:m_nIndex(nIndex)
-	{
-
-	}
-	bool operator ()(SHARED_PTRC(CSQLData) &p)
-	{
-		auto *c = dynamic_cast<StationDistance*>(p.get());
-		return (c->nDepartStn == m_nIndex);
-	}
-private:
-	int m_nIndex;
-};
-
-struct findDistanceIndexByArrival : public std::unary_function<SHARED_PTRC(CSQLData), bool>
-{
-	findDistanceIndexByArrival(int nIndex)
-		:m_nIndex(nIndex)
-	{
-
-	}
-	bool operator ()(SHARED_PTRC(CSQLData) &p)
-	{
-		auto *c = dynamic_cast<StationDistance*>(p.get());
-		return (c->nArrivalStn == m_nIndex);
-	}
-private:
-	int m_nIndex;
 };
 
 struct findDistanceDepartureCode : public std::unary_function<SHARED_PTRC(CSQLData), bool>
@@ -426,3 +393,20 @@ private:
 	int m_nDepCode;
 	int m_nArrCode;
 };
+
+struct findTagNameByTagIndex : public std::unary_function<SHARED_PTRC(CSQLData), bool>
+{
+	findTagNameByTagIndex(int idx) : m_idx(idx)
+	{
+
+	}
+	bool operator()(SHARED_PTRC(CSQLData) &p)
+	{
+		auto *c = dynamic_cast<EditorTagTable*>(p.get());
+		return(c->m_nTableIndex == m_idx);
+	}
+private:
+	int m_idx;
+};
+
+

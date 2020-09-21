@@ -65,7 +65,6 @@ QLineMapPreview::~QLineMapPreview()
 void QLineMapPreview::setCurProgress(int nProg)
 {
 	m_nProgress = nProg;
-	qDebug() << m_nProgress;
 	m_canvas->update();
 }
 

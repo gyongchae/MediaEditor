@@ -21,7 +21,6 @@ QTextAligner::~QTextAligner(void)
 
 void QTextAligner::OnInit()
 {
-	qDebug() << Q_FUNC_INFO;
 }
 
 void QTextAligner::OnUpdate()
@@ -82,7 +81,6 @@ void QTextAligner::OnUpdate()
 
 void QTextAligner::OnResize(int x, int y)
 {
-	qDebug() << Q_FUNC_INFO << "sfmlview resize" << x << "," << y;
 	setSize(sf::Vector2u(x, y));
 	setView(sf::View(sf::FloatRect(0.f, 0.f, (float)x, (float)y)));
 }
@@ -108,8 +106,6 @@ void QTextAligner::mouseMoveEvent(QMouseEvent * event)
 				nInitPosY = event->pos().y();
 			}
 		}
-
-		qDebug() << Q_FUNC_INFO << nX << nY;
 		update();
 	}
 }
@@ -135,14 +131,12 @@ void QTextAligner::mousePressEvent(QMouseEvent * event)
 
 		nInitPosX = nX;
 		nInitPosY = nY;
-		qDebug() << Q_FUNC_INFO << nX << nY;
 	}
 }
 void QTextAligner::mouseReleaseEvent(QMouseEvent * event)
 {
 	if (m_previewtype == IMAGELIST)
 	{
-		qDebug() << Q_FUNC_INFO;
 		m_bSelected = false;
 		nIndexed = -1;
 	}
@@ -150,7 +144,6 @@ void QTextAligner::mouseReleaseEvent(QMouseEvent * event)
 
 void QTextAligner::clearAllSprite()
 {
-	qDebug() << Q_FUNC_INFO << "clear map" << m_mTexSprite.size();
 	m_mTexSprite.clear();
 }
 
@@ -165,8 +158,6 @@ void QTextAligner::setTexSprite(int nIndex, int nWidth, int nHeight, int nXPos, 
 
 	pTemp.get()->sp.setTexture(pTemp.get()->tx, true);
 	pTemp.get()->sp.move((float)nXPos, (float)nYPos);
-
-	qDebug() << m_mTexSprite.size() << Q_FUNC_INFO << nIndex << nWidth << nHeight << nXPos << nYPos;
 
 	m_mTexSprite[nIndex] = pTemp;
 }

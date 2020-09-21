@@ -134,7 +134,6 @@ void QGLESLineMapCanvas::resizeGL(int w, int h)
 {
 	m_nHeight = h;
 	m_nWidth = w;
-	qDebug() << "resizeGL W: " << w << "H: " << h;
 }
 
 void QGLESLineMapCanvas::paintGL()

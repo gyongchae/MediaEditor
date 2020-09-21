@@ -613,7 +613,6 @@ std::shared_ptr<unsigned char> CTileMapSupport::GetBitmapBuffer(wchar_t *pszFile
 	UINT *pSrc32=(UINT*)bitmapData->Scan0;
 	for(int i=rctClip.GetTop();i<rctClip.GetBottom();i++)
 	{
-		qDebug() << "rect" << rctClip.GetTop() << bitmapData->Stride << rctClip.GetLeft() << rctClip.GetRight();
 		UINT *pSrcTmp32=pSrc32+((i-rctClip.GetTop())*(bitmapData->Stride/4));
 		UINT *pDstTmp32=pDst32+(i*pBitmap->GetWidth())+(UINT)rctClip.GetLeft();
 		UINT *pSrcTmp32Pixel=pSrcTmp32;

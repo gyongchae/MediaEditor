@@ -154,7 +154,6 @@ bool editDisplayItemPool::eventFilter(QObject *object, QEvent *event)
 	if (event->type() == QEvent::KeyPress)
 	{
 		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-		qDebug() << Q_FUNC_INFO << keyEvent->key();
 		if (keyEvent->key() == Qt::Key_Delete)
 		{
 			if (object == GET_TABLE(DisplayItemPool))
@@ -189,7 +188,6 @@ bool editDisplayItemPool::eventFilter(QObject *object, QEvent *event)
 
 void editDisplayItemPool::closeEvent(QCloseEvent * ev)
 {
-	qDebug() << Q_FUNC_INFO << ev->type();
 	auto *pMM = CMapManage::GetInstance();
 
 	/**************************************************************************************************************************************************************
@@ -221,8 +219,6 @@ void editDisplayItemPool::closeEvent(QCloseEvent * ev)
 			nPidStartupIndex = i.first;
 		}
 	}
-
-	qDebug() << Q_FUNC_INFO << "result2:" << nDrmStartupIndex << nPidStartupIndex;
 
 	int nDrmStartupCount = 0;
 	int nPidStartupCount = 0;

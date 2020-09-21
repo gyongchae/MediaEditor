@@ -26,7 +26,6 @@ class CTexPool
 public:
 	CTexPool( GLfloat fLeft, GLfloat fTop, GLfloat fRight, GLfloat fBottom)
 	{
-		qDebug() << "L, T, R, B:" << fLeft << fTop << fRight << fBottom;
 		m_nPrevOrigin = 0;
 		m_fRect[0] = fLeft;
 		m_fRect[1] = fTop;

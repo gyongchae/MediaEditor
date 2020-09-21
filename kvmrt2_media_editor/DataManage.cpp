@@ -302,7 +302,6 @@ bool CDataManage::sqlite3SetText(sqlite3_stmt *state, int nRow, TYC *lpStr, int 
 void CDataManage::setCurrPath(QString & currPath)
 {
 	m_currPath = currPath;
-	qDebug() << Q_FUNC_INFO << m_currPath;
 	// main window
 	m_iconMain = QIcon(m_currPath + "/Res/Free/Rick.ico");
 	m_iconQt = QIcon(m_currPath + "/Res/Qt.ico");;

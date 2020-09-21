@@ -10,8 +10,9 @@
 #include <QHBoxLayout>
 #include <QScrollArea>
 #include "MapManage.h"
+#include "DefineMode.h"
 
-QPIDEditor::QPIDEditor(int nRow,int nWidth, int nHeight, int nDuration,QWidget *parent)
+QPIDEditor::QPIDEditor(int nRow, int nWidth, int nHeight, int nDuration, QWidget *parent)
 	: QDialog(parent)
 	, m_canvas(0)
 	, m_ScreenSize(nWidth, nHeight)
@@ -29,14 +30,14 @@ QPIDEditor::QPIDEditor(int nRow,int nWidth, int nHeight, int nDuration,QWidget *
 	// childVector[0]: displayItem
 	// childVector[1]: displayMetaItem
 	pDM->GET_MODEL_CLASS(DisplayItem)->setVectors(
-		&pTM->VECTOR_CLASS(DisplayItemPool)[nRow]->m_vChildItem[0].vSQLData, 
-		&pTM->VECTOR_CLASS(DisplayItemPool)[nRow]->m_vChildItem[0].vSQLDataDelItems, 
-		 pTM->VECTOR_CLASS(DisplayItemPool)[nRow].get()->GetIndex());
-	
+		&pTM->VECTOR_CLASS(DisplayItemPool)[nRow]->m_vChildItem[0].vSQLData,
+		&pTM->VECTOR_CLASS(DisplayItemPool)[nRow]->m_vChildItem[0].vSQLDataDelItems,
+		pTM->VECTOR_CLASS(DisplayItemPool)[nRow].get()->GetIndex());
+
 	pDM->GET_MODEL_CLASS(DisplayMetaItem)->setVectors(
-		&pTM->VECTOR_CLASS(DisplayItemPool)[nRow]->m_vChildItem[1].vSQLData, 
-		&pTM->VECTOR_CLASS(DisplayItemPool)[nRow]->m_vChildItem[1].vSQLDataDelItems, 
-		 pTM->VECTOR_CLASS(DisplayItemPool)[nRow].get()->GetIndex());
+		&pTM->VECTOR_CLASS(DisplayItemPool)[nRow]->m_vChildItem[1].vSQLData,
+		&pTM->VECTOR_CLASS(DisplayItemPool)[nRow]->m_vChildItem[1].vSQLDataDelItems,
+		pTM->VECTOR_CLASS(DisplayItemPool)[nRow].get()->GetIndex());
 
 	m_canvas = new QGLESPIDCanvas(this);
 	m_timeEvent = new QTimeEvent(nDuration, this);
@@ -61,14 +62,14 @@ QPIDEditor::QPIDEditor(int nRow,int nWidth, int nHeight, int nDuration,QWidget *
 	scrollAreaTime = new QScrollArea;
 
 	m_loMain = new QGridLayout(this);
-	
+
 	auto *loSize = new QHBoxLayout;
 	auto *loProperty = new QGridLayout;
 	auto *loItemList = new QVBoxLayout;
 	auto *loRight = new QVBoxLayout;
 	auto *gbProperty = new QGroupBox("Property");
 	auto *gbImagePool = new QGroupBox("Image List Pool");
-	
+
 	scrollAreaView->setWidget(m_canvas);
 	scrollAreaTime->setWidget(m_timeEvent);
 
@@ -103,11 +104,11 @@ QPIDEditor::QPIDEditor(int nRow,int nWidth, int nHeight, int nDuration,QWidget *
 	loRight->addWidget(m_labelCoordXY);
 	loRight->addWidget(m_btnAccept);
 	loRight->setStretch(1, 10); // table view location (row)
-	
+
 	m_loMain->addWidget(scrollAreaView, 0, 0);
 	m_loMain->addWidget(scrollAreaTime, 1, 0);
 	m_loMain->addLayout(loRight, 0, 1, 2, 2);
-	
+
 	m_loMain->setRowStretch(0, 10);
 	m_loMain->setColumnStretch(0, 10);
 
@@ -115,9 +116,9 @@ QPIDEditor::QPIDEditor(int nRow,int nWidth, int nHeight, int nDuration,QWidget *
 	initWidgetMapper(nRow);
 
 	m_timeEvent->setTimeVector(&m_canvas->vKeyFrames);
-	
+
 	connect(m_btnAccept, SIGNAL(clicked()), this, SLOT(acceptedChanges()));
-	connect(m_timeEvent,SIGNAL(timeChanged(int)),m_canvas,SLOT(setCurrentTime(int)));
+	connect(m_timeEvent, SIGNAL(timeChanged(int)), m_canvas, SLOT(setCurrentTime(int)));
 	connect(m_canvas, SIGNAL(positionChanged(const QString&)), m_labelCoordXY, SLOT(setText(const QString&)));
 	connect(m_canvas, SIGNAL(selectionChanged()), m_timeEvent, SLOT(update()));
 }
@@ -128,7 +129,7 @@ QPIDEditor::~QPIDEditor()
 
 void QPIDEditor::resizeEvent(QResizeEvent *)
 {
-	if(m_canvas)
+	if (m_canvas)
 		m_canvas->setMinimumSize(m_ScreenSize);
 }
 
@@ -143,17 +144,18 @@ void QPIDEditor::initTableView()
 	m_tblItemList->setAcceptDrops(true);
 	m_tblItemList->setDropIndicatorShown(false);
 	m_tblItemList->setDragDropMode(QAbstractItemView::DragOnly);
-	
+
 	QHeaderView *header = m_tblItemList->horizontalHeader();
 	header->resizeSections(QHeaderView::ResizeToContents);
+	//if (OFFICIAL_RELEASE == true)
 	header->hideSection(0); // table index col
+
 	header->hideSection(1); // order col
 	header->hideSection(2); // duration col
 }
 
 void QPIDEditor::acceptedChanges()
 {
-	qDebug() << Q_FUNC_INFO;
 	m_pDataMapper->submit();
 	accept();
 }
@@ -172,7 +174,7 @@ void QPIDEditor::initWidgetMapper(int nRow)
 		m_pDataMapper->addMapping(m_editHeight, 3);
 		m_pDataMapper->addMapping(m_editDuration, 4);
 		m_pDataMapper->addMapping(m_comboDisplayType, 7, "currentIndex");
-		
+
 		m_pDataMapper->setCurrentIndex(nRow);
 	}
 }

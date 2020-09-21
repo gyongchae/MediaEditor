@@ -54,7 +54,6 @@ ContentsPool::ContentsPool(QWidget *parent)
 	{
 		m_audioDuration = dur;
 		ui.progBarAudio->setMaximum(m_audioDuration);
-		qDebug() << "duration:" << m_audioDuration;
 	});
 
 	// video player init
@@ -148,7 +147,6 @@ bool ContentsPool::eventFilter(QObject *object, QEvent *event)
 	if (event->type() == QEvent::KeyPress)
 	{
 		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-		qDebug() << Q_FUNC_INFO << keyEvent->key();
 		if (keyEvent->key() == Qt::Key_Delete)
 		{
 			if (object == GET_TABLE(AudioFilePool))
@@ -210,10 +208,7 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(ContentsPool, AudioFilePool)
 		[this](const QModelIndex &index)
 	{
 		auto *pDM = CDataManage::GetInstance();
-		qDebug() << Q_FUNC_INFO << index.sibling(index.row(), 3/*file name col*/).data().toString();
-		qDebug() << Q_FUNC_INFO << pDM->audioPath();
 		m_audioFilePath = pDM->audioPath() + "/" + index.sibling(index.row(), 3/*file name col*/).data().toString();
-		qDebug() << Q_FUNC_INFO << m_audioFilePath;
 		m_audioPlayer->setMedia(QUrl::fromLocalFile(m_audioFilePath));
 	});
 
@@ -241,10 +236,7 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(ContentsPool, VideoFilePool)
 		[this](const QModelIndex &index)
 	{
 		auto *pDM = CDataManage::GetInstance();
-		qDebug() <<  index.sibling(index.row(), 3/*file name col*/).data().toString();
-		qDebug() << pDM->videoPath();
 		m_videoFilePath = pDM->videoPath() + "/" + index.sibling(index.row(), 3/*file name col*/).data().toString();
-		qDebug() << m_videoFilePath;
 	});
 
 	return false;
@@ -316,7 +308,6 @@ void ContentsPool::deleteVideoFilePool()
 
 void ContentsPool::onAudioPlay()
 {
-	qDebug() << Q_FUNC_INFO << "before" << m_audioPlayer->state();
 	if (GET_TABLE(AudioFilePool)->currentIndex().isValid())
 	{
 		m_audioPlayer->play();
@@ -325,35 +316,28 @@ void ContentsPool::onAudioPlay()
 	{
 		QMessageBox::warning(this, "Select an audio file", "There is no audio file to play");
 	}
-	qDebug() << Q_FUNC_INFO << "after" << m_audioPlayer->state();
 }
 
 void ContentsPool::onAudioPause()
 {
-	qDebug() << Q_FUNC_INFO << "before" << m_audioPlayer->state();
 	m_audioPlayer->pause();
-	qDebug() << Q_FUNC_INFO << "after" << m_audioPlayer->state();
 
 }
 
 void ContentsPool::onAudioStop()
 {
-	qDebug() << Q_FUNC_INFO << "before" << m_audioPlayer->state();
 	m_audioPlayer->stop();
-	qDebug() << Q_FUNC_INFO << "after" << m_audioPlayer->state();
 
 }
 
 void ContentsPool::onAudioPosChanged(qint64 pos)
 {
-	//qDebug() << Q_FUNC_INFO << pos;
 	ui.progBarAudio->setValue(pos);
 }
 
 void ContentsPool::onAudioMediaChanged(const QMediaContent & media)
 {
 	// 재생할 audio file이 변경된 경우 호출
-	qDebug() << Q_FUNC_INFO << media.isNull();
 }
 
 void ContentsPool::onVideoPlay()

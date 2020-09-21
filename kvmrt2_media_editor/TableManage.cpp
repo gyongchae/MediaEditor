@@ -225,7 +225,6 @@ int CTableManage::BackupDb(
 				rc = sqlite3_backup_step(pBackup, 5);
 				nRemaining=sqlite3_backup_remaining(pBackup);
 				nPageCount=sqlite3_backup_pagecount(pBackup);
-				qDebug() << nRemaining << "/" << nPageCount;
 				if (xProgress)
 				{
 					xProgress(

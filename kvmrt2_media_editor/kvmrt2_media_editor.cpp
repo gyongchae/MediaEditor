@@ -212,7 +212,6 @@ bool kvmrt2_media_editor::eventFilter(QObject *object, QEvent *event)
 	if (event->type() == QEvent::KeyPress)
 	{
 		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-		qDebug() << Q_FUNC_INFO << keyEvent->key();
 
 		if (nit != m_mEventTable.end())
 		{
@@ -300,6 +299,13 @@ bool kvmrt2_media_editor::deleteRowFromTable(QTableView *pView, dataModel *pMode
 void kvmrt2_media_editor::onSaveDB()
 {
 	auto *pTM = CTableManage::GetInstance();
+	/*
+	Save 하기 전 DB의 버전 설정 화면을 띄운다.
+	1. 현재 버전 표시
+	2. 변경여부 묻기
+	3. 변경할 경우 버전 세팅하기
+	4. VideoVersion에 저장하기
+	*/
 	pTM->SaveModified();
 }
 
@@ -474,8 +480,6 @@ void kvmrt2_media_editor::onBtnRouteAutoAdd()
 
 	auto *pTM = CTableManage::GetInstance();
 	auto *pDM = CDataManage::GetInstance();
-	qDebug() << "route count:" << GET_TABLE_MODEL(pDM, StopPtnRoutes)->rowCount();
-	qDebug() << "header row:" << GET_TABLE(StopPtnHeader)->currentIndex().row();
 	int rowCount = GET_TABLE_MODEL(pDM, StopPtnRoutes)->rowCount();
 	int hdrRow = GET_TABLE(StopPtnHeader)->currentIndex().row();
 	if (hdrRow != -1/*unselected*/) // check stop pattern header validation
@@ -510,9 +514,6 @@ void kvmrt2_media_editor::onBtnRouteAutoAdd()
 		QModelIndex headerIdx = GET_TABLE(StopPtnHeader)->model()->index(hdrRow, 0);
 		startStnTableIdx = headerIdx.sibling(headerIdx.row(), 1/*start*/).data().toInt(&bOK_S);
 		finalStnTableIdx = headerIdx.sibling(headerIdx.row(), 2/*final*/).data().toInt(&bOK_F);
-
-		qDebug() << "start - final table index" << startStnTableIdx << finalStnTableIdx;
-
 
 		std::vector<std::shared_ptr<CSQLData>>::iterator itSt, itEn;
 
@@ -561,7 +562,6 @@ void kvmrt2_media_editor::onBtnRouteAutoAdd()
 					{
 						// distance index가 있을 경우 stop ptn routes에 등록
 						int distanceIdx = itDep->get()->m_nTableIndex;
-						qDebug() << "row and dist index:" << rowNum << distanceIdx;
 						GET_TABLE_MODEL(pDM, StopPtnRoutes)->setData(curIdx.sibling(rowNum, 3/*dist col*/), distanceIdx, Qt::EditRole);
 					}
 					rowNum++;
@@ -588,7 +588,6 @@ void kvmrt2_media_editor::onBtnRouteAutoAdd()
 					{
 						// distance index가 있을 경우 stop ptn routes에 등록
 						int distanceIdx = itDep->get()->m_nTableIndex;
-						qDebug() << "row and dist index:" << rowNum << distanceIdx;
 						GET_TABLE_MODEL(pDM, StopPtnRoutes)->setData(curIdx.sibling(rowNum, 3/*dist col*/), distanceIdx, Qt::EditRole);
 					}
 					rowNum++;
@@ -611,8 +610,6 @@ void kvmrt2_media_editor::onBtnDelRoutes()
 {
 	auto *pTM = CTableManage::GetInstance();
 	auto *pDM = CDataManage::GetInstance();
-	qDebug() << "route count:" << GET_TABLE_MODEL(pDM, StopPtnRoutes)->rowCount();
-	qDebug() << "header row:" << GET_TABLE(StopPtnHeader)->currentIndex().row();
 	int rowCount = GET_TABLE_MODEL(pDM, StopPtnRoutes)->rowCount();
 	int hdrRow = GET_TABLE(StopPtnHeader)->currentIndex().row();
 	if (hdrRow != -1/*unselected*/) // check stop pattern header validation
@@ -643,7 +640,6 @@ void kvmrt2_media_editor::onBtnDelRoutes()
 void kvmrt2_media_editor::onAutoFillRouteDestination(const QModelIndex & topLeft, const QModelIndex & bottomRight)
 {
 	// 0번째 destination 항목과 나머지 항목 동일하게 업데이트
-	qDebug() << "route data changed" << topLeft << bottomRight;
 	auto *pTM = CTableManage::GetInstance();
 	auto *pDM = CDataManage::GetInstance();
 	int totalRows = GET_TABLE(StopPtnRoutes)->model()->rowCount();
@@ -658,14 +654,12 @@ void kvmrt2_media_editor::onAutoFillRouteDestination(const QModelIndex & topLeft
 		if (totalRows > 1)
 		{
 			int targetIdx = GET_TABLE(StopPtnRoutes)->model()->data(topLeft).toInt();
-			qDebug() << "destination index changed" << targetIdx;
 			
 			// 전체 row 순차적으로 첫 번째 destination index와 동일한 값으로 변경
 			for (int r = 1; r < totalRows; ++r)
 			{
 				GET_TABLE(StopPtnRoutes)->selectRow(r);
 				QModelIndex currIdx = GET_TABLE(StopPtnRoutes)->currentIndex();
-				qDebug() << r << currIdx;
 				GET_TABLE_MODEL(pDM, StopPtnRoutes)->setData(currIdx.sibling(r, col), targetIdx, Qt::EditRole);
 			}
 		}
@@ -677,7 +671,6 @@ void kvmrt2_media_editor::onAutoFillRouteDestination(const QModelIndex & topLeft
 void kvmrt2_media_editor::onAutoFillDisplayItem(const QModelIndex & topLeft, const QModelIndex & bottomRight)
 {
 	// Display List에 0번째 아이템의 Index 값으로 전체 list에 할당
-	qDebug() << "display data changed" << topLeft << bottomRight;
 	auto *pTM = CTableManage::GetInstance();
 	auto *pDM = CDataManage::GetInstance();
 	int totalRows = GET_TABLE(PIDIndexList)->model()->rowCount();
@@ -692,14 +685,12 @@ void kvmrt2_media_editor::onAutoFillDisplayItem(const QModelIndex & topLeft, con
 		if (totalRows > 1)
 		{
 			int targetIdx = GET_TABLE(PIDIndexList)->model()->data(topLeft).toInt();
-			qDebug() << "display item index changed" << targetIdx;
 
 			// 전체 row 순차적으로 첫 번째 destination index와 동일한 값으로 변경
 			for (int r = 1; r < totalRows; ++r)
 			{
 				GET_TABLE(PIDIndexList)->selectRow(r);
 				QModelIndex currIdx = GET_TABLE(PIDIndexList)->currentIndex();
-				qDebug() << r << currIdx;
 				GET_TABLE_MODEL(pDM, PIDIndexList)->setData(currIdx.sibling(r, col), targetIdx, Qt::EditRole);
 			}
 		}
@@ -743,8 +734,6 @@ void kvmrt2_media_editor::updateStopPtnRoutes(const QModelIndex & current, const
 {
 	QModelIndex index = GET_TABLE(StopPtnHeader)->currentIndex();
 
-	qDebug() << index.row() << index.column();
-
 	auto *pDM = CDataManage::GetInstance();
 	auto *pTM = CTableManage::GetInstance();
 	if (index.isValid())
@@ -768,8 +757,6 @@ void kvmrt2_media_editor::updateStopPtnRoutes(const QModelIndex & current, const
 
 void kvmrt2_media_editor::updateEventLists(const QModelIndex & current, const QModelIndex & previous)
 {
-	qDebug() << "update event list func called" << current << previous;
-
 	auto *pDM = CDataManage::GetInstance();
 	auto *pTM = CTableManage::GetInstance();
 	QModelIndex index = GET_TABLE(StopPtnHeader)->currentIndex();
@@ -836,7 +823,6 @@ void kvmrt2_media_editor::updateStationDistance(const QModelIndex & topLeft, con
 {
 	// 자동입력 로직 추가하면 update 제대로 안 됨
 
-	qDebug() << Q_FUNC_INFO << topLeft.row() << topLeft.column() << bottomRight.row() << bottomRight.column();
 	bool bOKDep;
 	bool bOKArr;
 	bool bOKDistance;
@@ -861,7 +847,6 @@ void kvmrt2_media_editor::updateStationDistance(const QModelIndex & topLeft, con
 			nDepStn = topLeft.data().toInt(&bOKDep);
 			//nArrStn = topLeft.sibling(topLeft.row(), 2/*arrival col*/).data().toInt(&bOKArr);
 			//nDistance = topLeft.sibling(topLeft.row(), 3/*distance col*/).data().toInt(&bOKDistance);
-			qDebug() << "Case1: " << nDepStn << nArrStn << nDistance;
 
 			std::vector<std::shared_ptr<CSQLData>>::iterator it_dep;
 			it_dep = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findSQLData(nDepStn));
@@ -887,8 +872,6 @@ void kvmrt2_media_editor::updateStationDistance(const QModelIndex & topLeft, con
 					// get target's table index
 					int arrTableIndex = it_arr->get()->m_nTableIndex;
 
-					qDebug() << "in order" << arrTableIndex << depCode << arrCode;
-
 					GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 2/*arrival col*/), arrTableIndex, Qt::EditRole);
 					GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 7/*arr code*/), arrCode, Qt::EditRole);
 				}
@@ -906,8 +889,6 @@ void kvmrt2_media_editor::updateStationDistance(const QModelIndex & topLeft, con
 					// get target's table index
 					int arrTableIndex = it_arr->get()->m_nTableIndex;
 
-					qDebug() << "in order" << arrTableIndex << depCode << arrCode;
-
 					GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 2/*arrival col*/), arrTableIndex, Qt::EditRole);
 					GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 7/*arr code*/), arrCode, Qt::EditRole);
 				}
@@ -920,7 +901,6 @@ void kvmrt2_media_editor::updateStationDistance(const QModelIndex & topLeft, con
 		case 2: // arrival
 		{
 			nArrStn = topLeft.data().toInt(&bOKArr);
-			qDebug() << "Case2: " << nDepStn << nArrStn << nDistance;
 
 			std::vector<std::shared_ptr<CSQLData>>::iterator it_arr;
 			it_arr = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findSQLData(nArrStn));
@@ -936,16 +916,12 @@ void kvmrt2_media_editor::updateStationDistance(const QModelIndex & topLeft, con
 		break;
 		case 3: // distnace
 			nDistance = topLeft.data().toInt(&bOKDistance);
-			qDebug() << "Case3: " << nDepStn << nArrStn << nDistance;
 			break;
 		case 4:
-			qDebug() << "Case4(DESC)";
 			break;
 		case 5:
-			qDebug() << "Case5(Dep Code)";
 			break;
 		case 6:
-			qDebug() << "Case6(Arr Code)";
 			break;
 		default:
 			break;

@@ -100,9 +100,7 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(X_PARENT_EDITOR_CLASS, ImageIndex)
 
 void imageListPool::updateImageIndexList(const QModelIndex & current, const QModelIndex & previous)
 {
-	qDebug() << Q_FUNC_INFO << "curr" << current.row() << current.column();
 	QModelIndex index = GET_TABLE(ImageIndexList)->currentIndex();
-	qDebug() << Q_FUNC_INFO << "index" << index.row() << index.column();
 	auto *pDM = CDataManage::GetInstance();
 	auto *pTM = CTableManage::GetInstance();
 	if (index.isValid())
@@ -118,8 +116,6 @@ void imageListPool::updateImageIndexList(const QModelIndex & current, const QMod
 
 			std::vector<std::shared_ptr<CSQLData>>::iterator tit;
 			std::vector<std::shared_ptr<CSQLData>>::iterator tnit;
-
-			qDebug() << Q_FUNC_INFO << "size:" << pTM->VECTOR_CLASS(ImageIndexList)[nRow]->m_vChildItem[0].vSQLData.size();
 
 			for (tit = pTM->VECTOR_CLASS(ImageIndexList)[nRow]->m_vChildItem[0].vSQLData.begin();
 				tit != pTM->VECTOR_CLASS(ImageIndexList)[nRow]->m_vChildItem[0].vSQLData.end();
@@ -224,7 +220,6 @@ bool imageListPool::eventFilter(QObject *object, QEvent *event)
 	if (event->type() == QEvent::KeyPress)
 	{
 		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-		qDebug() << Q_FUNC_INFO << keyEvent->key();
 		if (nit != m_mEventTable.end())
 		{
 			if (object == nit.key())

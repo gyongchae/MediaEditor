@@ -48,6 +48,9 @@ public:
 	void setSelectedItemVectors(void *pItem, int nType);
 	QVector<int> vKeyFrames;
 
+	// new func for displaying meta item image at initial time
+	int getInitMetaItemIndex(const int& tagIdx);
+
 //////////////////////////////// QOpenGLWidget override func ///////////////////////////////
 protected:
 	void initializeGL() Q_DECL_OVERRIDE;

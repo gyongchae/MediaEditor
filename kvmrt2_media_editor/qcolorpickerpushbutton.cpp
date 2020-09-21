@@ -23,7 +23,6 @@ unsigned int QColorPickerPushButton::colorValue() const
 void QColorPickerPushButton::setColorValue(unsigned int uValue)
 {
 	// button text & font color changed, jkc
-	qDebug() << Q_FUNC_INFO;
 	m_uColorValue = uValue;
 
 	int r = (m_uColorValue) & 0x000000ff;
@@ -79,7 +78,6 @@ void QColorPickerPushButton::setColorValue(unsigned int uValue)
 
 void QColorPickerPushButton::clickedToAcceptChangedColor()
 {
-	qDebug() << Q_FUNC_INFO;
 	 QColor color;
 	 unsigned int uValue;
 	 QColor colorVal=QColor((m_uColorValue)&0x000000ff,(m_uColorValue>>8)&0x000000ff,(m_uColorValue>>16)&0x000000ff,(m_uColorValue>>24)&0x000000ff);

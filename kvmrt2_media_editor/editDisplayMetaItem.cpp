@@ -70,7 +70,9 @@ void editDisplayMetaItem::setComboBox()
 		{
 			QString strTitle = ui.m_cboImageListIndex->itemText(nTh);
 			int nLen = strTitle.length();
-			if (nLen&&strTitle.at(0) == '['&&strTitle.at(nLen - 1) == ']'&&strTitle.contains(strDetailedTag))
+			if (nLen && 
+				strTitle.at(0) == '['&&strTitle.at(nLen - 1) == ']' &&
+				strTitle.contains(strDetailedTag))
 				nTh++;
 			else
 			{
@@ -92,6 +94,7 @@ void editDisplayMetaItem::initWidgets()
 
 	ui.m_cboEditorTag->Initialize(&pTM->VECTOR_CLASS(EditorTagTable), 0, 1, TYPE_TEXT);
 	ui.m_cboImageListIndex->Initialize(&pTM->VECTOR_CLASS(ImageIndexList), 0, 3, TYPE_TEXT);
+
 	for (auto nit = pMM->m_mVerticalAlign.begin(); nit != pMM->m_mVerticalAlign.end(); nit++)
 	{
 		ui.m_cboVA->addItem(QString::fromStdWString(nit->second.c_str()), nit->first);

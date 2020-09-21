@@ -87,11 +87,6 @@ void RegistrySettings::loadFontFileSavePath()
 void RegistrySettings::acceptedChanges()
 {
 	auto *pDM = CDataManage::GetInstance();
-	qDebug() << Q_FUNC_INFO << "file path"
-		<< "\n db" << ui.m_leDBPath->text()
-		<< "\n au" << ui.m_leAudioFileSavePath->text()
-		<< "\n vi" << ui.m_leVideoFileSavePath->text()
-		<< "\n fo" << ui.m_leFontFileSavePath->text();
 
 	wcscpy(pDM->m_tPathSettings.DATABASE_FILE_PATH,QDir::toNativeSeparators(ui.m_leDBPath->text()).toStdWString().c_str());
 	wcscpy(pDM->m_tPathSettings.AUDIO_FILE_SAVE_PATH,QDir::toNativeSeparators(ui.m_leAudioFileSavePath->text()).toStdWString().c_str());

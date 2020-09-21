@@ -9,6 +9,7 @@
 #include "displayItemPropEdit.h"
 #include "editDisplayMetaItem.h"
 #include "TexPool.h"
+#include "tableViewHelper.h"
 #include <QAction>
 #include <QMenu>
 #include <qdebug.h>
@@ -18,7 +19,6 @@ QGLESPIDCanvas::QGLESPIDCanvas(QWidget *parent)
 	m_bMoving(false), m_pActDelItem(0), m_pActEditProp(0), m_pActDelProp(0), m_nLatestSelected(0), m_nLatestSelectedType(0),
 	m_pMetaItemMenu(0),m_pMenu(0), m_bMousePressed(false), m_bMouseMovedWhilePressed(false)
 {
-	qDebug() << Q_FUNC_INFO;
 	setAcceptDrops(true);
 	initActions();
 	setMouseTracking(true);
@@ -31,7 +31,6 @@ QGLESPIDCanvas::~QGLESPIDCanvas()
 
 void QGLESPIDCanvas::initializeGL()
 {
-	qDebug() << Q_FUNC_INFO;
 	//m_bMoving = true;
 	initializeOpenGLFunctions();
 	glClearColor(0, 0, 0, 1);
@@ -68,22 +67,19 @@ void QGLESPIDCanvas::initShaders()
 
 	if (!program.addShaderFromSourceCode(QOpenGLShader::Vertex, vShaderStr))
 	{
-		qDebug() << Q_FUNC_INFO << "vertex error";
-		//close();
+		close();
 	}
 
 	// Compile fragment shader
 	if (!program.addShaderFromSourceCode(QOpenGLShader::Fragment, fShaderStr))
 	{
-		qDebug() << Q_FUNC_INFO << "frag error!";
-		//close();
+		close();
 	}
 
 	// Link shader pipeline
 	if (!program.link())
 	{
-		qDebug() << Q_FUNC_INFO << "link error!";
-		//close();
+		close();
 	}
 
 	m_uPosScrLoc = program.attributeLocation("a_position");
@@ -116,22 +112,19 @@ void QGLESPIDCanvas::initShadersForLine()
 
 	if (!lineProgram.addShaderFromSourceCode(QOpenGLShader::Vertex, vShaderStr))
 	{
-		qDebug() << Q_FUNC_INFO << "vertex error";
-		//close();
+		close();
 	}
 
 	// Compile fragment shader
 	if (!lineProgram.addShaderFromSourceCode(QOpenGLShader::Fragment, fShaderStr))
 	{
-		qDebug() << Q_FUNC_INFO << "frag error";
-		//close();
+		close();
 	}
 
 	// Link shader pipeline
 	if (!lineProgram.link())
 	{
-		qDebug() << Q_FUNC_INFO << "link error";
-		//close();
+		close();
 	}
 
 	m_uPosLineLoc = lineProgram.attributeLocation("a_position");
@@ -150,19 +143,6 @@ void QGLESPIDCanvas::initDisplayItem()
 		auto it = m_mImageList.find(pItem->nRelatedItemListIndex);
 		if (it != m_mImageList.end())
 		{
-			qDebug() << "pItem->nRelatedItemListIndex;" << pItem->nRelatedItemListIndex;
-			qDebug() << "pItem->nInitPosX;" << pItem->nInitPosX;
-			qDebug() << "pItem->nInitPosY;" << pItem->nInitPosY;
-			qDebug() << "pItem->nAppearFrom;" << pItem->nAppearFrom;
-			qDebug() << "pItem->nAppearTo;" << pItem->nAppearTo;
-			qDebug() << "pItem->nParentIndex;" << pItem->nParentIndex;
-			qDebug() << "pItem->nZOrder;" << pItem->nZOrder;
-			qDebug() << "pItem->nOrigin;" << pItem->nOrigin;
-			qDebug() << "pItem->nPrevOrigin;" << pItem->nPrevOrigin;
-			qDebug() << "pItem->uBackColor;"<< pItem->uBackColor;
-			qDebug() << "fOrigX;" << pItem->fOrigX;
-			qDebug() << "fOrigY;" << pItem->fOrigY;
-
 			GLfloat fOrigX, fOrigY;
 			pItem->SetOrigin(pItem->nOrigin);
 			it->second->SetOrigin(pItem->nOrigin, true);
@@ -183,6 +163,14 @@ void QGLESPIDCanvas::initMetaDisplayItem()
 	for (auto it : (*pVEC))
 	{
 		DisplayMetaItem *pItem = (DisplayMetaItem*)it.get();
+		qInfo()
+			<< "relatedIdx:" << pItem->nRelatedIndex
+			<< "TagIdx:" << pItem->nTagIndex;
+
+		// 초기화 때 tagIndex가지고 pItem->nRelatedIndex에 제대로된 값 적용하기
+		
+		pItem->nRelatedIndex = getInitMetaItemIndex(pItem->nTagIndex);
+
 		pItem->m_fRect[0] = 0;
 		pItem->m_fRect[1] = 0;
 		pItem->m_fRect[2] = (GLfloat)pItem->nWidth;
@@ -195,7 +183,6 @@ void QGLESPIDCanvas::initMetaDisplayItem()
 
 void QGLESPIDCanvas::paintGL()
 {
-	qDebug() << Q_FUNC_INFO;
 	//QMatrix4x4 matrix, tempMatrix;
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	// Set the viewport
@@ -440,6 +427,7 @@ void QGLESPIDCanvas::setMetaItemOrientation(DisplayMetaItem *pItem)
 		}
 	}
 }
+
 void QGLESPIDCanvas::selectMetaItemAction(QAction *action)
 {
 	auto *pDM = CDataManage::GetInstance();
@@ -872,12 +860,6 @@ void QGLESPIDCanvas::setCurrentTime(int nCurTime)
 	update();
 }
 
-
-
-
-
-
-
 void QGLESPIDCanvas::dropEvent(QDropEvent * e)
 {
 	auto *pDM = CDataManage::GetInstance();
@@ -1052,6 +1034,45 @@ void QGLESPIDCanvas::setSelectedItemVectors(void *pItem,int nType)
 	}
 	
 
+}
+
+int QGLESPIDCanvas::getInitMetaItemIndex(const int & tagIdx)
+{
+	int res = 153;
+	auto *pDM = CDataManage::GetInstance();
+	auto *pTM = CTableManage::GetInstance();
+	QString rawTagName;
+	// tagIdx와 동일한 table index 값을 가진 EditorTagTable의 row 값을 찾는다.
+	QModelIndexList matches = GET_TABLE_MODEL(pDM, EditorTagTable)->match(
+		GET_TABLE_MODEL(pDM, EditorTagTable)->index(0, 0), 
+		Qt::DisplayRole, tagIdx);
+
+	foreach(const QModelIndex &index, matches)
+	{
+		qDebug() << "EditorTagTable row:" << index.row();
+		qDebug() << "Tag Name:" << index.sibling(index.row(), 1/*tag table's desc column*/).data().toString();
+		rawTagName = index.sibling(index.row(), 1/*tag table's desc column*/).data().toString();
+	}
+
+	wchar_t firstTagName[256];
+	// ImageListPool Table에서 해당 TagName을 가진 아이템 중 code 101을 할당받은 아이템을 찾는다.
+	QString strDetailTag = QString("[%1:101]").arg(rawTagName);
+	wcscpy(firstTagName, strDetailTag.toStdWString().c_str());
+
+	std::vector<std::shared_ptr<CSQLData>>::iterator it;
+
+	it = find_if(pTM->m_vImageIndexList.begin(),
+		pTM->m_vImageIndexList.end(), findImageListItemByTagName(firstTagName));
+	if (it != pTM->m_vImageIndexList.end())
+	{
+		res = it->get()->m_nTableIndex;
+	}
+	else
+	{
+		res = -1;
+	}
+
+	return res;
 }
 
 
@@ -1329,7 +1350,6 @@ void QGLESPIDCanvas::timerEvent(QTimerEvent *e)
 
 void QGLESPIDCanvas::resizeGL(int w, int h)
 {
-	qDebug() << Q_FUNC_INFO;
 	m_nHeight = h;
 	m_nWidth = w;
 }
@@ -1364,9 +1384,6 @@ void QGLESPIDCanvas::initBaseData()
 	// text image, picture image file pool에 있는 데이터 check
 	auto bitmapCheck = [](unsigned char *pSoc, int nLeftSoc, int nTopSoc, int nRightSoc, int nBottomSoc, int nStrideSoc, int nBytesPerPixel)->bool
 	{
-		qDebug() << QString("bmpcheck left:%1 top:%2 right:%3 bot:%4 stride:%5 bpp:%6")
-			.arg(nLeftSoc).arg(nTopSoc).arg(nRightSoc).arg(nBottomSoc).arg(nStrideSoc).arg(nBytesPerPixel);
-
 		int nHeightSocCnt = nBottomSoc - nTopSoc;
 		int nWidthSocCnt = nRightSoc - nLeftSoc;
 		bool bEmpty = false;
@@ -1401,10 +1418,6 @@ void QGLESPIDCanvas::initBaseData()
 	auto bitmapCopy = [](unsigned char *pSoc, int nLeftSoc, int nTopSoc, int nRightSoc, int nBottomSoc, int nStrideSoc,
 		unsigned char *pDes, int nLeftDes, int nTopDes, int nWidthDes, int nHeightDes, int nStrideDes, int nBytesPerPixel)
 	{
-		qDebug() << QString("bmpcopy[soc]left:%1 top:%2 right:%3 bot:%4 stride:%5 bpp:%6")
-			.arg(nLeftSoc).arg(nTopSoc).arg(nRightSoc).arg(nBottomSoc).arg(nStrideSoc).arg(nBytesPerPixel);
-		qDebug() << QString("bmpcopy[des]left:%1 top:%2 width:%3 height:%4 stride:%5")
-			.arg(nLeftDes).arg(nTopDes).arg(nWidthDes).arg(nHeightDes).arg(nStrideDes);
 
 		int nHeightSocCnt = nBottomSoc - nTopSoc;
 		int nHeightDesCnt = nHeightDes - nTopDes;
@@ -1427,9 +1440,6 @@ void QGLESPIDCanvas::initBaseData()
 		bool bRet = true;
 		if (pFloatL&&pFloatR&&pFloatU)
 		{
-			qDebug() << "[before]L:" << pFloatL[0] << pFloatL[1] << pFloatL[2] << pFloatL[3];
-			qDebug() << "[before]R:" << pFloatR[0] << pFloatR[1] << pFloatR[2] << pFloatR[3];
-
 			if (pFloatL[0] == 0.0f&&pFloatL[1] == 0.0f&&pFloatL[2] == 0.0f&&pFloatL[3] == 0.0f)
 			{
 				memcpy(pFloatL, pFloatR, sizeof(GLfloat) * 4);
@@ -1444,9 +1454,6 @@ void QGLESPIDCanvas::initBaseData()
 			pFloatU[2] = std::max(pFloatL[2], pFloatR[2]);
 			pFloatU[3] = std::max(pFloatL[3], pFloatR[3]);
 
-			qDebug() << "[Result]L:" << pFloatL[0] << pFloatL[1] << pFloatL[2] << pFloatL[3];
-			qDebug() << "[Result]R:" << pFloatR[0] << pFloatR[1] << pFloatR[2] << pFloatR[3];
-			qDebug() << "[Result]U:" << pFloatU[0] << pFloatU[1] << pFloatU[2] << pFloatU[3];
 		}
 		else
 			bRet = false;
@@ -1582,7 +1589,6 @@ void QGLESPIDCanvas::initBaseData()
 			{
 			case 1:
 				nImageIndex = pII->nStationNameBitmapIndex;
-				qDebug() << Q_FUNC_INFO << "unitedRect type:" << pII->nType << "index:" << nImageIndex;
 				{
 					auto it = find_if(pTM->m_vStationImagePool.begin(), pTM->m_vStationImagePool.end(), [&nImageIndex](std::shared_ptr<CSQLData> &pData) {return nImageIndex == pData.get()->GetIndex(); });
 					if (it != pTM->m_vStationImagePool.end())
@@ -1598,7 +1604,6 @@ void QGLESPIDCanvas::initBaseData()
 				break;
 			case 2:
 				nImageIndex = pII->nStationBitmapIndex;
-				qDebug() << Q_FUNC_INFO << "unitedRect type:" << pII->nType << "index:" << nImageIndex;
 				{
 					auto it = find_if(pTM->m_vBitmapImagePool.begin(), pTM->m_vBitmapImagePool.end(), [&nImageIndex](std::shared_ptr<CSQLData> &pData) {return nImageIndex == pData.get()->GetIndex(); });
 					if (it != pTM->m_vBitmapImagePool.end())
@@ -1630,7 +1635,6 @@ void QGLESPIDCanvas::initBaseData()
 			case 1:
 				{
 					int nImageIndex = pII->nStationNameBitmapIndex;
-					qDebug() << Q_FUNC_INFO << "GetTextureInfo type:" << pII->nType << "index:" << nImageIndex;
 					auto it = find_if(pTM->m_vStationImagePool.begin(), pTM->m_vStationImagePool.end(), [&nImageIndex](std::shared_ptr<CSQLData> &pData) {return nImageIndex == pData.get()->GetIndex(); });
 					if (it != pTM->m_vStationImagePool.end())
 					{
@@ -1658,7 +1662,6 @@ void QGLESPIDCanvas::initBaseData()
 			case 2:
 				{
 					int nImageIndex = pII->nStationBitmapIndex;
-					qDebug() << Q_FUNC_INFO << "GetTextureInfo type:" << pII->nType << "index:" << nImageIndex;
 					auto it = find_if(pTM->m_vBitmapImagePool.begin(), pTM->m_vBitmapImagePool.end(), [&nImageIndex](std::shared_ptr<CSQLData> &pData) {return nImageIndex == pData.get()->GetIndex(); });
 					if (it != pTM->m_vBitmapImagePool.end())
 					{

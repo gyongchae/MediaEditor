@@ -188,3 +188,17 @@ int nXPos{ 0 };
 int nYPos{ 0 };
 END_CLASS_FROM_SQLDATA
 DECLARE_EDITOR_CLASS(ImageIndex);
+
+struct findImageListItemByTagName : public std::unary_function<SHARED_PTRC(CSQLData), bool>
+{
+	findImageListItemByTagName(wchar_t *szItemName) {
+		wcscpy(m_itemName, szItemName);
+	}
+	bool operator()(SHARED_PTRC(CSQLData) &p)
+	{
+		auto *c = dynamic_cast<ImageIndexList*>(p.get());
+		return (wcscmp(c->szDesc, m_itemName) == 0 ? true : false);
+	}
+private:
+	wchar_t m_itemName[256];
+};
