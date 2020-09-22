@@ -53,27 +53,29 @@ imageListPool::~imageListPool()
 IMPLEMENT_INIT_FUNCTION_FOR_CLASS(X_PARENT_EDITOR_CLASS, ImageIndexList)
 {
 	auto *pDM = CDataManage::GetInstance();
-	SET_MODEL_FOR_TABLE_VIEW(ImageIndexList, pDM)
-		INSTALL_EVENT_FILTER(ImageIndexList)
+	auto *pMM = CMapManage::GetInstance();
+	SET_MODEL_FOR_TABLE_VIEW(ImageIndexList, pDM);
+	INSTALL_EVENT_FILTER(ImageIndexList);
 
-		SET_SELECTION_BEHAVIOR(ImageIndexList, QAbstractItemView::SelectRows)
-		SET_SELECTION_MODE(ImageIndexList, QAbstractItemView::SingleSelection)
-		SET_DRAG_AND_DROP_ENABLED(ImageIndexList);
+	SET_SELECTION_BEHAVIOR(ImageIndexList, QAbstractItemView::SelectRows);
+	SET_SELECTION_MODE(ImageIndexList, QAbstractItemView::SingleSelection);
+	SET_DRAG_AND_DROP_ENABLED(ImageIndexList);
 
 	QHeaderView *header = GET_TABLE(ImageIndexList)->horizontalHeader();
 	header->resizeSections(QHeaderView::ResizeToContents);
+
+	GET_TABLE(ImageIndexList)->setItemDelegateForColumn(4, new comboBoxDelegate(this, &pMM->m_mImageIndexListType));
 
 	CONNECT_ROW_CHAHANGED_SLOT(ImageIndexList, updateImageIndexList(const QModelIndex &, const QModelIndex &));
 
 	return false;
 }
 
-
 IMPLEMENT_INIT_FUNCTION_FOR_CLASS(X_PARENT_EDITOR_CLASS, ImageIndex)
 {
 	auto *pDM = CDataManage::GetInstance();
 	auto *pTM = CTableManage::GetInstance();
-	CMapManage *pMM = CMapManage::GetInstance();
+	auto *pMM = CMapManage::GetInstance();
 	SET_MODEL_FOR_TABLE_VIEW(ImageIndex, pDM);
 	INSTALL_EVENT_FILTER(ImageIndex);
 

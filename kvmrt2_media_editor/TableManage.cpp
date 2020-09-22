@@ -61,6 +61,9 @@ void CTableManage::LoadDatabase()
 	DECLARE_TEMP_VECTOR_CLASS(DisplayMetaItem);
 	DECLARE_TEMP_VECTOR_CLASS(DisplayMetaItemProp);
 	
+	DECLARE_TEMP_VECTOR_CLASS(DisplayDateTimeItem);
+	DECLARE_TEMP_VECTOR_CLASS(DisplayDateTimeProp);
+
 	DECLARE_TEMP_VECTOR_CLASS(LineMapLink);
 	DECLARE_TEMP_VECTOR_CLASS(LineMapNode);
 	DECLARE_TEMP_VECTOR_CLASS(LineMapArrowTexture);
@@ -94,6 +97,10 @@ void CTableManage::LoadDatabase()
 	CREATE_EDITOR_CLASS_FOR_CLASS(DisplayProp);
 	CREATE_EDITOR_CLASS_FOR_CLASS(DisplayMetaItem);
 	CREATE_EDITOR_CLASS_FOR_CLASS(DisplayMetaItemProp);
+
+	CREATE_EDITOR_CLASS_FOR_CLASS(DisplayDateTimeItem);
+	CREATE_EDITOR_CLASS_FOR_CLASS(DisplayDateTimeProp);
+
 	CREATE_EDITOR_CLASS_FOR_CLASS(LineMapPool);
 	CREATE_EDITOR_CLASS_FOR_CLASS(LineMapLink);
 	CREATE_EDITOR_CLASS_FOR_CLASS(LineMapArrowTexture);
@@ -143,6 +150,10 @@ void CTableManage::LoadDatabase()
 	INIT_EDITORCLASS_WITH_TEMPVECTORS(DisplayProp,			m_dbSource, &TEMP_VECTOR_CLASS(DisplayProp),			nullptr);
 	INIT_EDITORCLASS_WITH_TEMPVECTORS(DisplayMetaItem,		m_dbSource, &TEMP_VECTOR_CLASS(DisplayMetaItem),		nullptr);
 	INIT_EDITORCLASS_WITH_TEMPVECTORS(DisplayMetaItemProp,	m_dbSource, &TEMP_VECTOR_CLASS(DisplayMetaItemProp),	nullptr);
+
+	INIT_EDITORCLASS_WITH_TEMPVECTORS(DisplayDateTimeItem, m_dbSource, &TEMP_VECTOR_CLASS(DisplayDateTimeItem), nullptr);
+	INIT_EDITORCLASS_WITH_TEMPVECTORS(DisplayDateTimeProp, m_dbSource, &TEMP_VECTOR_CLASS(DisplayDateTimeProp), nullptr);
+
 	INIT_EDITORCLASS_WITH_TEMPVECTORS(ImageIndex,			m_dbSource, &TEMP_VECTOR_CLASS(ImageIndex),				nullptr);
 	INIT_EDITORCLASS_WITH_TEMPVECTORS(LineMapLink,			m_dbSource, &TEMP_VECTOR_CLASS(LineMapLink),			nullptr);
 	INIT_EDITORCLASS_WITH_TEMPVECTORS(LineMapNode,			m_dbSource, &TEMP_VECTOR_CLASS(LineMapNode),			nullptr);
@@ -159,6 +170,10 @@ void CTableManage::LoadDatabase()
 	MakeRelationShip2(&TEMP_VECTOR_CLASS(DisplayItem), 0, &TEMP_VECTOR_CLASS(DisplayProp));		//부모 자식 관계
 	MakeRelationShip2(&VECTOR_CLASS(DisplayItemPool), 1, &TEMP_VECTOR_CLASS(DisplayMetaItem));		//부모 자식 관계
 	MakeRelationShip2(&TEMP_VECTOR_CLASS(DisplayMetaItem), 0, &TEMP_VECTOR_CLASS(DisplayMetaItemProp));		//부모 자식 관계
+	
+	MakeRelationShip2(&VECTOR_CLASS(DisplayItemPool), 2, &TEMP_VECTOR_CLASS(DisplayDateTimeItem));		//부모 자식 관계
+	MakeRelationShip2(&TEMP_VECTOR_CLASS(DisplayDateTimeItem), 0, &TEMP_VECTOR_CLASS(DisplayDateTimeProp));		//부모 자식 관계
+
 	MakeRelationShip2(&VECTOR_CLASS(LineMapPool),0,&TEMP_VECTOR_CLASS(LineMapLink));		//부모 자식 관계
 	MakeRelationShip2(&VECTOR_CLASS(LineMapPool),1, nullptr);
 	MakeRelationShip2(&VECTOR_CLASS(LineMapPool),2,&TEMP_VECTOR_CLASS(LineMapNode));		//부모 자식 관계

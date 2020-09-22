@@ -496,6 +496,12 @@
     <ClCompile Include="GeneratedFiles\qrc_textures.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="DefineDateTimeTable.cpp">
+      <Filter>SQL DATA\DB TABLE DEF</Filter>
+    </ClCompile>
+    <ClCompile Include="DisplayDateTimePropEdit.cpp">
+      <Filter>SCREEN\NORMAL DISPLAY\DISP ITEM PROP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LEDIndicator.h">
@@ -544,6 +550,9 @@
       <Filter>SCREEN\ROUTE MAP\PREVIEW</Filter>
     </QtMoc>
     <QtMoc Include="displayItemPropEdit.h">
+      <Filter>SCREEN\NORMAL DISPLAY\DISP ITEM PROP</Filter>
+    </QtMoc>
+    <QtMoc Include="DisplayDateTimePropEdit.h">
       <Filter>SCREEN\NORMAL DISPLAY\DISP ITEM PROP</Filter>
     </QtMoc>
   </ItemGroup>
@@ -604,6 +613,9 @@
     </QtUic>
     <QtUic Include="nodepropertydlg.ui">
       <Filter>SCREEN\ROUTE MAP\NODE PROP</Filter>
+    </QtUic>
+    <QtUic Include="DisplayDateTimePropEdit.ui">
+      <Filter>SCREEN\NORMAL DISPLAY\DISP ITEM PROP</Filter>
     </QtUic>
   </ItemGroup>
   <ItemGroup>
@@ -771,6 +783,9 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DefineDateTimeTable.h">
+      <Filter>SQL DATA\DB TABLE DEF</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

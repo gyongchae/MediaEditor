@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>displayItemPropEdit</class>
- <widget class="QDialog" name="displayItemPropEdit">
+ <class>DisplayDateTimePropEdit</class>
+ <widget class="QDialog" name="DisplayDateTimePropEdit">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>424</width>
-    <height>599</height>
+    <width>316</width>
+    <height>530</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Normal Item Property</string>
+   <string>DisplayDateTimePropEdit</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
    <item>

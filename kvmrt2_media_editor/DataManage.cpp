@@ -120,6 +120,9 @@ void CDataManage::SetModel()
 	INIT_MODEL_FOR_CLASS(DisplayMetaItem);
 	INIT_MODEL_FOR_CLASS(DisplayMetaItemProp);
 
+	INIT_MODEL_FOR_CLASS(DisplayDateTimeItem);
+	INIT_MODEL_FOR_CLASS(DisplayDateTimeProp);
+
 	INIT_MODEL_FOR_CLASS(LineMapPool);
 	INIT_MODEL_FOR_CLASS(LineMapLink);
 	INIT_MODEL_FOR_CLASS(LineMapNode);
@@ -149,6 +152,9 @@ void CDataManage::SetModel()
 	SET_EDITOR_FOR_MODEL(pTM, DisplayProp);
 	SET_EDITOR_FOR_MODEL(pTM, DisplayMetaItem);
 	SET_EDITOR_FOR_MODEL(pTM, DisplayMetaItemProp);
+
+	SET_EDITOR_FOR_MODEL(pTM, DisplayDateTimeItem);
+	SET_EDITOR_FOR_MODEL(pTM, DisplayDateTimeProp);
 
 	SET_EDITOR_FOR_MODEL(pTM, LineMapLink);
 	SET_EDITOR_FOR_MODEL(pTM, LineMapNode);
@@ -672,7 +678,7 @@ void CDataManage::reorderTimeLine(DisplayMetaItem *pItem)
 	GLfloat fR, fG, fB, fA;
 	int nAtMiliseconds = 0;
 	int nTransistionType;
-	int nVisible;
+	int nVisible{ 1 };
 
 	pItem->tLine.clear();
 	pItem->tLine.jumpTo((GLfloat)0);
@@ -794,13 +800,14 @@ void CDataManage::reorderTimeLine(DisplayMetaItem *pItem)
 	}
 }
 
-void CDataManage::reorderTimeLine(DisplayItem *pItem)
+void CDataManage::reorderTimeLine(DisplayDateTimeItem * pItem)
 {
 	//시간순서대로 정렬
-	std::sort(pItem->m_vChildItem[0].vSQLData.begin(), pItem->m_vChildItem[0].vSQLData.end(), [](std::shared_ptr<CSQLData> &pL, std::shared_ptr<CSQLData> &pR)
+	std::sort(pItem->m_vChildItem[0].vSQLData.begin(), pItem->m_vChildItem[0].vSQLData.end(), 
+		[](std::shared_ptr<CSQLData> &pL, std::shared_ptr<CSQLData> &pR)
 	{
-		DisplayProp *pDPL = (DisplayProp*)pL.get();
-		DisplayProp *pDPR = (DisplayProp*)pR.get();
+		auto *pDPL = (DisplayDateTimeProp*)pL.get();
+		auto *pDPR = (DisplayDateTimeProp*)pR.get();
 		return pDPL->nAtMiliseconds < pDPR->nAtMiliseconds;
 	});
 	bool bFirst = true;
@@ -813,7 +820,7 @@ void CDataManage::reorderTimeLine(DisplayItem *pItem)
 	GLfloat fR, fG, fB, fA;
 	int nAtMiliseconds = 0;
 	int nTransistionType;
-	int nVisible;
+	int nVisible{ 1 };
 
 	pItem->tLine.clear();
 	pItem->tLine.jumpTo((GLfloat)0);
@@ -821,7 +828,7 @@ void CDataManage::reorderTimeLine(DisplayItem *pItem)
 	if (!pItem->m_vChildItem[0].vSQLData.size())
 		return;
 
-	DisplayProp *p = (DisplayProp*)pItem->m_vChildItem[0].vSQLData.begin()->get();
+	auto *p = (DisplayDateTimeProp*)pItem->m_vChildItem[0].vSQLData.begin()->get();
 	choreograph::MotionOptions<GLfloat> timelineForfX = pItem->tLine.apply(&pItem->m_fTrans[0]).set(p->fX);
 	choreograph::MotionOptions<GLfloat> timelineForfY = pItem->tLine.apply(&pItem->m_fTrans[1]).set(p->fY);
 	choreograph::MotionOptions<GLfloat> timelineForfAngle = pItem->tLine.apply(&pItem->m_fRotation).set(p->fAngle);
@@ -889,7 +896,150 @@ void CDataManage::reorderTimeLine(DisplayItem *pItem)
 
 	for (auto it : pItem->m_vChildItem[0].vSQLData)
 	{
-		DisplayProp *p = (DisplayProp*)it.get();
+		auto *p = (DisplayDateTimeProp*)it.get();
+		if (!bFirst)
+		{
+			CALC_LAST_TIME_TRANS(fX, p->fX, 0)
+				CALC_LAST_TIME_TRANS(fY, p->fY, 0)
+				CALC_LAST_TIME_TRANS(fAngle, p->fAngle, 1)
+				CALC_LAST_TIME_TRANS(fScalingX, p->fScalingX, 2)
+				CALC_LAST_TIME_TRANS(fScalingY, p->fScalingY, 2)
+				CALC_LAST_TIME_HOLD2(nVisible, p->nVisible)
+				CALC_LAST_TIME_TRANS(fA, ((GLfloat)((p->uColor >> 24) & 0xFF)) / (255.0f), 4)
+				CALC_LAST_TIME_TRANS(fB, ((GLfloat)((p->uColor >> 16) & 0xFF)) / (255.0f), 4)
+				CALC_LAST_TIME_TRANS(fG, ((GLfloat)((p->uColor >> 8) & 0xFF)) / (255.0f), 4)
+				CALC_LAST_TIME_TRANS(fR, ((GLfloat)((p->uColor) & 0xFF)) / (255.0f), 4)
+		}
+		else
+		{
+			if (p->nAtMiliseconds)
+			{
+				INIT_TIMELINE_COND(fX, p->fX, 0)
+					INIT_TIMELINE_COND(fY, p->fY, 0)
+					INIT_TIMELINE_COND(fAngle, p->fAngle, 1)
+					INIT_TIMELINE_COND(fScalingX, p->fScalingX, 2)
+					INIT_TIMELINE_COND(fScalingY, p->fScalingY, 2)
+					INIT_TILELINE_HOLD2(nVisible, p->nVisible)
+					INIT_TIMELINE_COND(fA, ((GLfloat)((p->uColor >> 24) & 0xFF)) / (255.0f), 4)
+					INIT_TIMELINE_COND(fB, ((GLfloat)((p->uColor >> 16) & 0xFF)) / (255.0f), 4)
+					INIT_TIMELINE_COND(fG, ((GLfloat)((p->uColor >> 8) & 0xFF)) / (255.0f), 4)
+					INIT_TIMELINE_COND(fR, ((GLfloat)((p->uColor) & 0xFF)) / (255.0f), 4)
+			}
+		}
+
+		nAtMiliseconds = p->nAtMiliseconds;
+		nLastTimeForfX = nAtMiliseconds;
+		nLastTimeForfY = nAtMiliseconds;
+		nLastTimeForfAngle = nAtMiliseconds;
+		nLastTimeForfScalingX = nAtMiliseconds;
+		nLastTimeForfScalingY = nAtMiliseconds;
+		nLastTimeForfOrigX = nAtMiliseconds;
+		nLastTimeForfOrigY = nAtMiliseconds;
+		nLastTimeFornVisible = nAtMiliseconds;
+		nLastTimeForfR = nAtMiliseconds;
+		nLastTimeForfG = nAtMiliseconds;
+		nLastTimeForfB = nAtMiliseconds;
+		nLastTimeForfA = nAtMiliseconds;
+		bFirst = false;
+	}
+}
+
+void CDataManage::reorderTimeLine(DisplayItem *pItem)
+{
+	//시간순서대로 정렬
+	std::sort(pItem->m_vChildItem[0].vSQLData.begin(), pItem->m_vChildItem[0].vSQLData.end(), [](std::shared_ptr<CSQLData> &pL, std::shared_ptr<CSQLData> &pR)
+	{
+		auto *pDPL = (DisplayProp*)pL.get();
+		auto *pDPR = (DisplayProp*)pR.get();
+		return pDPL->nAtMiliseconds < pDPR->nAtMiliseconds;
+	});
+	bool bFirst = true;
+
+	GLfloat fX, fY;
+	GLfloat fAngle;
+	GLfloat fScalingX, fScalingY;
+	GLfloat fOrigX, fOrigY;
+	GLfloat fZorder;
+	GLfloat fR, fG, fB, fA;
+	int nAtMiliseconds = 0;
+	int nTransistionType;
+	int nVisible{ 1 };
+
+	pItem->tLine.clear();
+	pItem->tLine.jumpTo((GLfloat)0);
+	pItem->tLine.setDefaultRemoveOnFinish(false);
+	if (!pItem->m_vChildItem[0].vSQLData.size())
+		return;
+
+	auto *p = (DisplayProp*)pItem->m_vChildItem[0].vSQLData.begin()->get();
+	choreograph::MotionOptions<GLfloat> timelineForfX = pItem->tLine.apply(&pItem->m_fTrans[0]).set(p->fX);
+	choreograph::MotionOptions<GLfloat> timelineForfY = pItem->tLine.apply(&pItem->m_fTrans[1]).set(p->fY);
+	choreograph::MotionOptions<GLfloat> timelineForfAngle = pItem->tLine.apply(&pItem->m_fRotation).set(p->fAngle);
+	choreograph::MotionOptions<GLfloat> timelineForfScalingX = pItem->tLine.apply(&pItem->m_fScale[0]).set(p->fScalingX);
+	choreograph::MotionOptions<GLfloat> timelineForfScalingY = pItem->tLine.apply(&pItem->m_fScale[1]).set(p->fScalingY);
+	choreograph::MotionOptions<GLfloat> timelineForfA = pItem->tLine.apply(&pItem->m_fColor[0]).set(((GLfloat)((p->uColor >> 24) & 0xFF)) / (255.0f));
+	choreograph::MotionOptions<GLfloat> timelineForfB = pItem->tLine.apply(&pItem->m_fColor[1]).set(((GLfloat)((p->uColor >> 16) & 0xFF)) / (255.0f));
+	choreograph::MotionOptions<GLfloat> timelineForfG = pItem->tLine.apply(&pItem->m_fColor[2]).set(((GLfloat)((p->uColor >> 8) & 0xFF)) / (255.0f));
+	choreograph::MotionOptions<GLfloat> timelineForfR = pItem->tLine.apply(&pItem->m_fColor[3]).set(((GLfloat)((p->uColor) & 0xFF)) / (255.0f));
+	choreograph::MotionOptions<int> timelineFornVisible = pItem->tLine.apply(&pItem->m_nVisible).set(p->nVisible);
+
+
+	int nLastTimeForfX;
+	int nLastTimeForfY;
+	int nLastTimeForfAngle;
+	int nLastTimeForfScalingX;
+	int nLastTimeForfScalingY;
+	int nLastTimeForfOrigX;
+	int nLastTimeForfOrigY;
+	int nLastTimeFornVisible;
+	int nLastTimeForfR;
+	int nLastTimeForfG;
+	int nLastTimeForfB;
+	int nLastTimeForfA;
+
+	nLastTimeForfX = nAtMiliseconds;
+	nLastTimeForfY = nAtMiliseconds;
+	nLastTimeForfX = nAtMiliseconds;
+	nLastTimeForfY = nAtMiliseconds;
+	nLastTimeForfAngle = nAtMiliseconds;
+	nLastTimeForfScalingX = nAtMiliseconds;
+	nLastTimeForfScalingY = nAtMiliseconds;
+	nLastTimeForfOrigX = nAtMiliseconds;
+	nLastTimeForfOrigY = nAtMiliseconds;
+	nLastTimeFornVisible = nAtMiliseconds;
+
+	int nLastTrans[5] = { 0 };
+#define INIT_TILELINE_HOLD2(A,B) timelineFor##A.then<Hold>(B,(float)p->nAtMiliseconds);
+#define INIT_TILELINE_HOLD(A,B) timelineFor##A.then<Hold>(B,(float)p->nAtMiliseconds);
+#define INIT_TIMELINE(A,B) timelineFor##A.rampTo(B, (float)p->nAtMiliseconds);
+
+#define INIT_TIMELINE_COND(A,B,C)	\
+	switch(p->nTransType[C])\
+	{\
+	case 0:\
+		INIT_TILELINE_HOLD(A,B)\
+		break;\
+	case 1:\
+		INIT_TIMELINE(A,B)\
+		break;\
+	}\
+
+#define CALC_LAST_TIME_TRANS(A,B,C) /*if(A!=B)*/\
+{switch(p->nTransType[C])\
+{\
+	case 0:\
+		timelineFor##A.then<Hold>(B, (float)(p->nAtMiliseconds - nLastTimeFor##A-1.0f));\
+		break;\
+	case 1:\
+		timelineFor##A.rampTo(B, (float)(p->nAtMiliseconds - nLastTimeFor##A));\
+		break;\
+}}
+
+#define CALC_LAST_TIME_HOLD2(A,B) timelineFor##A.then<Hold>(B, (float)(p->nAtMiliseconds - nLastTimeFor##A));
+
+	for (auto it : pItem->m_vChildItem[0].vSQLData)
+	{
+		auto *p = (DisplayProp*)it.get();
 		if (!bFirst)
 		{
 			CALC_LAST_TIME_TRANS(fX, p->fX, 0)

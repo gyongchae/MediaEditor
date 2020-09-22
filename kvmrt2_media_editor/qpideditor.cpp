@@ -39,6 +39,11 @@ QPIDEditor::QPIDEditor(int nRow, int nWidth, int nHeight, int nDuration, QWidget
 		&pTM->VECTOR_CLASS(DisplayItemPool)[nRow]->m_vChildItem[1].vSQLDataDelItems,
 		pTM->VECTOR_CLASS(DisplayItemPool)[nRow].get()->GetIndex());
 
+	pDM->GET_MODEL_CLASS(DisplayDateTimeItem)->setVectors(
+		&pTM->VECTOR_CLASS(DisplayItemPool)[nRow]->m_vChildItem[2].vSQLData,
+		&pTM->VECTOR_CLASS(DisplayItemPool)[nRow]->m_vChildItem[2].vSQLDataDelItems,
+		pTM->VECTOR_CLASS(DisplayItemPool)[nRow].get()->GetIndex());
+
 	m_canvas = new QGLESPIDCanvas(this);
 	m_timeEvent = new QTimeEvent(nDuration, this);
 	m_tblItemList = new QTableView(this);

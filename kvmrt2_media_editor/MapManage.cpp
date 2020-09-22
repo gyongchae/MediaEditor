@@ -80,6 +80,8 @@ MAPPARAM gMappingVariables[] =
 	{ 3, L"Final station code" },		// use
 	{ 4, L"Door opening side" },			// use
 	{ 5, L"Evacuation Direction" },			// use
+	{ 6, L"Date"},
+	{ 7, L"Time"},
 };
 
 
@@ -154,6 +156,14 @@ MAPPARAM gVideoGroup[] =
 	{ 1,L"PID 1" },
 	{ 2,L"PID 2" },
 	{ 3,L"PID 3" },
+};
+
+MAPPARAM gImageIndexListType[] = 
+{
+	{ 0, L"Normal" },
+	{ 1, L"Date/Time" },
+	{ 2, L"Map Video Area" },
+	{ 3, L"Tag Item" },
 };
 
 CMapManage::CMapManage(void)
@@ -261,5 +271,10 @@ void CMapManage::InitMaps()
 	for (int i = 0; i < (sizeof(gVideoGroup) / sizeof(gVideoGroup[0])); i++)
 	{
 		m_mVideoGroup[gVideoGroup[i].nValue] = std::wstring(gVideoGroup[i].szFieldName);
+	}
+
+	for (int i = 0; i < (sizeof(gImageIndexListType) / sizeof(gImageIndexListType[0])); i++)
+	{
+		m_mImageIndexListType[gImageIndexListType[i].nValue] = std::wstring(gImageIndexListType[i].szFieldName);
 	}
 }

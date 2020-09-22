@@ -60,7 +60,7 @@
     <ClCompile>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PreprocessorDefinitions>UNICODE;WIN32;NOMINMAX;WIN64;PAC_EDITOR;%(PreprocessorDefinitions);QT_WIDGETS_LIB</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtSql;$(QTDIR)\include\QtConcurrent;$(QTDIR)\include\QtWinExtras;$(QTDIR)\include\QtOpenGLExtensions;$(QTDIR)\include\QtMultimedia;$(QTDIR)\include\QtMultimediaWidgets;.\FileUpload;.\NewCanvas;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtSql;$(QTDIR)\include\QtConcurrent;$(QTDIR)\include\QtWinExtras;$(QTDIR)\include\QtOpenGLExtensions;$(QTDIR)\include\QtMultimedia;$(QTDIR)\include\QtMultimediaWidgets;.\FileUpload;.\NewCanvas;.\FUTURE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -76,7 +76,7 @@
     <QtMoc>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
-      <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtSql;$(QTDIR)\include\QtConcurrent;$(QTDIR)\include\QtWinExtras;$(QTDIR)\include\QtOpenGLExtensions;$(QTDIR)\include\QtMultimedia;$(QTDIR)\include\QtMultimediaWidgets;.\FileUpload;.\NewCanvas;%(AdditionalIncludeDirectories)</IncludePath>
+      <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtSql;$(QTDIR)\include\QtConcurrent;$(QTDIR)\include\QtWinExtras;$(QTDIR)\include\QtOpenGLExtensions;$(QTDIR)\include\QtMultimedia;$(QTDIR)\include\QtMultimediaWidgets;.\FileUpload;.\NewCanvas;.\FUTURE;%(AdditionalIncludeDirectories)</IncludePath>
       <Define>UNICODE;WIN32;NOMINMAX;WIN64;QT_DLL;QT_CORE_LIB;QT_GUI_LIB;QT_OPENGL_LIB;QT_WIDGETS_LIB;QT_SQL_LIB;QT_CONCURRENT_LIB;QT_WINEXTRAS_LIB;QT_OPENGLEXTENSIONS_LIB;PAC_EDITOR;QT_MULTIMEDIA_LIB;QT_MULTIMEDIAWIDGETS_LIB;%(PreprocessorDefinitions)</Define>
     </QtMoc>
     <QtUic>
@@ -92,7 +92,7 @@
     <ClCompile>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PreprocessorDefinitions>UNICODE;WIN32;NOMINMAX;WIN64;PAC_EDITOR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);.\dataRelated;.\FileUpload;.\NewCanvas;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);.\dataRelated;.\FileUpload;.\NewCanvas;.\FUTURE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -107,7 +107,7 @@
     <QtMoc>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
-      <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);.\dataRelated;.\FileUpload;.\NewCanvas;%(AdditionalIncludeDirectories)</IncludePath>
+      <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);.\dataRelated;.\FileUpload;.\NewCanvas;.\FUTURE;%(AdditionalIncludeDirectories)</IncludePath>
       <Define>UNICODE;WIN32;NOMINMAX;WIN64;PAC_EDITOR;%(PreprocessorDefinitions)</Define>
     </QtMoc>
     <QtUic>
@@ -131,12 +131,14 @@
     <ClCompile Include="CMappedValue.cpp" />
     <ClCompile Include="comboBoxDelegate.cpp" />
     <ClCompile Include="contentsPool.cpp" />
+    <ClCompile Include="DefineDateTimeTable.cpp" />
     <ClCompile Include="DefineDisplayTables.cpp" />
     <ClCompile Include="DefineFilePoolTables.cpp" />
     <ClCompile Include="DefineLEDTables.cpp" />
     <ClCompile Include="DefineLinemapTables.cpp" />
     <ClCompile Include="DefineNormalTables.cpp" />
     <ClCompile Include="DefineTables.cpp" />
+    <ClCompile Include="DisplayDateTimePropEdit.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_bitmapimagepool.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -366,6 +368,7 @@
   <ItemGroup>
     <QtUic Include="bitmapimagepool.ui" />
     <QtUic Include="contentsPool.ui" />
+    <QtUic Include="DisplayDateTimePropEdit.ui" />
     <QtUic Include="displayItemPreset.ui" />
     <QtUic Include="displayItemPropEdit.ui" />
     <QtUic Include="editDisplayItemPool.ui" />
@@ -452,6 +455,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DNOMINMAX -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_SQL_LIB -DQT_CONCURRENT_LIB -DQT_WINEXTRAS_LIB -DQT_OPENGLEXTENSIONS_LIB -DPAC_EDITOR -DQT_MULTIMEDIA_LIB -DQT_MULTIMEDIAWIDGETS_LIB -D_UNICODE "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtSql" "-I$(QTDIR)\include\QtConcurrent" "-I$(QTDIR)\include\QtWinExtras" "-I$(QTDIR)\include\QtOpenGLExtensions" "-I$(QTDIR)\include\QtMultimedia" "-I$(QTDIR)\include\QtMultimediaWidgets" "-I.\dataRelated"</Command>
     </QtMoc>
+    <ClInclude Include="DefineDateTimeTable.h" />
     <ClInclude Include="DefineDisplayTables.h" />
     <ClInclude Include="DefineFilePoolTables.h" />
     <ClInclude Include="DefineLEDTables.h" />
@@ -471,6 +475,11 @@
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtSql;$(QTDIR)\include\QtConcurrent;$(QTDIR)\include\QtWinExtras;$(QTDIR)\include\QtOpenGLExtensions;$(QTDIR)\include\QtMultimedia;$(QTDIR)\include\QtMultimediaWidgets;.\dataRelated</IncludePath>
     </CustomBuild>
     <ClInclude Include="DefineTables.h" />
+    <QtMoc Include="DisplayDateTimePropEdit.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtSql;$(QTDIR)\include\QtConcurrent;$(QTDIR)\include\QtWinExtras;$(QTDIR)\include\QtOpenGLExtensions;$(QTDIR)\include\QtMultimedia;$(QTDIR)\include\QtMultimediaWidgets;.\FileUpload;.\NewCanvas;.\FUTURE</IncludePath>
+      <Define Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">UNICODE;WIN32;NOMINMAX;WIN64;PAC_EDITOR;%(PreprocessorDefinitions);QT_WIDGETS_LIB</Define>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);.\dataRelated;.\FileUpload;.\NewCanvas;.\FUTURE</IncludePath>
+    </QtMoc>
     <ClInclude Include="GeneratedFiles\ui_nodepropertydlg.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SQLData.h" />

@@ -12,12 +12,9 @@
 using namespace choreograph;
 
 BEGIN_CLASS_FROM_SQLDATA_WITH_CHILDS(DisplayItem, uBackColor = 0xffffffff; nPrevOrigin = -1; nRelatedItemListIndex = nInitPosX = nInitPosY = nParentIndex = nAppearFrom = nAppearTo = nZOrder = 0; nOrigin = 1; fOrigX = fOrigY = 0.0f; , , 1)
-
 COMMON_VAL_FOR_SQLDATA
 DECLARE_TYPESETTINGS(9)
 DECLARE_COMMON_FUNCTIONS OVERRIDE_DUMMY_EDITOR_FUNC
-
-
 BEGIN_MAPPING_MEMBERS
 m_tSettings[0].POINTER = (void*)(&m_nTableIndex);
 m_tSettings[1].POINTER = (void*)(&nParentIndex);
@@ -28,8 +25,6 @@ m_tSettings[5].POINTER = (void*)(&nAppearFrom);
 m_tSettings[6].POINTER = (void*)(&nAppearTo);
 m_tSettings[7].POINTER = (void*)(&nZOrder);
 m_tSettings[8].POINTER = (void*)(&nOrigin);
-
-
 END_MAPPING_MEMBERS
 
 int nRelatedItemListIndex;
@@ -76,17 +71,16 @@ choreograph::Output<int>	m_nVisible;
 int nRelatedBufferIndex;			//Index
 bool bSelected;
 /*Editing purposes only*/
-
-
-
-
 END_CLASS_FROM_SQLDATA
-
 DECLARE_EDITOR_CLASS(DisplayItem);
 
 
 
-BEGIN_CLASS_FROM_SQLDATA_WITH_CHILDS(DisplayItemPool, nOrder = 1; memset(szDesc, 0, sizeof(szDesc)); , , 2)
+BEGIN_CLASS_FROM_SQLDATA_WITH_CHILDS(
+	DisplayItemPool, 
+	nOrder = 1; memset(szDesc, 0, sizeof(szDesc));,
+	, 
+	3) /*child count*/
 
 COMMON_VAL_FOR_SQLDATA
 DECLARE_TYPESETTINGS(8)
