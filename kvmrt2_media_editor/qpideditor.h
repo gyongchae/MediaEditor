@@ -51,6 +51,7 @@ private:
 	QLineEdit *m_editHeight;
 	QLineEdit *m_editDuration;
 	QComboBox *m_comboDisplayType;
+	QComboBox *m_comboDateTimeDisplay;
 };
 
 #endif // QPIDEDITOR_H

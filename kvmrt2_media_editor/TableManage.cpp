@@ -1,4 +1,3 @@
-#include <qdebug.h>
 #include "TableManage.h"
 
 sqlite3 *CTableManage::m_dbSource;

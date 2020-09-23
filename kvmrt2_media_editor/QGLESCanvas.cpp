@@ -42,6 +42,7 @@ void QGLESPIDCanvas::initializeGL()
 	initMetaDisplayItem();
 	initDisplayDateTimeItem();
 	reorderAllTimeLine();
+	sortToZOrder();
 	//m_bMoving = false;
 }
 
@@ -1640,18 +1641,18 @@ void QGLESPIDCanvas::reorderAllTimeLine()
 	auto pVEC = pDM->GET_MODEL_CLASS(DisplayItem).get()->getVector();
 	for (auto it : (*pVEC))
 	{
-		DisplayItem *pItem = (DisplayItem*)it.get();
+		auto *pItem = (DisplayItem*)it.get();
 		CDataManage::reorderTimeLine(pItem);
 	}
 
 	auto pMVEC = pDM->GET_MODEL_CLASS(DisplayMetaItem).get()->getVector();
 	for (auto it : (*pMVEC))
 	{
-		DisplayMetaItem *pItem = (DisplayMetaItem*)it.get();
+		auto *pItem = (DisplayMetaItem*)it.get();
 		CDataManage::reorderTimeLine(pItem);
 	}
 
-	auto pDVEC = pDM->GET_MODEL_CLASS(DisplayItem).get()->getVector();
+	auto pDVEC = pDM->GET_MODEL_CLASS(DisplayDateTimeItem).get()->getVector();
 	for (auto it : (*pDVEC))
 	{
 		auto *pItem = (DisplayDateTimeItem*)it.get();
@@ -2261,5 +2262,4 @@ void QGLESPIDCanvas::initBaseData()
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
-
 }

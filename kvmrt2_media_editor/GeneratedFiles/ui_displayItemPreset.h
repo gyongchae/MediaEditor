@@ -36,15 +36,17 @@ public:
     QLabel *label;
     QLineEdit *m_leDescription;
     QLabel *label_2;
+    QSpinBox *m_spDuration;
+    QLabel *label_4;
+    QLabel *label_6;
+    QComboBox *comboDisplayType;
     QHBoxLayout *horizontalLayout;
     QLabel *label_5;
     QSpinBox *m_spWidth;
     QLabel *label_3;
     QSpinBox *m_spHeight;
-    QSpinBox *m_spDuration;
-    QLabel *label_4;
-    QLabel *label_6;
-    QComboBox *comboDisplayType;
+    QLabel *label_7;
+    QComboBox *comboDateTimeDisplay;
     QSpacerItem *verticalSpacer;
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer;
@@ -54,7 +56,7 @@ public:
     {
         if (displayItemPreset->objectName().isEmpty())
             displayItemPreset->setObjectName(QStringLiteral("displayItemPreset"));
-        displayItemPreset->resize(280, 218);
+        displayItemPreset->resize(365, 422);
         displayItemPreset->setSizeIncrement(QSize(0, 0));
         verticalLayout = new QVBoxLayout(displayItemPreset);
         verticalLayout->setSpacing(6);
@@ -77,6 +79,26 @@ public:
         label_2->setObjectName(QStringLiteral("label_2"));
 
         gridLayout->addWidget(label_2, 1, 0, 1, 1);
+
+        m_spDuration = new QSpinBox(displayItemPreset);
+        m_spDuration->setObjectName(QStringLiteral("m_spDuration"));
+
+        gridLayout->addWidget(m_spDuration, 2, 1, 1, 1);
+
+        label_4 = new QLabel(displayItemPreset);
+        label_4->setObjectName(QStringLiteral("label_4"));
+
+        gridLayout->addWidget(label_4, 2, 0, 1, 1);
+
+        label_6 = new QLabel(displayItemPreset);
+        label_6->setObjectName(QStringLiteral("label_6"));
+
+        gridLayout->addWidget(label_6, 3, 0, 1, 1);
+
+        comboDisplayType = new QComboBox(displayItemPreset);
+        comboDisplayType->setObjectName(QStringLiteral("comboDisplayType"));
+
+        gridLayout->addWidget(comboDisplayType, 3, 1, 1, 1);
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
@@ -106,25 +128,15 @@ public:
 
         gridLayout->addLayout(horizontalLayout, 1, 1, 1, 1);
 
-        m_spDuration = new QSpinBox(displayItemPreset);
-        m_spDuration->setObjectName(QStringLiteral("m_spDuration"));
+        label_7 = new QLabel(displayItemPreset);
+        label_7->setObjectName(QStringLiteral("label_7"));
 
-        gridLayout->addWidget(m_spDuration, 2, 1, 1, 1);
+        gridLayout->addWidget(label_7, 4, 0, 1, 1);
 
-        label_4 = new QLabel(displayItemPreset);
-        label_4->setObjectName(QStringLiteral("label_4"));
+        comboDateTimeDisplay = new QComboBox(displayItemPreset);
+        comboDateTimeDisplay->setObjectName(QStringLiteral("comboDateTimeDisplay"));
 
-        gridLayout->addWidget(label_4, 2, 0, 1, 1);
-
-        label_6 = new QLabel(displayItemPreset);
-        label_6->setObjectName(QStringLiteral("label_6"));
-
-        gridLayout->addWidget(label_6, 3, 0, 1, 1);
-
-        comboDisplayType = new QComboBox(displayItemPreset);
-        comboDisplayType->setObjectName(QStringLiteral("comboDisplayType"));
-
-        gridLayout->addWidget(comboDisplayType, 3, 1, 1, 1);
+        gridLayout->addWidget(comboDateTimeDisplay, 4, 1, 1, 1);
 
 
         verticalLayout->addLayout(gridLayout);
@@ -162,10 +174,11 @@ public:
         label->setText(QApplication::translate("displayItemPreset", "Title", Q_NULLPTR));
         m_leDescription->setPlaceholderText(QApplication::translate("displayItemPreset", "Title goes here...", Q_NULLPTR));
         label_2->setText(QApplication::translate("displayItemPreset", "Size", Q_NULLPTR));
-        label_5->setText(QApplication::translate("displayItemPreset", "Width:", Q_NULLPTR));
-        label_3->setText(QApplication::translate("displayItemPreset", "Height:", Q_NULLPTR));
         label_4->setText(QApplication::translate("displayItemPreset", "Duration", Q_NULLPTR));
         label_6->setText(QApplication::translate("displayItemPreset", "Display Type", Q_NULLPTR));
+        label_5->setText(QApplication::translate("displayItemPreset", "Width:", Q_NULLPTR));
+        label_3->setText(QApplication::translate("displayItemPreset", "Height:", Q_NULLPTR));
+        label_7->setText(QApplication::translate("displayItemPreset", "Date/Time", Q_NULLPTR));
     } // retranslateUi
 
 };

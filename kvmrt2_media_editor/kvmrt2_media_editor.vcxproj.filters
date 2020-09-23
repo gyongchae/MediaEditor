@@ -62,12 +62,6 @@
     <Filter Include="REFER\MSSettingStorage">
       <UniqueIdentifier>{cfa5d078-92f4-42f4-98d6-15885c61c7e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SQL DATA">
-      <UniqueIdentifier>{07e42530-0645-442d-96d3-c0ed1df6798c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SQL DATA\DB TABLE DEF">
-      <UniqueIdentifier>{13a119b1-bd39-47f9-88b2-fc4bcc74ae36}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SUBCLASS">
       <UniqueIdentifier>{76116fe8-3830-4b04-adb3-a663f065c08b}</UniqueIdentifier>
     </Filter>
@@ -136,6 +130,15 @@
       <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
       <Extensions>ui</Extensions>
       <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="MAL_PIDDRM related">
+      <UniqueIdentifier>{7d5ce2f9-62b2-4689-8b8f-98744a5c486e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MAL_PIDDRM related\SQL DATA">
+      <UniqueIdentifier>{07e42530-0645-442d-96d3-c0ed1df6798c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MAL_PIDDRM related\SQL DATA\DB TABLE DEF">
+      <UniqueIdentifier>{13a119b1-bd39-47f9-88b2-fc4bcc74ae36}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -322,9 +325,6 @@
     <ClCompile Include="QLineMapEdit.cpp">
       <Filter>SCREEN\ROUTE MAP</Filter>
     </ClCompile>
-    <ClCompile Include="TableManage.cpp">
-      <Filter>MANAGER</Filter>
-    </ClCompile>
     <ClCompile Include="qpositionbox.cpp">
       <Filter>SUBCLASS\WIDGET</Filter>
     </ClCompile>
@@ -446,16 +446,16 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="DefineFilePoolTables.cpp">
-      <Filter>SQL DATA\DB TABLE DEF</Filter>
+      <Filter>MAL_PIDDRM related\SQL DATA\DB TABLE DEF</Filter>
     </ClCompile>
     <ClCompile Include="DefineLEDTables.cpp">
-      <Filter>SQL DATA\DB TABLE DEF</Filter>
+      <Filter>MAL_PIDDRM related\SQL DATA\DB TABLE DEF</Filter>
     </ClCompile>
     <ClCompile Include="DefineDisplayTables.cpp">
-      <Filter>SQL DATA\DB TABLE DEF</Filter>
+      <Filter>MAL_PIDDRM related\SQL DATA\DB TABLE DEF</Filter>
     </ClCompile>
     <ClCompile Include="DefineNormalTables.cpp">
-      <Filter>SQL DATA\DB TABLE DEF</Filter>
+      <Filter>MAL_PIDDRM related\SQL DATA\DB TABLE DEF</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_nodepropertydlg.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -467,13 +467,13 @@
       <Filter>SCREEN\ROUTE MAP\NODE PROP</Filter>
     </ClCompile>
     <ClCompile Include="SQLData.cpp">
-      <Filter>SQL DATA</Filter>
+      <Filter>MAL_PIDDRM related\SQL DATA</Filter>
     </ClCompile>
     <ClCompile Include="DefineLinemapTables.cpp">
-      <Filter>SQL DATA\DB TABLE DEF</Filter>
+      <Filter>MAL_PIDDRM related\SQL DATA\DB TABLE DEF</Filter>
     </ClCompile>
     <ClCompile Include="DefineTables.cpp">
-      <Filter>SQL DATA\DB TABLE DEF</Filter>
+      <Filter>MAL_PIDDRM related\SQL DATA\DB TABLE DEF</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_displayItemPreset.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -497,10 +497,13 @@
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="DefineDateTimeTable.cpp">
-      <Filter>SQL DATA\DB TABLE DEF</Filter>
+      <Filter>MAL_PIDDRM related\SQL DATA\DB TABLE DEF</Filter>
     </ClCompile>
     <ClCompile Include="DisplayDateTimePropEdit.cpp">
       <Filter>SCREEN\NORMAL DISPLAY\DISP ITEM PROP</Filter>
+    </ClCompile>
+    <ClCompile Include="TableManage.cpp">
+      <Filter>MAL_PIDDRM related</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -712,9 +715,6 @@
     <ClInclude Include="XUnzip.h">
       <Filter>REFER\Zip</Filter>
     </ClInclude>
-    <ClInclude Include="TableManage.h">
-      <Filter>MANAGER</Filter>
-    </ClInclude>
     <ClInclude Include="DataManage.h">
       <Filter>MANAGER</Filter>
     </ClInclude>
@@ -731,7 +731,7 @@
       <Filter>REFER\MSSettingStorage</Filter>
     </ClInclude>
     <ClInclude Include="sqlite3.h">
-      <Filter>SQL DATA</Filter>
+      <Filter>MAL_PIDDRM related\SQL DATA</Filter>
     </ClInclude>
     <ClInclude Include="stringscaler.h">
       <Filter>SCREEN\MOLLA\CFontScaler</Filter>
@@ -755,28 +755,28 @@
       <Filter>MAIN\VALUE MON</Filter>
     </ClInclude>
     <ClInclude Include="DefineFilePoolTables.h">
-      <Filter>SQL DATA\DB TABLE DEF</Filter>
+      <Filter>MAL_PIDDRM related\SQL DATA\DB TABLE DEF</Filter>
     </ClInclude>
     <ClInclude Include="DefineLEDTables.h">
-      <Filter>SQL DATA\DB TABLE DEF</Filter>
+      <Filter>MAL_PIDDRM related\SQL DATA\DB TABLE DEF</Filter>
     </ClInclude>
     <ClInclude Include="DefineNormalTables.h">
-      <Filter>SQL DATA\DB TABLE DEF</Filter>
+      <Filter>MAL_PIDDRM related\SQL DATA\DB TABLE DEF</Filter>
     </ClInclude>
     <ClInclude Include="DefineDisplayTables.h">
-      <Filter>SQL DATA\DB TABLE DEF</Filter>
+      <Filter>MAL_PIDDRM related\SQL DATA\DB TABLE DEF</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_nodepropertydlg.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="SQLData.h">
-      <Filter>SQL DATA</Filter>
+      <Filter>MAL_PIDDRM related\SQL DATA</Filter>
     </ClInclude>
     <ClInclude Include="DefineTables.h">
-      <Filter>SQL DATA\DB TABLE DEF</Filter>
+      <Filter>MAL_PIDDRM related\SQL DATA\DB TABLE DEF</Filter>
     </ClInclude>
     <ClInclude Include="DefineLinemapTables.h">
-      <Filter>SQL DATA\DB TABLE DEF</Filter>
+      <Filter>MAL_PIDDRM related\SQL DATA\DB TABLE DEF</Filter>
     </ClInclude>
     <ClInclude Include="DefineMode.h">
       <Filter>MAIN</Filter>
@@ -785,7 +785,10 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="DefineDateTimeTable.h">
-      <Filter>SQL DATA\DB TABLE DEF</Filter>
+      <Filter>MAL_PIDDRM related\SQL DATA\DB TABLE DEF</Filter>
+    </ClInclude>
+    <ClInclude Include="TableManage.h">
+      <Filter>MAL_PIDDRM related</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

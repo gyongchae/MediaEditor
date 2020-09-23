@@ -18,13 +18,18 @@ displayItemPreset::displayItemPreset(int nRow, QWidget *parent)
 	ui.m_spHeight->setRange(80, 1080);
 	ui.m_spDuration->setRange(1, 30);
 
-	QStringList typeList;
 	for (auto it = pMM->m_mDisplayPoolType.begin(); it != pMM->m_mDisplayPoolType.end(); ++it)
 	{
 		ui.comboDisplayType->addItem(QString::number(it->first));
 		ui.comboDisplayType->setItemData(it->first, QString::fromStdWString(it->second), Qt::DisplayRole);
 	}
 	
+	for (auto it = pMM->m_mDateTimeDisplay.begin(); it != pMM->m_mDateTimeDisplay.end(); ++it)
+	{
+		ui.comboDateTimeDisplay->addItem(QString::number(it->first));
+		ui.comboDateTimeDisplay->setItemData(it->first, QString::fromStdWString(it->second), Qt::DisplayRole);
+	}
+
 	if (!m_pWidgetMapper)
 	{
 		m_pWidgetMapper = new QDataWidgetMapper(this);
@@ -35,6 +40,7 @@ displayItemPreset::displayItemPreset(int nRow, QWidget *parent)
 		m_pWidgetMapper->addMapping(ui.m_spHeight, 3);
 		m_pWidgetMapper->addMapping(ui.m_spDuration, 4);
 		m_pWidgetMapper->addMapping(ui.comboDisplayType, 7, "currentIndex");
+		m_pWidgetMapper->addMapping(ui.comboDateTimeDisplay, 8, "currentIndex");
 		m_pWidgetMapper->setCurrentIndex(m_nRow);
 	}
 

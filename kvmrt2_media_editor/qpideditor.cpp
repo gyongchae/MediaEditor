@@ -11,6 +11,7 @@
 #include <QScrollArea>
 #include "MapManage.h"
 #include "DefineMode.h"
+#include <qdockwidget.h>
 
 QPIDEditor::QPIDEditor(int nRow, int nWidth, int nHeight, int nDuration, QWidget *parent)
 	: QDialog(parent)
@@ -54,6 +55,7 @@ QPIDEditor::QPIDEditor(int nRow, int nWidth, int nHeight, int nDuration, QWidget
 	m_editHeight = new QLineEdit(this);
 	m_editDuration = new QLineEdit(this);
 	m_comboDisplayType = new QComboBox(this);
+	m_comboDateTimeDisplay = new QComboBox(this);
 
 	// combobox init same as displayItemPreset class
 	QStringList typeList;
@@ -61,6 +63,12 @@ QPIDEditor::QPIDEditor(int nRow, int nWidth, int nHeight, int nDuration, QWidget
 	{
 		m_comboDisplayType->addItem(QString::number(it->first));
 		m_comboDisplayType->setItemData(it->first, QString::fromStdWString(it->second), Qt::DisplayRole);
+	}
+
+	for (auto it = pMM->m_mDateTimeDisplay.begin(); it != pMM->m_mDateTimeDisplay.end(); ++it)
+	{
+		m_comboDateTimeDisplay->addItem(QString::number(it->first));
+		m_comboDateTimeDisplay->setItemData(it->first, QString::fromStdWString(it->second), Qt::DisplayRole);
 	}
 
 	scrollAreaView = new QScrollArea;
@@ -87,20 +95,21 @@ QPIDEditor::QPIDEditor(int nRow, int nWidth, int nHeight, int nDuration, QWidget
 	loProperty->addWidget(new QLabel("Size"), 1, 0);
 	loProperty->addWidget(new QLabel("Duration"), 2, 0);
 	loProperty->addWidget(new QLabel("Display Type"), 3, 0);
+	loProperty->addWidget(new QLabel("Date/Time"), 4, 0);
 
 	loProperty->addWidget(m_editTitle, 0, 1);
 	loProperty->addLayout(loSize, 1, 1);
 	loProperty->addWidget(m_editDuration, 2, 1);
 	loProperty->addWidget(m_comboDisplayType, 3, 1);
+	loProperty->addWidget(m_comboDateTimeDisplay, 4, 1);
 
 	loProperty->setColumnStretch(1, 10);
-
 	loItemList->addWidget(m_tblItemList);
 
 	gbProperty->setLayout(loProperty);
 	gbImagePool->setLayout(loItemList);
-	gbProperty->setMaximumWidth(200);
-	gbImagePool->setMaximumWidth(200);
+	gbProperty->setMaximumWidth(300);
+	gbImagePool->setMaximumWidth(300);
 	gbProperty->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 	gbImagePool->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
@@ -113,7 +122,7 @@ QPIDEditor::QPIDEditor(int nRow, int nWidth, int nHeight, int nDuration, QWidget
 	m_loMain->addWidget(scrollAreaView, 0, 0);
 	m_loMain->addWidget(scrollAreaTime, 1, 0);
 	m_loMain->addLayout(loRight, 0, 1, 2, 2);
-
+	
 	m_loMain->setRowStretch(0, 10);
 	m_loMain->setColumnStretch(0, 10);
 
@@ -179,7 +188,7 @@ void QPIDEditor::initWidgetMapper(int nRow)
 		m_pDataMapper->addMapping(m_editHeight, 3);
 		m_pDataMapper->addMapping(m_editDuration, 4);
 		m_pDataMapper->addMapping(m_comboDisplayType, 7, "currentIndex");
-
+		m_pDataMapper->addMapping(m_comboDateTimeDisplay, 8, "currentIndex");
 		m_pDataMapper->setCurrentIndex(nRow);
 	}
 }

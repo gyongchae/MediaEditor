@@ -71,7 +71,7 @@ MAPPARAM gDoorOpenDirection[] =
 	{ 4,L"Backward" },
 };
 
-
+// 값 변경 시 MAL_PIDDRM 소스 void COperManage::initMappedValue()도 같이 변경 해야 함.
 MAPPARAM gMappingVariables[] =
 {
 	{ 0, L"" },
@@ -80,8 +80,6 @@ MAPPARAM gMappingVariables[] =
 	{ 3, L"Final station code" },		// use
 	{ 4, L"Door opening side" },			// use
 	{ 5, L"Evacuation Direction" },			// use
-	{ 6, L"Date"},
-	{ 7, L"Time"},
 };
 
 
@@ -164,6 +162,12 @@ MAPPARAM gImageIndexListType[] =
 	{ 1, L"Date/Time" },
 	{ 2, L"Map Video Area" },
 	{ 3, L"Tag Item" },
+};
+
+MAPPARAM gDateTimeDisplay[] =
+{
+	{0, L"No"},
+	{1, L"Yes"},
 };
 
 CMapManage::CMapManage(void)
@@ -276,5 +280,10 @@ void CMapManage::InitMaps()
 	for (int i = 0; i < (sizeof(gImageIndexListType) / sizeof(gImageIndexListType[0])); i++)
 	{
 		m_mImageIndexListType[gImageIndexListType[i].nValue] = std::wstring(gImageIndexListType[i].szFieldName);
+	}
+
+	for (int i = 0; i < (sizeof(gDateTimeDisplay) / sizeof(gDateTimeDisplay[0])); i++)
+	{
+		m_mDateTimeDisplay[gDateTimeDisplay[i].nValue] = std::wstring(gDateTimeDisplay[i].szFieldName);
 	}
 }

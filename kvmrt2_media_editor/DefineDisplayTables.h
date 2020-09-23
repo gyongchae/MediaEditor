@@ -83,7 +83,7 @@ BEGIN_CLASS_FROM_SQLDATA_WITH_CHILDS(
 	3) /*child count*/
 
 COMMON_VAL_FOR_SQLDATA
-DECLARE_TYPESETTINGS(8)
+DECLARE_TYPESETTINGS(9)
 DECLARE_COMMON_FUNCTIONS OVERRIDE_DUMMY_EDITOR_FUNC
 
 BEGIN_MAPPING_MEMBERS
@@ -95,6 +95,7 @@ m_tSettings[4].POINTER = (void*)(&nDuration);
 m_tSettings[5].POINTER = (void*)(&uBackColor);
 m_tSettings[6].POINTER = (void*)(&nOrder);
 m_tSettings[7].POINTER = (void*)(&nDisplayType);
+m_tSettings[8].POINTER = (void*)(&nDateTimeDisplay);
 END_MAPPING_MEMBERS
 
 TYC szDesc[256];
@@ -104,6 +105,7 @@ int nDuration;
 unsigned int uBackColor;
 int nOrder;
 int nDisplayType{ 0 };
+int nDateTimeDisplay{ 0 };
 GLfloat m_fTempRect[10];			//Whole Rectangle
 
 END_CLASS_FROM_SQLDATA
