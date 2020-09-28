@@ -12,11 +12,6 @@
 #include <QDir>
 #include <qdebug.h>
 
-#define CREATE_VIDEOFILE_VERSION				L"CREATE TABLE [VIDEOFILE_VERSION] ([TABLE_INDEX] INTEGER PRIMARY KEY,[VERSION_STRING] TEXT(32))"
-#define	INSERT_VIDEOFILE_VERSION				L"INSERT INTO VIDEOFILE_VERSION (TABLE_INDEX,VERSION_STRING) VALUES (1,'')"
-#define UPDATE_VIDEOFILE_VERSION				L"UPDATE VIDEOFILE_VERSION SET VERSION_STRING='%s' WHERE TABLE_INDEX=1"
-#define SELECT_VIDEOFILE_VERSION				L"SELECT VERSION_STRING FROM VIDEOFILE_VERSION WHERE TABLE_INDEX=1"
-
 #define INIT_MODEL_FOR_CLASS(CLASS_NAME)							GET_MODEL_CLASS(CLASS_NAME)=std::shared_ptr<dataModel>(new dataModel(CLASS_NAME::m_tSettings,dim(CLASS_NAME::m_tSettings)));
 #define SET_EDITOR_FOR_MODEL(TABLE_MANAGE_CLASS,CLASS_NAME)			GET_MODEL_CLASS(CLASS_NAME)->setEditor(TABLE_MANAGE_CLASS->EDITOR_POINTER(CLASS_NAME));
 #define SET_VECTOR_FOR_MODEL_PARENT(TABLE_MANAGE_CLASS,CLASS_NAME)	SET_EDITOR_FOR_MODEL(TABLE_MANAGE_CLASS,CLASS_NAME);	GET_MODEL_CLASS(CLASS_NAME)->setVectors(&TABLE_MANAGE_CLASS->VECTOR_CLASS(CLASS_NAME),&TABLE_MANAGE_CLASS->VECTOR_DELETE_CLASS(CLASS_NAME));
@@ -106,6 +101,8 @@ void CDataManage::SetModel()
 	INIT_MODEL_FOR_CLASS(VideoPlayList);
 	INIT_MODEL_FOR_CLASS(EditorTagTable);
 
+	INIT_MODEL_FOR_CLASS(OPDataVersion);
+
 	INIT_MODEL_FOR_CLASS(FontPool);
 	INIT_MODEL_FOR_CLASS(AudioFilePool);
 	INIT_MODEL_FOR_CLASS(VideoFilePool);
@@ -177,6 +174,8 @@ void CDataManage::SetModel()
 	SET_VECTOR_FOR_MODEL_PARENT(pTM, VideoDeviceGroup);
 	SET_VECTOR_FOR_MODEL_PARENT(pTM, EditorTagTable);
 
+	SET_VECTOR_FOR_MODEL_PARENT(pTM, OPDataVersion);
+
 	SET_VECTOR_FOR_MODEL_PARENT(pTM, FontPool);
 	SET_VECTOR_FOR_MODEL_PARENT(pTM, AudioFilePool);
 	SET_VECTOR_FOR_MODEL_PARENT(pTM, VideoFilePool);
@@ -240,34 +239,34 @@ bool CDataManage::OpenDatabase()
 bool CDataManage::BeforeLoadFromDB()
 {
 	auto *pTM = CTableManage::GetInstance();
-	queryExec(CREATE_VIDEOFILE_VERSION, pTM->GetDB());
-	queryExec(INSERT_VIDEOFILE_VERSION, pTM->GetDB());
+	//queryExec(CREATE_VIDEOFILE_VERSION, pTM->GetDB());
+	//queryExec(INSERT_VIDEOFILE_VERSION, pTM->GetDB());
 	return true;
 }
 
 void CDataManage::SetVideoFileVersion()
 {
-	auto *pTM = CTableManage::GetInstance();
-	wchar_t szVersionBuffer[256];
-	wchar_t szBuffer[256];
-	GetVersion(SELECT_VIDEOFILE_VERSION, szVersionBuffer, pTM->GetDB());
-	int nVersion = 1;
-	QStringList tList = QString::fromStdWString(szVersionBuffer).split(".");
+	//auto *pTM = CTableManage::GetInstance();
+	//wchar_t szVersionBuffer[256];
+	//wchar_t szBuffer[256];
+	//GetVersion(SELECT_VIDEOFILE_VERSION, szVersionBuffer, pTM->GetDB());
+	//int nVersion = 1;
+	//QStringList tList = QString::fromStdWString(szVersionBuffer).split(".");
 
-	if (tList.size() == 3)
-	{
-		nVersion = (tList.at(0).toInt() * 10000) + (tList.at(1).toInt() * 100) + tList.at(2).toInt();
-		nVersion++;
-	}
+	//if (tList.size() == 3)
+	//{
+	//	nVersion = (tList.at(0).toInt() * 10000) + (tList.at(1).toInt() * 100) + tList.at(2).toInt();
+	//	nVersion++;
+	//}
 
-	swprintf_s(szVersionBuffer, _countof(szVersionBuffer), _T("%02d.%02d.%02d"), (nVersion / 10000), ((nVersion % 10000) / 100), nVersion % 100);
-	swprintf(szBuffer, UPDATE_VIDEOFILE_VERSION, szVersionBuffer);
-	queryExec(szBuffer, pTM->GetDB());
+	//swprintf_s(szVersionBuffer, _countof(szVersionBuffer), _T("%02d.%02d.%02d"), (nVersion / 10000), ((nVersion % 10000) / 100), nVersion % 100);
+	//swprintf(szBuffer, UPDATE_VIDEOFILE_VERSION, szVersionBuffer);
+	//queryExec(szBuffer, pTM->GetDB());
 }
 
 wchar_t CDataManage::GetVersion(wchar_t *pszSelectQuery, wchar_t *szVersionString, sqlite3 *pDB)
 {
-	int nCount;
+	/*int nCount;
 	TYC *lpStrRet;
 	const TYC *tail;
 	sqlite3_stmt* state;
@@ -286,7 +285,9 @@ wchar_t CDataManage::GetVersion(wchar_t *pszSelectQuery, wchar_t *szVersionStrin
 		nRetVal = sqlite3_step(state);
 	}
 	sqlite3_finalize(state);
-	return true;
+	return true;*/
+
+	return false;
 }
 
 bool CDataManage::sqlite3SetText(sqlite3_stmt *state, int nRow, TYC *lpStr, int nCount)

@@ -7,11 +7,10 @@
 	- registry read/write
 *******************************************************************************************/
 
-
-
-
 #include <QDialog>
 #include "ui_registrysettings.h"
+
+class dataModel;
 
 class RegistrySettings : public QDialog
 {
@@ -21,10 +20,15 @@ public:
 	RegistrySettings(QWidget *parent = 0);
 	~RegistrySettings();
 
+	void initVersionSpinBox();
+	bool initOPDataVersion();
+
 private:
 	Ui::RegistrySettings ui;
+
 protected:
 	void closeEvent(QCloseEvent *event);
+
 private slots:
 
 	void acceptedChanges();
@@ -33,6 +37,7 @@ private slots:
 	void loadVideoFileSavePath();
 	void loadAudioFileSavePath();
 	void loadFontFileSavePath();
+	void changeDataVersion(int val);
 };
 
 #endif // REGISTRYSETTINGS_H

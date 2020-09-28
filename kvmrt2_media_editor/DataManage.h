@@ -40,6 +40,8 @@ public:
 	DECLARE_MODEL_CLASS(VideoDeviceGroup)
 	DECLARE_MODEL_CLASS(VideoPlayList)
 	DECLARE_MODEL_CLASS(EditorTagTable)
+
+	DECLARE_MODEL_CLASS(OPDataVersion)
 	
 	DECLARE_MODEL_CLASS(FontPool)
 	DECLARE_MODEL_CLASS(AudioFilePool)

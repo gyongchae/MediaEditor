@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kvmrt2_media_editor", "kvmrt2_media_editor\kvmrt2_media_editor.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MRT2MediaEditorInstaller", "..\MRT2MediaEditorInstaller\MRT2MediaEditorInstaller\MRT2MediaEditorInstaller.vdproj", "{AC2BD820-ED49-41EF-AEAF-E6C6EF2FCD7B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -15,11 +17,19 @@ Global
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug|x86.Build.0 = Debug|Win32
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x86.ActiveCfg = Release|Win32
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x86.Build.0 = Release|Win32
+		{AC2BD820-ED49-41EF-AEAF-E6C6EF2FCD7B}.Debug|x86.ActiveCfg = Debug
+		{AC2BD820-ED49-41EF-AEAF-E6C6EF2FCD7B}.Debug|x86.Build.0 = Debug
+		{AC2BD820-ED49-41EF-AEAF-E6C6EF2FCD7B}.Release|x86.ActiveCfg = Release
+		{AC2BD820-ED49-41EF-AEAF-E6C6EF2FCD7B}.Release|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0A545823-F6B8-4269-A9CF-FC21700C403A}
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
 	EndGlobalSection
 EndGlobal

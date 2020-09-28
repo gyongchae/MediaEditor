@@ -100,6 +100,9 @@ private slots:
 	void onBtnDelRoutes();
 	void onAutoFillRouteDestination(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 	void onAutoFillDisplayItem(const QModelIndex &topLeft, const QModelIndex &bottomRight);
+
 private:
 	Ui::kvmrt2_media_editorClass ui;
+	int m_lastVersion[3]{ 0 };
+
 };

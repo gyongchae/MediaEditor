@@ -173,3 +173,12 @@ DECLARE_STATIC_TYPESETTINGS(EditorTagTable, 4) =
 	{ TYPE_INTEGER,	MAKE_T("TABLE_ORDER"),	0,	nullptr,false, true,false, MAKE_T("Order"),			100 },
 };
 
+DECLARE_STATIC_VARIABLES(OPDataVersion, false, VIDEOFILE_VERSION, -1, -1, 0)
+DECLARE_STATIC_TYPESETTINGS(OPDataVersion, 5) =
+{
+	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),	 0,	 nullptr,true, false,false, MAKE_T("Table Index"),	100 },
+	{ TYPE_TEXT,	MAKE_T("VERSION_STRING"),128,nullptr,false,false,false, MAKE_T("Data Version"), 100 },
+	{ TYPE_INTEGER,	MAKE_T("VERSION_1"),0,nullptr,false,false,false, MAKE_T("Version1"), 100 },
+	{ TYPE_INTEGER,	MAKE_T("VERSION_2"),0,nullptr,false,false,false, MAKE_T("Version2"), 100 },
+	{ TYPE_INTEGER,	MAKE_T("VERSION_3"),0,nullptr,false,false,false, MAKE_T("Version3"), 100 },
+};

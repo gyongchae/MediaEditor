@@ -10,7 +10,7 @@
 #include <qcolordialog.h>
 #include "DefineMode.h"
 
-#define X_PARENT_EDITOR_CLASS imageListPool
+#define IMAGE_LIST_POOL_CLASS imageListPool
 
 imageListPool::imageListPool(QWidget *parent)
 	: QDialog(parent)
@@ -50,7 +50,7 @@ imageListPool::~imageListPool()
 {
 }
 
-IMPLEMENT_INIT_FUNCTION_FOR_CLASS(X_PARENT_EDITOR_CLASS, ImageIndexList)
+IMPLEMENT_INIT_FUNCTION_FOR_CLASS(IMAGE_LIST_POOL_CLASS, ImageIndexList)
 {
 	auto *pDM = CDataManage::GetInstance();
 	auto *pMM = CMapManage::GetInstance();
@@ -71,7 +71,7 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(X_PARENT_EDITOR_CLASS, ImageIndexList)
 	return false;
 }
 
-IMPLEMENT_INIT_FUNCTION_FOR_CLASS(X_PARENT_EDITOR_CLASS, ImageIndex)
+IMPLEMENT_INIT_FUNCTION_FOR_CLASS(IMAGE_LIST_POOL_CLASS, ImageIndex)
 {
 	auto *pDM = CDataManage::GetInstance();
 	auto *pTM = CTableManage::GetInstance();

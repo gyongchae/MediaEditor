@@ -54,6 +54,18 @@ kvmrt2_media_editor::kvmrt2_media_editor(QString & dbPath, QString & currPath, Q
 
 	ui.rbCustomOrder->setChecked(true);
 	
+	if (pDM->m_pModOPDataVersion->rowCount() == 1)
+	{
+		QModelIndex index = pDM->m_pModOPDataVersion->index(0, 0);
+		m_lastVersion[0] = pDM->m_pModOPDataVersion->data(index.sibling(0, 2), Qt::DisplayRole).toInt();
+		m_lastVersion[1] = pDM->m_pModOPDataVersion->data(index.sibling(0, 3), Qt::DisplayRole).toInt();
+		m_lastVersion[2] = pDM->m_pModOPDataVersion->data(index.sibling(0, 4), Qt::DisplayRole).toInt();
+	}
+
+	ui.statusBar->showMessage(QString("OP_DATA.DB was loaded (version: %1.%2.%3)")
+		.arg(m_lastVersion[0]).arg(m_lastVersion[1]).arg(m_lastVersion[2]));
+
+
 	setHideItemsMainWindow(OFFICIAL_RELEASE);
 }
 
@@ -299,6 +311,7 @@ bool kvmrt2_media_editor::deleteRowFromTable(QTableView *pView, dataModel *pMode
 void kvmrt2_media_editor::onSaveDB()
 {
 	auto *pTM = CTableManage::GetInstance();
+	auto *pDM = CDataManage::GetInstance();
 	/*
 	Save 하기 전 DB의 버전 설정 화면을 띄운다.
 	1. 현재 버전 표시
@@ -306,6 +319,27 @@ void kvmrt2_media_editor::onSaveDB()
 	3. 변경할 경우 버전 세팅하기
 	4. VideoVersion에 저장하기
 	*/
+	int currVersion[3]{ 0 };
+	QModelIndex index = pDM->m_pModOPDataVersion->index(0, 0);
+	currVersion[0] = pDM->m_pModOPDataVersion->data(index.sibling(0, 2), Qt::DisplayRole).toInt();
+	currVersion[1] = pDM->m_pModOPDataVersion->data(index.sibling(0, 3), Qt::DisplayRole).toInt();
+	currVersion[2] = pDM->m_pModOPDataVersion->data(index.sibling(0, 4), Qt::DisplayRole).toInt();
+
+	for (int i = 0; i < 3; ++i)
+	{
+		if (currVersion[i] != m_lastVersion[i])
+		{
+			qDebug("version[%d] %d -> %d changed", i, m_lastVersion[i], currVersion[i]);
+		}
+		else
+		{
+
+		}
+	}
+
+	ui.statusBar->showMessage(QString("OP_DATA.DB has been saved (version: %1.%2.%3)")
+		.arg(currVersion[0]).arg(currVersion[1]).arg(currVersion[2]));
+
 	pTM->SaveModified();
 }
 
@@ -462,7 +496,7 @@ void kvmrt2_media_editor::onBtnRouteAutoAdd()
 {
 	/*
 	전제 조건
-	1. 역 코드는 1씩 증가한다.
+	1. 역 코드는 1씩 증가한다. (안 쓰는 역 발생함)
 	2. 거리 테이블에 역 쌍들은 출발역-도착역 간 코드가 1씩 차이난다.
 	*/
 
@@ -840,6 +874,9 @@ void kvmrt2_media_editor::updateStationDistance(const QModelIndex & topLeft, con
 		int depCode = 0;
 		int arrCode = 0;
 
+		int depOrder = 0;
+		int arrOrder = 0;
+
 		switch (nColumn)
 		{
 		case 1: // departure
@@ -856,41 +893,49 @@ void kvmrt2_media_editor::updateStationDistance(const QModelIndex & topLeft, con
 				// parent class to child class
 				auto *c = dynamic_cast<StationInformation*>(it_dep->get());
 				depCode = c->nStationCode;
+				depOrder = c->nOrder;
 				GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 6/*dep code*/), depCode, Qt::EditRole);
 			}
 
 			if (ui.rbInOrder->isChecked()) // in order radio is checked
 			{
-				// find and check departure + 1 code is valid
-				arrCode = depCode + 1;
-				std::vector<std::shared_ptr<CSQLData>>::iterator it_arr;
-				// find using station code
-				it_arr = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findStationNameCode(arrCode));
+				// find and check departure + 1 order is valid
+				arrOrder = depOrder + 1;
 
-				if (it_arr != pTM->VECTOR_CLASS(StationInformation).end())
+				std::vector<std::shared_ptr<CSQLData>>::iterator it_arrOrder;
+
+				// find using station order
+				it_arrOrder = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findStationNameOrder(arrOrder));
+
+				if (it_arrOrder != pTM->VECTOR_CLASS(StationInformation).end())
 				{
 					// get target's table index
-					int arrTableIndex = it_arr->get()->m_nTableIndex;
-
+					int arrTableIndex = it_arrOrder->get()->m_nTableIndex;
+					StationInformation *c = dynamic_cast<StationInformation*>(it_arrOrder->get());
+					int findCode = c->nStationCode;
 					GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 2/*arrival col*/), arrTableIndex, Qt::EditRole);
-					GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 7/*arr code*/), arrCode, Qt::EditRole);
+					GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 7/*arr code*/), findCode, Qt::EditRole);
 				}
 			}
 			else if (ui.rbInReverseOrder->isChecked()) // in reverse order is checked
 			{
 				// find and check departure - 1 code is valid
-				arrCode = depCode - 1;
-				std::vector<std::shared_ptr<CSQLData>>::iterator it_arr;
-				// find using station code
-				it_arr = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findStationNameCode(arrCode));
+				arrOrder = depOrder - 1;
 
-				if (it_arr != pTM->VECTOR_CLASS(StationInformation).end())
+				std::vector<std::shared_ptr<CSQLData>>::iterator it_arrOrder;
+
+				// find using station code
+				it_arrOrder = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findStationNameOrder(arrOrder));
+
+				if (it_arrOrder != pTM->VECTOR_CLASS(StationInformation).end())
 				{
 					// get target's table index
-					int arrTableIndex = it_arr->get()->m_nTableIndex;
+					int arrTableIndex = it_arrOrder->get()->m_nTableIndex;
+					StationInformation *c = dynamic_cast<StationInformation*>(it_arrOrder->get());
+					int findCode = c->nStationCode;
 
 					GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 2/*arrival col*/), arrTableIndex, Qt::EditRole);
-					GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 7/*arr code*/), arrCode, Qt::EditRole);
+					GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 7/*arr code*/), findCode, Qt::EditRole);
 				}
 			}
 			else

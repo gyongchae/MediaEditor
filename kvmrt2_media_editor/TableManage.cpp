@@ -84,6 +84,9 @@ void CTableManage::LoadDatabase()
 	CREATE_EDITOR_CLASS_FOR_CLASS(VideoDeviceGroup);
 	CREATE_EDITOR_CLASS_FOR_CLASS(VideoPlayList);
 	CREATE_EDITOR_CLASS_FOR_CLASS(EditorTagTable);
+
+	CREATE_EDITOR_CLASS_FOR_CLASS(OPDataVersion);
+
 	CREATE_EDITOR_CLASS_FOR_CLASS(FontPool);
 	CREATE_EDITOR_CLASS_FOR_CLASS(AudioFilePool)
 	CREATE_EDITOR_CLASS_FOR_CLASS(VideoFilePool)
@@ -123,6 +126,8 @@ void CTableManage::LoadDatabase()
 	INIT_EDITORCLASS(AudioTotal, m_dbSource);
 	INIT_EDITORCLASS(VideoDeviceGroup, m_dbSource);
 	INIT_EDITORCLASS(EditorTagTable, m_dbSource);
+
+	INIT_EDITORCLASS(OPDataVersion, m_dbSource);
 
 	INIT_EDITORCLASS(FontPool, m_dbSource);
 	INIT_EDITORCLASS(AudioFilePool, m_dbSource);
@@ -196,6 +201,8 @@ void CTableManage::SaveModified()
 	SAVEDATA_FOR_CLASS(AudioTotal);
 	SAVEDATA_FOR_CLASS(VideoDeviceGroup);
 	SAVEDATA_FOR_CLASS(EditorTagTable);
+
+	SAVEDATA_FOR_CLASS(OPDataVersion);
 
 	SAVEDATA_FOR_CLASS(FontPool);
 	SAVEDATA_FOR_CLASS(AudioFilePool);
