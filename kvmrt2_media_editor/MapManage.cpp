@@ -80,6 +80,12 @@ MAPPARAM gMappingVariables[] =
 	{ 3, L"Final station code" },		// use
 	{ 4, L"Door opening side" },			// use
 	{ 5, L"Evacuation Direction" },			// use
+	{ 6, L"Day"},
+	{ 7, L"Month"},
+	{ 8, L"Year" },
+	{ 9, L"Hour" },
+	{ 10, L"Minute" },
+	{ 11, L"Am/Pm"},
 };
 
 

@@ -20,7 +20,6 @@ RegistrySettings::RegistrySettings(QWidget *parent)
 	ui.m_leVideoFileSavePath->setText(pDM->videoPath());
 	ui.m_leFontFileSavePath->setText(pDM->fontPath());
 
-	
 	initOPDataVersion();
 	initVersionSpinBox();
 

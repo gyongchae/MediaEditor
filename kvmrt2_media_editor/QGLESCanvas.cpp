@@ -1475,7 +1475,23 @@ int QGLESPIDCanvas::getInitMetaItemIndex(const int & tagIdx)
 	}
 	else
 	{
-		res = -1;
+		// code 101 없으면 여기서 처리... code 0을 찾자
+		QString strTagZero = QString("[%1:0]").arg(rawTagName);
+		std::vector<std::shared_ptr<CSQLData>>::iterator it;
+
+		wchar_t tagZeroName[256];
+		wcscpy(tagZeroName, strTagZero.toStdWString().c_str());
+
+		it = find_if(pTM->m_vImageIndexList.begin(),
+			pTM->m_vImageIndexList.end(), findImageListItemByTagName(tagZeroName));
+		if (it != pTM->m_vImageIndexList.end())
+		{
+			res = it->get()->m_nTableIndex;
+		}
+		else
+		{
+			res = -1;
+		}
 	}
 
 	return res;
