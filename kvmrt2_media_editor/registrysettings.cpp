@@ -59,6 +59,7 @@ void RegistrySettings::initVersionSpinBox()
 	int ver3 = pDM->m_pModOPDataVersion->data(topLeft.sibling(0, 4), Qt::DisplayRole).toInt();
 
 	// version 1, 2, 3는 합쳐서 1바이트
+	// version 1(2bits), 2(3bits), 3(3bits)는 합쳐서 1바이트
 	// 가능한 범위
 	// version1 0~3
 	// version2 0~7
@@ -71,7 +72,7 @@ void RegistrySettings::initVersionSpinBox()
 	ui.sbVer1->setValue(ver1);
 	ui.sbVer2->setValue(ver2);
 	ui.sbVer3->setValue(ver3);
-	
+
 	QString strVer = (QString("0%1.0%2.0%3")
 		.arg(ui.sbVer1->value())
 		.arg(ui.sbVer2->value())
