@@ -42,7 +42,7 @@ public:
     QDoubleSpinBox *m_ctlY;
     QHBoxLayout *horizontalLayout_12;
     QLabel *label_12;
-    QComboBox *m_cboEasing;
+    QComboBox *m_cboEasingPos;
     QGroupBox *groupBox_2;
     QVBoxLayout *verticalLayout_2;
     QHBoxLayout *horizontalLayout_3;
@@ -50,7 +50,7 @@ public:
     QDoubleSpinBox *m_ctlAngle;
     QHBoxLayout *horizontalLayout_13;
     QLabel *label_13;
-    QComboBox *m_cboEasing_2;
+    QComboBox *m_cboEasingAngle;
     QGroupBox *groupBox_3;
     QVBoxLayout *verticalLayout_3;
     QHBoxLayout *horizontalLayout_4;
@@ -61,7 +61,7 @@ public:
     QDoubleSpinBox *m_ctlScalingY;
     QHBoxLayout *horizontalLayout_16;
     QLabel *label_16;
-    QComboBox *m_cboEasing_5;
+    QComboBox *m_cboEasingScale;
     QHBoxLayout *horizontalLayout_6;
     QLabel *label_6;
     QSpinBox *m_ctlZOrder;
@@ -72,10 +72,10 @@ public:
     QColorPickerPushButton *m_ctlImageColor;
     QHBoxLayout *horizontalLayout_14;
     QLabel *label_14;
-    QComboBox *m_cboEasing_3;
+    QComboBox *m_cboEasingColor;
     QHBoxLayout *horizontalLayout_9;
     QLabel *label_9;
-    QComboBox *m_cboCenter;
+    QComboBox *m_cboPivot;
     QCheckBox *m_cbVisible;
     QDialogButtonBox *buttonBox;
 
@@ -140,10 +140,10 @@ public:
 
         horizontalLayout_12->addWidget(label_12);
 
-        m_cboEasing = new QComboBox(groupBox);
-        m_cboEasing->setObjectName(QStringLiteral("m_cboEasing"));
+        m_cboEasingPos = new QComboBox(groupBox);
+        m_cboEasingPos->setObjectName(QStringLiteral("m_cboEasingPos"));
 
-        horizontalLayout_12->addWidget(m_cboEasing);
+        horizontalLayout_12->addWidget(m_cboEasingPos);
 
 
         verticalLayout->addLayout(horizontalLayout_12);
@@ -183,10 +183,10 @@ public:
 
         horizontalLayout_13->addWidget(label_13);
 
-        m_cboEasing_2 = new QComboBox(groupBox_2);
-        m_cboEasing_2->setObjectName(QStringLiteral("m_cboEasing_2"));
+        m_cboEasingAngle = new QComboBox(groupBox_2);
+        m_cboEasingAngle->setObjectName(QStringLiteral("m_cboEasingAngle"));
 
-        horizontalLayout_13->addWidget(m_cboEasing_2);
+        horizontalLayout_13->addWidget(m_cboEasingAngle);
 
 
         verticalLayout_2->addLayout(horizontalLayout_13);
@@ -248,10 +248,10 @@ public:
 
         horizontalLayout_16->addWidget(label_16);
 
-        m_cboEasing_5 = new QComboBox(groupBox_3);
-        m_cboEasing_5->setObjectName(QStringLiteral("m_cboEasing_5"));
+        m_cboEasingScale = new QComboBox(groupBox_3);
+        m_cboEasingScale->setObjectName(QStringLiteral("m_cboEasingScale"));
 
-        horizontalLayout_16->addWidget(m_cboEasing_5);
+        horizontalLayout_16->addWidget(m_cboEasingScale);
 
 
         verticalLayout_3->addLayout(horizontalLayout_16);
@@ -305,10 +305,10 @@ public:
 
         horizontalLayout_14->addWidget(label_14);
 
-        m_cboEasing_3 = new QComboBox(groupBox_4);
-        m_cboEasing_3->setObjectName(QStringLiteral("m_cboEasing_3"));
+        m_cboEasingColor = new QComboBox(groupBox_4);
+        m_cboEasingColor->setObjectName(QStringLiteral("m_cboEasingColor"));
 
-        horizontalLayout_14->addWidget(m_cboEasing_3);
+        horizontalLayout_14->addWidget(m_cboEasingColor);
 
 
         verticalLayout_4->addLayout(horizontalLayout_14);
@@ -324,10 +324,10 @@ public:
 
         horizontalLayout_9->addWidget(label_9);
 
-        m_cboCenter = new QComboBox(displayItemPropEdit);
-        m_cboCenter->setObjectName(QStringLiteral("m_cboCenter"));
+        m_cboPivot = new QComboBox(displayItemPropEdit);
+        m_cboPivot->setObjectName(QStringLiteral("m_cboPivot"));
 
-        horizontalLayout_9->addWidget(m_cboCenter);
+        horizontalLayout_9->addWidget(m_cboPivot);
 
 
         verticalLayout_5->addLayout(horizontalLayout_9);

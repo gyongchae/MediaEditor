@@ -246,7 +246,6 @@ void QLineMapEdit::pasteNodeProperty()
 	{
 		if (i != m_selectedRow)
 		{
-			qDebug() << "i:" << i << m_tNode.nOffsetX[0];
 			QModelIndex index = pVLMN->index(i, 0);
 			pVLMN->setData(index.sibling(i,  7), m_tNode.nOffsetX[0], Qt::EditRole);
 			pVLMN->setData(index.sibling(i,  8), m_tNode.nOffsetY[0], Qt::EditRole);
@@ -272,7 +271,6 @@ void QLineMapEdit::pasteNodeProperty()
 		}
 		else
 		{
-			qDebug() << "selected row and i val are same:" << m_selectedRow << i;
 		}
 	}
 
@@ -287,7 +285,6 @@ void QLineMapEdit::pasteSpotProperty()
 	{
 		if (i != m_selectedRow)
 		{
-			qDebug() << "i:" << i << m_tNode.nOffsetX[0];
 			QModelIndex index = pVLMN->index(i, 0);
 			pVLMN->setData(index.sibling(i, 28), m_tSpot.nSOffsetX[0], Qt::EditRole);
 			pVLMN->setData(index.sibling(i, 29), m_tSpot.nSOffsetY[0], Qt::EditRole);
@@ -310,7 +307,6 @@ void QLineMapEdit::pasteSpotProperty()
 		}
 		else
 		{
-			qDebug() << "selected row and i val are same:" << m_selectedRow << i;
 		}
 	}
 }
@@ -318,7 +314,6 @@ void QLineMapEdit::pasteSpotProperty()
 void QLineMapEdit::clickedSetSpotButton(int id)
 {
 	// id와 실제 db에 저장되는 값이 같아야 함!!!!!
-	qDebug() << id;
 	auto *pDM = CDataManage::GetInstance();
 	std::shared_ptr<dataModel> pVLMN = pDM->GET_MODEL_CLASS(LineMapNode);
 

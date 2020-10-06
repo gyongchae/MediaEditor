@@ -40,6 +40,8 @@ public:
 	DECLARE_MODEL_CLASS(VideoDeviceGroup)
 	DECLARE_MODEL_CLASS(VideoPlayList)
 	DECLARE_MODEL_CLASS(EditorTagTable)
+
+	DECLARE_MODEL_CLASS(OPDataVersion)
 	
 	DECLARE_MODEL_CLASS(FontPool)
 	DECLARE_MODEL_CLASS(AudioFilePool)
@@ -54,6 +56,9 @@ public:
 	DECLARE_MODEL_CLASS(DisplayProp)
 	DECLARE_MODEL_CLASS(DisplayMetaItem)
 	DECLARE_MODEL_CLASS(DisplayMetaItemProp)
+
+	DECLARE_MODEL_CLASS(DisplayDateTimeItem)
+	DECLARE_MODEL_CLASS(DisplayDateTimeProp)
 
 	DECLARE_MODEL_CLASS(LineMapPool)
 	DECLARE_MODEL_CLASS(LineMapLink)
@@ -96,6 +101,7 @@ public:
 
 	static void reorderTimeLine(DisplayItem *pItem);
 	static void reorderTimeLine(DisplayMetaItem *pItem);
+	static void reorderTimeLine(DisplayDateTimeItem *pItem);
 
 public:
 	static bool getMappedValue(wchar_t *pTagName,std::shared_ptr<CValueMonitor> *pVM);

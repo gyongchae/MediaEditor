@@ -104,7 +104,7 @@ DECLARE_EDITOR_CLASS(TrainNumber);
 // StopPtnHeader
 BEGIN_CLASS_FROM_SQLDATA_WITH_CHILDS(StopPtnHeader, , , 1);
 COMMON_VAL_FOR_SQLDATA;
-DECLARE_TYPESETTINGS(6);
+DECLARE_TYPESETTINGS(7);
 DECLARE_COMMON_FUNCTIONS OVERRIDE_DUMMY_EDITOR_FUNC;
 BEGIN_MAPPING_MEMBERS
 m_tSettings[0].POINTER = (void*)(&m_nTableIndex);
@@ -113,12 +113,14 @@ m_tSettings[2].POINTER = (void*)(&nArrivalStnIndex);
 m_tSettings[3].POINTER = (void*)(szDesc);
 m_tSettings[4].POINTER = (void*)(&nRelatedLineMapIndex);
 m_tSettings[5].POINTER = (void*)(&nOrder);
+m_tSettings[6].POINTER = (void*)(&nDriveMode);
 END_MAPPING_MEMBERS
 int nDepartStnIndex{ 0 };
 int nArrivalStnIndex{ 0 };
 TYC szDesc[256]{ 0 };
 int nRelatedLineMapIndex{ 0 };
 int nOrder{ 1 };
+int nDriveMode{ 0 };
 END_CLASS_FROM_SQLDATA
 DECLARE_EDITOR_CLASS(StopPtnHeader);
 // !StopPtnHeader
@@ -358,19 +360,37 @@ END_CLASS_FROM_SQLDATA
 DECLARE_EDITOR_CLASS(EditorTagTable);
 // !EditorTagTable
 
-#include <qdebug.h>
+// OPDataVersion
+BEGIN_CLASS_FROM_SQLDATA(OPDataVersion, , );
+COMMON_VAL_FOR_SQLDATA;
+DECLARE_TYPESETTINGS(5);
+DECLARE_COMMON_FUNCTIONS OVERRIDE_DUMMY_EDITOR_FUNC;
+BEGIN_MAPPING_MEMBERS
+m_tSettings[0].POINTER = (void*)(&m_nTableIndex);
+m_tSettings[1].POINTER = (void*)(szVersion);
+m_tSettings[2].POINTER = (void*)(&nVer1);
+m_tSettings[3].POINTER = (void*)(&nVer2);
+m_tSettings[4].POINTER = (void*)(&nVer3);
+END_MAPPING_MEMBERS
+TYC szVersion[32]{ 0 }; // title
+int nVer1{ 0 };
+int nVer2{ 0 };
+int nVer3{ 0 };
+
+END_CLASS_FROM_SQLDATA
+DECLARE_EDITOR_CLASS(OPDataVersion);
+// !OPDataVersion
 
 struct findStationNameCode : public std::unary_function<SHARED_PTRC(CSQLData), bool>
 {
-	findStationNameCode(int nIndex)
-		:m_nCode(nIndex)
+	findStationNameCode(int nCode)
+		:m_nCode(nCode)
 	{
 
 	}
 	bool operator ()(SHARED_PTRC(CSQLData) &p)
 	{
 		StationInformation *c = dynamic_cast<StationInformation*>(p.get());
-		qDebug() << Q_FUNC_INFO << c->nStationCode;
 		return (c->nStationCode == m_nCode);
 		//return (p->nStationCode == m_nIndex);
 	}
@@ -378,36 +398,37 @@ private:
 	int m_nCode;
 };
 
-struct findDistanceIndexByDeparture : public std::unary_function<SHARED_PTRC(CSQLData), bool>
+struct findStationNameCodeByTableIndex : public std::unary_function<SHARED_PTRC(CSQLData), bool>
 {
-	findDistanceIndexByDeparture(int nIndex)
+	findStationNameCodeByTableIndex(int nIndex)
 		:m_nIndex(nIndex)
 	{
 
 	}
 	bool operator ()(SHARED_PTRC(CSQLData) &p)
 	{
-		auto *c = dynamic_cast<StationDistance*>(p.get());
-		return (c->nDepartStn == m_nIndex);
+		StationInformation *c = dynamic_cast<StationInformation*>(p.get());
+		return (c->m_nTableIndex == m_nIndex);
 	}
 private:
 	int m_nIndex;
 };
 
-struct findDistanceIndexByArrival : public std::unary_function<SHARED_PTRC(CSQLData), bool>
+struct findStationNameOrder : public std::unary_function<SHARED_PTRC(CSQLData), bool>
 {
-	findDistanceIndexByArrival(int nIndex)
-		:m_nIndex(nIndex)
+	findStationNameOrder(int nOrder)
+		:m_nOrder(nOrder)
 	{
 
 	}
 	bool operator ()(SHARED_PTRC(CSQLData) &p)
 	{
-		auto *c = dynamic_cast<StationDistance*>(p.get());
-		return (c->nArrivalStn == m_nIndex);
+		StationInformation *c = dynamic_cast<StationInformation*>(p.get());
+		return (c->nOrder == m_nOrder);
+		//return (p->nStationCode == m_nIndex);
 	}
 private:
-	int m_nIndex;
+	int m_nOrder;
 };
 
 struct findDistanceDepartureCode : public std::unary_function<SHARED_PTRC(CSQLData), bool>
@@ -426,3 +447,20 @@ private:
 	int m_nDepCode;
 	int m_nArrCode;
 };
+
+struct findTagNameByTagIndex : public std::unary_function<SHARED_PTRC(CSQLData), bool>
+{
+	findTagNameByTagIndex(int idx) : m_idx(idx)
+	{
+
+	}
+	bool operator()(SHARED_PTRC(CSQLData) &p)
+	{
+		auto *c = dynamic_cast<EditorTagTable*>(p.get());
+		return(c->m_nTableIndex == m_idx);
+	}
+private:
+	int m_idx;
+};
+
+

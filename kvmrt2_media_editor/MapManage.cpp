@@ -71,7 +71,7 @@ MAPPARAM gDoorOpenDirection[] =
 	{ 4,L"Backward" },
 };
 
-
+// 값 변경 시 MAL_PIDDRM 소스 void COperManage::initMappedValue()도 같이 변경 해야 함.
 MAPPARAM gMappingVariables[] =
 {
 	{ 0, L"" },
@@ -80,20 +80,12 @@ MAPPARAM gMappingVariables[] =
 	{ 3, L"Final station code" },		// use
 	{ 4, L"Door opening side" },			// use
 	{ 5, L"Evacuation Direction" },			// use
-	//{ 0, L"" },
-	//{ 1, L"Next station code" },			// use
-	//{ 2, L"Current station code" },			// use
-	//{ 3, L"Destination station code" },		// use
-	//{ 4, L"Destination code" },				// no use
-	//{ 5, L"Car number" },					// no use
-	//{ 6, L"Door opening side" },			// use
-	//{ 7, L"This/Next stop flag" },			// no use
-	//{ 8, L"Distance between station" },		// no use
-	//{ 9, L"Door state" },					// no use
-	//{ 10,L"Current speed" },				// no use
-	//{ 11,L"Door isolation information" },	// no use
-	//{ 12,L"Door fault information" },		// no use
-	//{ 13,L"Door Orientation Information" },	// use
+	{ 6, L"Day"},
+	{ 7, L"Month"},
+	{ 8, L"Year" },
+	{ 9, L"Hour" },
+	{ 10, L"Minute" },
+	{ 11, L"Am/Pm"},
 };
 
 
@@ -131,9 +123,13 @@ MAPPARAM gDistanceType[] =
 
 MAPPARAM gDisplayPoolType[] =
 {
-	{ 0,L"No Startup" },
+	{ 0,L"Fragment" },
 	{ 1,L"DRMD Startup" },
 	{ 2,L"PID Startup" },
+	{ 3,L"Emergency"},
+	{ 4,L"Operation"},
+	{ 5,L"DRMD Pattern Test"},
+	{ 6,L"PID Pattern Test"}
 };
 
 MAPPARAM gAudioType[] =
@@ -164,6 +160,26 @@ MAPPARAM gVideoGroup[] =
 	{ 1,L"PID 1" },
 	{ 2,L"PID 2" },
 	{ 3,L"PID 3" },
+};
+
+MAPPARAM gImageIndexListType[] = 
+{
+	{ 0, L"Normal" },
+	{ 1, L"Date/Time" },
+	{ 2, L"Map Video Area" },
+	{ 3, L"Tag Item" },
+};
+
+MAPPARAM gDateTimeDisplay[] =
+{
+	{0, L"No"},
+	{1, L"Yes"},
+};
+
+MAPPARAM gStopPtnMode[] =
+{
+	{0, L"Operation"},
+	{1, L"Simulation"},
 };
 
 CMapManage::CMapManage(void)
@@ -271,5 +287,19 @@ void CMapManage::InitMaps()
 	for (int i = 0; i < (sizeof(gVideoGroup) / sizeof(gVideoGroup[0])); i++)
 	{
 		m_mVideoGroup[gVideoGroup[i].nValue] = std::wstring(gVideoGroup[i].szFieldName);
+	}
+
+	for (int i = 0; i < (sizeof(gImageIndexListType) / sizeof(gImageIndexListType[0])); i++)
+	{
+		m_mImageIndexListType[gImageIndexListType[i].nValue] = std::wstring(gImageIndexListType[i].szFieldName);
+	}
+
+	for (int i = 0; i < (sizeof(gDateTimeDisplay) / sizeof(gDateTimeDisplay[0])); i++)
+	{
+		m_mDateTimeDisplay[gDateTimeDisplay[i].nValue] = std::wstring(gDateTimeDisplay[i].szFieldName);
+	}
+	for (int i = 0; i < (sizeof(gStopPtnMode) / sizeof(gStopPtnMode[0])); i++)
+	{
+		m_mStopPtnMode[gStopPtnMode[i].nValue] = std::wstring(gStopPtnMode[i].szFieldName);
 	}
 }

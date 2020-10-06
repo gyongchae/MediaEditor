@@ -59,8 +59,6 @@ void CSQLData::SetLEDIndicatorParam(int nEDDWidth,int nEDDHeight,int nETNDWidth,
 	m_nETNDHeight = nETNDHeight;
 	m_nEDDWidth = nEDDWidth;
 	m_nEDDHeight = nEDDHeight;
-	qDebug() << Q_FUNC_INFO << "EDD  size(w,h):" << m_nEDDWidth << m_nEDDHeight;
-	qDebug() << Q_FUNC_INFO << "ETND size(w,h):" << m_nETNDWidth << m_nETNDHeight;
 }
 
 
@@ -704,7 +702,6 @@ bool CSQLData::InsertExec()
 		GetInsertQuery(szQueryBuffer, dim(szQueryBuffer), pTableName, pSettings, nCount);
         rc = SQLITE3_PREPARE(pDB, szQueryBuffer, STRLEN(szQueryBuffer) * sizeof(TYC), &state, TAIL_CASTING&tail);
 
-		qDebug() << "[insert query]" << QString::fromWCharArray(szQueryBuffer);
 		if (rc != SQLITE_OK)
 		{
 			return false;
@@ -903,8 +900,6 @@ bool CSQLData::CommitData(int nOrder)
 					nParentIndexCol = m_vChildItem[i].vSQLData[j]->GetParentIndexCol();
 					nOrderCol = m_vChildItem[i].vSQLData[j]->GetOrderCol();
 					nIndexCol = m_vChildItem[i].vSQLData[j]->GetIndexCol();
-
-					qDebug() << Q_FUNC_INFO << "parentcol:" << nParentIndexCol << "ordercol:" << nOrderCol << "nIndexCol" << nIndexCol;
 
 					if (nParentIndexCol != -1)
 						m_vChildItem[i].vSQLData[j]->SetData(nParentIndexCol, (void*)&nParentIndex);

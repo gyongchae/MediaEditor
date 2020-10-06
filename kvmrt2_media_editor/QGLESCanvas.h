@@ -16,6 +16,8 @@ class DisplayItem;
 class DisplayProp;
 class QAction;
 class QMenu;
+class DisplayDateTimeItem;
+class DisplayDateTimeProp;
 
 // 해당 해상도를 넘어가는 이미지는 화면 표출이 안 된다.
 // MAL PID에서 1000넘으면 표출이 안됨
@@ -33,20 +35,34 @@ public:
 public:
 	void initBaseData();
 	void reorderAllTimeLine();
+
 	void setBoundRectangle(DisplayItem *pItem);
 	void setBoundRectangle(DisplayMetaItem *pItem);
+	void setBoundRectangle(DisplayDateTimeItem *pItem);
+
 	bool isPtInItemBound(DisplayItem *pItem, int nX, int nY,GLfloat *pX=0,GLfloat *pY=0);
 	bool isPtInMetaItemBound(DisplayMetaItem *pItem, int nX, int nY, GLfloat *pX = 0, GLfloat *pY = 0);
+	bool isPtInDateTimeItemBound(DisplayDateTimeItem *pItem, int nX, int nY, GLfloat *pX = 0, GLfloat *pY = 0);
+
 	void setPropertiesFromItem(DisplayItem* pItem, DisplayProp *pProp, GLfloat nX, GLfloat nY);
 	void setPropertiesFromMetaItem(DisplayMetaItem* pItem, DisplayMetaItemProp *pProp, GLfloat nX, GLfloat nY);
+	void setPropertiesFromDateTimeItem(DisplayDateTimeItem* pItem, DisplayDateTimeProp *pProp, GLfloat nX, GLfloat nY);
+
 	void setMetaItemOrientation(DisplayMetaItem *pItem);
 	void initMetaDisplayItem();
 	void initDisplayItem();
+	void initDisplayDateTimeItem();
+
 	void initActions();
 	void syncBounds(DisplayItem *pItem, DisplayProp *pProp);
 	void syncMetaItemBounds(DisplayMetaItem *pItem, DisplayMetaItemProp *pProp);
+	void syncDateTimeItemBounds(DisplayDateTimeItem *pItem, DisplayDateTimeProp *pProp);
+
 	void setSelectedItemVectors(void *pItem, int nType);
 	QVector<int> vKeyFrames;
+
+	// new func for displaying meta item init image
+	int getInitMetaItemIndex(const int & tagIdx);
 
 //////////////////////////////// QOpenGLWidget override func ///////////////////////////////
 protected:
@@ -58,7 +74,6 @@ protected:
 	void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
 	void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
 	void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-	void timerEvent(QTimerEvent *e) Q_DECL_OVERRIDE;
 	void dragMoveEvent(QDragMoveEvent * event) Q_DECL_OVERRIDE;
 	void dragEnterEvent(QDragEnterEvent * event) Q_DECL_OVERRIDE;
 	void contextMenuEvent(QContextMenuEvent * event) Q_DECL_OVERRIDE;
@@ -78,7 +93,12 @@ private:
 	QAction *m_pAddMetaItem;
 	QAction *m_pDeleteMetaItem;
 	QAction *m_pEditMetaItem;
-	QAction *m_pDelMetaProp;
+	QAction *m_pRemoveMetaProp;
+
+	// for date / time action
+	QAction *m_pAddDateTime;
+	QAction *m_pModDateTime;
+	QAction *m_pDelDateTime;
 
 	QAction *m_pActDelItem;
 	QAction *m_pActEditProp;
@@ -105,6 +125,7 @@ private:
 
 	int m_nSelMetaIdx;
 	int m_nSelIdx;
+	int m_nSelDateTimeIdx = 0;
 
 	int m_nLatestSelected;
 	int m_nLatestSelectedType;
@@ -120,6 +141,7 @@ private:
 	
 	int isPropExist();
 	int isMetaPropExist();
+	int isDateTimePropExist();
 	void sortToZOrder();
 	void getMetaItemProperties(DisplayMetaItem *pInserted, int *pPropertiesRow,int nX,int nY);
 
@@ -130,12 +152,21 @@ signals:
 private slots:
 	void selectMetaItemAction(QAction *action);
 	void setCurrentTime(int index);
+
 	void deleteItem();
 	void addMetaItem();
+
 	void editProperties();
 	void editMetaItemProperties();
-	void delMetaPropAtCurTime();
-	void delPropAtCurTime();
+
+	void removeMetaPropAtCurTime();
+	void removePropAtCurTime();
+	void removeDateTimePropAtCurTime();
+
+	// date time related func
+	void addDateTime();
+	void delDateTime();
+	void editDateTimeProp();
 };
 
 #endif

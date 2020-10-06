@@ -787,7 +787,6 @@ void QGLESLineMapPreview::paintDisplayItems(std::vector<std::shared_ptr<CSQLData
 					wchar_t szBuffer[64];
 					pItem->m_pValueMonitor->getValue(&nValue);
 					swprintf_s(szBuffer, 64, L"[%s:%d]", pItem->szTagItem, nValue);
-					qDebug() << QString::fromStdWString(szBuffer);
 					auto tagIt = find_if(pTM->m_vImageIndexList.begin(), pTM->m_vImageIndexList.end(), [&szBuffer](std::shared_ptr<CSQLData> &pValue)
 					{
 						ImageIndexList *pIIL=(ImageIndexList*)pValue.get();

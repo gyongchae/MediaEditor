@@ -148,18 +148,20 @@ DECLARE_EDITOR_CLASS(BitmapImagePool);
 
 BEGIN_CLASS_FROM_SQLDATA_WITH_CHILDS(ImageIndexList, , , 1);
 COMMON_VAL_FOR_SQLDATA;
-DECLARE_TYPESETTINGS(4);
+DECLARE_TYPESETTINGS(5);
 DECLARE_COMMON_FUNCTIONS OVERRIDE_DUMMY_EDITOR_FUNC;
 BEGIN_MAPPING_MEMBERS
 m_tSettings[0].POINTER = (void*)(&m_nTableIndex);
 m_tSettings[1].POINTER = (void*)(&nOrder);
 m_tSettings[2].POINTER = (void*)(&nDuration);
 m_tSettings[3].POINTER = (void*)szDesc;
+m_tSettings[4].POINTER = (void*)(&nType);
 END_MAPPING_MEMBERS
 // fields
 int nOrder{ 1 };
 int nDuration{ 0 };
 TYC szDesc[128]{ 0 };
+int nType{ 0 };
 // !fields
 float fRect[4]{ 0.0 };
 END_CLASS_FROM_SQLDATA
@@ -188,3 +190,31 @@ int nXPos{ 0 };
 int nYPos{ 0 };
 END_CLASS_FROM_SQLDATA
 DECLARE_EDITOR_CLASS(ImageIndex);
+
+struct findImageListItemByTagName : public std::unary_function<SHARED_PTRC(CSQLData), bool>
+{
+	findImageListItemByTagName(TYC *szItemName) {
+		STRCPY(m_itemName, szItemName);
+	}
+	bool operator()(SHARED_PTRC(CSQLData) &p)
+	{
+		auto *c = dynamic_cast<ImageIndexList*>(p.get());
+		return (STRCMP(c->szDesc, m_itemName) == 0 ? true : false);
+	}
+private:
+	TYC m_itemName[256];
+};
+
+struct findDateTimeItem : public std::unary_function<SHARED_PTRC(CSQLData), bool>
+{
+	findDateTimeItem(const int type) : m_displayType(type)
+	{
+	}
+
+	bool operator()(SHARED_PTRC(CSQLData) &r)
+	{
+		auto *p = (ImageIndexList*)GET_POINTEROF(r);
+		return p->nType == m_displayType;
+	}
+	int m_displayType;
+};

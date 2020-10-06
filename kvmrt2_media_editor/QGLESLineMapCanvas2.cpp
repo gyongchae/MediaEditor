@@ -436,8 +436,6 @@ void QGLESLineMapCanvas::afterSetPos(LineMapLink *pLink)
 	unsigned short uStY = pLink->nLinkIndex[0];
 	unsigned short uEnX = pLink->nLinkIndex[1] >> 16;
 	unsigned short uEnY = pLink->nLinkIndex[1];
-	qDebug() << "St X: " << uStX << " Y: " << uStY << " En X: " << uEnX << " Y: " << uEnY;
-
 
 	insertBasicNode(pLink->nLinkIndex[0]);
 	insertBasicNode(pLink->nLinkIndex[1]);
@@ -1066,7 +1064,6 @@ void QGLESLineMapCanvas::alignNodes()
 			unsigned short uStY = uStart;
 			unsigned short uEnX = uEnd >> 16;
 			unsigned short uEnY = uEnd;
-			qDebug() << "St X: " << uStX << " Y: " << uStY << " En X: " << uEnX << " Y: " << uEnY;
 		}
 		auto vit = ++vTempBuffer.begin();
 		for (; vit != vTempBuffer.end(); vit++)
@@ -1076,7 +1073,6 @@ void QGLESLineMapCanvas::alignNodes()
 			unsigned short uStY = uStart;
 			unsigned short uEnX = uEnd >> 16;
 			unsigned short uEnY = uEnd;
-			qDebug() << "St X: " << uStX << " Y: " << uStY << " En X: " << uEnX << " Y: " << uEnY;
 			if (m_mPath[uStart][uEnd].vPoint->size())
 			{
 				nOffset = (ptPrev == m_mPath[uStart][uEnd].vPoint->at(0)) ? 1 : 0;
@@ -1717,7 +1713,6 @@ void QGLESLineMapCanvas::generateArrowFrom(unsigned short wStX, unsigned short w
 			{
 				pf[i * 2] = tVA[i].x();
 				pf[i * 2 + 1] = tVA[i].y();
-				qDebug() << " x : " << pf[i * 2] << " y : " << pf[i * 2 + 1];
 			}
 			pLT->pByteVertex = pTmpByte;
 			bFind = true;
@@ -1741,7 +1736,6 @@ void QGLESLineMapCanvas::generateArrowFrom(unsigned short wStX, unsigned short w
 			{
 				pf[i * 2] = (GLfloat)tVA[i].x();
 				pf[i * 2 + 1] = (GLfloat)tVA[i].y();
-				qDebug() << " x : " << pf[i * 2] << " y : " << pf[i * 2 + 1];
 			}
 			pLT->pByteVertex = pTmpByte;
 		}

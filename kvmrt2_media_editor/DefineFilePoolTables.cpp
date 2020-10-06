@@ -72,12 +72,13 @@ DECLARE_STATIC_TYPESETTINGS(BitmapImagePool, 8) =
 };
 
 DECLARE_STATIC_VARIABLES(ImageIndexList, false, IMAGE_INDEX_LIST, -1, 1, 0)
-DECLARE_STATIC_TYPESETTINGS(ImageIndexList, 4) =
+DECLARE_STATIC_TYPESETTINGS(ImageIndexList, 5) =
 {
 	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),	0,	nullptr,true, false,false, MAKE_T("Table Index"),	100 },
 	{ TYPE_INTEGER,	MAKE_T("TABLE_ORDER"),	0,	nullptr,false,true, false, MAKE_T("Order"),			100 },
 	{ TYPE_INTEGER,	MAKE_T("DURATION"),		0,	nullptr,false,false,false, MAKE_T("Rotation"),		100 },
 	{ TYPE_TEXT,	MAKE_T("DESCRIPTION"),	128,nullptr,false,false,false, MAKE_T("Title"),			100 },
+	{ TYPE_INTEGER,	MAKE_T("TYPE"),		0,	nullptr,false,false,false, MAKE_T("Type"),		100 },
 };
 
 DECLARE_STATIC_VARIABLES(ImageIndex, false, IMAGE_INDEX, 1, 2, 0)

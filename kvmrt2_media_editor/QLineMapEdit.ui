@@ -109,13 +109,6 @@
           <string>Edit Mode</string>
          </property>
          <layout class="QGridLayout" name="gridLayout">
-          <item row="4" column="0">
-           <widget class="QRadioButton" name="m_ctlDisplayItem">
-            <property name="text">
-             <string>Display Pool</string>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="0">
            <widget class="QRadioButton" name="m_ctlTile">
             <property name="text">
@@ -126,7 +119,14 @@
           <item row="2" column="0">
            <widget class="QRadioButton" name="m_ctlArrow">
             <property name="text">
-             <string>Arrow</string>
+             <string>Arrow (No Use)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QRadioButton" name="m_ctlDisplayItem">
+            <property name="text">
+             <string>Display Pool</string>
             </property>
            </widget>
           </item>
@@ -140,7 +140,7 @@
           <item row="3" column="0">
            <widget class="QRadioButton" name="m_ctlImageList">
             <property name="text">
-             <string>Image List</string>
+             <string>Image List (No Use)</string>
             </property>
            </widget>
           </item>

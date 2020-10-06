@@ -10,7 +10,7 @@
 #include <qcolordialog.h>
 #include "DefineMode.h"
 
-#define X_PARENT_EDITOR_CLASS imageListPool
+#define IMAGE_LIST_POOL_CLASS imageListPool
 
 imageListPool::imageListPool(QWidget *parent)
 	: QDialog(parent)
@@ -50,30 +50,32 @@ imageListPool::~imageListPool()
 {
 }
 
-IMPLEMENT_INIT_FUNCTION_FOR_CLASS(X_PARENT_EDITOR_CLASS, ImageIndexList)
+IMPLEMENT_INIT_FUNCTION_FOR_CLASS(IMAGE_LIST_POOL_CLASS, ImageIndexList)
 {
 	auto *pDM = CDataManage::GetInstance();
-	SET_MODEL_FOR_TABLE_VIEW(ImageIndexList, pDM)
-		INSTALL_EVENT_FILTER(ImageIndexList)
+	auto *pMM = CMapManage::GetInstance();
+	SET_MODEL_FOR_TABLE_VIEW(ImageIndexList, pDM);
+	INSTALL_EVENT_FILTER(ImageIndexList);
 
-		SET_SELECTION_BEHAVIOR(ImageIndexList, QAbstractItemView::SelectRows)
-		SET_SELECTION_MODE(ImageIndexList, QAbstractItemView::SingleSelection)
-		SET_DRAG_AND_DROP_ENABLED(ImageIndexList);
+	SET_SELECTION_BEHAVIOR(ImageIndexList, QAbstractItemView::SelectRows);
+	SET_SELECTION_MODE(ImageIndexList, QAbstractItemView::SingleSelection);
+	SET_DRAG_AND_DROP_ENABLED(ImageIndexList);
 
 	QHeaderView *header = GET_TABLE(ImageIndexList)->horizontalHeader();
 	header->resizeSections(QHeaderView::ResizeToContents);
+
+	GET_TABLE(ImageIndexList)->setItemDelegateForColumn(4, new comboBoxDelegate(this, &pMM->m_mImageIndexListType));
 
 	CONNECT_ROW_CHAHANGED_SLOT(ImageIndexList, updateImageIndexList(const QModelIndex &, const QModelIndex &));
 
 	return false;
 }
 
-
-IMPLEMENT_INIT_FUNCTION_FOR_CLASS(X_PARENT_EDITOR_CLASS, ImageIndex)
+IMPLEMENT_INIT_FUNCTION_FOR_CLASS(IMAGE_LIST_POOL_CLASS, ImageIndex)
 {
 	auto *pDM = CDataManage::GetInstance();
 	auto *pTM = CTableManage::GetInstance();
-	CMapManage *pMM = CMapManage::GetInstance();
+	auto *pMM = CMapManage::GetInstance();
 	SET_MODEL_FOR_TABLE_VIEW(ImageIndex, pDM);
 	INSTALL_EVENT_FILTER(ImageIndex);
 
@@ -100,9 +102,7 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(X_PARENT_EDITOR_CLASS, ImageIndex)
 
 void imageListPool::updateImageIndexList(const QModelIndex & current, const QModelIndex & previous)
 {
-	qDebug() << Q_FUNC_INFO << "curr" << current.row() << current.column();
 	QModelIndex index = GET_TABLE(ImageIndexList)->currentIndex();
-	qDebug() << Q_FUNC_INFO << "index" << index.row() << index.column();
 	auto *pDM = CDataManage::GetInstance();
 	auto *pTM = CTableManage::GetInstance();
 	if (index.isValid())
@@ -118,8 +118,6 @@ void imageListPool::updateImageIndexList(const QModelIndex & current, const QMod
 
 			std::vector<std::shared_ptr<CSQLData>>::iterator tit;
 			std::vector<std::shared_ptr<CSQLData>>::iterator tnit;
-
-			qDebug() << Q_FUNC_INFO << "size:" << pTM->VECTOR_CLASS(ImageIndexList)[nRow]->m_vChildItem[0].vSQLData.size();
 
 			for (tit = pTM->VECTOR_CLASS(ImageIndexList)[nRow]->m_vChildItem[0].vSQLData.begin();
 				tit != pTM->VECTOR_CLASS(ImageIndexList)[nRow]->m_vChildItem[0].vSQLData.end();
@@ -224,7 +222,6 @@ bool imageListPool::eventFilter(QObject *object, QEvent *event)
 	if (event->type() == QEvent::KeyPress)
 	{
 		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-		qDebug() << Q_FUNC_INFO << keyEvent->key();
 		if (nit != m_mEventTable.end())
 		{
 			if (object == nit.key())

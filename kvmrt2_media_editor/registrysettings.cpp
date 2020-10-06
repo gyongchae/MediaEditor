@@ -2,6 +2,11 @@
 #include <QtGui>
 #include "DataManage.h"
 #include <qdebug.h>
+#include "tableViewHelper.h"
+#include "MapManage.h"
+#include "TableManage.h"
+#include "dataModel.h"
+#include "DefineMode.h"
 
 RegistrySettings::RegistrySettings(QWidget *parent)
 	: QDialog(parent)
@@ -15,6 +20,9 @@ RegistrySettings::RegistrySettings(QWidget *parent)
 	ui.m_leVideoFileSavePath->setText(pDM->videoPath());
 	ui.m_leFontFileSavePath->setText(pDM->fontPath());
 
+	initOPDataVersion();
+	initVersionSpinBox();
+
 	connect(ui.m_pbCancel,SIGNAL(clicked()),this,SLOT(rejectedChanges()));
 	connect(ui.m_pbApply,SIGNAL(clicked()),this,SLOT(acceptedChanges()));
 
@@ -22,10 +30,74 @@ RegistrySettings::RegistrySettings(QWidget *parent)
 	connect(ui.btnVideo,SIGNAL(clicked()),this,SLOT(loadVideoFileSavePath()));
 	connect(ui.btnAudio,SIGNAL(clicked()),this,SLOT(loadAudioFileSavePath()));
 	connect(ui.btnFont, SIGNAL(clicked()), this, SLOT(loadFontFileSavePath()));
+
+	connect(ui.sbVer1, SIGNAL(valueChanged(int)), this, SLOT(changeDataVersion(int)));
+	connect(ui.sbVer2, SIGNAL(valueChanged(int)), this, SLOT(changeDataVersion(int)));
+	connect(ui.sbVer3, SIGNAL(valueChanged(int)), this, SLOT(changeDataVersion(int)));
+
+	if (OFFICIAL_RELEASE == true)
+	{
+		ui.gbFilePath->setVisible(false);
+		ui.m_tblOPDataVersion->setVisible(false);
+		this->adjustSize();
+	}
 }
 
 RegistrySettings::~RegistrySettings()
 {
+}
+
+void RegistrySettings::initVersionSpinBox()
+{
+	auto *pTM = CTableManage::GetInstance();
+	auto *pDM = CDataManage::GetInstance();
+	
+	QModelIndex topLeft = ui.m_tblOPDataVersion->model()->index(0, 0);
+	
+	int ver1 = pDM->m_pModOPDataVersion->data(topLeft.sibling(0, 2), Qt::DisplayRole).toInt();
+	int ver2 = pDM->m_pModOPDataVersion->data(topLeft.sibling(0, 3), Qt::DisplayRole).toInt();
+	int ver3 = pDM->m_pModOPDataVersion->data(topLeft.sibling(0, 4), Qt::DisplayRole).toInt();
+
+	ui.sbVer1->setRange(0, 3);
+	ui.sbVer2->setRange(0, 7);
+	ui.sbVer3->setRange(0, 7);
+
+	ui.sbVer1->setValue(ver1);
+	ui.sbVer2->setValue(ver2);
+	ui.sbVer3->setValue(ver3);
+	
+	QString strVer = (QString("0%1.0%2.0%3")
+		.arg(ui.sbVer1->value())
+		.arg(ui.sbVer2->value())
+		.arg(ui.sbVer3->value())
+		);
+
+	pDM->m_pModOPDataVersion->setData(topLeft.sibling(0, 1), strVer, Qt::EditRole);
+}
+
+bool RegistrySettings::initOPDataVersion()
+{
+	auto *pDM = CDataManage::GetInstance();
+	auto *pTM = CTableManage::GetInstance();
+
+	ui.m_tblOPDataVersion->setModel((QAbstractItemModel*)pDM->m_pModOPDataVersion.get());
+	ui.m_tblOPDataVersion->setSelectionMode(QAbstractItemView::NoSelection);
+
+	QHeaderView *header = ui.m_tblOPDataVersion->horizontalHeader();
+	header->resizeSections(QHeaderView::ResizeToContents);
+	header->setStretchLastSection(true);
+
+	if (pDM->m_pModOPDataVersion->rowCount() != 1)
+	{
+		if (pDM->m_pModOPDataVersion->rowCount() > 1)
+		{
+			pDM->m_pModOPDataVersion->removeRows(0, pDM->m_pModOPDataVersion->rowCount());
+		}
+
+		ui.m_tblOPDataVersion->model()->insertRows(0, 1);
+	}
+
+	return false;
 }
 
 void RegistrySettings::loadDatabasePath()
@@ -84,23 +156,32 @@ void RegistrySettings::loadFontFileSavePath()
 	}
 }
 
+void RegistrySettings::changeDataVersion(int val)
+{
+	// version 1, 2, 3는 합쳐서 1바이트
+	// 가능한 범위
+	// version1 0~3
+	// version2 0~7
+	// version3 0~7
+
+	auto *pDM = CDataManage::GetInstance();
+	QModelIndex topLeft = ui.m_tblOPDataVersion->model()->index(0, 0);
+
+	pDM->m_pModOPDataVersion->setData(topLeft.sibling(0, 2), ui.sbVer1->value(), Qt::EditRole);
+	pDM->m_pModOPDataVersion->setData(topLeft.sibling(0, 3), ui.sbVer2->value(), Qt::EditRole);
+	pDM->m_pModOPDataVersion->setData(topLeft.sibling(0, 4), ui.sbVer3->value(), Qt::EditRole);
+
+	QString strVer = (QString("0%1.0%2.0%3")
+		.arg(ui.sbVer1->value())
+		.arg(ui.sbVer2->value())
+		.arg(ui.sbVer3->value())
+		);
+
+	pDM->m_pModOPDataVersion->setData(topLeft.sibling(0, 1), strVer, Qt::EditRole);
+}
+
 void RegistrySettings::acceptedChanges()
 {
-	auto *pDM = CDataManage::GetInstance();
-	qDebug() << Q_FUNC_INFO << "file path"
-		<< "\n db" << ui.m_leDBPath->text()
-		<< "\n au" << ui.m_leAudioFileSavePath->text()
-		<< "\n vi" << ui.m_leVideoFileSavePath->text()
-		<< "\n fo" << ui.m_leFontFileSavePath->text();
-
-	wcscpy(pDM->m_tPathSettings.DATABASE_FILE_PATH,QDir::toNativeSeparators(ui.m_leDBPath->text()).toStdWString().c_str());
-	wcscpy(pDM->m_tPathSettings.AUDIO_FILE_SAVE_PATH,QDir::toNativeSeparators(ui.m_leAudioFileSavePath->text()).toStdWString().c_str());
-	wcscpy(pDM->m_tPathSettings.VIDEO_FILE_SAVE_PATH,QDir::toNativeSeparators(ui.m_leVideoFileSavePath->text()).toStdWString().c_str());
-	wcscpy(pDM->m_tPathSettings.FONT_FILE_SAVE_PATH, QDir::toNativeSeparators(ui.m_leFontFileSavePath->text()).toStdWString().c_str());
-
-	// error
-	
-	pDM->m_tPathSettings.Save(*pDM->m_pPathStorage.get());
 	accept();
 }
 void RegistrySettings::rejectedChanges()
@@ -113,5 +194,3 @@ void RegistrySettings::closeEvent(QCloseEvent *event)
 	event->ignore();
 	rejectedChanges();
 }
-
-

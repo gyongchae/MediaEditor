@@ -139,7 +139,6 @@ bool bitmapImagePool::eventFilter(QObject *object, QEvent *event)
 	if (event->type() == QEvent::KeyPress)
 	{
 		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-		qDebug() << Q_FUNC_INFO << keyEvent->key();
 		if (keyEvent->key() == Qt::Key_Delete)
 		{
 			if (object == GET_TABLE(BitmapImagePool))

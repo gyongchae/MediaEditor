@@ -1,10 +1,11 @@
-#include "displayItemPropEdit.h"
+#include "DisplayDateTimePropEdit.h"
 #include <QDataWidgetMapper>
 #include "DataManage.h"
 #include "MapManage.h"
 #include <qdebug.h>
 
-displayItemPropEdit::displayItemPropEdit(int nItem, int nProp, QWidget *parent)
+
+DisplayDateTimePropEdit::DisplayDateTimePropEdit(int nItem, int nProp, QWidget *parent)
 	: QDialog(parent), m_pItem(NULL), m_pProp(NULL)
 {
 	ui.setupUi(this);
@@ -26,7 +27,7 @@ displayItemPropEdit::displayItemPropEdit(int nItem, int nProp, QWidget *parent)
 			ui.m_cboEasingScale->addItem(QString::fromStdWString(nit.second.c_str()), nit.first);
 		}
 		m_pItem = new QDataWidgetMapper(this);
-		m_pItem->setModel((QAbstractItemModel*)pDM->m_pModDisplayItem.get());
+		m_pItem->setModel((QAbstractItemModel*)pDM->m_pModDisplayDateTimeItem.get());
 		m_pItem->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 		ui.m_ctlZOrder->setRange(0.0, 100000.0);
 		m_pItem->addMapping(ui.m_ctlZOrder, 7);	//zorder
@@ -37,7 +38,7 @@ displayItemPropEdit::displayItemPropEdit(int nItem, int nProp, QWidget *parent)
 	if (!m_pProp)
 	{
 		m_pProp = new QDataWidgetMapper(this);
-		m_pProp->setModel((QAbstractItemModel*)pDM->m_pModDisplayProp.get());
+		m_pProp->setModel((QAbstractItemModel*)pDM->m_pModDisplayDateTimeProp.get());
 		m_pProp->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 		ui.m_ctlX->setRange(-100000.0, 100000.0);
 		ui.m_ctlY->setRange(-100000.0, 100000.0);
@@ -50,7 +51,7 @@ displayItemPropEdit::displayItemPropEdit(int nItem, int nProp, QWidget *parent)
 		m_pProp->addMapping(ui.m_ctlScalingX, 5, "value");	//scalingx
 		m_pProp->addMapping(ui.m_ctlScalingY, 6, "value");	//scalingy
 		m_pProp->addMapping(ui.m_ctlImageColor, 10, "colorValue");	//scalingy
-		m_pProp->addMapping(ui.m_cboEasingPos, 11,"currentIndex");
+		m_pProp->addMapping(ui.m_cboEasingPos, 11, "currentIndex");
 		m_pProp->addMapping(ui.m_cboEasingAngle, 12, "currentIndex");
 		m_pProp->addMapping(ui.m_cboEasingScale, 13, "currentIndex");
 		m_pProp->addMapping(ui.m_cboEasingColor, 15, "currentIndex");
@@ -60,14 +61,13 @@ displayItemPropEdit::displayItemPropEdit(int nItem, int nProp, QWidget *parent)
 
 	connect(ui.buttonBox, SIGNAL(accepted()), this, SLOT(acceptedChanges()));
 	connect(ui.buttonBox, SIGNAL(rejected()), this, SLOT(rejectedChanges()));
-
 }
 
-displayItemPropEdit::~displayItemPropEdit()
+DisplayDateTimePropEdit::~DisplayDateTimePropEdit()
 {
 }
 
-void displayItemPropEdit::acceptedChanges()
+void DisplayDateTimePropEdit::acceptedChanges()
 {
 	auto *pTM = CTableManage::GetInstance();
 	m_pProp->submit();
@@ -75,7 +75,7 @@ void displayItemPropEdit::acceptedChanges()
 	accept();
 }
 
-void displayItemPropEdit::rejectedChanges()
+void DisplayDateTimePropEdit::rejectedChanges()
 {
 	reject();
 }

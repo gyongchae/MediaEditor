@@ -54,6 +54,18 @@ kvmrt2_media_editor::kvmrt2_media_editor(QString & dbPath, QString & currPath, Q
 
 	ui.rbCustomOrder->setChecked(true);
 	
+	if (pDM->m_pModOPDataVersion->rowCount() == 1)
+	{
+		QModelIndex index = pDM->m_pModOPDataVersion->index(0, 0);
+		m_lastVersion[0] = pDM->m_pModOPDataVersion->data(index.sibling(0, 2), Qt::DisplayRole).toInt();
+		m_lastVersion[1] = pDM->m_pModOPDataVersion->data(index.sibling(0, 3), Qt::DisplayRole).toInt();
+		m_lastVersion[2] = pDM->m_pModOPDataVersion->data(index.sibling(0, 4), Qt::DisplayRole).toInt();
+	}
+
+	ui.statusBar->showMessage(QString("OP_DATA.DB was loaded (version: %1.%2.%3)")
+		.arg(m_lastVersion[0]).arg(m_lastVersion[1]).arg(m_lastVersion[2]));
+
+
 	setHideItemsMainWindow(OFFICIAL_RELEASE);
 }
 
@@ -69,6 +81,7 @@ void kvmrt2_media_editor::setHideItemsMainWindow(bool isRelease)
 		ui.actionNew->setVisible(false);
 		ui.actionLoad->setVisible(false);
 		ui.actionSetting->setVisible(false);
+		ui.actionLedPool->setVisible(false);
 
 		auto *pDM = CDataManage::GetInstance();
 		auto *pTM = CTableManage::GetInstance();
@@ -211,7 +224,6 @@ bool kvmrt2_media_editor::eventFilter(QObject *object, QEvent *event)
 	if (event->type() == QEvent::KeyPress)
 	{
 		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-		qDebug() << Q_FUNC_INFO << keyEvent->key();
 
 		if (nit != m_mEventTable.end())
 		{
@@ -299,6 +311,36 @@ bool kvmrt2_media_editor::deleteRowFromTable(QTableView *pView, dataModel *pMode
 void kvmrt2_media_editor::onSaveDB()
 {
 	auto *pTM = CTableManage::GetInstance();
+	auto *pDM = CDataManage::GetInstance();
+	/*
+	Save 하기 전 DB의 버전 설정 화면을 띄운다.
+	1. 현재 버전 표시
+	2. 변경여부 묻기
+	3. 변경할 경우 버전 세팅하기
+	4. VideoVersion에 저장하기
+	*/
+
+	int currVersion[3]{ 0 };
+	QModelIndex index = pDM->m_pModOPDataVersion->index(0, 0);
+	currVersion[0] = pDM->m_pModOPDataVersion->data(index.sibling(0, 2), Qt::DisplayRole).toInt();
+	currVersion[1] = pDM->m_pModOPDataVersion->data(index.sibling(0, 3), Qt::DisplayRole).toInt();
+	currVersion[2] = pDM->m_pModOPDataVersion->data(index.sibling(0, 4), Qt::DisplayRole).toInt();
+
+	for (int i = 0; i < 3; ++i)
+	{
+		if (currVersion[i] != m_lastVersion[i])
+		{
+			qDebug("version[%d] %d -> %d changed", i, m_lastVersion[i], currVersion[i]);
+		}
+		else
+		{
+
+		}
+	}
+
+	ui.statusBar->showMessage(QString("OP_DATA.DB has been saved (version: %1.%2.%3)")
+		.arg(currVersion[0]).arg(currVersion[1]).arg(currVersion[2]));
+
 	pTM->SaveModified();
 }
 
@@ -386,6 +428,8 @@ void kvmrt2_media_editor::onShowDisplayListPool()
 
 void kvmrt2_media_editor::onShowFileUpload()
 {
+	QProcess *process = new QProcess(this);
+	process->start(QString("C:/PapisProgram/FileUpload/UploadWizard2.exe"));
 }
 
 void kvmrt2_media_editor::onBtnRefreshDistanceTable()
@@ -453,7 +497,7 @@ void kvmrt2_media_editor::onBtnRouteAutoAdd()
 {
 	/*
 	전제 조건
-	1. 역 코드는 1씩 증가한다.
+	1. 역 코드는 1씩 증가한다. (안 쓰는 역 발생함)
 	2. 거리 테이블에 역 쌍들은 출발역-도착역 간 코드가 1씩 차이난다.
 	*/
 
@@ -471,8 +515,6 @@ void kvmrt2_media_editor::onBtnRouteAutoAdd()
 
 	auto *pTM = CTableManage::GetInstance();
 	auto *pDM = CDataManage::GetInstance();
-	qDebug() << "route count:" << GET_TABLE_MODEL(pDM, StopPtnRoutes)->rowCount();
-	qDebug() << "header row:" << GET_TABLE(StopPtnHeader)->currentIndex().row();
 	int rowCount = GET_TABLE_MODEL(pDM, StopPtnRoutes)->rowCount();
 	int hdrRow = GET_TABLE(StopPtnHeader)->currentIndex().row();
 	if (hdrRow != -1/*unselected*/) // check stop pattern header validation
@@ -507,9 +549,6 @@ void kvmrt2_media_editor::onBtnRouteAutoAdd()
 		QModelIndex headerIdx = GET_TABLE(StopPtnHeader)->model()->index(hdrRow, 0);
 		startStnTableIdx = headerIdx.sibling(headerIdx.row(), 1/*start*/).data().toInt(&bOK_S);
 		finalStnTableIdx = headerIdx.sibling(headerIdx.row(), 2/*final*/).data().toInt(&bOK_F);
-
-		qDebug() << "start - final table index" << startStnTableIdx << finalStnTableIdx;
-
 
 		std::vector<std::shared_ptr<CSQLData>>::iterator itSt, itEn;
 
@@ -558,7 +597,6 @@ void kvmrt2_media_editor::onBtnRouteAutoAdd()
 					{
 						// distance index가 있을 경우 stop ptn routes에 등록
 						int distanceIdx = itDep->get()->m_nTableIndex;
-						qDebug() << "row and dist index:" << rowNum << distanceIdx;
 						GET_TABLE_MODEL(pDM, StopPtnRoutes)->setData(curIdx.sibling(rowNum, 3/*dist col*/), distanceIdx, Qt::EditRole);
 					}
 					rowNum++;
@@ -585,7 +623,6 @@ void kvmrt2_media_editor::onBtnRouteAutoAdd()
 					{
 						// distance index가 있을 경우 stop ptn routes에 등록
 						int distanceIdx = itDep->get()->m_nTableIndex;
-						qDebug() << "row and dist index:" << rowNum << distanceIdx;
 						GET_TABLE_MODEL(pDM, StopPtnRoutes)->setData(curIdx.sibling(rowNum, 3/*dist col*/), distanceIdx, Qt::EditRole);
 					}
 					rowNum++;
@@ -608,8 +645,6 @@ void kvmrt2_media_editor::onBtnDelRoutes()
 {
 	auto *pTM = CTableManage::GetInstance();
 	auto *pDM = CDataManage::GetInstance();
-	qDebug() << "route count:" << GET_TABLE_MODEL(pDM, StopPtnRoutes)->rowCount();
-	qDebug() << "header row:" << GET_TABLE(StopPtnHeader)->currentIndex().row();
 	int rowCount = GET_TABLE_MODEL(pDM, StopPtnRoutes)->rowCount();
 	int hdrRow = GET_TABLE(StopPtnHeader)->currentIndex().row();
 	if (hdrRow != -1/*unselected*/) // check stop pattern header validation
@@ -640,7 +675,6 @@ void kvmrt2_media_editor::onBtnDelRoutes()
 void kvmrt2_media_editor::onAutoFillRouteDestination(const QModelIndex & topLeft, const QModelIndex & bottomRight)
 {
 	// 0번째 destination 항목과 나머지 항목 동일하게 업데이트
-	qDebug() << "route data changed" << topLeft << bottomRight;
 	auto *pTM = CTableManage::GetInstance();
 	auto *pDM = CDataManage::GetInstance();
 	int totalRows = GET_TABLE(StopPtnRoutes)->model()->rowCount();
@@ -655,19 +689,48 @@ void kvmrt2_media_editor::onAutoFillRouteDestination(const QModelIndex & topLeft
 		if (totalRows > 1)
 		{
 			int targetIdx = GET_TABLE(StopPtnRoutes)->model()->data(topLeft).toInt();
-			qDebug() << "destination index changed" << targetIdx;
 			
 			// 전체 row 순차적으로 첫 번째 destination index와 동일한 값으로 변경
 			for (int r = 1; r < totalRows; ++r)
 			{
 				GET_TABLE(StopPtnRoutes)->selectRow(r);
 				QModelIndex currIdx = GET_TABLE(StopPtnRoutes)->currentIndex();
-				qDebug() << r << currIdx;
 				GET_TABLE_MODEL(pDM, StopPtnRoutes)->setData(currIdx.sibling(r, col), targetIdx, Qt::EditRole);
 			}
 		}
 
 		GET_TABLE(StopPtnRoutes)->selectRow(0);
+	}
+}
+
+void kvmrt2_media_editor::onAutoFillDisplayItem(const QModelIndex & topLeft, const QModelIndex & bottomRight)
+{
+	// Display List에 0번째 아이템의 Index 값으로 전체 list에 할당
+	auto *pTM = CTableManage::GetInstance();
+	auto *pDM = CDataManage::GetInstance();
+	int totalRows = GET_TABLE(PIDIndexList)->model()->rowCount();
+
+	int row = topLeft.row();
+	int col = topLeft.column();
+
+	if (row != 0) return;
+
+	if (col == 3) // Display Item Index column
+	{
+		if (totalRows > 1)
+		{
+			int targetIdx = GET_TABLE(PIDIndexList)->model()->data(topLeft).toInt();
+
+			// 전체 row 순차적으로 첫 번째 destination index와 동일한 값으로 변경
+			for (int r = 1; r < totalRows; ++r)
+			{
+				GET_TABLE(PIDIndexList)->selectRow(r);
+				QModelIndex currIdx = GET_TABLE(PIDIndexList)->currentIndex();
+				GET_TABLE_MODEL(pDM, PIDIndexList)->setData(currIdx.sibling(r, col), targetIdx, Qt::EditRole);
+			}
+		}
+
+		GET_TABLE(PIDIndexList)->selectRow(0);
 	}
 }
 
@@ -706,8 +769,6 @@ void kvmrt2_media_editor::updateStopPtnRoutes(const QModelIndex & current, const
 {
 	QModelIndex index = GET_TABLE(StopPtnHeader)->currentIndex();
 
-	qDebug() << index.row() << index.column();
-
 	auto *pDM = CDataManage::GetInstance();
 	auto *pTM = CTableManage::GetInstance();
 	if (index.isValid())
@@ -731,8 +792,6 @@ void kvmrt2_media_editor::updateStopPtnRoutes(const QModelIndex & current, const
 
 void kvmrt2_media_editor::updateEventLists(const QModelIndex & current, const QModelIndex & previous)
 {
-	qDebug() << "update event list func called" << current << previous;
-
 	auto *pDM = CDataManage::GetInstance();
 	auto *pTM = CTableManage::GetInstance();
 	QModelIndex index = GET_TABLE(StopPtnHeader)->currentIndex();
@@ -799,7 +858,6 @@ void kvmrt2_media_editor::updateStationDistance(const QModelIndex & topLeft, con
 {
 	// 자동입력 로직 추가하면 update 제대로 안 됨
 
-	qDebug() << Q_FUNC_INFO << topLeft.row() << topLeft.column() << bottomRight.row() << bottomRight.column();
 	bool bOKDep;
 	bool bOKArr;
 	bool bOKDistance;
@@ -817,6 +875,9 @@ void kvmrt2_media_editor::updateStationDistance(const QModelIndex & topLeft, con
 		int depCode = 0;
 		int arrCode = 0;
 
+		int depOrder = 0;
+		int arrOrder = 0;
+
 		switch (nColumn)
 		{
 		case 1: // departure
@@ -824,7 +885,6 @@ void kvmrt2_media_editor::updateStationDistance(const QModelIndex & topLeft, con
 			nDepStn = topLeft.data().toInt(&bOKDep);
 			//nArrStn = topLeft.sibling(topLeft.row(), 2/*arrival col*/).data().toInt(&bOKArr);
 			//nDistance = topLeft.sibling(topLeft.row(), 3/*distance col*/).data().toInt(&bOKDistance);
-			qDebug() << "Case1: " << nDepStn << nArrStn << nDistance;
 
 			std::vector<std::shared_ptr<CSQLData>>::iterator it_dep;
 			it_dep = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findSQLData(nDepStn));
@@ -834,45 +894,49 @@ void kvmrt2_media_editor::updateStationDistance(const QModelIndex & topLeft, con
 				// parent class to child class
 				auto *c = dynamic_cast<StationInformation*>(it_dep->get());
 				depCode = c->nStationCode;
+				depOrder = c->nOrder;
 				GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 6/*dep code*/), depCode, Qt::EditRole);
 			}
 
 			if (ui.rbInOrder->isChecked()) // in order radio is checked
 			{
-				// find and check departure + 1 code is valid
-				arrCode = depCode + 1;
-				std::vector<std::shared_ptr<CSQLData>>::iterator it_arr;
-				// find using station code
-				it_arr = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findStationNameCode(arrCode));
+				// find and check departure + 1 order is valid
+				arrOrder = depOrder + 1;
 
-				if (it_arr != pTM->VECTOR_CLASS(StationInformation).end())
+				std::vector<std::shared_ptr<CSQLData>>::iterator it_arrOrder;
+
+				// find using station order
+				it_arrOrder = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findStationNameOrder(arrOrder));
+
+				if (it_arrOrder != pTM->VECTOR_CLASS(StationInformation).end())
 				{
 					// get target's table index
-					int arrTableIndex = it_arr->get()->m_nTableIndex;
-
-					qDebug() << "in order" << arrTableIndex << depCode << arrCode;
-
+					int arrTableIndex = it_arrOrder->get()->m_nTableIndex;
+					StationInformation *c = dynamic_cast<StationInformation*>(it_arrOrder->get());
+					int findCode = c->nStationCode;
 					GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 2/*arrival col*/), arrTableIndex, Qt::EditRole);
-					GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 7/*arr code*/), arrCode, Qt::EditRole);
+					GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 7/*arr code*/), findCode, Qt::EditRole);
 				}
 			}
 			else if (ui.rbInReverseOrder->isChecked()) // in reverse order is checked
 			{
 				// find and check departure - 1 code is valid
-				arrCode = depCode - 1;
-				std::vector<std::shared_ptr<CSQLData>>::iterator it_arr;
-				// find using station code
-				it_arr = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findStationNameCode(arrCode));
+				arrOrder = depOrder - 1;
 
-				if (it_arr != pTM->VECTOR_CLASS(StationInformation).end())
+				std::vector<std::shared_ptr<CSQLData>>::iterator it_arrOrder;
+
+				// find using station code
+				it_arrOrder = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findStationNameOrder(arrOrder));
+
+				if (it_arrOrder != pTM->VECTOR_CLASS(StationInformation).end())
 				{
 					// get target's table index
-					int arrTableIndex = it_arr->get()->m_nTableIndex;
-
-					qDebug() << "in order" << arrTableIndex << depCode << arrCode;
+					int arrTableIndex = it_arrOrder->get()->m_nTableIndex;
+					StationInformation *c = dynamic_cast<StationInformation*>(it_arrOrder->get());
+					int findCode = c->nStationCode;
 
 					GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 2/*arrival col*/), arrTableIndex, Qt::EditRole);
-					GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 7/*arr code*/), arrCode, Qt::EditRole);
+					GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 7/*arr code*/), findCode, Qt::EditRole);
 				}
 			}
 			else
@@ -883,7 +947,6 @@ void kvmrt2_media_editor::updateStationDistance(const QModelIndex & topLeft, con
 		case 2: // arrival
 		{
 			nArrStn = topLeft.data().toInt(&bOKArr);
-			qDebug() << "Case2: " << nDepStn << nArrStn << nDistance;
 
 			std::vector<std::shared_ptr<CSQLData>>::iterator it_arr;
 			it_arr = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findSQLData(nArrStn));
@@ -899,16 +962,12 @@ void kvmrt2_media_editor::updateStationDistance(const QModelIndex & topLeft, con
 		break;
 		case 3: // distnace
 			nDistance = topLeft.data().toInt(&bOKDistance);
-			qDebug() << "Case3: " << nDepStn << nArrStn << nDistance;
 			break;
 		case 4:
-			qDebug() << "Case4(DESC)";
 			break;
 		case 5:
-			qDebug() << "Case5(Dep Code)";
 			break;
 		case 6:
-			qDebug() << "Case6(Arr Code)";
 			break;
 		default:
 			break;
@@ -1016,12 +1075,15 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, StopPtnHeader)
 {
 	auto *pDM = CDataManage::GetInstance();
 	auto *pTM = CTableManage::GetInstance();
+	auto *pMM = CMapManage::GetInstance();
+
 	SET_MODEL_FOR_TABLE_VIEW(StopPtnHeader, pDM);
 	INSTALL_EVENT_FILTER(StopPtnHeader);
 
 	GET_TABLE(StopPtnHeader)->setItemDelegateForColumn(1, new SQLDelegate(this, &pTM->VECTOR_CLASS(StationInformation), 0, 2, TYPE_TEXT));
 	GET_TABLE(StopPtnHeader)->setItemDelegateForColumn(2, new SQLDelegate(this, &pTM->VECTOR_CLASS(StationInformation), 0, 2, TYPE_TEXT));
 	GET_TABLE(StopPtnHeader)->setItemDelegateForColumn(4, new SQLDelegate(this, &pTM->VECTOR_CLASS(LineMapPool), 0, 1, TYPE_TEXT));
+	GET_TABLE(StopPtnHeader)->setItemDelegateForColumn(6, new comboBoxDelegate(this, &pMM->m_mStopPtnMode));
 	GET_TABLE(StopPtnHeader)->setContextMenuPolicy(Qt::CustomContextMenu);
 
 	SET_SELECTION_BEHAVIOR(StopPtnHeader, QAbstractItemView::SelectRows);
@@ -1123,6 +1185,9 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, PIDIndexList)
 	SET_SELECTION_CHANGED_FOR_TABLE(pDM, PIDIndexList, selectionChangedPIDIndexList(int, int));
 
 	GET_TABLE(PIDIndexList)->setItemDelegateForColumn(3, new SQLDelegate(this, &pTM->VECTOR_CLASS(DisplayItemPool), 0, 1, TYPE_TEXT));
+
+	connect(GET_TABLE(PIDIndexList)->model(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),
+		this, SLOT(onAutoFillDisplayItem(const QModelIndex &, const QModelIndex &)));
 
 	QHeaderView *header = GET_TABLE(PIDIndexList)->horizontalHeader();
 	header->resizeSections(QHeaderView::ResizeToContents);

@@ -48,6 +48,7 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(editDisplayItemPool, DisplayItemPool)
 	header->resizeSections(QHeaderView::ResizeToContents);
 
 	GET_TABLE(DisplayItemPool)->setItemDelegateForColumn(7, new comboBoxDelegate(this, &pMM->m_mDisplayPoolType));
+	GET_TABLE(DisplayItemPool)->setItemDelegateForColumn(8, new comboBoxDelegate(this, &pMM->m_mDateTimeDisplay));
 
 	connect(GET_TABLE(DisplayItemPool), SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(insertmodifyDisplayItemPool(const QModelIndex&)));
 
@@ -154,7 +155,6 @@ bool editDisplayItemPool::eventFilter(QObject *object, QEvent *event)
 	if (event->type() == QEvent::KeyPress)
 	{
 		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-		qDebug() << Q_FUNC_INFO << keyEvent->key();
 		if (keyEvent->key() == Qt::Key_Delete)
 		{
 			if (object == GET_TABLE(DisplayItemPool))
@@ -189,7 +189,6 @@ bool editDisplayItemPool::eventFilter(QObject *object, QEvent *event)
 
 void editDisplayItemPool::closeEvent(QCloseEvent * ev)
 {
-	qDebug() << Q_FUNC_INFO << ev->type();
 	auto *pMM = CMapManage::GetInstance();
 
 	/**************************************************************************************************************************************************************
@@ -221,8 +220,6 @@ void editDisplayItemPool::closeEvent(QCloseEvent * ev)
 			nPidStartupIndex = i.first;
 		}
 	}
-
-	qDebug() << Q_FUNC_INFO << "result2:" << nDrmStartupIndex << nPidStartupIndex;
 
 	int nDrmStartupCount = 0;
 	int nPidStartupCount = 0;

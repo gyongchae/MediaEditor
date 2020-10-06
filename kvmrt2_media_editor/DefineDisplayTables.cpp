@@ -2,16 +2,17 @@
 
 // DisplayItemPool
 DECLARE_STATIC_VARIABLES(DisplayItemPool, false, DISPLAY_ITEM_POOL, -1, 6, 0)
-DECLARE_STATIC_TYPESETTINGS(DisplayItemPool, 8) =
+DECLARE_STATIC_TYPESETTINGS(DisplayItemPool, 9) =
 {
-	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),	0,	nullptr,true, false,false, MAKE_T("Table Index"),		100 },
-	{ TYPE_TEXT,	MAKE_T("DESC"),			256,nullptr,false,false,false, MAKE_T("Display Item Name"), 100 },
-	{ TYPE_INTEGER,	MAKE_T("WIDTH"),		0,	nullptr,false,false,false, MAKE_T("Width"),				100 },
-	{ TYPE_INTEGER,	MAKE_T("HEIGHT"),		0,	nullptr,false,false,false, MAKE_T("Height"),			100 },
-	{ TYPE_INTEGER,	MAKE_T("DURATION"),		0,	nullptr,false,false,false, MAKE_T("Duration"),			100 },
-	{ TYPE_INTEGER,	MAKE_T("BACKCOLOR"),	0,	nullptr,false,false,false, MAKE_T("Color"),				100 },
-	{ TYPE_INTEGER,	MAKE_T("TABLE_ORDER"),	0,	nullptr,false,true, false, MAKE_T("Order"),				100 },
-	{ TYPE_INTEGER,	MAKE_T("DISPLAY_TYPE"),	0,	nullptr,false,false,false, MAKE_T("Display Type"),		100 },
+	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),		0,	nullptr,true, false,false, MAKE_T("Table Index"),		100 },
+	{ TYPE_TEXT,	MAKE_T("DESC"),				256,nullptr,false,false,false, MAKE_T("Display Item Name"), 100 },
+	{ TYPE_INTEGER,	MAKE_T("WIDTH"),			0,	nullptr,false,false,false, MAKE_T("Width"),				100 },
+	{ TYPE_INTEGER,	MAKE_T("HEIGHT"),			0,	nullptr,false,false,false, MAKE_T("Height"),			100 },
+	{ TYPE_INTEGER,	MAKE_T("DURATION"),			0,	nullptr,false,false,false, MAKE_T("Duration"),			100 },
+	{ TYPE_INTEGER,	MAKE_T("BACKCOLOR"),		0,	nullptr,false,false,false, MAKE_T("Color"),				100 },
+	{ TYPE_INTEGER,	MAKE_T("TABLE_ORDER"),		0,	nullptr,false,true, false, MAKE_T("Order"),				100 },
+	{ TYPE_INTEGER,	MAKE_T("DISPLAY_TYPE"),		0,	nullptr,false,false,false, MAKE_T("Display Type"),		100 },
+	{ TYPE_INTEGER,	MAKE_T("DATE_TIME_DISPLAY"),0,	nullptr,false,false,false, MAKE_T("Date/Time"),			100 },
 };
 // !DisplayItemPool
 

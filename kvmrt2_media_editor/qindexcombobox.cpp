@@ -4,19 +4,12 @@
 QIndexComboBox::QIndexComboBox(QWidget *parent)
 	: QComboBox(parent)
 {
-	qDebug() << Q_FUNC_INFO;
 }
 
 
 void QIndexComboBox::Initialize(std::vector<std::shared_ptr<CSQLData>> *pVector,
 	int nSoc,int nDes,TYPEDEFINE eDesType)
 {
-	qDebug() << Q_FUNC_INFO
-		<< "vector size:" << pVector->size()
-		<< "nSoc:" << nSoc
-		<< "nDes:" << nDes
-		<< "type:" << eDesType;
-
 	int nValue=0;
 	QString strText;
 	double dValue=0.0;
@@ -50,12 +43,10 @@ void QIndexComboBox::Initialize(std::vector<std::shared_ptr<CSQLData>> *pVector,
 
 QIndexComboBox::~QIndexComboBox()
 {
-	qDebug() << Q_FUNC_INFO;
 }
 
 void QIndexComboBox::setDataIndex(int nIndex)
 {
-	qDebug() << Q_FUNC_INFO << "index:" << nIndex;
 	int nCurIndex=findData(nIndex);
 	if(nCurIndex!=-1)
 	{
@@ -68,13 +59,11 @@ void QIndexComboBox::setDataIndex(int nIndex)
 
 int QIndexComboBox::dataIndex() const
 {
-	qDebug() << Q_FUNC_INFO << "data index:" << m_nDataIndex;
 	return m_nDataIndex;
 }
 
 void QIndexComboBox::currentIndexChangedSlot(int index)
 {
-	qDebug() << Q_FUNC_INFO << "index:" << index;
 	QVariant value=itemData(index);
 	m_nDataIndex=value.toInt();
 	emit dataIndexChanged(m_nDataIndex);
