@@ -19,6 +19,8 @@ editDisplayItemPool::editDisplayItemPool(QWidget *parent)
 	CALL_INIT_FUNCTION(DisplayItemPool);
 
 	connect(ui.btnClose, SIGNAL(clicked()), this, SLOT(close()));
+	connect(ui.btnAddDisplayPool, SIGNAL(clicked()), this, SLOT(onAddDisplayItem()));
+	connect(ui.btnDelDisplayPool, SIGNAL(clicked()), this, SLOT(onDelDisplayItem()));
 
 	if (OFFICIAL_RELEASE == true)
 	{
@@ -117,6 +119,16 @@ void editDisplayItemPool::addDisplayItemPool(bool bInsert)
 		nRow = index.row();
 		pDP->removeRows(nRow, 1);
 	}
+}
+
+void editDisplayItemPool::onAddDisplayItem()
+{
+	addDisplayItemPool(false);
+}
+
+void editDisplayItemPool::onDelDisplayItem()
+{
+	deleteDisplayItemPool();
 }
 
 struct findInitScreenIndex : public std::unary_function<SHARED_PTRC(CSQLData), bool>

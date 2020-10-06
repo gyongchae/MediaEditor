@@ -18,6 +18,14 @@ LineMapPoolEdit::LineMapPoolEdit(QWidget *parent)
 
 	connect(ui.btnClose, SIGNAL(clicked()), this, SLOT(close()));
 
+	connect(ui.btnAddMap, &QPushButton::clicked, [this]() {
+		addLineMapPool(false);
+	});
+
+	connect(ui.btnDelMap, &QPushButton::clicked, [this]() {
+		deleteLineMapPool();
+	});
+
 	if (OFFICIAL_RELEASE == true)
 	{
 		SET_HIDE_TABLE_COLUMN(LineMapPool, 0);

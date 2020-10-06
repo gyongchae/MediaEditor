@@ -120,6 +120,7 @@
            <widget class="QRadioButton" name="m_ctlArrow">
             <property name="text">
              <string>Arrow (No Use)</string>
+<<<<<<< Updated upstream
             </property>
            </widget>
           </item>
@@ -127,6 +128,8 @@
            <widget class="QRadioButton" name="m_ctlDisplayItem">
             <property name="text">
              <string>Display Pool</string>
+=======
+>>>>>>> Stashed changes
             </property>
            </widget>
           </item>

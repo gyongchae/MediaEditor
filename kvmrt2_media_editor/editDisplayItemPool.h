@@ -25,7 +25,8 @@ private:
 
 private slots:
 	void insertmodifyDisplayItemPool(const QModelIndex &index);
-
+	void onAddDisplayItem();
+	void onDelDisplayItem();
 private:
 	Ui::editDisplayItemPool ui;
 };
