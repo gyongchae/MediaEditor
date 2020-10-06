@@ -176,6 +176,12 @@ MAPPARAM gDateTimeDisplay[] =
 	{1, L"Yes"},
 };
 
+MAPPARAM gStopPtnMode[] =
+{
+	{0, L"Operation"},
+	{1, L"Simulation"},
+};
+
 CMapManage::CMapManage(void)
 {
 }
@@ -291,5 +297,9 @@ void CMapManage::InitMaps()
 	for (int i = 0; i < (sizeof(gDateTimeDisplay) / sizeof(gDateTimeDisplay[0])); i++)
 	{
 		m_mDateTimeDisplay[gDateTimeDisplay[i].nValue] = std::wstring(gDateTimeDisplay[i].szFieldName);
+	}
+	for (int i = 0; i < (sizeof(gStopPtnMode) / sizeof(gStopPtnMode[0])); i++)
+	{
+		m_mStopPtnMode[gStopPtnMode[i].nValue] = std::wstring(gStopPtnMode[i].szFieldName);
 	}
 }

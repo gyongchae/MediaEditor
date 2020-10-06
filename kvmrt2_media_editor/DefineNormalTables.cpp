@@ -52,7 +52,7 @@ DECLARE_STATIC_TYPESETTINGS(TrainNumber, 8) =
 };
 
 DECLARE_STATIC_VARIABLES(StopPtnHeader, false, STOP_PATTERN_HEADER, -1, 5, 0)
-DECLARE_STATIC_TYPESETTINGS(StopPtnHeader, 6) =
+DECLARE_STATIC_TYPESETTINGS(StopPtnHeader, 7) =
 {
 	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),		0,	nullptr,true, false,false, MAKE_T("Table Index"),		100 },
 	{ TYPE_INTEGER,	MAKE_T("DEPARTURE_STATION"),0,	nullptr,false,false,false, MAKE_T("Start Station"),		100 },
@@ -60,6 +60,7 @@ DECLARE_STATIC_TYPESETTINGS(StopPtnHeader, 6) =
 	{ TYPE_TEXT,	MAKE_T("DESCRIPTION"),		256,nullptr,false,false,false, MAKE_T("Description"),		100 },
 	{ TYPE_INTEGER,	MAKE_T("LINE_MAP_INDEX"),	0,	nullptr,false,false,false, MAKE_T("Route Map Index"),	100 },
 	{ TYPE_INTEGER,	MAKE_T("TABLE_ORDER"),		0,	nullptr,false,true, false, MAKE_T("Order"),				100 },
+	{ TYPE_INTEGER,	MAKE_T("DRIVE_MODE"),	0,	nullptr,false,false,false, MAKE_T("Drive Mode"),	100 },
 
 };
 
@@ -177,7 +178,7 @@ DECLARE_STATIC_VARIABLES(OPDataVersion, false, VIDEOFILE_VERSION, -1, -1, 0)
 DECLARE_STATIC_TYPESETTINGS(OPDataVersion, 5) =
 {
 	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),	 0,	 nullptr,true, false,false, MAKE_T("Table Index"),	100 },
-	{ TYPE_TEXT,	MAKE_T("VERSION_STRING"),128,nullptr,false,false,false, MAKE_T("Data Version"), 100 },
+	{ TYPE_TEXT,	MAKE_T("VERSION_STRING"),32,nullptr,false,false,false, MAKE_T("Data Version"), 100 },
 	{ TYPE_INTEGER,	MAKE_T("VERSION_1"),0,nullptr,false,false,false, MAKE_T("Version1"), 100 },
 	{ TYPE_INTEGER,	MAKE_T("VERSION_2"),0,nullptr,false,false,false, MAKE_T("Version2"), 100 },
 	{ TYPE_INTEGER,	MAKE_T("VERSION_3"),0,nullptr,false,false,false, MAKE_T("Version3"), 100 },

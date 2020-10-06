@@ -319,6 +319,7 @@ void kvmrt2_media_editor::onSaveDB()
 	3. 변경할 경우 버전 세팅하기
 	4. VideoVersion에 저장하기
 	*/
+
 	int currVersion[3]{ 0 };
 	QModelIndex index = pDM->m_pModOPDataVersion->index(0, 0);
 	currVersion[0] = pDM->m_pModOPDataVersion->data(index.sibling(0, 2), Qt::DisplayRole).toInt();
@@ -1074,12 +1075,15 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, StopPtnHeader)
 {
 	auto *pDM = CDataManage::GetInstance();
 	auto *pTM = CTableManage::GetInstance();
+	auto *pMM = CMapManage::GetInstance();
+
 	SET_MODEL_FOR_TABLE_VIEW(StopPtnHeader, pDM);
 	INSTALL_EVENT_FILTER(StopPtnHeader);
 
 	GET_TABLE(StopPtnHeader)->setItemDelegateForColumn(1, new SQLDelegate(this, &pTM->VECTOR_CLASS(StationInformation), 0, 2, TYPE_TEXT));
 	GET_TABLE(StopPtnHeader)->setItemDelegateForColumn(2, new SQLDelegate(this, &pTM->VECTOR_CLASS(StationInformation), 0, 2, TYPE_TEXT));
 	GET_TABLE(StopPtnHeader)->setItemDelegateForColumn(4, new SQLDelegate(this, &pTM->VECTOR_CLASS(LineMapPool), 0, 1, TYPE_TEXT));
+	GET_TABLE(StopPtnHeader)->setItemDelegateForColumn(6, new comboBoxDelegate(this, &pMM->m_mStopPtnMode));
 	GET_TABLE(StopPtnHeader)->setContextMenuPolicy(Qt::CustomContextMenu);
 
 	SET_SELECTION_BEHAVIOR(StopPtnHeader, QAbstractItemView::SelectRows);

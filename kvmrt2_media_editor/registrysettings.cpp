@@ -35,7 +35,7 @@ RegistrySettings::RegistrySettings(QWidget *parent)
 	connect(ui.sbVer2, SIGNAL(valueChanged(int)), this, SLOT(changeDataVersion(int)));
 	connect(ui.sbVer3, SIGNAL(valueChanged(int)), this, SLOT(changeDataVersion(int)));
 
-	if (OFFICIAL_RELEASE == false)
+	if (OFFICIAL_RELEASE == true)
 	{
 		ui.gbFilePath->setVisible(false);
 		ui.m_tblOPDataVersion->setVisible(false);
@@ -53,15 +53,20 @@ void RegistrySettings::initVersionSpinBox()
 	auto *pDM = CDataManage::GetInstance();
 	
 	QModelIndex topLeft = ui.m_tblOPDataVersion->model()->index(0, 0);
+	
 	int ver1 = pDM->m_pModOPDataVersion->data(topLeft.sibling(0, 2), Qt::DisplayRole).toInt();
 	int ver2 = pDM->m_pModOPDataVersion->data(topLeft.sibling(0, 3), Qt::DisplayRole).toInt();
 	int ver3 = pDM->m_pModOPDataVersion->data(topLeft.sibling(0, 4), Qt::DisplayRole).toInt();
+
+	ui.sbVer1->setRange(0, 3);
+	ui.sbVer2->setRange(0, 7);
+	ui.sbVer3->setRange(0, 7);
 
 	ui.sbVer1->setValue(ver1);
 	ui.sbVer2->setValue(ver2);
 	ui.sbVer3->setValue(ver3);
 	
-	QString strVer = (QString("%1.%2.%3")
+	QString strVer = (QString("0%1.0%2.0%3")
 		.arg(ui.sbVer1->value())
 		.arg(ui.sbVer2->value())
 		.arg(ui.sbVer3->value())
@@ -153,6 +158,12 @@ void RegistrySettings::loadFontFileSavePath()
 
 void RegistrySettings::changeDataVersion(int val)
 {
+	// version 1, 2, 3는 합쳐서 1바이트
+	// 가능한 범위
+	// version1 0~3
+	// version2 0~7
+	// version3 0~7
+
 	auto *pDM = CDataManage::GetInstance();
 	QModelIndex topLeft = ui.m_tblOPDataVersion->model()->index(0, 0);
 
@@ -160,7 +171,7 @@ void RegistrySettings::changeDataVersion(int val)
 	pDM->m_pModOPDataVersion->setData(topLeft.sibling(0, 3), ui.sbVer2->value(), Qt::EditRole);
 	pDM->m_pModOPDataVersion->setData(topLeft.sibling(0, 4), ui.sbVer3->value(), Qt::EditRole);
 
-	QString strVer = (QString("%1.%2.%3")
+	QString strVer = (QString("0%1.0%2.0%3")
 		.arg(ui.sbVer1->value())
 		.arg(ui.sbVer2->value())
 		.arg(ui.sbVer3->value())
