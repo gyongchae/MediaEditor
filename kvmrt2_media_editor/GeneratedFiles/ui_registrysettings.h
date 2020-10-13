@@ -253,7 +253,7 @@ public:
 
     void retranslateUi(QDialog *RegistrySettings)
     {
-        RegistrySettings->setWindowTitle(QApplication::translate("RegistrySettings", "Path Settings", Q_NULLPTR));
+        RegistrySettings->setWindowTitle(QApplication::translate("RegistrySettings", "Setting", Q_NULLPTR));
         label_5->setText(QApplication::translate("RegistrySettings", "Data Version:", Q_NULLPTR));
         label_6->setText(QApplication::translate("RegistrySettings", ".", Q_NULLPTR));
         label_7->setText(QApplication::translate("RegistrySettings", ".", Q_NULLPTR));

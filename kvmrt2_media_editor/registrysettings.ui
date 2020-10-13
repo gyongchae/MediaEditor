@@ -35,7 +35,7 @@
    <enum>Qt::NoContextMenu</enum>
   </property>
   <property name="windowTitle">
-   <string>Path Settings</string>
+   <string>Setting</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>

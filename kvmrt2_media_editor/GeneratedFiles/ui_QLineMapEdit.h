@@ -660,10 +660,7 @@ public:
         m_grpEditMode->setTitle(QApplication::translate("QLineMapEdit", "Edit Mode", Q_NULLPTR));
         m_ctlTile->setText(QApplication::translate("QLineMapEdit", "Tile (Line)", Q_NULLPTR));
         m_ctlArrow->setText(QApplication::translate("QLineMapEdit", "Arrow (No Use)", Q_NULLPTR));
-<<<<<<< Updated upstream
         m_ctlDisplayItem->setText(QApplication::translate("QLineMapEdit", "Display Pool", Q_NULLPTR));
-=======
->>>>>>> Stashed changes
         m_ctlNode->setText(QApplication::translate("QLineMapEdit", "Node (Station Name / Icon)", Q_NULLPTR));
         m_ctlImageList->setText(QApplication::translate("QLineMapEdit", "Image List (No Use)", Q_NULLPTR));
         groupBox_2->setTitle(QApplication::translate("QLineMapEdit", "Colour", Q_NULLPTR));

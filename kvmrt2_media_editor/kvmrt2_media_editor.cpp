@@ -38,14 +38,15 @@ kvmrt2_media_editor::kvmrt2_media_editor(QString & dbPath, QString & currPath, Q
 	auto *pTM = CTableManage::GetInstance();
 
 	pDM->setDBPath(dbPath.toStdWString().c_str());
-	pDM->InitSettings();
+	pDM->InitSettings(); // no use
 	pDM->OpenDatabase();
-	pDM->BeforeLoadFromDB();
+	pDM->BeforeLoadFromDB(); // no use
 	pMM->InitMaps();
 	pTM->LoadDatabase();
 	pDM->SetModel();
 
 	pDM->setCurrPath(currPath);
+	
 	initTables();
 	initActions();
 	initMapData();

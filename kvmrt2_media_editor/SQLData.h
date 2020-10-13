@@ -99,8 +99,6 @@
 #define MAKEUINT(a, b) ((unsigned int)(((unsigned short)(a)) | ((unsigned int)((unsigned short)(b))) << 16))
 #define MAKEUSHORT(low, high) ((unsigned short)((((unsigned short)(high)) << 8) | ((unsigned char)(low))))
 
-
-
 class CSQLData;
 class CEditSQLData;
 class CTreeInfo;
@@ -144,7 +142,6 @@ typedef struct _TYPESETTINGS
 
 
 void MakeRelationShip2(std::vector<SHARED_PTRC(CSQLData)> *pParent, int nChildIndex, std::vector<SHARED_PTRC(CSQLData)> *pChild);
-
 
 
 #define DECLARE_EDITOR_CLASS(CLASS_NAME) class CLASS_NAME##Editor : public CEditSQLData { public :	TYC* GetTableName(){return CLASS_NAME::szTableName;}	TYPESETTINGS* GetTypeSettingsTable(){return CLASS_NAME::m_tSettings;}\
