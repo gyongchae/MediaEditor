@@ -131,14 +131,12 @@
     <ClCompile Include="CMappedValue.cpp" />
     <ClCompile Include="comboBoxDelegate.cpp" />
     <ClCompile Include="contentsPool.cpp" />
-    <ClCompile Include="DefineDateTimeTable.cpp" />
     <ClCompile Include="DefineDisplayTables.cpp" />
     <ClCompile Include="DefineFilePoolTables.cpp" />
     <ClCompile Include="DefineLEDTables.cpp" />
     <ClCompile Include="DefineLinemapTables.cpp" />
     <ClCompile Include="DefineNormalTables.cpp" />
     <ClCompile Include="DefineTables.cpp" />
-    <ClCompile Include="DisplayDateTimePropEdit.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_bitmapimagepool.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -368,7 +366,6 @@
   <ItemGroup>
     <QtUic Include="bitmapimagepool.ui" />
     <QtUic Include="contentsPool.ui" />
-    <QtUic Include="DisplayDateTimePropEdit.ui" />
     <QtUic Include="displayItemPreset.ui" />
     <QtUic Include="displayItemPropEdit.ui" />
     <QtUic Include="editDisplayItemPool.ui" />
@@ -455,7 +452,6 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DNOMINMAX -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_SQL_LIB -DQT_CONCURRENT_LIB -DQT_WINEXTRAS_LIB -DQT_OPENGLEXTENSIONS_LIB -DPAC_EDITOR -DQT_MULTIMEDIA_LIB -DQT_MULTIMEDIAWIDGETS_LIB -D_UNICODE "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtSql" "-I$(QTDIR)\include\QtConcurrent" "-I$(QTDIR)\include\QtWinExtras" "-I$(QTDIR)\include\QtOpenGLExtensions" "-I$(QTDIR)\include\QtMultimedia" "-I$(QTDIR)\include\QtMultimediaWidgets" "-I.\dataRelated"</Command>
     </QtMoc>
-    <ClInclude Include="DefineDateTimeTable.h" />
     <ClInclude Include="DefineDisplayTables.h" />
     <ClInclude Include="DefineFilePoolTables.h" />
     <ClInclude Include="DefineLEDTables.h" />
@@ -475,11 +471,6 @@
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtSql;$(QTDIR)\include\QtConcurrent;$(QTDIR)\include\QtWinExtras;$(QTDIR)\include\QtOpenGLExtensions;$(QTDIR)\include\QtMultimedia;$(QTDIR)\include\QtMultimediaWidgets;.\dataRelated</IncludePath>
     </CustomBuild>
     <ClInclude Include="DefineTables.h" />
-    <QtMoc Include="DisplayDateTimePropEdit.h">
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtSql;$(QTDIR)\include\QtConcurrent;$(QTDIR)\include\QtWinExtras;$(QTDIR)\include\QtOpenGLExtensions;$(QTDIR)\include\QtMultimedia;$(QTDIR)\include\QtMultimediaWidgets;.\FileUpload;.\NewCanvas;.\FUTURE</IncludePath>
-      <Define Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">UNICODE;WIN32;NOMINMAX;WIN64;PAC_EDITOR;%(PreprocessorDefinitions);QT_WIDGETS_LIB</Define>
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);.\dataRelated;.\FileUpload;.\NewCanvas;.\FUTURE</IncludePath>
-    </QtMoc>
     <ClInclude Include="GeneratedFiles\ui_nodepropertydlg.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SQLData.h" />

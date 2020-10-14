@@ -6,7 +6,6 @@
 #include "DefineLEDTables.h"
 #include "DefineLinemapTables.h"
 #include "DefineNormalTables.h"
-#include "DefineDateTimeTable.h"
 
 #define DECLARE_STATIC_VARIABLES(CLASS_NAME,BLOBEXIST,TABLENAME,PARENT_INDEX_COL,ORDER_COL,INDEX_COL)\
 	sqlite3* CLASS_NAME::m_dbState=nullptr;\

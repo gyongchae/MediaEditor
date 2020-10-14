@@ -7,7 +7,6 @@
 #include "TextureInformation/CTextureInfo.h"
 #include "BinPacked/MaxRectsPixelBuffer.h"
 #include "displayItemPropEdit.h"
-#include "DisplayDateTimePropEdit.h"
 #include "editDisplayMetaItem.h"
 #include "TexPool.h"
 #include "tableViewHelper.h"
@@ -40,7 +39,6 @@ void QGLESPIDCanvas::initializeGL()
 	initBaseData();
 	initDisplayItem();
 	initMetaDisplayItem();
-	initDisplayDateTimeItem();
 	reorderAllTimeLine();
 	sortToZOrder();
 	//m_bMoving = false;
@@ -157,28 +155,6 @@ void QGLESPIDCanvas::initDisplayItem()
 	}
 }
 
-void QGLESPIDCanvas::initDisplayDateTimeItem()
-{
-	auto *pDM = CDataManage::GetInstance();
-	auto *pTM = CTableManage::GetInstance();
-	auto pVEC = pDM->GET_MODEL_CLASS(DisplayDateTimeItem).get()->getVector();
-	for (auto it : (*pVEC))
-	{
-		DisplayDateTimeItem *pItem = (DisplayDateTimeItem*)it.get();
-		auto it = m_mImageList.find(pItem->nRelatedItemListIndex);
-		if (it != m_mImageList.end())
-		{
-			GLfloat fOrigX, fOrigY;
-			pItem->SetOrigin(pItem->nOrigin);
-			it->second->SetOrigin(pItem->nOrigin, true);
-			pItem->fOrigX = it->second->m_fOrigin[0];
-			pItem->fOrigY = it->second->m_fOrigin[1];
-			pItem->SetBufferIndex(it->first, it->second.get());
-			setBoundRectangle(pItem);
-		}
-	}
-}
-
 void QGLESPIDCanvas::initMetaDisplayItem()
 {
 	auto *pDM = CDataManage::GetInstance();
@@ -231,7 +207,6 @@ void QGLESPIDCanvas::paintGL()
 	auto *pDM = CDataManage::GetInstance();
 	auto pVEC = pDM->GET_MODEL_CLASS(DisplayItem).get()->getVector();
 	auto pMVEC = pDM->GET_MODEL_CLASS(DisplayMetaItem).get()->getVector();
-	auto pDVEC = pDM->GET_MODEL_CLASS(DisplayDateTimeItem).get()->getVector();
 
 	for (auto it : (*pVEC))
 	{
@@ -293,38 +268,6 @@ void QGLESPIDCanvas::paintGL()
 			{
 				glBindTexture(GL_TEXTURE_2D, subit.nTextureIndex);
 				glDrawElements(GL_TRIANGLES, subit.iCount, GL_UNSIGNED_SHORT, (const void*)(subit.iOffset * sizeof(GLushort)));
-			}
-		}
-	}
-
-	for (auto it : (*pDVEC))
-	{
-		auto *pItem = (DisplayDateTimeItem*)it.get();
-		pItem->SetOrigin(pItem->nOrigin);
-		if (!m_bMoving)
-		{
-			pItem->tLine.jumpTo(m_nCurTime);
-		}
-		if (pItem->m_nVisible)
-		{
-			auto findIt = m_mImageList.find(pItem->nRelatedBufferIndex);
-			if (findIt != m_mImageList.end())
-			{
-
-				QMatrix4x4 matrix;
-				findIt->second->SetOrigin(pItem->nOrigin, true);
-				matrix.ortho(0, m_nWidth, m_nHeight, 0, -1, 1);
-				matrix.translate(pItem->m_fTrans[0], pItem->m_fTrans[1]);
-				matrix.rotate(pItem->m_fRotation, 0, 0, 1.0f);
-				matrix.scale(pItem->m_fScale[0], pItem->m_fScale[1]);
-				matrix.translate(pItem->fOrigX, pItem->fOrigY);
-				glUniform4f(m_uColorLoc, pItem->m_fColor[3], pItem->m_fColor[2], pItem->m_fColor[1], pItem->m_fColor[0]);
-				glUniformMatrix4fv(m_uMatrixLoc, 1, false, (const GLfloat*)&matrix);
-				for (auto subit : findIt->second->vIdxList)
-				{
-					glBindTexture(GL_TEXTURE_2D, subit.nTextureIndex);
-					glDrawElements(GL_TRIANGLES, subit.iCount, GL_UNSIGNED_SHORT, (const void*)(subit.iOffset * sizeof(GLushort)));
-				}
 			}
 		}
 	}
@@ -391,27 +334,6 @@ void QGLESPIDCanvas::paintGL()
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), pItem->m_fTempRect);
 		glDrawArrays(GL_LINE_STRIP, 0, 5);
 	}
-	
-	for (auto it : (*pDVEC))
-	{
-		auto *pItem = (DisplayDateTimeItem*)it.get();
-		if ((m_nLatestSelected == pItem->GetIndex()) && (m_nLatestSelectedType == 3))
-			glUniform4f(m_uColorLineLoc, 1.0, 0.0, 0.0, 1.0);
-		else
-			glUniform4f(m_uColorLineLoc, 1.0, 1.0, 1.0, 1.0);
-
-		QMatrix4x4 matrix;
-		matrix.ortho(0, m_nWidth, m_nHeight, 0, -1, 1);
-		matrix.translate(pItem->m_fTrans[0], pItem->m_fTrans[1], 0.1f);
-		matrix.rotate(pItem->m_fRotation, 0, 0, 1.0f);
-		matrix.scale(pItem->m_fScale[0], pItem->m_fScale[1]);
-		matrix.translate(pItem->fOrigX, pItem->fOrigY);
-
-		glUniformMatrix4fv(m_uMatrixLoc, 1, false, (const GLfloat*)&matrix);
-
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), pItem->m_fTempRect);
-		glDrawArrays(GL_LINE_STRIP, 0, 5);
-	}
 
 	glDisableVertexAttribArray(m_uPosLineLoc);
 }
@@ -441,23 +363,12 @@ void QGLESPIDCanvas::initActions()
 	m_pDeleteMetaItem->setData(2);
 	m_pEditMetaItem->setData(3);
 	m_pRemoveMetaProp->setData(4);
-
-	/* date time action added */
-	m_pAddDateTime = new QAction("Add Date/Time", this);
-	m_pModDateTime = new QAction("Modify Date/Time", this);
-	m_pDelDateTime = new QAction("Delete Date/Time", this);
-	m_pAddDateTime->setData(5);
-	m_pModDateTime->setData(6);
-	m_pDelDateTime->setData(7);
-
+	
 	m_pMetaItemMenu = new QMenu(this);
 	m_pMetaItemMenu->addAction(m_pAddMetaItem);
 	m_pMetaItemMenu->addAction(m_pDeleteMetaItem);
 	m_pMetaItemMenu->addAction(m_pEditMetaItem);
 	m_pMetaItemMenu->addAction(m_pRemoveMetaProp);
-	m_pMetaItemMenu->addAction(m_pAddDateTime);
-	m_pMetaItemMenu->addAction(m_pModDateTime);
-	m_pMetaItemMenu->addAction(m_pDelDateTime);
 
 	connect(m_pMetaItemMenu, SIGNAL(triggered(QAction*)), this, SLOT(selectMetaItemAction(QAction*)));
 }
@@ -552,7 +463,6 @@ void QGLESPIDCanvas::selectMetaItemAction(QAction *action)
 				CDataManage::reorderTimeLine(pMI);
 				m_nSelIdx = 0;
 				m_nSelMetaIdx = 0;
-				m_nSelDateTimeIdx = 0;
 			}
 		}
 		break;
@@ -565,15 +475,6 @@ void QGLESPIDCanvas::selectMetaItemAction(QAction *action)
 		break;
 	case 4:	//Edit Properties
 		removeMetaPropAtCurTime();
-		break;
-	case 5: // add date time
-		addDateTime();
-		break;
-	case 6: // modify date time
-		editDateTimeProp();
-		break;
-	case 7: // del date time
-		delDateTime();
 		break;
 	}
 	update();
@@ -634,37 +535,6 @@ int QGLESPIDCanvas::isMetaPropExist()
 	return 0;
 }
 
-int QGLESPIDCanvas::isDateTimePropExist()
-{
-	auto *pDM = CDataManage::GetInstance();
-	auto pVEC = pDM->GET_MODEL_CLASS(DisplayDateTimeItem).get()->getVector();
-	int nSelectedItem = m_nSelDateTimeIdx;
-	auto it = find_if(pVEC->begin(), pVEC->end(), [&nSelectedItem](std::shared_ptr<CSQLData> &pData)
-	{
-		auto *pItem = (DisplayDateTimeItem*)pData.get();
-		return pItem->GetIndex() == nSelectedItem;
-	});
-	int nCurTime = m_nCurTime;
-	if (it != pVEC->end())
-	{
-		pDM->GET_MODEL_CLASS(DisplayDateTimeProp)->setVectors(
-			&it->get()->m_vChildItem[0].vSQLData, 
-			&it->get()->m_vChildItem[0].vSQLDataDelItems, 
-			it->get()->GetIndex());
-
-		auto subit = find_if(it->get()->m_vChildItem[0].vSQLData.begin(), it->get()->m_vChildItem[0].vSQLData.end(), 
-			[&nCurTime](std::shared_ptr<CSQLData> &pData)
-		{
-			auto *pProp = (DisplayDateTimeProp*)pData.get();
-			return (pProp->nAtMiliseconds == nCurTime);
-		});
-		if (subit != it->get()->m_vChildItem[0].vSQLData.end())
-		{
-			return subit->get()->GetIndex();
-		}
-	}
-	return 0;
-}
 
 void QGLESPIDCanvas::removePropAtCurTime()
 {
@@ -679,158 +549,6 @@ void QGLESPIDCanvas::removePropAtCurTime()
 		CDataManage::reorderTimeLine((DisplayItem*)findIt->get());
 	}
 }
-
-void QGLESPIDCanvas::removeDateTimePropAtCurTime()
-{
-	auto *pDM = CDataManage::GetInstance();
-	int nIndex = isDateTimePropExist();
-	pDM->GET_MODEL_CLASS(DisplayDateTimeProp)->removeRow(nIndex);
-	auto pVEC = pDM->GET_MODEL_CLASS(DisplayDateTimeItem).get()->getVector();
-	auto findIt = find_if(pVEC->begin(), pVEC->end(), findSQLData(m_nSelIdx));
-	if (findIt != pVEC->end())
-	{
-		setSelectedItemVectors((void *)findIt->get(), 3);
-		CDataManage::reorderTimeLine((DisplayDateTimeItem*)findIt->get());
-	}
-}
-
-void QGLESPIDCanvas::addDateTime()
-{
-	auto *pDM = CDataManage::GetInstance();
-	auto *pTM = CTableManage::GetInstance();
-	std::shared_ptr<CSQLData> pData = pDM->GET_MODEL_CLASS(DisplayDateTimeItem).get()->insertRow();
-	auto *pSQLData = pData.get();
-
-	std::vector<std::shared_ptr<CSQLData>>::iterator it;
-
-	int nIndex = -1;
-	it = find_if(pTM->m_vImageIndexList.begin(),
-		pTM->m_vImageIndexList.end(),
-		findDateTimeItem(1)); // "Date/TIme" index of gImageIndexListType (MAPPARAM)
-
-	if (it != pTM->m_vImageIndexList.end())
-	{
-		nIndex = it->get()->m_nTableIndex;
-	}
-
-	if (pSQLData)
-	{
-		auto *pItem = (DisplayDateTimeItem*)pSQLData;
-		pItem->nRelatedItemListIndex = nIndex;
-
-		pDM->GET_MODEL_CLASS(DisplayDateTimeProp)->setVectors(
-			&pItem->m_vChildItem[0].vSQLData, 
-			&pItem->m_vChildItem[0].vSQLDataDelItems, 
-			pItem->GetIndex());
-		
-		std::shared_ptr<CSQLData> pSubData = 
-			pDM->GET_MODEL_CLASS(DisplayDateTimeProp).get()->insertRow();
-
-		auto *pProp = (DisplayDateTimeProp*)pSubData.get();
-		pItem->bSelected = false;
-		auto it = m_mImageList.find(nIndex);
-		
-		if (it != m_mImageList.end())
-		{
-			pItem->nRelatedItemListIndex = nIndex;
-			it->second->SetOrigin(pItem->nOrigin, true);
-			pItem->SetBufferIndex(it->first, it->second.get());
-
-			pItem->m_fTrans[0] = (GLfloat)m_nMetaItemPosX;
-			pItem->m_fTrans[1] = (GLfloat)m_nMetaItemPosY;
-
-			setBoundRectangle(pItem);
-			pProp->nAtMiliseconds = m_nCurTime;
-			setPropertiesFromDateTimeItem(pItem, pProp, m_nMetaItemPosX, m_nMetaItemPosY);
-			syncDateTimeItemBounds(pItem, pProp);
-			m_nSelDateTimeIdx = pItem->GetIndex();
-			m_nSelIdx = 0;
-			m_nSelMetaIdx = 0;
-			setSelectedItemVectors(pItem, 3);
-		}
-		CDataManage::reorderTimeLine(pItem);
-	}
-
-	update();
-}
-
-void QGLESPIDCanvas::delDateTime()
-{
-	auto *pDM = CDataManage::GetInstance();
-	pDM->GET_MODEL_CLASS(DisplayDateTimeItem)->removeRow(m_nSelDateTimeIdx);
-	setSelectedItemVectors(0, 2);
-	update();
-}
-
-void QGLESPIDCanvas::editDateTimeProp()
-{
-	auto *pDM = CDataManage::GetInstance();
-	auto pVEC = pDM->GET_MODEL_CLASS(DisplayDateTimeItem).get()->getVector();
-	int nSelectedItem = m_nSelDateTimeIdx;
-	int nRowItem = -1, nSubRowItem = -1;
-	auto it = find_if(pVEC->begin(), pVEC->end(), [&nSelectedItem](std::shared_ptr<CSQLData> &pData)
-	{
-		auto *pItem = (DisplayDateTimeItem*)pData.get();
-		return pItem->GetIndex() == nSelectedItem;
-	});
-	int nCurTime = m_nCurTime;
-	if (it != pVEC->end())
-	{
-		bool bNewlyAdded = false;
-		nRowItem = std::distance(pVEC->begin(), it);
-		pDM->GET_MODEL_CLASS(DisplayDateTimeProp)->setVectors(
-			&it->get()->m_vChildItem[0].vSQLData, 
-			&it->get()->m_vChildItem[0].vSQLDataDelItems, 
-			it->get()->GetIndex());
-
-		auto subit = find_if(it->get()->m_vChildItem[0].vSQLData.begin(), it->get()->m_vChildItem[0].vSQLData.end(), 
-			[&nCurTime](std::shared_ptr<CSQLData> &pData)
-		{
-			DisplayDateTimeProp *pProp = (DisplayDateTimeProp*)pData.get();
-			return (pProp->nAtMiliseconds == nCurTime);
-		});
-
-		if (subit != it->get()->m_vChildItem[0].vSQLData.end())
-		{
-			nSubRowItem = std::distance(it->get()->m_vChildItem[0].vSQLData.begin(), subit);
-		}
-		else
-		{
-			bNewlyAdded = true;
-			nSubRowItem = 0;
-			auto tProp = pDM->GET_MODEL_CLASS(DisplayDateTimeProp)->insertRows(0, 1);
-		}
-
-		auto pSubVEC = pDM->GET_MODEL_CLASS(DisplayDateTimeProp)->getVector();
-		auto *pItem = (DisplayDateTimeItem*)it->get();
-		auto *pProp = (DisplayDateTimeProp*)pSubVEC->at(nSubRowItem).get();
-		pProp->nAtMiliseconds = nCurTime;
-
-		setPropertiesFromDateTimeItem(pItem, pProp, pItem->m_fTrans[0], pItem->m_fTrans[1]);
-
-
-		DisplayDateTimePropEdit tEdit(nRowItem, nSubRowItem, this);
-		if ((tEdit.exec() != QDialog::Accepted))
-		{
-			if (bNewlyAdded)
-				pDM->GET_MODEL_CLASS(DisplayDateTimeProp)->removeRows(nSubRowItem, 1);
-		}
-		else
-		{
-			setSelectedItemVectors(pItem, 0);
-			syncDateTimeItemBounds(pItem, pProp);
-			setBoundRectangle(pItem);
-			pProp->nAtMiliseconds = m_nCurTime;
-			(CDataManage::reorderTimeLine(pItem));
-			setSelectedItemVectors(pItem, 0);
-		}
-		sortToZOrder();
-	}
-	m_nSelDateTimeIdx = 0;
-	m_nSelMetaIdx = 0;
-	m_nSelDateTimeIdx = 0;
-}
-
 
 void QGLESPIDCanvas::removeMetaPropAtCurTime()
 {
@@ -944,7 +662,6 @@ void QGLESPIDCanvas::editProperties()
 	}
 	m_nSelIdx = 0;
 	m_nSelMetaIdx = 0;
-	m_nSelDateTimeIdx = 0;
 }
 
 void QGLESPIDCanvas::syncBounds(DisplayItem *pItem,DisplayProp *pProp)
@@ -991,35 +708,6 @@ void QGLESPIDCanvas::syncMetaItemBounds(DisplayMetaItem *pItem, DisplayMetaItemP
 		pProp->fY += tFloat2.y();
 	}
 }
-
-void QGLESPIDCanvas::syncDateTimeItemBounds(DisplayDateTimeItem * pItem, DisplayDateTimeProp * pProp)
-{
-	if (pItem->SetOrigin(pItem->nOrigin))
-	{
-		auto findIt = m_mImageList.find(pItem->nRelatedBufferIndex);
-		if (findIt != m_mImageList.end())
-		{
-			GLfloat fPrevOriginX = findIt->second->m_fOrigin[0];
-			GLfloat fPrevOriginY = findIt->second->m_fOrigin[1];
-			if (findIt->second->SetOrigin(pItem->nOrigin, true))
-			{
-				pItem->fOrigX = findIt->second->m_fOrigin[0];
-				pItem->fOrigY = findIt->second->m_fOrigin[1];
-			}
-			fPrevOriginX -= findIt->second->m_fOrigin[0];
-			fPrevOriginY -= findIt->second->m_fOrigin[1];
-			//Rotation and scaling
-			QMatrix4x4 mat2;
-			mat2.rotate(pItem->m_fRotation, 0, 0, 1.0f);
-			mat2.scale(pItem->m_fScale[0], pItem->m_fScale[1]);
-			QPointF tFloat2 = mat2.map(QPointF(fPrevOriginX, fPrevOriginY));
-			pProp->fX += tFloat2.x();
-			pProp->fY += tFloat2.y();
-		}
-	}
-}
-
-
 
 void QGLESPIDCanvas::editMetaItemProperties()
 {
@@ -1087,8 +775,6 @@ void QGLESPIDCanvas::editMetaItemProperties()
 	}
 }
 
-
-
 void QGLESPIDCanvas::dragMoveEvent(QDragMoveEvent *e)
 {
 	e->accept();
@@ -1120,7 +806,6 @@ void QGLESPIDCanvas::contextMenuEvent(QContextMenuEvent * e)
 			setSelectedItemVectors(pItem, 0);
 
 			m_nSelMetaIdx = 0;
-			m_nSelDateTimeIdx = 0;
 			m_pMenu->exec(e->globalPos());
 			return;
 		}
@@ -1138,13 +823,8 @@ void QGLESPIDCanvas::contextMenuEvent(QContextMenuEvent * e)
 			m_pDeleteMetaItem->setEnabled(true);
 			m_pEditMetaItem->setEnabled(true);
 		
-			m_pAddDateTime->setEnabled(false);
-			m_pModDateTime->setEnabled(false);
-			m_pDelDateTime->setEnabled(false);
-
 			m_nSelMetaIdx = pItem->GetIndex();
 			m_nSelIdx = 0;
-			m_nSelDateTimeIdx = 0;
 
 			if (isMetaPropExist())
 				m_pRemoveMetaProp->setEnabled(true);
@@ -1153,34 +833,6 @@ void QGLESPIDCanvas::contextMenuEvent(QContextMenuEvent * e)
 			setSelectedItemVectors(pItem, 1);
 
 			
-			m_pMetaItemMenu->exec(e->globalPos());
-			return;
-		}
-	}
-	
-	auto pDDTI = pDM->GET_MODEL_CLASS(DisplayDateTimeItem).get()->getVector();
-	for (auto it : (*pDDTI))
-	{
-		auto *pItem = (DisplayDateTimeItem*)it.get();
-		if (isPtInDateTimeItemBound(pItem, e->pos().x(), e->pos().y()))
-		{
-			m_nMetaItemPosX = e->pos().x();
-			m_nMetaItemPosY = e->pos().y();
-			m_pAddMetaItem->setEnabled(false);
-			m_pDeleteMetaItem->setEnabled(false);
-			m_pEditMetaItem->setEnabled(false);
-			m_pRemoveMetaProp->setEnabled(false);
-
-			m_pAddDateTime->setEnabled(false);
-			m_pModDateTime->setEnabled(true);
-			m_pDelDateTime->setEnabled(true);
-
-			m_nSelDateTimeIdx = pItem->GetIndex();
-			m_nSelIdx = 0;
-			m_nSelMetaIdx = 0;
-
-			setSelectedItemVectors(pItem, 3);
-
 			m_pMetaItemMenu->exec(e->globalPos());
 			return;
 		}
@@ -1194,12 +846,7 @@ void QGLESPIDCanvas::contextMenuEvent(QContextMenuEvent * e)
 	m_pEditMetaItem->setEnabled(false);
 	m_pRemoveMetaProp->setEnabled(false);
 
-	m_pAddDateTime->setEnabled(true);
-	m_pModDateTime->setEnabled(false);
-	m_pDelDateTime->setEnabled(false);
-
 	m_pMetaItemMenu->exec(e->globalPos());
-
 }
 
 void QGLESPIDCanvas::setCurrentTime(int nCurTime)
@@ -1237,7 +884,6 @@ void QGLESPIDCanvas::dropEvent(QDropEvent * e)
 			syncBounds(pItem, pProp);
 			m_nSelIdx = pItem->GetIndex();
 			m_nSelMetaIdx = 0;
-			m_nSelDateTimeIdx = 0;
 			setSelectedItemVectors(pItem, 0);
 		}
 		CDataManage::reorderTimeLine(pItem);
@@ -1271,19 +917,6 @@ void QGLESPIDCanvas::setBoundRectangle(DisplayMetaItem *pItem)
 	pItem->m_fTempRect[6] = (GLfloat)pItem->m_fRect[0];
 	pItem->m_fTempRect[7] = (GLfloat)pItem->m_fRect[3];
 }
-
-void QGLESPIDCanvas::setBoundRectangle(DisplayDateTimeItem * pItem)
-{
-	pItem->m_fTempRect[0] = pItem->m_fTempRect[8] = (GLfloat)pItem->m_fRect[0];
-	pItem->m_fTempRect[1] = pItem->m_fTempRect[9] = (GLfloat)pItem->m_fRect[1];
-	pItem->m_fTempRect[2] = (GLfloat)pItem->m_fRect[2];
-	pItem->m_fTempRect[3] = (GLfloat)pItem->m_fRect[1];
-	pItem->m_fTempRect[4] = (GLfloat)pItem->m_fRect[2];
-	pItem->m_fTempRect[5] = (GLfloat)pItem->m_fRect[3];
-	pItem->m_fTempRect[6] = (GLfloat)pItem->m_fRect[0];
-	pItem->m_fTempRect[7] = (GLfloat)pItem->m_fRect[3];
-}
-
 
 bool QGLESPIDCanvas::isPtInItemBound(DisplayItem *pItem,int nX,int nY,GLfloat *pX,GLfloat *pY)
 {
@@ -1351,40 +984,6 @@ bool QGLESPIDCanvas::isPtInMetaItemBound(DisplayMetaItem *pItem, int nX, int nY,
 	return false;
 }
 
-bool QGLESPIDCanvas::isPtInDateTimeItemBound(DisplayDateTimeItem * pItem, int nX, int nY, GLfloat * pX, GLfloat * pY)
-{
-	QMatrix4x4 mat;
-	QPointF tFloat, tFloat2;;
-	mat.translate(pItem->m_fTrans[0], pItem->m_fTrans[1]);
-	mat.rotate(pItem->m_fRotation, 0, 0, 1.0f);
-	mat.scale(pItem->m_fScale[0], pItem->m_fScale[1]);
-	mat.translate(pItem->fOrigX, pItem->fOrigY);
-	bool bInvertable;
-	QMatrix4x4 matInv = mat.inverted(&bInvertable);
-	if (bInvertable)
-	{
-		CTextureInfo *pTI = CTextureInfo::GetInstance();
-		tFloat = matInv.map(QPointF((float)nX, (GLfloat)nY));
-		float fX = tFloat.x();
-		float fY = tFloat.y();
-
-		if (pX&&pY)
-		{
-			float fOffsetX = pItem->fOrigX + fX;
-			float fOffsetY = pItem->fOrigY + fY;
-			QMatrix4x4 mat2;
-			mat2.rotate(pItem->m_fRotation, 0, 0, 1.0f);
-			mat2.scale(pItem->m_fScale[0], pItem->m_fScale[1]);
-			tFloat2 = mat2.map(QPointF(fOffsetX, fOffsetY));
-			(*pX) = tFloat2.x();
-			(*pY) = tFloat2.y();
-		}
-		return pTI->PtInPolygon(pItem->m_fTempRect, (GLfloat)fX, (GLfloat)fY);
-	}
-	return false;
-}
-
-
 void QGLESPIDCanvas::setSelectedItemVectors(void *pItem,int nType)
 {
 	switch (nType)
@@ -1422,20 +1021,6 @@ void QGLESPIDCanvas::setSelectedItemVectors(void *pItem,int nType)
 		m_nLatestSelectedType=0;
 		vKeyFrames.clear();
 		emit selectionChanged();
-		break;
-	case 3: // date time item
-	{
-		auto *pDisplayItem = (DisplayDateTimeItem*)pItem;
-		m_nLatestSelected = pDisplayItem->GetIndex();
-		m_nLatestSelectedType = 3;
-		vKeyFrames.clear();
-		for (auto it : pDisplayItem->m_vChildItem[0].vSQLData)
-		{
-			auto *pProp = (DisplayDateTimeProp*)it.get();
-			vKeyFrames.push_back(pProp->nAtMiliseconds);
-		}
-		emit selectionChanged();
-	}
 		break;
 	default:
 		return;
@@ -1507,7 +1092,6 @@ void QGLESPIDCanvas::mousePressEvent(QMouseEvent *e)
 		m_bMousePressed = true;
 		auto pVEC = pDM->GET_MODEL_CLASS(DisplayItem).get()->getVector();
 		auto pVECM = pDM->GET_MODEL_CLASS(DisplayMetaItem).get()->getVector();
-		auto pVECD = pDM->GET_MODEL_CLASS(DisplayDateTimeItem).get()->getVector();
 
 		for (auto it : (*pVEC))
 		{
@@ -1519,7 +1103,6 @@ void QGLESPIDCanvas::mousePressEvent(QMouseEvent *e)
 				m_nSelIdx = pItem->GetIndex();
 				setSelectedItemVectors( pItem, 0);
 				m_nSelMetaIdx = 0;
-				m_nSelDateTimeIdx = 0;
 				update();
 				return;
 			}
@@ -1541,9 +1124,7 @@ void QGLESPIDCanvas::mousePressEvent(QMouseEvent *e)
 				m_nSelMetaIdx = pItem->GetIndex();
 
 				setSelectedItemVectors(pItem, 1);
-				m_nSelDateTimeIdx = 0;
 				m_nSelIdx = 0;
-				m_nSelDateTimeIdx = 0;
 				update();
 				return;
 			}
@@ -1554,32 +1135,9 @@ void QGLESPIDCanvas::mousePressEvent(QMouseEvent *e)
 			auto *pItem = (DisplayMetaItem*)it.get();
 			pItem->bSelected = false;
 		}
-
-		for (auto it : (*pVECD))
-		{
-			auto *pItem = (DisplayDateTimeItem*)it.get();
-			if (isPtInDateTimeItemBound(pItem, e->pos().x(), e->pos().y(), &m_fOffsetX, &m_fOffsetY))
-			{
-				m_bMoving = false;
-				pItem->bSelected = true;
-				m_nSelDateTimeIdx = pItem->GetIndex();
-				setSelectedItemVectors(pItem, 0);
-				m_nSelMetaIdx = 0;
-				m_nSelIdx = 0;
-				update();
-				return;
-			}
-		}
-
-		for (auto it : (*pVECD))
-		{
-			auto *pItem = (DisplayDateTimeItem*)it.get();
-			pItem->bSelected = false;
-		}
-
+		
 		m_nSelIdx = 0;
 		m_nSelMetaIdx = 0;
-		m_nSelDateTimeIdx = 0;
 		update();
 		return;
 	}
@@ -1627,26 +1185,7 @@ void QGLESPIDCanvas::mouseMoveEvent(QMouseEvent *e)
 			}
 		}
 
-		int nDateTimeSelIdx = m_nSelDateTimeIdx;
-		auto pDVEC = pDM->GET_MODEL_CLASS(DisplayDateTimeItem).get()->getVector();
-		if (nDateTimeSelIdx)
-		{
-			auto fIt = find_if(pDVEC->begin(), pDVEC->end(), 
-				[&nDateTimeSelIdx](std::shared_ptr<CSQLData> &pData) 
-			{
-				return (pData->GetIndex() == nDateTimeSelIdx); 
-			});
-
-			if (fIt != pDVEC->end())
-			{
-				m_bMoving = true;
-				auto *pItem = (DisplayDateTimeItem*)fIt->get();
-				pItem->m_fTrans[0] = (GLfloat)e->pos().x() - m_fOffsetX;
-				pItem->m_fTrans[1] = (GLfloat)e->pos().y() - m_fOffsetY;
-				update();
-				return;
-			}
-		}
+		
 	}
 }
 
@@ -1668,12 +1207,6 @@ void QGLESPIDCanvas::reorderAllTimeLine()
 		CDataManage::reorderTimeLine(pItem);
 	}
 
-	auto pDVEC = pDM->GET_MODEL_CLASS(DisplayDateTimeItem).get()->getVector();
-	for (auto it : (*pDVEC))
-	{
-		auto *pItem = (DisplayDateTimeItem*)it.get();
-		CDataManage::reorderTimeLine(pItem);
-	}
 }
 
 
@@ -1683,7 +1216,6 @@ void QGLESPIDCanvas::mouseReleaseEvent(QMouseEvent *e)
 	m_bMoving = false;
 	int nSelIdx = m_nSelIdx;
 	int nSelMetaIdx = m_nSelMetaIdx;
-	int nSelDateTimeIdx = m_nSelDateTimeIdx;
 
 	m_bMousePressed = false;
 	auto *pDM = CDataManage::GetInstance();
@@ -1691,8 +1223,7 @@ void QGLESPIDCanvas::mouseReleaseEvent(QMouseEvent *e)
 	
 	auto pVEC = pDM->GET_MODEL_CLASS(DisplayItem).get()->getVector();
 	auto pVECM = pDM->GET_MODEL_CLASS(DisplayMetaItem).get()->getVector();
-	auto pVECD = pDM->GET_MODEL_CLASS(DisplayDateTimeItem).get()->getVector();
-
+	
 	if (m_bMouseMovedWhilePressed)
 	{
 		if (nSelIdx)
@@ -1786,67 +1317,13 @@ void QGLESPIDCanvas::mouseReleaseEvent(QMouseEvent *e)
 			pItem->bSelected = false;
 		}
 
-		if (nSelDateTimeIdx)
-		{
-			auto fIt = find_if(pVECD->begin(), pVECD->end(), 
-				[&nSelDateTimeIdx](std::shared_ptr<CSQLData> &pData) 
-			{
-				return (pData->GetIndex() == nSelDateTimeIdx); 
-			});
-
-			if (fIt != pVECD->end())
-			{
-				int nCurTime = m_nCurTime;
-				auto *pItem = (DisplayDateTimeItem*)fIt->get();
-				//해당되는 시간을 찾는다.
-				auto iit = find_if(pItem->m_vChildItem[0].vSQLData.begin(), pItem->m_vChildItem[0].vSQLData.end(), 
-					[&nCurTime](std::shared_ptr<CSQLData> &pData)
-				{
-					auto *pProp = (DisplayDateTimeProp*)pData.get();
-					return (pProp->nAtMiliseconds == nCurTime);
-				});
-				if (iit != pItem->m_vChildItem[0].vSQLData.end())
-				{
-					auto *pProp = (DisplayDateTimeProp*)iit->get();
-					setPropertiesFromDateTimeItem(pItem, pProp, e->pos().x() - m_fOffsetX, e->pos().y() - m_fOffsetY);
-					m_fOffsetX = 0;
-					m_fOffsetY = 0;
-				}
-				else
-				{
-					//해당되는 시간에 대한 프로퍼티가 없다면 새로 입력하여 설정한다.
-					pDM->GET_MODEL_CLASS(DisplayDateTimeProp)->setVectors(
-						&pItem->m_vChildItem[0].vSQLData, 
-						&pItem->m_vChildItem[0].vSQLDataDelItems, 
-						pItem->GetIndex());
-
-					std::shared_ptr<CSQLData> pSubData = pDM->GET_MODEL_CLASS(DisplayDateTimeProp).get()->insertRow();
-					
-					auto *pProp = (DisplayDateTimeProp*)pSubData.get();
-					pProp->nAtMiliseconds = m_nCurTime;
-					setPropertiesFromDateTimeItem(pItem, pProp, e->pos().x() - m_fOffsetX, e->pos().y() - m_fOffsetY);
-					m_fOffsetX = 0;
-					m_fOffsetY = 0;
-				}
-
-				CDataManage::reorderTimeLine(pItem);
-				pItem->tLine.jumpTo((GLfloat)m_nCurTime);
-				setSelectedItemVectors(pItem, 3);
-			}
-		}
-
-		for (auto it : (*pVECD))
-		{
-			auto *pItem = (DisplayDateTimeItem*)it.get();
-			pItem->bSelected = false;
-		}
+		
 	}
 
 
 	sortToZOrder();
 	m_nSelIdx = 0;
 	m_nSelMetaIdx = 0;
-	m_nSelDateTimeIdx = 0;
 
 	m_bMouseMovedWhilePressed = false;
 	update();
@@ -1892,25 +1369,6 @@ void QGLESPIDCanvas::setPropertiesFromMetaItem(DisplayMetaItem* pItem, DisplayMe
 	}
 }
 
-void QGLESPIDCanvas::setPropertiesFromDateTimeItem(DisplayDateTimeItem * pItem, DisplayDateTimeProp * pProp, GLfloat nX, GLfloat nY)
-{
-	pProp->fX = (GLfloat)nX;
-	pProp->fY = (GLfloat)nY;
-	pProp->fScalingX = pItem->m_fScale[0];
-	pProp->fScalingY = pItem->m_fScale[1];
-	pProp->fAngle = pItem->m_fRotation;
-	pProp->nVisible = pItem->m_nVisible;
-	unsigned int uRed = (unsigned char)(GLfloat)((pItem->m_fColor[0] / 1.0f) * 255.0f);
-	unsigned int uGreen = (unsigned char)(GLfloat)((pItem->m_fColor[1] / 1.0f) * 255.0f);
-	unsigned int uBlue = (unsigned char)(GLfloat)((pItem->m_fColor[2] / 1.0f) * 255.0f);
-	unsigned int uAlpha = (unsigned char)(GLfloat)((pItem->m_fColor[3] / 1.0f) * 255.0f);
-	pProp->uColor = (uRed << 24) | (uGreen << 16) | (uBlue << 8) | (uAlpha);
-
-	if (pProp->GetRecordState() != EDIT_INSERTED)
-	{
-		pProp->SetRecordState(EDIT_UPDATED);
-	}
-}
 
 void QGLESPIDCanvas::resizeGL(int w, int h)
 {
@@ -1936,14 +1394,6 @@ void QGLESPIDCanvas::sortToZOrder()
 	{
 		auto *pDPL = (DisplayMetaItem*)pL.get();
 		auto *pDPR = (DisplayMetaItem*)pR.get();
-		return pDPL->nZOrder < pDPR->nZOrder;
-	});
-
-	auto pVECD = pDM->GET_MODEL_CLASS(DisplayDateTimeItem).get()->getVector();
-	std::sort(pVECD->begin(), pVECD->end(), [](std::shared_ptr<CSQLData> &pL, std::shared_ptr<CSQLData> &pR)
-	{
-		auto *pDPL = (DisplayDateTimeItem*)pL.get();
-		auto *pDPR = (DisplayDateTimeItem*)pR.get();
 		return pDPL->nZOrder < pDPR->nZOrder;
 	});
 }

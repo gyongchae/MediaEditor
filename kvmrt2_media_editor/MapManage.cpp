@@ -165,9 +165,8 @@ MAPPARAM gVideoGroup[] =
 MAPPARAM gImageIndexListType[] = 
 {
 	{ 0, L"Normal" },
-	{ 1, L"Date/Time" },
-	{ 2, L"Map Video Area" },
-	{ 3, L"Tag Item" },
+	{ 1, L"Map Video Area" },
+	{ 2, L"Tag Item" },
 };
 
 MAPPARAM gDateTimeDisplay[] =

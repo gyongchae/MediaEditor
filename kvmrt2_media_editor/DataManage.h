@@ -57,9 +57,6 @@ public:
 	DECLARE_MODEL_CLASS(DisplayMetaItem)
 	DECLARE_MODEL_CLASS(DisplayMetaItemProp)
 
-	DECLARE_MODEL_CLASS(DisplayDateTimeItem)
-	DECLARE_MODEL_CLASS(DisplayDateTimeProp)
-
 	DECLARE_MODEL_CLASS(LineMapPool)
 	DECLARE_MODEL_CLASS(LineMapLink)
 	DECLARE_MODEL_CLASS(LineMapNode)
@@ -101,7 +98,6 @@ public:
 
 	static void reorderTimeLine(DisplayItem *pItem);
 	static void reorderTimeLine(DisplayMetaItem *pItem);
-	static void reorderTimeLine(DisplayDateTimeItem *pItem);
 
 public:
 	static bool getMappedValue(wchar_t *pTagName,std::shared_ptr<CValueMonitor> *pVM);
