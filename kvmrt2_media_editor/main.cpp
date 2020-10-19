@@ -82,16 +82,16 @@ int main(int argc, char *argv[])
 	else // debugging
 	{
 		INIMANAGER->setAccountType(ACC_ADMIN);
-	}
 
-	QMessageBox::information(
-		nullptr,
-		QString("ME Path Information"),
-		QString("DB Path: %1\n\nApp Path: %2\nApp Version: %3")
-		.arg(dbPath)
-		.arg(currAppPath)
-		.arg(QCoreApplication::applicationVersion()),
-		QMessageBox::Ok);
+		QMessageBox::information(
+			nullptr,
+			QString("ME Path Information"),
+			QString("DB Path: %1\n\nApp Path: %2\nApp Version: %3")
+			.arg(dbPath)
+			.arg(currAppPath)
+			.arg(QCoreApplication::applicationVersion()),
+			QMessageBox::Ok);
+	}
 
 	kvmrt2_media_editor w(dbPath, currAppPath);
 

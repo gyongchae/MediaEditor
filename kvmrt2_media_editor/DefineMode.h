@@ -1,6 +1,6 @@
 #pragma once
 
-const bool OFFICIAL_RELEASE = true;
+const bool OFFICIAL_RELEASE = false;
 
 #define MY_ORGANIZATION_NAME "Woojin BSPSG"
 #define MY_APPLICATION_NAME "MRT2 Media Editor"

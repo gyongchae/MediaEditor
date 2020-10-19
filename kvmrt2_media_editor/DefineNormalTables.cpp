@@ -71,9 +71,13 @@ DECLARE_STATIC_TYPESETTINGS(StopPtnRoutes, 13) =
 	{ TYPE_INTEGER,MAKE_T("PARENT_INDEX"),			0,nullptr,false,false,true,		MAKE_T("Parent Index"),					100 },
 	{ TYPE_INTEGER,MAKE_T("TABLE_ORDER"),			0,nullptr,false,true, false,	MAKE_T("Order"),						100 },
 	{ TYPE_INTEGER,MAKE_T("DISTANCE_INDEX"),		0,nullptr,false,false,false,	MAKE_T("Distance Index"),				100 },
-	{ TYPE_INTEGER,MAKE_T("DESTINATION_INDEX_LED"),	0,nullptr,false,false,false,	MAKE_T("Destination Index(LED)"),		100 },
+	
+	// no use LED destination index
+	{ TYPE_INTEGER,MAKE_T("DESTINATION_INDEX_LED"),	0,nullptr,false,false,false,	MAKE_T("Destination Index(LED)"),		100 }, // no use
 	{ TYPE_INTEGER,MAKE_T("DOOR_DIRECTION"),		0,nullptr,false,false,false,	MAKE_T("Door Direction"),				100 },
-	{ TYPE_INTEGER,MAKE_T("DESTINATION_INDEX_LCD"),	0,nullptr,false,false,false,	MAKE_T("Destination Index(PID&DRMD)"),	100 },
+
+	// using for LCD and LED
+	{ TYPE_INTEGER,MAKE_T("DESTINATION_INDEX"),		0,nullptr,false,false,false,	MAKE_T("Destination Index"),			100 }, // using not only lcd, but led
 	{ TYPE_INTEGER,MAKE_T("DOORCLOSE_VOICEEVENT"),	0,nullptr,false,false,false,	MAKE_T("Door Close Voice Event"),		100 },
 	{ TYPE_INTEGER,MAKE_T("DOORCLOSE_VIDEOEVENT"),	0,nullptr,false,false,false,	MAKE_T("Door Close Video Event"),		100 },
 	{ TYPE_INTEGER,MAKE_T("DOORCLOSE_DRMEVENT"),	0,nullptr,false,false,false,	MAKE_T("Door Close DRM Event"),			100 },

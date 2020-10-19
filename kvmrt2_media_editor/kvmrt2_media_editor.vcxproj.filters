@@ -143,6 +143,9 @@
     <Filter Include="MAIN\User Manager">
       <UniqueIdentifier>{1c8570a5-f3d6-4bc1-ae79-5daa04be802d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MAIN\LED Text String">
+      <UniqueIdentifier>{f01f7e44-b4b9-4ad4-af1b-726d3a6af188}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BinPacked\MaxRectsPixelBuffer.cpp">
