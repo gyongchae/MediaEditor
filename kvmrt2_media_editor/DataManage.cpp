@@ -232,30 +232,12 @@ bool CDataManage::OpenDatabase()
 
 bool CDataManage::BeforeLoadFromDB()
 {
-	//auto *pTM = CTableManage::GetInstance();
-	//queryExec(CREATE_VIDEOFILE_VERSION, pTM->GetDB());
-	//queryExec(INSERT_VIDEOFILE_VERSION, pTM->GetDB());
 	return true;
 }
 
 void CDataManage::SetVideoFileVersion()
 {
-	//auto *pTM = CTableManage::GetInstance();
-	//wchar_t szVersionBuffer[256];
-	//wchar_t szBuffer[256];
-	//GetVersion(SELECT_VIDEOFILE_VERSION, szVersionBuffer, pTM->GetDB());
-	//int nVersion = 1;
-	//QStringList tList = QString::fromStdWString(szVersionBuffer).split(".");
-	//
-	//if (tList.size() == 3)
-	//{
-	//	nVersion = (tList.at(0).toInt() * 10000) + (tList.at(1).toInt() * 100) + tList.at(2).toInt();
-	//	nVersion++;
-	//}
-	//
-	//swprintf_s(szVersionBuffer, _countof(szVersionBuffer), _T("%02d.%02d.%02d"), (nVersion / 10000), ((nVersion % 10000) / 100), nVersion % 100);
-	//swprintf(szBuffer, UPDATE_VIDEOFILE_VERSION, szVersionBuffer);
-	//queryExec(szBuffer, pTM->GetDB());
+
 }
 
 wchar_t CDataManage::GetVersion(wchar_t *pszSelectQuery, wchar_t *szVersionString, sqlite3 *pDB)
@@ -320,6 +302,8 @@ void CDataManage::setCurrPath(QString & currPath)
 	m_iconRouteMap =		QIcon(m_currPath + "/Res/Free/Black-hole.ico");
 	m_iconLED =				QIcon(m_currPath + "/Res/Free/Bb-8.ico");
 	m_iconUpdate =			QIcon(m_currPath + "/Res/Free/Atom.ico");
+	m_iconUserInfo =		QIcon(m_currPath + "/Res/Free/Morty.ico");
+	
 	m_iconExit =			QIcon(m_currPath + "/Res/Free/Astronaut.ico");
 
 	// tab
@@ -358,7 +342,7 @@ void CDataManage::setCurrPath(QString & currPath)
 	m_iconAddMeta		=	QIcon(m_currPath + "/Res/Kidcons Win/Icons/add.ico");;
 	m_iconEditProp		=	QIcon(m_currPath + "/Res/Kidcons Win/Icons/green star.ico");;
 	m_iconDelDispItem	=	QIcon(m_currPath + "/Res/Kidcons Win/Icons/multiply.ico");;
-	m_iconRemoveProp		=	QIcon(m_currPath + "/Res/Kidcons Win/Icons/subtract.ico");;
+	m_iconRemoveProp	=	QIcon(m_currPath + "/Res/Kidcons Win/Icons/subtract.ico");;
 }
 
 QString & CDataManage::currPath()

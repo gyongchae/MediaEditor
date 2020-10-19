@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>M E D I A E D I T O R</string>
+   <string>Media Editor</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -376,6 +376,8 @@
     </property>
     <addaction name="actionSave"/>
     <addaction name="actionSetting"/>
+    <addaction name="actionUserInfo"/>
+    <addaction name="separator"/>
     <addaction name="actionUpdate"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
@@ -443,6 +445,7 @@
    <addaction name="actionLedPool"/>
    <addaction name="separator"/>
    <addaction name="actionUpdate"/>
+   <addaction name="actionUserInfo"/>
    <addaction name="separator"/>
    <addaction name="actionExit"/>
   </widget>
@@ -453,7 +456,7 @@
      <normaloff>Resources/More Kidcons Win/Icons/Barn.ico</normaloff>Resources/More Kidcons Win/Icons/Barn.ico</iconset>
    </property>
    <property name="text">
-    <string>Save</string>
+    <string>DB Save</string>
    </property>
    <property name="shortcut">
     <string>F5</string>
@@ -465,10 +468,10 @@
      <normaloff>Resources/More Kidcons Win/Icons/Baseball Diamond.ico</normaloff>Resources/More Kidcons Win/Icons/Baseball Diamond.ico</iconset>
    </property>
    <property name="text">
-    <string>Setting</string>
+    <string>DB Version</string>
    </property>
    <property name="toolTip">
-    <string>ME Setting</string>
+    <string>DB Version Setting</string>
    </property>
   </action>
   <action name="actionAudioVideoPool">
@@ -585,7 +588,7 @@
      <normaloff>Resources/More Kidcons Win/Icons/Football Helmet.ico</normaloff>Resources/More Kidcons Win/Icons/Football Helmet.ico</iconset>
    </property>
    <property name="text">
-    <string>New</string>
+    <string>New DB</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
@@ -597,7 +600,7 @@
      <normaloff>Resources/More Kidcons Win/Icons/Football.ico</normaloff>Resources/More Kidcons Win/Icons/Football.ico</iconset>
    </property>
    <property name="text">
-    <string>Load</string>
+    <string>Load DB</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
@@ -609,7 +612,7 @@
      <normaloff>Resources/More Kidcons Win/Icons/Gingerbread Man.ico</normaloff>Resources/More Kidcons Win/Icons/Gingerbread Man.ico</iconset>
    </property>
    <property name="text">
-    <string>DB Update</string>
+    <string>File Upload</string>
    </property>
   </action>
   <action name="actionLicenseInfo">
@@ -629,6 +632,11 @@
   <action name="actionTestCanvas">
    <property name="text">
     <string>canvas test</string>
+   </property>
+  </action>
+  <action name="actionUserInfo">
+   <property name="text">
+    <string>User Information</string>
    </property>
   </action>
  </widget>

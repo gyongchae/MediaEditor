@@ -27,6 +27,7 @@
 #include "comboBoxDelegate.h"
 #include "DefineMode.h"
 #include <stdarg.h>
+#include "DefineMode.h"
 
 kvmrt2_media_editor::kvmrt2_media_editor(QString & dbPath, QString & currPath, QWidget * parent) : QMainWindow(parent)
 {
@@ -68,6 +69,11 @@ kvmrt2_media_editor::kvmrt2_media_editor(QString & dbPath, QString & currPath, Q
 
 
 	setHideItemsMainWindow(OFFICIAL_RELEASE);
+
+	// user info widget init
+	m_widgetUserInfo = new UserInfoWidget;
+	m_widgetUserInfo->setWindowIcon(pDM->m_iconUserInfo);
+	connect(ui.actionUserInfo, SIGNAL(triggered()), this, SLOT(onShowUserInfo()));
 }
 
 kvmrt2_media_editor::~kvmrt2_media_editor()
@@ -81,7 +87,6 @@ void kvmrt2_media_editor::setHideItemsMainWindow(bool isRelease)
 		// hidden action
 		ui.actionNew->setVisible(false);
 		ui.actionLoad->setVisible(false);
-		ui.actionSetting->setVisible(false);
 		ui.actionLedPool->setVisible(false);
 
 		auto *pDM = CDataManage::GetInstance();
@@ -115,6 +120,7 @@ void kvmrt2_media_editor::setHideItemsMainWindow(bool isRelease)
 		SET_HIDE_TABLE_COLUMN(AudioTotal, 1);
 		SET_HIDE_TABLE_COLUMN(VideoDeviceGroup, 0);
 		SET_HIDE_TABLE_COLUMN(VideoDeviceGroup, 1);
+		SET_HIDE_TABLE_COLUMN(VideoDeviceGroup, 3); // group id (no use)
 		SET_HIDE_TABLE_COLUMN(VideoPlayList, 0);
 		SET_HIDE_TABLE_COLUMN(VideoPlayList, 1);
 		SET_HIDE_TABLE_COLUMN(VideoPlayList, 2);
@@ -204,6 +210,9 @@ void kvmrt2_media_editor::initIcons()
 	ui.actionRouteMapPool->setIcon(pDM->m_iconRouteMap);
 	ui.actionLedPool->setIcon(pDM->m_iconLED);
 	ui.actionUpdate->setIcon(pDM->m_iconUpdate);
+
+	ui.actionUserInfo->setIcon(pDM->m_iconUserInfo);
+
 	ui.actionExit->setIcon(pDM->m_iconExit);
 
 	ui.actionAboutME->setIcon(pDM->m_iconMain);
@@ -327,25 +336,39 @@ void kvmrt2_media_editor::onSaveDB()
 	currVersion[1] = pDM->m_pModOPDataVersion->data(index.sibling(0, 3), Qt::DisplayRole).toInt();
 	currVersion[2] = pDM->m_pModOPDataVersion->data(index.sibling(0, 4), Qt::DisplayRole).toInt();
 
-	for (int i = 0; i < 3; ++i)
-	{
-		if (currVersion[i] != m_lastVersion[i])
-		{
-			qDebug("version[%d] %d -> %d changed", i, m_lastVersion[i], currVersion[i]);
-		}
-		else
-		{
+	int mbResult = QMessageBox::information(this, QString("Save OP_DATA.DB"),
+		QString("Do you want to save OP_DATA.DB(version %1.%2.%3)?").arg(currVersion[0]).arg(currVersion[1]).arg(currVersion[2]),
+		QMessageBox::Ok|QMessageBox::Cancel);
 
+	if (mbResult == QMessageBox::Ok)
+	{
+		for (int i = 0; i < 3; ++i)
+		{
+			if (currVersion[i] != m_lastVersion[i])
+			{
+				qDebug("version[%d] %d -> %d changed", i, m_lastVersion[i], currVersion[i]);
+			}
+			else
+			{
+
+			}
 		}
+
+		ui.statusBar->showMessage(QString("OP_DATA.DB has been saved (version: %1.%2.%3)")
+			.arg(currVersion[0]).arg(currVersion[1]).arg(currVersion[2]));
+
+		pTM->SaveModified();
+	}
+	else
+	{
+		QMessageBox::information(this, "Save canceled", "OP_DATA.DB didn't saved.");
 	}
 
-	ui.statusBar->showMessage(QString("OP_DATA.DB has been saved (version: %1.%2.%3)")
-		.arg(currVersion[0]).arg(currVersion[1]).arg(currVersion[2]));
 
-	pTM->SaveModified();
+
 }
 
-void kvmrt2_media_editor::onShowSetting()
+void kvmrt2_media_editor::onShowSetting() // DB version setting
 {
 	RegistrySettings regDialog(this);
 	if (regDialog.exec())
@@ -430,7 +453,13 @@ void kvmrt2_media_editor::onShowDisplayListPool()
 void kvmrt2_media_editor::onShowFileUpload()
 {
 	QProcess *process = new QProcess(this);
-	process->start(QString("C:/PapisProgram/FileUpload/UploadWizard2.exe"));
+	process->start(QString(WIZARD_FILE_PATH));
+}
+
+void kvmrt2_media_editor::onShowUserInfo()
+{
+	m_widgetUserInfo->setWindowFlags(Qt::Window);
+	m_widgetUserInfo->show();
 }
 
 void kvmrt2_media_editor::onBtnRefreshDistanceTable()
@@ -735,15 +764,47 @@ void kvmrt2_media_editor::onAutoFillDisplayItem(const QModelIndex & topLeft, con
 	}
 }
 
+void kvmrt2_media_editor::initAccountType(AccountType type)
+{
+	switch (type)
+	{
+	case ACC_ADMIN:
+		qInfo() << Q_FUNC_INFO << "Administrator";
+		break;
+	case ACC_NORMAL:
+		qInfo() << Q_FUNC_INFO << "Normal";
+		ui.actionUpdate->setEnabled(false);
+		break;
+	case ACC_GUEST:
+	case ACC_UNDEFINED:
+	default:
+		for (auto a : this->findChildren<QAction*>())
+		{
+			a->setEnabled(false);
+		}
+		for (auto a : this->findChildren<QTableView*>())
+		{
+			a->setEnabled(false);
+		}
+		break;
+	}
+}
+
 void kvmrt2_media_editor::aboutME()
 {
 	// version(major.minor.release)
+	QString txt = QString("Organization: %1\n\n"
+		"Application:%2\n\n"
+		"Version: %3\n\n"
+		"Contact: %4")
+		.arg(QCoreApplication::organizationName())
+		.arg(QCoreApplication::applicationName())
+		.arg(QCoreApplication::applicationVersion())
+		.arg("kcjeong@wjis.co.kr");
 
 	QMessageBox::about(this,
 		QString("About Putrajaya Line Media Editor"),
-		QString("Company: Woojin\n"
-			"Version: %1.%2.%3\n\n"
-			"Contact: *****@******.***").arg(QString::number(0)).arg(QString::number(0)).arg(QString::number(1)));
+		QString(txt));
 }
 
 void kvmrt2_media_editor::licenseInfo()

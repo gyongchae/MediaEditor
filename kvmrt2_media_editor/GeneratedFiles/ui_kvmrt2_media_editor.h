@@ -55,6 +55,7 @@ public:
     QAction *actionLicenseInfo;
     QAction *actioncanvas_test;
     QAction *actionTestCanvas;
+    QAction *actionUserInfo;
     QWidget *centralWidget;
     QGridLayout *gridLayout_21;
     QTabWidget *tabMain;
@@ -229,6 +230,8 @@ public:
         actioncanvas_test->setObjectName(QStringLiteral("actioncanvas_test"));
         actionTestCanvas = new QAction(kvmrt2_media_editorClass);
         actionTestCanvas->setObjectName(QStringLiteral("actionTestCanvas"));
+        actionUserInfo = new QAction(kvmrt2_media_editorClass);
+        actionUserInfo->setObjectName(QStringLiteral("actionUserInfo"));
         centralWidget = new QWidget(kvmrt2_media_editorClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout_21 = new QGridLayout(centralWidget);
@@ -575,6 +578,8 @@ public:
         menuBar->addAction(menuHelp->menuAction());
         menuFile->addAction(actionSave);
         menuFile->addAction(actionSetting);
+        menuFile->addAction(actionUserInfo);
+        menuFile->addSeparator();
         menuFile->addAction(actionUpdate);
         menuFile->addSeparator();
         menuFile->addAction(actionExit);
@@ -608,6 +613,7 @@ public:
         mainToolBar->addAction(actionLedPool);
         mainToolBar->addSeparator();
         mainToolBar->addAction(actionUpdate);
+        mainToolBar->addAction(actionUserInfo);
         mainToolBar->addSeparator();
         mainToolBar->addAction(actionExit);
 
@@ -621,14 +627,14 @@ public:
 
     void retranslateUi(QMainWindow *kvmrt2_media_editorClass)
     {
-        kvmrt2_media_editorClass->setWindowTitle(QApplication::translate("kvmrt2_media_editorClass", "M E D I A E D I T O R", Q_NULLPTR));
-        actionSave->setText(QApplication::translate("kvmrt2_media_editorClass", "Save", Q_NULLPTR));
+        kvmrt2_media_editorClass->setWindowTitle(QApplication::translate("kvmrt2_media_editorClass", "Media Editor", Q_NULLPTR));
+        actionSave->setText(QApplication::translate("kvmrt2_media_editorClass", "DB Save", Q_NULLPTR));
 #ifndef QT_NO_SHORTCUT
         actionSave->setShortcut(QApplication::translate("kvmrt2_media_editorClass", "F5", Q_NULLPTR));
 #endif // QT_NO_SHORTCUT
-        actionSetting->setText(QApplication::translate("kvmrt2_media_editorClass", "Setting", Q_NULLPTR));
+        actionSetting->setText(QApplication::translate("kvmrt2_media_editorClass", "DB Version", Q_NULLPTR));
 #ifndef QT_NO_TOOLTIP
-        actionSetting->setToolTip(QApplication::translate("kvmrt2_media_editorClass", "ME Setting", Q_NULLPTR));
+        actionSetting->setToolTip(QApplication::translate("kvmrt2_media_editorClass", "DB Version Setting", Q_NULLPTR));
 #endif // QT_NO_TOOLTIP
         actionAudioVideoPool->setText(QApplication::translate("kvmrt2_media_editorClass", "Audio && Video", Q_NULLPTR));
 #ifndef QT_NO_TOOLTIP
@@ -650,18 +656,19 @@ public:
 #ifndef QT_NO_TOOLTIP
         actionExit->setToolTip(QApplication::translate("kvmrt2_media_editorClass", "Exit Program", Q_NULLPTR));
 #endif // QT_NO_TOOLTIP
-        actionNew->setText(QApplication::translate("kvmrt2_media_editorClass", "New", Q_NULLPTR));
+        actionNew->setText(QApplication::translate("kvmrt2_media_editorClass", "New DB", Q_NULLPTR));
 #ifndef QT_NO_SHORTCUT
         actionNew->setShortcut(QApplication::translate("kvmrt2_media_editorClass", "Ctrl+N", Q_NULLPTR));
 #endif // QT_NO_SHORTCUT
-        actionLoad->setText(QApplication::translate("kvmrt2_media_editorClass", "Load", Q_NULLPTR));
+        actionLoad->setText(QApplication::translate("kvmrt2_media_editorClass", "Load DB", Q_NULLPTR));
 #ifndef QT_NO_SHORTCUT
         actionLoad->setShortcut(QApplication::translate("kvmrt2_media_editorClass", "Ctrl+O", Q_NULLPTR));
 #endif // QT_NO_SHORTCUT
-        actionUpdate->setText(QApplication::translate("kvmrt2_media_editorClass", "DB Update", Q_NULLPTR));
+        actionUpdate->setText(QApplication::translate("kvmrt2_media_editorClass", "File Upload", Q_NULLPTR));
         actionLicenseInfo->setText(QApplication::translate("kvmrt2_media_editorClass", "License Info", Q_NULLPTR));
         actioncanvas_test->setText(QApplication::translate("kvmrt2_media_editorClass", "canvas test", Q_NULLPTR));
         actionTestCanvas->setText(QApplication::translate("kvmrt2_media_editorClass", "canvas test", Q_NULLPTR));
+        actionUserInfo->setText(QApplication::translate("kvmrt2_media_editorClass", "User Information", Q_NULLPTR));
         gbStationName->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Station Name", Q_NULLPTR));
         gbDistance->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Station Pair (Distance table)", Q_NULLPTR));
         rbInOrder->setText(QApplication::translate("kvmrt2_media_editorClass", "Auto 1", Q_NULLPTR));

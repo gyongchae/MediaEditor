@@ -145,6 +145,9 @@ public:
 	QIcon m_iconRouteMap;
 	QIcon m_iconLED;
 	QIcon m_iconUpdate;
+
+	QIcon m_iconUserInfo;
+
 	QIcon m_iconExit;
 	QIcon m_iconTabStnInfo;
 	QIcon m_iconTabTrainRoute;

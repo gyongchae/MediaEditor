@@ -140,6 +140,9 @@
     <Filter Include="MAL_PIDDRM related\SQL DATA\DB TABLE DEF">
       <UniqueIdentifier>{13a119b1-bd39-47f9-88b2-fc4bcc74ae36}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MAIN\User Manager">
+      <UniqueIdentifier>{1c8570a5-f3d6-4bc1-ae79-5daa04be802d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BinPacked\MaxRectsPixelBuffer.cpp">
@@ -499,6 +502,18 @@
     <ClCompile Include="TableManage.cpp">
       <Filter>MAL_PIDDRM related</Filter>
     </ClCompile>
+    <ClCompile Include="AccountManage\userinfowidget.cpp">
+      <Filter>MAIN\User Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="IniFileManager.cpp">
+      <Filter>MAIN\User Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="AccountManage\logindialog.cpp">
+      <Filter>MAIN\User Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="AccountManage\changepassworddialog.cpp">
+      <Filter>MAIN\User Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LEDIndicator.h">
@@ -548,6 +563,18 @@
     </QtMoc>
     <QtMoc Include="displayItemPropEdit.h">
       <Filter>SCREEN\NORMAL DISPLAY\DISP ITEM PROP</Filter>
+    </QtMoc>
+    <QtMoc Include="AccountManage\userinfowidget.h">
+      <Filter>MAIN\User Manager</Filter>
+    </QtMoc>
+    <QtMoc Include="AccountManage\logindialog.h">
+      <Filter>MAIN\User Manager</Filter>
+    </QtMoc>
+    <QtMoc Include="IniFileManager.h">
+      <Filter>MAIN\User Manager</Filter>
+    </QtMoc>
+    <QtMoc Include="AccountManage\changepassworddialog.h">
+      <Filter>MAIN\User Manager</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -607,6 +634,15 @@
     </QtUic>
     <QtUic Include="nodepropertydlg.ui">
       <Filter>SCREEN\ROUTE MAP\NODE PROP</Filter>
+    </QtUic>
+    <QtUic Include="AccountManage\userinfowidget.ui">
+      <Filter>MAIN\User Manager</Filter>
+    </QtUic>
+    <QtUic Include="AccountManage\logindialog.ui">
+      <Filter>MAIN\User Manager</Filter>
+    </QtUic>
+    <QtUic Include="AccountManage\changepassworddialog.ui">
+      <Filter>MAIN\User Manager</Filter>
     </QtUic>
   </ItemGroup>
   <ItemGroup>
