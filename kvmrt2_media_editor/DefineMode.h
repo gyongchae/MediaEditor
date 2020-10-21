@@ -5,7 +5,7 @@ const bool OFFICIAL_RELEASE = true;
 
 #define MY_ORGANIZATION_NAME "Woojin BSPSG"
 #define MY_APPLICATION_NAME "MRT2 Media Editor"
-#define MY_APP_VERSION "1.0"
+#define MY_APP_VERSION "1.0.0"
 
 #define ME_FOLDER_PATH "C:/PapisProgram/MediaEditor/"
 #define ME_LOG_FOLDER_PATH "C:/PapisProgram/MediaEditor/Logs/"
