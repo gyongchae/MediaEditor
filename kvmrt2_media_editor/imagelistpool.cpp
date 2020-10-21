@@ -40,6 +40,7 @@ imageListPool::imageListPool(QWidget *parent)
 		SET_HIDE_TABLE_COLUMN(ImageIndexList, 0);
 		SET_HIDE_TABLE_COLUMN(ImageIndexList, 1);
 		SET_HIDE_TABLE_COLUMN(ImageIndexList, 2);
+		SET_HIDE_TABLE_COLUMN(ImageIndexList, 4);
 		SET_HIDE_TABLE_COLUMN(ImageIndex, 0);
 		SET_HIDE_TABLE_COLUMN(ImageIndex, 1);
 		SET_HIDE_TABLE_COLUMN(ImageIndex, 2);

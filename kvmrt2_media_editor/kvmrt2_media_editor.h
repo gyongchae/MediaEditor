@@ -105,6 +105,9 @@ private slots:
 	void onAutoFillRouteDestination(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 	void onAutoFillDisplayItem(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 
+	// video file index changed
+	void onVideoIndexChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
+
 	// account type
 public:
 	void initAccountType(AccountType type);

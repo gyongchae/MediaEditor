@@ -122,10 +122,10 @@ void kvmrt2_media_editor::setHideItemsMainWindow(bool isRelease)
 		SET_HIDE_TABLE_COLUMN(VideoDeviceGroup, 0);
 		SET_HIDE_TABLE_COLUMN(VideoDeviceGroup, 1);
 		SET_HIDE_TABLE_COLUMN(VideoDeviceGroup, 3); // group id (no use)
-		SET_HIDE_TABLE_COLUMN(VideoPlayList, 0);
-		SET_HIDE_TABLE_COLUMN(VideoPlayList, 1);
-		SET_HIDE_TABLE_COLUMN(VideoPlayList, 2);
-		SET_HIDE_TABLE_COLUMN(VideoPlayList, 3);
+		//SET_HIDE_TABLE_COLUMN(VideoPlayList, 0);
+		//SET_HIDE_TABLE_COLUMN(VideoPlayList, 1);
+		//SET_HIDE_TABLE_COLUMN(VideoPlayList, 2);
+		//SET_HIDE_TABLE_COLUMN(VideoPlayList, 3);
 		SET_HIDE_TABLE_COLUMN(EditorTagTable, 0);
 		SET_HIDE_TABLE_COLUMN(EditorTagTable, 3);
 	}
@@ -364,9 +364,6 @@ void kvmrt2_media_editor::onSaveDB()
 	{
 		QMessageBox::information(this, "Save canceled", "OP_DATA.DB didn't saved.");
 	}
-
-
-
 }
 
 void kvmrt2_media_editor::onShowSetting() // DB version setting
@@ -454,7 +451,9 @@ void kvmrt2_media_editor::onShowDisplayListPool()
 void kvmrt2_media_editor::onShowFileUpload()
 {
 	QProcess *process = new QProcess(this);
-	process->start(QString(WIZARD_FILE_PATH));
+	QStringList arguments;
+	arguments << "ME";
+	process->start(QString(WIZARD_FILE_PATH), arguments);
 }
 
 void kvmrt2_media_editor::onShowUserInfo()
@@ -762,6 +761,41 @@ void kvmrt2_media_editor::onAutoFillDisplayItem(const QModelIndex & topLeft, con
 		}
 
 		GET_TABLE(PIDIndexList)->selectRow(0);
+	}
+}
+
+void kvmrt2_media_editor::onVideoIndexChanged(const QModelIndex & topLeft, const QModelIndex & bottomRight)
+{
+	const int col = topLeft.column();
+	const int row = topLeft.row();
+	if (col == 3) // video index
+	{
+		const int videoFileIdx = ui.m_tblVideoPlayList->currentIndex().data(Qt::EditRole).toInt();
+		const int parentIdx = ui.m_tblVideoPlayList->currentIndex().sibling(row, 1 /*parent index*/).data().toInt();
+
+		auto *pDM = CDataManage::GetInstance();
+		auto *pTM = CTableManage::GetInstance();
+
+		std::vector<std::shared_ptr<CSQLData>>::iterator it;
+		it = find_if(pTM->VECTOR_CLASS(VideoFilePool).begin(), pTM->VECTOR_CLASS(VideoFilePool).end(),
+			findVideoFileNameByVideoIndex(videoFileIdx));
+		if (it != pTM->VECTOR_CLASS(VideoFilePool).end())
+		{
+			auto *c = dynamic_cast<VideoFilePool*>(it->get());
+			QString fileName = QString::fromWCharArray(c->szFileName);
+			qDebug() << "video file name:" << fileName;
+			GET_TABLE_MODEL(pDM, VideoPlayList)->setData(topLeft.sibling(row, 4/*file name*/), fileName, Qt::EditRole);
+		}
+
+		it = find_if(pTM->VECTOR_CLASS(VideoDeviceGroup).begin(), pTM->VECTOR_CLASS(VideoDeviceGroup).end(),
+			findDeviceTypeByIndex(parentIdx));
+		if (it != pTM->VECTOR_CLASS(VideoDeviceGroup).end())
+		{
+			auto *c = dynamic_cast<VideoDeviceGroup*>(it->get());
+			int nDevType = c->nDevType;
+			qDebug() << "dev type:" << nDevType;
+			GET_TABLE_MODEL(pDM, VideoPlayList)->setData(topLeft.sibling(row, 6/*dev type*/), nDevType, Qt::EditRole);
+		}
 	}
 }
 
@@ -1403,11 +1437,23 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, VideoPlayList)
 
 	header->resizeSections(QHeaderView::ResizeToContents);
 
-	GET_TABLE(VideoPlayList)->setItemDelegateForColumn(4, new SQLDelegate(this, &pTM->VECTOR_CLASS(VideoFilePool), 3, 3, TYPE_TEXT));
+	GET_TABLE(VideoPlayList)->setItemDelegateForColumn(3, new SQLDelegate(this, &pTM->VECTOR_CLASS(VideoFilePool), 3, 3, TYPE_TEXT));
 
 	SET_DRAG_AND_DROP_ENABLED(VideoPlayList);
 	SET_SELECTION_BEHAVIOR(VideoPlayList, QAbstractItemView::SelectRows);
 	SET_SELECTION_MODE(VideoPlayList, QAbstractItemView::SingleSelection);
+
+	connect(pDM->m_pModVideoPlayList.get(), 
+		SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)),
+		this, SLOT(onVideoIndexChanged(const QModelIndex&, const QModelIndex&)));
+
+	// row 추가 될때마다 VideoDeviceGroup 및 PlayList DB 저장 (parent index refresh 됨)
+	connect(ui.m_tblVideoPlayList->model(), &QAbstractItemModel::rowsInserted, []()
+	{
+		qDebug() << Q_FUNC_INFO;
+		auto *pTM = CTableManage::GetInstance();
+		pTM->SAVEDATA_FOR_CLASS(VideoDeviceGroup);
+	});
 
 	return false;
 }

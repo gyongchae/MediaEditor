@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1121</width>
-    <height>607</height>
+    <width>1157</width>
+    <height>591</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,8 +24,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>1101</width>
-        <height>276</height>
+        <width>1137</width>
+        <height>262</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_9">
@@ -203,7 +203,7 @@
         <enum>QFrame::Plain</enum>
        </property>
        <property name="currentIndex">
-        <number>5</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="page">
         <layout class="QGridLayout" name="gridLayout_3">
@@ -381,31 +381,24 @@
         </layout>
        </widget>
        <widget class="QWidget" name="pageNodeEdit">
-        <layout class="QVBoxLayout" name="verticalLayout_5">
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_5">
-           <item>
-            <widget class="QPushButton" name="btnCopyProp">
-             <property name="text">
-              <string>Copy Selected Node Property</string>
-             </property>
-            </widget>
-           </item>
-           <item>
+        <layout class="QGridLayout" name="gridLayout_12">
+         <item row="0" column="0">
+          <layout class="QGridLayout" name="gridLayout_11">
+           <item row="0" column="1">
             <widget class="QPushButton" name="btnPasteNode">
              <property name="text">
               <string>Paste Node Name Property</string>
              </property>
             </widget>
            </item>
-           <item>
+           <item row="0" column="2">
             <widget class="QPushButton" name="btnPasteSpot">
              <property name="text">
               <string>Paste Node Icon Property</string>
              </property>
             </widget>
            </item>
-           <item>
+           <item row="0" column="3">
             <spacer name="horizontalSpacer_2">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -418,25 +411,21 @@
              </property>
             </spacer>
            </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_7">
-           <item>
+           <item row="1" column="0">
             <widget class="QPushButton" name="btnShowSpotDefault">
              <property name="text">
               <string>Set All Nodes Icon Default</string>
              </property>
             </widget>
            </item>
-           <item>
+           <item row="1" column="1">
             <widget class="QPushButton" name="btnShowSpotCustom">
              <property name="text">
               <string>Set All Nodes Icon Custom</string>
              </property>
             </widget>
            </item>
-           <item>
+           <item row="1" column="2">
             <spacer name="horizontalSpacer_6">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -449,9 +438,16 @@
              </property>
             </spacer>
            </item>
+           <item row="0" column="0">
+            <widget class="QPushButton" name="btnCopyProp">
+             <property name="text">
+              <string>Copy Selected Node Property</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
-         <item>
+         <item row="1" column="0">
           <widget class="QTableView" name="m_tblLineMapNode"/>
          </item>
         </layout>

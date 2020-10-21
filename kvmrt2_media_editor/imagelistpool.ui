@@ -36,14 +36,14 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
-             <widget class="QToolButton" name="btnAddImgListPool">
+             <widget class="QPushButton" name="btnAddImgListPool">
               <property name="text">
                <string>Add</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QToolButton" name="btnDelImgListPool">
+             <widget class="QPushButton" name="btnDelImgListPool">
               <property name="text">
                <string>Del</string>
               </property>
@@ -88,14 +88,14 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
-             <widget class="QToolButton" name="btnAddImgIndex">
+             <widget class="QPushButton" name="btnAddImgIndex">
               <property name="text">
                <string>Add</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QToolButton" name="btnDelImgIndex">
+             <widget class="QPushButton" name="btnDelImgIndex">
               <property name="text">
                <string>Del</string>
               </property>

@@ -25,14 +25,14 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,1">
           <item>
-           <widget class="QToolButton" name="btnAddFont">
+           <widget class="QPushButton" name="btnAddFont">
             <property name="text">
              <string>Add</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="btnDelFont">
+           <widget class="QPushButton" name="btnDelFont">
             <property name="text">
              <string>Del</string>
             </property>

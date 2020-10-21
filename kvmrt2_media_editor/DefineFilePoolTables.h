@@ -205,16 +205,18 @@ private:
 	TYC m_itemName[256];
 };
 
-struct findDateTimeItem : public std::unary_function<SHARED_PTRC(CSQLData), bool>
+struct findVideoFileNameByVideoIndex : public std::unary_function<SHARED_PTRC(CSQLData), bool>
 {
-	findDateTimeItem(const int type) : m_displayType(type)
+	findVideoFileNameByVideoIndex(int idx) : m_idx(idx)
 	{
+
+	}
+	bool operator()(SHARED_PTRC(CSQLData) &p)
+	{
+		auto *c = dynamic_cast<VideoFilePool*>(p.get());
+		return (c->m_nTableIndex == m_idx);
 	}
 
-	bool operator()(SHARED_PTRC(CSQLData) &r)
-	{
-		auto *p = (ImageIndexList*)GET_POINTEROF(r);
-		return p->nType == m_displayType;
-	}
-	int m_displayType;
+private:
+	int m_idx;
 };

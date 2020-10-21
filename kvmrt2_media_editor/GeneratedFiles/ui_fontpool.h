@@ -21,7 +21,6 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QTableView>
-#include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 
 QT_BEGIN_NAMESPACE
@@ -34,8 +33,8 @@ public:
     QGridLayout *gridLayout;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
-    QToolButton *btnAddFont;
-    QToolButton *btnDelFont;
+    QPushButton *btnAddFont;
+    QPushButton *btnDelFont;
     QSpacerItem *horizontalSpacer;
     QTableView *m_tblFontPool;
     QHBoxLayout *horizontalLayout_2;
@@ -63,12 +62,12 @@ public:
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        btnAddFont = new QToolButton(groupBox);
+        btnAddFont = new QPushButton(groupBox);
         btnAddFont->setObjectName(QStringLiteral("btnAddFont"));
 
         horizontalLayout->addWidget(btnAddFont);
 
-        btnDelFont = new QToolButton(groupBox);
+        btnDelFont = new QPushButton(groupBox);
         btnDelFont->setObjectName(QStringLiteral("btnDelFont"));
 
         horizontalLayout->addWidget(btnDelFont);

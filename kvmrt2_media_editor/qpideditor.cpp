@@ -154,11 +154,12 @@ void QPIDEditor::initTableView()
 
 	QHeaderView *header = m_tblItemList->horizontalHeader();
 	header->resizeSections(QHeaderView::ResizeToContents);
+
 	//if (OFFICIAL_RELEASE == true)
 	header->hideSection(0); // table index col
-
 	header->hideSection(1); // order col
 	header->hideSection(2); // duration col
+	header->hideSection(4); // display type (no use)
 }
 
 void QPIDEditor::acceptedChanges()

@@ -23,7 +23,6 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QTableView>
-#include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 
 QT_BEGIN_NAMESPACE
@@ -37,26 +36,24 @@ public:
     QGroupBox *groupBox;
     QVBoxLayout *verticalLayout_2;
     QHBoxLayout *horizontalLayout;
-    QToolButton *btnAddAudio;
-    QToolButton *btnDelAudio;
-    QToolButton *btnDelAllAudio;
+    QPushButton *btnAddAudio;
+    QPushButton *btnDelAudio;
     QSpacerItem *horizontalSpacer;
     QTableView *m_tblAudioFilePool;
     QHBoxLayout *horizontalLayout_4;
-    QToolButton *btnPlayAudio;
-    QToolButton *btnPauseAudio;
-    QToolButton *btnStopAudio;
+    QPushButton *btnPlayAudio;
+    QPushButton *btnPauseAudio;
+    QPushButton *btnStopAudio;
     QProgressBar *progBarAudio;
     QGroupBox *groupBox_2;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout_2;
-    QToolButton *btnAddVideo;
-    QToolButton *btnDelVideo;
-    QToolButton *btnDelAllVideo;
+    QPushButton *btnAddVideo;
+    QPushButton *btnDelVideo;
     QSpacerItem *horizontalSpacer_2;
     QTableView *m_tblVideoFilePool;
     QHBoxLayout *horizontalLayout_5;
-    QToolButton *btnPlayVideo;
+    QPushButton *btnPlayVideo;
     QSpacerItem *horizontalSpacer_4;
     QHBoxLayout *horizontalLayout_3;
     QSpacerItem *horizontalSpacer_3;
@@ -80,20 +77,15 @@ public:
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        btnAddAudio = new QToolButton(groupBox);
+        btnAddAudio = new QPushButton(groupBox);
         btnAddAudio->setObjectName(QStringLiteral("btnAddAudio"));
 
         horizontalLayout->addWidget(btnAddAudio);
 
-        btnDelAudio = new QToolButton(groupBox);
+        btnDelAudio = new QPushButton(groupBox);
         btnDelAudio->setObjectName(QStringLiteral("btnDelAudio"));
 
         horizontalLayout->addWidget(btnDelAudio);
-
-        btnDelAllAudio = new QToolButton(groupBox);
-        btnDelAllAudio->setObjectName(QStringLiteral("btnDelAllAudio"));
-
-        horizontalLayout->addWidget(btnDelAllAudio);
 
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -109,17 +101,17 @@ public:
 
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
-        btnPlayAudio = new QToolButton(groupBox);
+        btnPlayAudio = new QPushButton(groupBox);
         btnPlayAudio->setObjectName(QStringLiteral("btnPlayAudio"));
 
         horizontalLayout_4->addWidget(btnPlayAudio);
 
-        btnPauseAudio = new QToolButton(groupBox);
+        btnPauseAudio = new QPushButton(groupBox);
         btnPauseAudio->setObjectName(QStringLiteral("btnPauseAudio"));
 
         horizontalLayout_4->addWidget(btnPauseAudio);
 
-        btnStopAudio = new QToolButton(groupBox);
+        btnStopAudio = new QPushButton(groupBox);
         btnStopAudio->setObjectName(QStringLiteral("btnStopAudio"));
 
         horizontalLayout_4->addWidget(btnStopAudio);
@@ -140,6 +132,7 @@ public:
 
         horizontalLayout_4->addWidget(progBarAudio);
 
+        horizontalLayout_4->setStretch(3, 1);
 
         verticalLayout_2->addLayout(horizontalLayout_4);
 
@@ -151,20 +144,15 @@ public:
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        btnAddVideo = new QToolButton(groupBox_2);
+        btnAddVideo = new QPushButton(groupBox_2);
         btnAddVideo->setObjectName(QStringLiteral("btnAddVideo"));
 
         horizontalLayout_2->addWidget(btnAddVideo);
 
-        btnDelVideo = new QToolButton(groupBox_2);
+        btnDelVideo = new QPushButton(groupBox_2);
         btnDelVideo->setObjectName(QStringLiteral("btnDelVideo"));
 
         horizontalLayout_2->addWidget(btnDelVideo);
-
-        btnDelAllVideo = new QToolButton(groupBox_2);
-        btnDelAllVideo->setObjectName(QStringLiteral("btnDelAllVideo"));
-
-        horizontalLayout_2->addWidget(btnDelAllVideo);
 
         horizontalSpacer_2 = new QSpacerItem(37, 17, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -180,7 +168,7 @@ public:
 
         horizontalLayout_5 = new QHBoxLayout();
         horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
-        btnPlayVideo = new QToolButton(groupBox_2);
+        btnPlayVideo = new QPushButton(groupBox_2);
         btnPlayVideo->setObjectName(QStringLiteral("btnPlayVideo"));
 
         horizontalLayout_5->addWidget(btnPlayVideo);
@@ -227,7 +215,6 @@ public:
         groupBox->setTitle(QApplication::translate("Dialog", "Audio File List", Q_NULLPTR));
         btnAddAudio->setText(QApplication::translate("Dialog", "Add", Q_NULLPTR));
         btnDelAudio->setText(QApplication::translate("Dialog", "Del", Q_NULLPTR));
-        btnDelAllAudio->setText(QApplication::translate("Dialog", "Delete All", Q_NULLPTR));
         btnPlayAudio->setText(QApplication::translate("Dialog", "Play", Q_NULLPTR));
         btnPauseAudio->setText(QApplication::translate("Dialog", "Pause", Q_NULLPTR));
         btnStopAudio->setText(QApplication::translate("Dialog", "Stop", Q_NULLPTR));
@@ -235,7 +222,6 @@ public:
         groupBox_2->setTitle(QApplication::translate("Dialog", "Video File List", Q_NULLPTR));
         btnAddVideo->setText(QApplication::translate("Dialog", "Add", Q_NULLPTR));
         btnDelVideo->setText(QApplication::translate("Dialog", "Del", Q_NULLPTR));
-        btnDelAllVideo->setText(QApplication::translate("Dialog", "Delete All", Q_NULLPTR));
         btnPlayVideo->setText(QApplication::translate("Dialog", "Player", Q_NULLPTR));
         btnClose->setText(QApplication::translate("Dialog", "Close", Q_NULLPTR));
     } // retranslateUi

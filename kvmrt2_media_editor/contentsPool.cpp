@@ -7,7 +7,7 @@
 #include "ini.h"
 #include "DefineMode.h"
 #include <qprogressbar.h>
-#include <qvideowidget.h>
+#include <qmessagebox.h>
 
 #pragma comment(lib,"shlwapi")
 
@@ -55,11 +55,6 @@ ContentsPool::ContentsPool(QWidget *parent)
 		m_audioDuration = dur;
 		ui.progBarAudio->setMaximum(m_audioDuration);
 	});
-
-	// video player init
-	m_videoPlayer = new QMediaPlayer();
-	m_videoPlayer->setNotifyInterval(100);
-	m_videoWidget = new QVideoWidget();
 
 	connect(ui.btnPlayVideo, SIGNAL(clicked()), this, SLOT(onVideoPlay()));
 }
@@ -321,13 +316,11 @@ void ContentsPool::onAudioPlay()
 void ContentsPool::onAudioPause()
 {
 	m_audioPlayer->pause();
-
 }
 
 void ContentsPool::onAudioStop()
 {
 	m_audioPlayer->stop();
-
 }
 
 void ContentsPool::onAudioPosChanged(qint64 pos)
@@ -344,7 +337,9 @@ void ContentsPool::onVideoPlay()
 {
 	// doesn't work
 	// see Media Player Example on QtAssistant
-	//m_videoPlayer->setVideoOutput(m_videoWidget);
-	//m_videoWidget->show();
-	//m_videoPlayer->play();
+	//QProcess *process = new QProcess(this);
+	//process->start(QString("C:/PapisProgram/PTU/PTU2.exe"));
+
+	QMessageBox::information(this, "SORRY!",
+		"This function is not available now.");
 }

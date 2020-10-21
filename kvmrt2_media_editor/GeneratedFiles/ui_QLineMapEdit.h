@@ -103,16 +103,15 @@ public:
     QPushButton *pushButton_4;
     QTableView *m_tblLineMapLink;
     QWidget *pageNodeEdit;
-    QVBoxLayout *verticalLayout_5;
-    QHBoxLayout *horizontalLayout_5;
-    QPushButton *btnCopyProp;
+    QGridLayout *gridLayout_12;
+    QGridLayout *gridLayout_11;
     QPushButton *btnPasteNode;
     QPushButton *btnPasteSpot;
     QSpacerItem *horizontalSpacer_2;
-    QHBoxLayout *horizontalLayout_7;
     QPushButton *btnShowSpotDefault;
     QPushButton *btnShowSpotCustom;
     QSpacerItem *horizontalSpacer_6;
+    QPushButton *btnCopyProp;
     QTableView *m_tblLineMapNode;
     QWidget *pageArrowEdit;
     QGridLayout *gridLayout_5;
@@ -143,7 +142,7 @@ public:
     {
         if (QLineMapEdit->objectName().isEmpty())
             QLineMapEdit->setObjectName(QStringLiteral("QLineMapEdit"));
-        QLineMapEdit->resize(1121, 607);
+        QLineMapEdit->resize(1157, 591);
         verticalLayout_4 = new QVBoxLayout(QLineMapEdit);
         verticalLayout_4->setSpacing(6);
         verticalLayout_4->setContentsMargins(11, 11, 11, 11);
@@ -153,7 +152,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 1101, 276));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 1137, 262));
         gridLayout_9 = new QGridLayout(scrollAreaWidgetContents);
         gridLayout_9->setSpacing(6);
         gridLayout_9->setContentsMargins(11, 11, 11, 11);
@@ -456,59 +455,53 @@ public:
         m_ctlStackedWidget->addWidget(pageTileEdit);
         pageNodeEdit = new QWidget();
         pageNodeEdit->setObjectName(QStringLiteral("pageNodeEdit"));
-        verticalLayout_5 = new QVBoxLayout(pageNodeEdit);
-        verticalLayout_5->setSpacing(6);
-        verticalLayout_5->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
-        horizontalLayout_5 = new QHBoxLayout();
-        horizontalLayout_5->setSpacing(6);
-        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
-        btnCopyProp = new QPushButton(pageNodeEdit);
-        btnCopyProp->setObjectName(QStringLiteral("btnCopyProp"));
-
-        horizontalLayout_5->addWidget(btnCopyProp);
-
+        gridLayout_12 = new QGridLayout(pageNodeEdit);
+        gridLayout_12->setSpacing(6);
+        gridLayout_12->setContentsMargins(11, 11, 11, 11);
+        gridLayout_12->setObjectName(QStringLiteral("gridLayout_12"));
+        gridLayout_11 = new QGridLayout();
+        gridLayout_11->setSpacing(6);
+        gridLayout_11->setObjectName(QStringLiteral("gridLayout_11"));
         btnPasteNode = new QPushButton(pageNodeEdit);
         btnPasteNode->setObjectName(QStringLiteral("btnPasteNode"));
 
-        horizontalLayout_5->addWidget(btnPasteNode);
+        gridLayout_11->addWidget(btnPasteNode, 0, 1, 1, 1);
 
         btnPasteSpot = new QPushButton(pageNodeEdit);
         btnPasteSpot->setObjectName(QStringLiteral("btnPasteSpot"));
 
-        horizontalLayout_5->addWidget(btnPasteSpot);
+        gridLayout_11->addWidget(btnPasteSpot, 0, 2, 1, 1);
 
         horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        horizontalLayout_5->addItem(horizontalSpacer_2);
+        gridLayout_11->addItem(horizontalSpacer_2, 0, 3, 1, 1);
 
-
-        verticalLayout_5->addLayout(horizontalLayout_5);
-
-        horizontalLayout_7 = new QHBoxLayout();
-        horizontalLayout_7->setSpacing(6);
-        horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
         btnShowSpotDefault = new QPushButton(pageNodeEdit);
         btnShowSpotDefault->setObjectName(QStringLiteral("btnShowSpotDefault"));
 
-        horizontalLayout_7->addWidget(btnShowSpotDefault);
+        gridLayout_11->addWidget(btnShowSpotDefault, 1, 0, 1, 1);
 
         btnShowSpotCustom = new QPushButton(pageNodeEdit);
         btnShowSpotCustom->setObjectName(QStringLiteral("btnShowSpotCustom"));
 
-        horizontalLayout_7->addWidget(btnShowSpotCustom);
+        gridLayout_11->addWidget(btnShowSpotCustom, 1, 1, 1, 1);
 
         horizontalSpacer_6 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        horizontalLayout_7->addItem(horizontalSpacer_6);
+        gridLayout_11->addItem(horizontalSpacer_6, 1, 2, 1, 1);
+
+        btnCopyProp = new QPushButton(pageNodeEdit);
+        btnCopyProp->setObjectName(QStringLiteral("btnCopyProp"));
+
+        gridLayout_11->addWidget(btnCopyProp, 0, 0, 1, 1);
 
 
-        verticalLayout_5->addLayout(horizontalLayout_7);
+        gridLayout_12->addLayout(gridLayout_11, 0, 0, 1, 1);
 
         m_tblLineMapNode = new QTableView(pageNodeEdit);
         m_tblLineMapNode->setObjectName(QStringLiteral("m_tblLineMapNode"));
 
-        verticalLayout_5->addWidget(m_tblLineMapNode);
+        gridLayout_12->addWidget(m_tblLineMapNode, 1, 0, 1, 1);
 
         m_ctlStackedWidget->addWidget(pageNodeEdit);
         pageArrowEdit = new QWidget();
@@ -642,7 +635,7 @@ public:
 
         retranslateUi(QLineMapEdit);
 
-        m_ctlStackedWidget->setCurrentIndex(5);
+        m_ctlStackedWidget->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(QLineMapEdit);
@@ -687,11 +680,11 @@ public:
         pushButton_2->setText(QApplication::translate("QLineMapEdit", "Spare", Q_NULLPTR));
         pushButton_3->setText(QApplication::translate("QLineMapEdit", "Spare", Q_NULLPTR));
         pushButton_4->setText(QApplication::translate("QLineMapEdit", "Spare", Q_NULLPTR));
-        btnCopyProp->setText(QApplication::translate("QLineMapEdit", "Copy Selected Node Property", Q_NULLPTR));
         btnPasteNode->setText(QApplication::translate("QLineMapEdit", "Paste Node Name Property", Q_NULLPTR));
         btnPasteSpot->setText(QApplication::translate("QLineMapEdit", "Paste Node Icon Property", Q_NULLPTR));
         btnShowSpotDefault->setText(QApplication::translate("QLineMapEdit", "Set All Nodes Icon Default", Q_NULLPTR));
         btnShowSpotCustom->setText(QApplication::translate("QLineMapEdit", "Set All Nodes Icon Custom", Q_NULLPTR));
+        btnCopyProp->setText(QApplication::translate("QLineMapEdit", "Copy Selected Node Property", Q_NULLPTR));
         label_6->setText(QApplication::translate("QLineMapEdit", "Forward ", Q_NULLPTR));
         label_7->setText(QApplication::translate("QLineMapEdit", "Backward", Q_NULLPTR));
         label_8->setText(QApplication::translate("QLineMapEdit", "Width", Q_NULLPTR));

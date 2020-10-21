@@ -53,10 +53,8 @@ private:
 	qint64 m_audioDuration{ 0 };
 
 	// video related var
-	QMediaPlayer *m_videoPlayer{ 0 };
 	QString m_videoFilePath{ "" };
 	qint64 m_videoDuration{ 0 };
-	QVideoWidget *m_videoWidget;
 };
 
 #endif // CREATEUPDATE_H

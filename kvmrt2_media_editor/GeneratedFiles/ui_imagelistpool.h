@@ -23,7 +23,6 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QTableView>
-#include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 
 QT_BEGIN_NAMESPACE
@@ -38,16 +37,16 @@ public:
     QGridLayout *gridLayout;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout_2;
-    QToolButton *btnAddImgListPool;
-    QToolButton *btnDelImgListPool;
+    QPushButton *btnAddImgListPool;
+    QPushButton *btnDelImgListPool;
     QSpacerItem *horizontalSpacer_2;
     QTableView *m_tblImageIndexList;
     QGroupBox *groupBox_2;
     QGridLayout *gridLayout_2;
     QVBoxLayout *verticalLayout_2;
     QHBoxLayout *horizontalLayout_3;
-    QToolButton *btnAddImgIndex;
-    QToolButton *btnDelImgIndex;
+    QPushButton *btnAddImgIndex;
+    QPushButton *btnDelImgIndex;
     QSpacerItem *horizontalSpacer_3;
     QTableView *m_tblImageIndex;
     QFrame *frame;
@@ -84,12 +83,12 @@ public:
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        btnAddImgListPool = new QToolButton(groupBox);
+        btnAddImgListPool = new QPushButton(groupBox);
         btnAddImgListPool->setObjectName(QStringLiteral("btnAddImgListPool"));
 
         horizontalLayout_2->addWidget(btnAddImgListPool);
 
-        btnDelImgListPool = new QToolButton(groupBox);
+        btnDelImgListPool = new QPushButton(groupBox);
         btnDelImgListPool->setObjectName(QStringLiteral("btnDelImgListPool"));
 
         horizontalLayout_2->addWidget(btnDelImgListPool);
@@ -128,12 +127,12 @@ public:
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setSpacing(6);
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        btnAddImgIndex = new QToolButton(groupBox_2);
+        btnAddImgIndex = new QPushButton(groupBox_2);
         btnAddImgIndex->setObjectName(QStringLiteral("btnAddImgIndex"));
 
         horizontalLayout_3->addWidget(btnAddImgIndex);
 
-        btnDelImgIndex = new QToolButton(groupBox_2);
+        btnDelImgIndex = new QPushButton(groupBox_2);
         btnDelImgIndex->setObjectName(QStringLiteral("btnDelImgIndex"));
 
         horizontalLayout_3->addWidget(btnDelImgIndex);

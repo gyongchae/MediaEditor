@@ -16,6 +16,10 @@
 #define NOMINMAX
 #pragma comment(lib, "gdiplus")
 
+#include <qvideowidget.h>
+#include <qmediaplayer.h>
+#include <qvideoprobe.h>
+
 class CGdiPlusStarter
 {
 private:
@@ -38,6 +42,7 @@ int main(int argc, char *argv[])
 
 	CGdiPlusStarter g_gps;
 	QApplication a(argc, argv);
+	
 	QCoreApplication::addLibraryPath("./");
 	QSurfaceFormat format;
 	format.setDepthBufferSize(24);

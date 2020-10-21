@@ -323,7 +323,7 @@ DECLARE_EDITOR_CLASS(VideoDeviceGroup);
 // VideoPlayList
 BEGIN_CLASS_FROM_SQLDATA(VideoPlayList, , );
 COMMON_VAL_FOR_SQLDATA;
-DECLARE_TYPESETTINGS(6);
+DECLARE_TYPESETTINGS(7);
 DECLARE_COMMON_FUNCTIONS OVERRIDE_DUMMY_EDITOR_FUNC;
 BEGIN_MAPPING_MEMBERS
 m_tSettings[0].POINTER = (void*)(&m_nTableIndex);
@@ -332,12 +332,14 @@ m_tSettings[2].POINTER = (void*)(&nOrder);
 m_tSettings[3].POINTER = (void*)(&nVideoIndex);
 m_tSettings[4].POINTER = (void*)(szFileName);
 m_tSettings[5].POINTER = (void*)(szDesc);
+m_tSettings[6].POINTER = (void*)(&nDevType);
 END_MAPPING_MEMBERS
 int nParents{ 0 };
 int nOrder{ 1 };
 int nVideoIndex{ 0 };
 TYC szDesc[256]{ 0 };
 TYC szFileName[256]{ 0 };
+int nDevType{ 0 };
 END_CLASS_FROM_SQLDATA;
 DECLARE_EDITOR_CLASS(VideoPlayList);
 // !VideoPlayList
@@ -448,19 +450,17 @@ private:
 	int m_nArrCode;
 };
 
-struct findTagNameByTagIndex : public std::unary_function<SHARED_PTRC(CSQLData), bool>
+struct findDeviceTypeByIndex : public std::unary_function<SHARED_PTRC(CSQLData), bool>
 {
-	findTagNameByTagIndex(int idx) : m_idx(idx)
+	findDeviceTypeByIndex(int idx) : m_idx(idx)
 	{
 
 	}
 	bool operator()(SHARED_PTRC(CSQLData) &p)
 	{
-		auto *c = dynamic_cast<EditorTagTable*>(p.get());
+		auto *c = dynamic_cast<VideoDeviceGroup*>(p.get());
 		return(c->m_nTableIndex == m_idx);
 	}
 private:
 	int m_idx;
 };
-
-

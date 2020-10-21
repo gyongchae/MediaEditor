@@ -159,7 +159,7 @@ DECLARE_STATIC_TYPESETTINGS(VideoDeviceGroup, 5) =
 };
 
 DECLARE_STATIC_VARIABLES(VideoPlayList, false, VIDEO_PLAY_LIST, 1, 2, 0)
-DECLARE_STATIC_TYPESETTINGS(VideoPlayList, 6) =
+DECLARE_STATIC_TYPESETTINGS(VideoPlayList, 7) =
 {
 	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),	0,	nullptr,true, false,false,	MAKE_T("Table Index"),	100 },
 	{ TYPE_INTEGER,	MAKE_T("PARENT_INDEX"),	0,	nullptr,false,false,true,	MAKE_T("Parent Index"), 100 },
@@ -167,6 +167,7 @@ DECLARE_STATIC_TYPESETTINGS(VideoPlayList, 6) =
 	{ TYPE_INTEGER,	MAKE_T("VIDEO_INDEX"),	0,	nullptr,false,false,false,	MAKE_T("Video Index"),	100 },
 	{ TYPE_TEXT,	MAKE_T("FILE_NAME"),	256,nullptr,false,false,false,	MAKE_T("File Name"),	100 },
 	{ TYPE_TEXT,	MAKE_T("DESCRIPTION"),	256,nullptr,false,false,false,	MAKE_T("Description"),	100 },
+	{ TYPE_INTEGER,	MAKE_T("DEVICE_TYPE"),	0,	nullptr,false,false,false,	MAKE_T("Device Type"),	100 },
 };
 
 DECLARE_STATIC_VARIABLES(EditorTagTable, false, EDITOR_TAG_TABLE, -1, 3, 0)

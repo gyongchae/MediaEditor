@@ -29,23 +29,16 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout">
            <item>
-            <widget class="QToolButton" name="btnAddAudio">
+            <widget class="QPushButton" name="btnAddAudio">
              <property name="text">
               <string>Add</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="btnDelAudio">
+            <widget class="QPushButton" name="btnDelAudio">
              <property name="text">
               <string>Del</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QToolButton" name="btnDelAllAudio">
-             <property name="text">
-              <string>Delete All</string>
              </property>
             </widget>
            </item>
@@ -68,23 +61,23 @@
           <widget class="QTableView" name="m_tblAudioFilePool"/>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,0,0,0">
+          <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,0,0,1">
            <item>
-            <widget class="QToolButton" name="btnPlayAudio">
+            <widget class="QPushButton" name="btnPlayAudio">
              <property name="text">
               <string>Play</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="btnPauseAudio">
+            <widget class="QPushButton" name="btnPauseAudio">
              <property name="text">
               <string>Pause</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="btnStopAudio">
+            <widget class="QPushButton" name="btnStopAudio">
              <property name="text">
               <string>Stop</string>
              </property>
@@ -133,23 +126,16 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
-            <widget class="QToolButton" name="btnAddVideo">
+            <widget class="QPushButton" name="btnAddVideo">
              <property name="text">
               <string>Add</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="btnDelVideo">
+            <widget class="QPushButton" name="btnDelVideo">
              <property name="text">
               <string>Del</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QToolButton" name="btnDelAllVideo">
-             <property name="text">
-              <string>Delete All</string>
              </property>
             </widget>
            </item>
@@ -174,7 +160,7 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_5">
            <item>
-            <widget class="QToolButton" name="btnPlayVideo">
+            <widget class="QPushButton" name="btnPlayVideo">
              <property name="text">
               <string>Player</string>
              </property>
