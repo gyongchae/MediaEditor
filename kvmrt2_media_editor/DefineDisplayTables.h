@@ -344,3 +344,17 @@ END_CLASS_FROM_SQLDATA
 
 DECLARE_EDITOR_CLASS(DisplayMetaItemProp);
 
+struct findDisplayItemByRelatedItem : public std::unary_function<SHARED_PTRC(CSQLData), bool>
+{
+	findDisplayItemByRelatedItem(int idx) : m_idx(idx)
+	{
+
+	}
+	bool operator()(SHARED_PTRC(CSQLData) &p)
+	{
+		auto *c = dynamic_cast<DisplayItemPool*>(p.get());
+		return(c->m_nTableIndex == m_idx);
+	}
+private:
+	int m_idx;
+};
