@@ -29,14 +29,14 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
-            <widget class="QToolButton" name="btnAddDisplayPool">
+            <widget class="QPushButton" name="btnAddDisplayPool">
              <property name="text">
               <string>Add</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="btnDelDisplayPool">
+            <widget class="QPushButton" name="btnDelDisplayPool">
              <property name="text">
               <string>Del</string>
              </property>

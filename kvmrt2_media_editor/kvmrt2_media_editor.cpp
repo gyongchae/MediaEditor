@@ -106,6 +106,7 @@ void kvmrt2_media_editor::setHideItemsMainWindow(bool isRelease)
 		SET_HIDE_TABLE_COLUMN(StationDistance, 7);
 		SET_HIDE_TABLE_COLUMN(StopPtnHeader, 0);
 		SET_HIDE_TABLE_COLUMN(StopPtnHeader, 5);
+		SET_HIDE_TABLE_COLUMN(StopPtnHeader, 6);
 		SET_HIDE_TABLE_COLUMN(StopPtnRoutes, 0);
 		SET_HIDE_TABLE_COLUMN(StopPtnRoutes, 1);
 		SET_HIDE_TABLE_COLUMN(StopPtnRoutes, 2);
@@ -122,10 +123,10 @@ void kvmrt2_media_editor::setHideItemsMainWindow(bool isRelease)
 		SET_HIDE_TABLE_COLUMN(VideoDeviceGroup, 0);
 		SET_HIDE_TABLE_COLUMN(VideoDeviceGroup, 1);
 		SET_HIDE_TABLE_COLUMN(VideoDeviceGroup, 3); // group id (no use)
-		//SET_HIDE_TABLE_COLUMN(VideoPlayList, 0);
-		//SET_HIDE_TABLE_COLUMN(VideoPlayList, 1);
-		//SET_HIDE_TABLE_COLUMN(VideoPlayList, 2);
-		//SET_HIDE_TABLE_COLUMN(VideoPlayList, 3);
+		SET_HIDE_TABLE_COLUMN(VideoPlayList, 0);
+		SET_HIDE_TABLE_COLUMN(VideoPlayList, 1);
+		SET_HIDE_TABLE_COLUMN(VideoPlayList, 4);
+		SET_HIDE_TABLE_COLUMN(VideoPlayList, 6);
 		SET_HIDE_TABLE_COLUMN(EditorTagTable, 0);
 		SET_HIDE_TABLE_COLUMN(EditorTagTable, 3);
 	}

@@ -60,12 +60,6 @@ QPIDEditor::QPIDEditor(int nRow, int nWidth, int nHeight, int nDuration, QWidget
 		m_comboDisplayType->setItemData(it->first, QString::fromStdWString(it->second), Qt::DisplayRole);
 	}
 
-	for (auto it = pMM->m_mDateTimeDisplay.begin(); it != pMM->m_mDateTimeDisplay.end(); ++it)
-	{
-		m_comboDateTimeDisplay->addItem(QString::number(it->first));
-		m_comboDateTimeDisplay->setItemData(it->first, QString::fromStdWString(it->second), Qt::DisplayRole);
-	}
-
 	scrollAreaView = new QScrollArea;
 	scrollAreaTime = new QScrollArea;
 

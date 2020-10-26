@@ -38,7 +38,6 @@ public:
 	std::map<int, std::wstring> m_mVideoDevice;
 	std::map<int, std::wstring> m_mVideoGroup;
 	std::map<int, std::wstring> m_mImageIndexListType;
-	std::map<int, std::wstring> m_mDateTimeDisplay;
 	std::map<int, std::wstring> m_mStopPtnMode;
 	
 };

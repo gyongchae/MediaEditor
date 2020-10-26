@@ -169,12 +169,6 @@ MAPPARAM gImageIndexListType[] =
 	{ 2, L"Tag Item" },
 };
 
-MAPPARAM gDateTimeDisplay[] =
-{
-	{0, L"No"},
-	{1, L"Yes"},
-};
-
 MAPPARAM gStopPtnMode[] =
 {
 	{0, L"Operation"},
@@ -293,10 +287,6 @@ void CMapManage::InitMaps()
 		m_mImageIndexListType[gImageIndexListType[i].nValue] = std::wstring(gImageIndexListType[i].szFieldName);
 	}
 
-	for (int i = 0; i < (sizeof(gDateTimeDisplay) / sizeof(gDateTimeDisplay[0])); i++)
-	{
-		m_mDateTimeDisplay[gDateTimeDisplay[i].nValue] = std::wstring(gDateTimeDisplay[i].szFieldName);
-	}
 	for (int i = 0; i < (sizeof(gStopPtnMode) / sizeof(gStopPtnMode[0])); i++)
 	{
 		m_mStopPtnMode[gStopPtnMode[i].nValue] = std::wstring(gStopPtnMode[i].szFieldName);

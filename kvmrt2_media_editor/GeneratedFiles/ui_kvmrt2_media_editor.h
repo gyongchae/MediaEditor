@@ -628,31 +628,31 @@ public:
     void retranslateUi(QMainWindow *kvmrt2_media_editorClass)
     {
         kvmrt2_media_editorClass->setWindowTitle(QApplication::translate("kvmrt2_media_editorClass", "Media Editor", Q_NULLPTR));
-        actionSave->setText(QApplication::translate("kvmrt2_media_editorClass", "DB Save", Q_NULLPTR));
+        actionSave->setText(QApplication::translate("kvmrt2_media_editorClass", "DB &Save", Q_NULLPTR));
 #ifndef QT_NO_SHORTCUT
         actionSave->setShortcut(QApplication::translate("kvmrt2_media_editorClass", "F5", Q_NULLPTR));
 #endif // QT_NO_SHORTCUT
-        actionSetting->setText(QApplication::translate("kvmrt2_media_editorClass", "DB Version", Q_NULLPTR));
+        actionSetting->setText(QApplication::translate("kvmrt2_media_editorClass", "DB &Version", Q_NULLPTR));
 #ifndef QT_NO_TOOLTIP
         actionSetting->setToolTip(QApplication::translate("kvmrt2_media_editorClass", "DB Version Setting", Q_NULLPTR));
 #endif // QT_NO_TOOLTIP
-        actionAudioVideoPool->setText(QApplication::translate("kvmrt2_media_editorClass", "Audio && Video", Q_NULLPTR));
+        actionAudioVideoPool->setText(QApplication::translate("kvmrt2_media_editorClass", "&Audio && Video", Q_NULLPTR));
 #ifndef QT_NO_TOOLTIP
         actionAudioVideoPool->setToolTip(QApplication::translate("kvmrt2_media_editorClass", "Audio and Video", Q_NULLPTR));
 #endif // QT_NO_TOOLTIP
-        actionFontPool->setText(QApplication::translate("kvmrt2_media_editorClass", "Font", Q_NULLPTR));
-        actionTextPool->setText(QApplication::translate("kvmrt2_media_editorClass", "Text", Q_NULLPTR));
-        actionRouteMapPool->setText(QApplication::translate("kvmrt2_media_editorClass", "Route Map", Q_NULLPTR));
+        actionFontPool->setText(QApplication::translate("kvmrt2_media_editorClass", "&Font", Q_NULLPTR));
+        actionTextPool->setText(QApplication::translate("kvmrt2_media_editorClass", "&Text", Q_NULLPTR));
+        actionRouteMapPool->setText(QApplication::translate("kvmrt2_media_editorClass", "Route &Map", Q_NULLPTR));
 #ifndef QT_NO_TOOLTIP
         actionRouteMapPool->setToolTip(QApplication::translate("kvmrt2_media_editorClass", "Route Map", Q_NULLPTR));
 #endif // QT_NO_TOOLTIP
-        actionBitmapPool->setText(QApplication::translate("kvmrt2_media_editorClass", "Bitmap", Q_NULLPTR));
+        actionBitmapPool->setText(QApplication::translate("kvmrt2_media_editorClass", "&Bitmap", Q_NULLPTR));
         actionImageListPool->setText(QApplication::translate("kvmrt2_media_editorClass", "Image List", Q_NULLPTR));
         actionLedPool->setText(QApplication::translate("kvmrt2_media_editorClass", "L.E.D", Q_NULLPTR));
-        actionDisplayListPool->setText(QApplication::translate("kvmrt2_media_editorClass", "DRMD && PID", Q_NULLPTR));
+        actionDisplayListPool->setText(QApplication::translate("kvmrt2_media_editorClass", "&DRMD && PID", Q_NULLPTR));
         actionAboutQt->setText(QApplication::translate("kvmrt2_media_editorClass", "About &Qt", Q_NULLPTR));
         actionAboutME->setText(QApplication::translate("kvmrt2_media_editorClass", "About &ME", Q_NULLPTR));
-        actionExit->setText(QApplication::translate("kvmrt2_media_editorClass", "Exit Program", Q_NULLPTR));
+        actionExit->setText(QApplication::translate("kvmrt2_media_editorClass", "E&xit Program", Q_NULLPTR));
 #ifndef QT_NO_TOOLTIP
         actionExit->setToolTip(QApplication::translate("kvmrt2_media_editorClass", "Exit Program", Q_NULLPTR));
 #endif // QT_NO_TOOLTIP
@@ -664,11 +664,11 @@ public:
 #ifndef QT_NO_SHORTCUT
         actionLoad->setShortcut(QApplication::translate("kvmrt2_media_editorClass", "Ctrl+O", Q_NULLPTR));
 #endif // QT_NO_SHORTCUT
-        actionUpdate->setText(QApplication::translate("kvmrt2_media_editorClass", "File Upload", Q_NULLPTR));
+        actionUpdate->setText(QApplication::translate("kvmrt2_media_editorClass", "&File Upload", Q_NULLPTR));
         actionLicenseInfo->setText(QApplication::translate("kvmrt2_media_editorClass", "License Info", Q_NULLPTR));
         actioncanvas_test->setText(QApplication::translate("kvmrt2_media_editorClass", "canvas test", Q_NULLPTR));
         actionTestCanvas->setText(QApplication::translate("kvmrt2_media_editorClass", "canvas test", Q_NULLPTR));
-        actionUserInfo->setText(QApplication::translate("kvmrt2_media_editorClass", "User Information", Q_NULLPTR));
+        actionUserInfo->setText(QApplication::translate("kvmrt2_media_editorClass", "&User Information", Q_NULLPTR));
         gbStationName->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Station Name", Q_NULLPTR));
         gbDistance->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Station Pair (Distance table)", Q_NULLPTR));
         rbInOrder->setText(QApplication::translate("kvmrt2_media_editorClass", "Auto 1", Q_NULLPTR));
@@ -694,10 +694,10 @@ public:
         tabMain->setTabText(tabMain->indexOf(tabVideo), QApplication::translate("kvmrt2_media_editorClass", "Video Contents", Q_NULLPTR));
         groupBox->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Data Tag (Editor tag table)", Q_NULLPTR));
         tabMain->setTabText(tabMain->indexOf(tabDataTag), QApplication::translate("kvmrt2_media_editorClass", "Data Tag", Q_NULLPTR));
-        menuFile->setTitle(QApplication::translate("kvmrt2_media_editorClass", "File", Q_NULLPTR));
-        menuFilePool->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Data File Pool", Q_NULLPTR));
-        menuDisplayConfig->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Display Configuration", Q_NULLPTR));
-        menuHelp->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Help", Q_NULLPTR));
+        menuFile->setTitle(QApplication::translate("kvmrt2_media_editorClass", "&File", Q_NULLPTR));
+        menuFilePool->setTitle(QApplication::translate("kvmrt2_media_editorClass", "&Data File Pool", Q_NULLPTR));
+        menuDisplayConfig->setTitle(QApplication::translate("kvmrt2_media_editorClass", "&Display Configuration", Q_NULLPTR));
+        menuHelp->setTitle(QApplication::translate("kvmrt2_media_editorClass", "&Help", Q_NULLPTR));
     } // retranslateUi
 
 };

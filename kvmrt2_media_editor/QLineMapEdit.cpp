@@ -83,6 +83,8 @@ void QLineMapEdit::initWidgets()
 
 	ui.editTileSize->setReadOnly(true);
 	ui.editLineThick->setReadOnly(true);
+	ui.editTileSize->setDisabled(true);
+	ui.editLineThick->setDisabled(true);
 
 	// node data copy
 	connect(ui.btnCopyProp, SIGNAL(clicked()), this, SLOT(copyNodeProperty()));

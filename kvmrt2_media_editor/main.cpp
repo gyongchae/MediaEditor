@@ -16,10 +16,6 @@
 #define NOMINMAX
 #pragma comment(lib, "gdiplus")
 
-#include <qvideowidget.h>
-#include <qmediaplayer.h>
-#include <qvideoprobe.h>
-
 class CGdiPlusStarter
 {
 private:
