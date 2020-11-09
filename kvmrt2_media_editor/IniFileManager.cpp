@@ -75,3 +75,10 @@ void IniFileManager::setAccountType(const AccountType & accountType)
 	qInfo() << Q_FUNC_INFO << accountType;
 	m_accountType = accountType;
 }
+
+void IniFileManager::createStationInfoIni()
+{
+	QSettings settings(QString(ME_FOLDER_PATH) + QString(INI_FILE_ME_STNINFO), QSettings::IniFormat);
+
+	
+}

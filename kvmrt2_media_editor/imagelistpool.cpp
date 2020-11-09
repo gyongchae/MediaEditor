@@ -85,8 +85,8 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(IMAGE_LIST_POOL_CLASS, ImageIndex)
 	SET_SELECTION_MODE(ImageIndex, QAbstractItemView::SingleSelection);
 
 	GET_TABLE(ImageIndex)->setItemDelegateForColumn(3, new comboBoxDelegate(this, &pMM->m_mImageType));
-	GET_TABLE(ImageIndex)->setItemDelegateForColumn(4, new SQLDelegate(SQLDelegate::TEXT_IMAGE, this, &pTM->VECTOR_CLASS(StationImagePool), 0, 2, TYPE_TEXT));
-	GET_TABLE(ImageIndex)->setItemDelegateForColumn(5, new SQLDelegate(SQLDelegate::BITMAP_IMAGE, this, &pTM->VECTOR_CLASS(BitmapImagePool), 0, 2, TYPE_TEXT));
+	GET_TABLE(ImageIndex)->setItemDelegateForColumn(4, new SQLDelegate(SQLDelegate::TEXT_IMAGE_TYPE, this, &pTM->VECTOR_CLASS(StationImagePool), 0, 2, TYPE_TEXT));
+	GET_TABLE(ImageIndex)->setItemDelegateForColumn(5, new SQLDelegate(SQLDelegate::BITMAP_IMAGE_TYPE, this, &pTM->VECTOR_CLASS(BitmapImagePool), 0, 2, TYPE_TEXT));
 
 	connect(GET_TABLE_MODEL(pDM, ImageIndex).get(),
 		SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),

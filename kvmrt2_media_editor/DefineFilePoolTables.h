@@ -27,7 +27,7 @@ DECLARE_EDITOR_CLASS(FontPool);
 // AudioFilePool
 BEGIN_CLASS_FROM_SQLDATA(AudioFilePool, , );
 COMMON_VAL_FOR_SQLDATA;
-DECLARE_TYPESETTINGS(7);
+DECLARE_TYPESETTINGS(8);
 DECLARE_COMMON_FUNCTIONS OVERRIDE_DUMMY_EDITOR_FUNC;
 BEGIN_MAPPING_MEMBERS
 m_tSettings[0].POINTER = (void*)(&m_nTableIndex);
@@ -37,6 +37,7 @@ m_tSettings[3].POINTER = (void*)(szFileName);
 m_tSettings[4].POINTER = (void*)(&uCRC);
 m_tSettings[5].POINTER = (void*)(&uSize);
 m_tSettings[6].POINTER = (void*)(&nOrder);
+m_tSettings[7].POINTER = (void*)(&nAudioLen);
 END_MAPPING_MEMBERS
 int nCode{ 0 };
 int nSpareCode{ 0 };
@@ -44,6 +45,7 @@ TYC szFileName[256]{ 0 };
 unsigned short uCRC{ 0 };
 unsigned int uSize{ 0 };
 int nOrder{ 1 };
+int nAudioLen{ 0 };
 END_CLASS_FROM_SQLDATA
 DECLARE_EDITOR_CLASS(AudioFilePool);
 // !AudioFilePool
@@ -214,6 +216,22 @@ struct findVideoFileNameByVideoIndex : public std::unary_function<SHARED_PTRC(CS
 	bool operator()(SHARED_PTRC(CSQLData) &p)
 	{
 		auto *c = dynamic_cast<VideoFilePool*>(p.get());
+		return (c->m_nTableIndex == m_idx);
+	}
+
+private:
+	int m_idx;
+};
+
+struct findAudioFileNameByAudioIndex : public std::unary_function<SHARED_PTRC(CSQLData), bool>
+{
+	findAudioFileNameByAudioIndex(int idx) : m_idx(idx)
+	{
+
+	}
+	bool operator()(SHARED_PTRC(CSQLData) &p)
+	{
+		auto *c = dynamic_cast<AudioFilePool*>(p.get());
 		return (c->m_nTableIndex == m_idx);
 	}
 

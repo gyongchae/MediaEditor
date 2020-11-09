@@ -288,7 +288,7 @@
            </property>
            <layout class="QGridLayout" name="gridLayout_16">
             <item row="0" column="0">
-             <widget class="QTableView" name="m_tblAudioTotal"/>
+             <widget class="QTableView" name="m_tblAudioPlayList"/>
             </item>
            </layout>
           </widget>
@@ -374,6 +374,7 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
+    <addaction name="actionSyncAudioDur"/>
     <addaction name="actionSave"/>
     <addaction name="actionSetting"/>
     <addaction name="actionUserInfo"/>
@@ -637,6 +638,11 @@
   <action name="actionUserInfo">
    <property name="text">
     <string>&amp;User Information</string>
+   </property>
+  </action>
+  <action name="actionSyncAudioDur">
+   <property name="text">
+    <string>Sync Audio Du&amp;ration</string>
    </property>
   </action>
  </widget>

@@ -8,6 +8,7 @@
 #include "DefineMode.h"
 #include <qprogressbar.h>
 #include <qmessagebox.h>
+#include <qmediacontent.h>
 
 #pragma comment(lib,"shlwapi")
 
@@ -49,12 +50,7 @@ ContentsPool::ContentsPool(QWidget *parent)
 	connect(ui.btnStopAudio, SIGNAL(clicked()), this, SLOT(onAudioStop()));
 	connect(m_audioPlayer, SIGNAL(positionChanged(qint64)), this, SLOT(onAudioPosChanged(qint64)));
 	connect(m_audioPlayer, SIGNAL(currentMediaChanged(const QMediaContent&)), this, SLOT(onAudioMediaChanged(const QMediaContent&)));
-	connect(m_audioPlayer, &QMediaPlayer::durationChanged, this,
-		[&](qint64 dur)
-	{
-		m_audioDuration = dur;
-		ui.progBarAudio->setMaximum(m_audioDuration);
-	});
+	connect(m_audioPlayer, &QMediaPlayer::durationChanged, this, &ContentsPool::onDurationChanged);
 
 	connect(ui.btnPlayVideo, SIGNAL(clicked()), this, SLOT(onVideoPlay()));
 }
@@ -66,6 +62,7 @@ ContentsPool::~ContentsPool()
 
 void ContentsPool::closeEvent(QCloseEvent *event)
 {
+	m_audioPlayer->stop();
 	event->ignore();
 	reject();
 }
@@ -98,10 +95,12 @@ void ContentsPool::addAudioFilePool(bool bInsert)
 	{
 		while (filePaths.size())
 		{
-			QString filePath = filePaths.takeFirst();
+			QString fileNameWithFullPath = filePaths.takeFirst();
+			m_audioPlayer->setMedia(QUrl::fromLocalFile(fileNameWithFullPath));
+			
 			QString strSoc, strDes;
-			strSoc = filePath;
-			fileInfo.setFile(filePath);
+			strSoc = fileNameWithFullPath;
+			fileInfo.setFile(fileNameWithFullPath);
 			fileName = fileInfo.fileName();
 			pVFM->insertRows(nRow, 1);
 			index = pVFM->index(nRow, 0);
@@ -109,11 +108,19 @@ void ContentsPool::addAudioFilePool(bool bInsert)
 			pVFM->setData(index.sibling(index.row(), 3), fileName, Qt::EditRole);
 			pVFM->setData(index.sibling(index.row(), 4), uCRC, Qt::EditRole);
 			pVFM->setData(index.sibling(index.row(), 5), nFileSize, Qt::EditRole);
-
+			//pVFM->setData(index.sibling(index.row(), 7), audioLen, Qt::DisplayRole);
 
 			strDes = pDM->audioPath() + '/' + fileName;
 			bool bRet = QFile::copy(strSoc, strDes);
 			GET_TABLE(AudioFilePool)->setCurrentIndex(index);
+
+			m_audioPlayer->play();
+			int audioLen = m_audioPlayer->duration();
+
+			//player->();//m_audioPlayer->stop();
+			//auto *pDM = CDataManage::GetInstance();
+			//QModelIndex index = GET_TABLE(AudioFilePool)->currentIndex();
+
 		}
 	}
 }
@@ -195,7 +202,7 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(ContentsPool, AudioFilePool)
 	SET_EDIT_TRIGGERS(AudioFilePool, QAbstractItemView::NoEditTriggers);
 
 
-		QHeaderView *header = GET_TABLE(AudioFilePool)->horizontalHeader();
+	QHeaderView *header = GET_TABLE(AudioFilePool)->horizontalHeader();
 	header->resizeSections(QHeaderView::ResizeToContents);
 	//header->setStretchLastSection(true);
 
@@ -309,7 +316,7 @@ void ContentsPool::onAudioPlay()
 	}
 	else
 	{
-		QMessageBox::warning(this, "Select an audio file", "There is no audio file to play");
+		QMessageBox::warning(this, "Select an audio file", "There is no audio file to play.");
 	}
 }
 
@@ -331,6 +338,23 @@ void ContentsPool::onAudioPosChanged(qint64 pos)
 void ContentsPool::onAudioMediaChanged(const QMediaContent & media)
 {
 	// 재생할 audio file이 변경된 경우 호출
+}
+
+void ContentsPool::onDurationChanged(qint64 dur)
+{
+	m_audioDuration = dur;
+	ui.progBarAudio->setMaximum(m_audioDuration);
+
+	m_audioPlayer->play();
+
+	if (m_audioDuration > 0)
+	{
+		auto *pDM = CDataManage::GetInstance();
+		std::shared_ptr<dataModel> pVFM = pDM->GET_MODEL_CLASS(AudioFilePool);
+		QModelIndex index = GET_TABLE(AudioFilePool)->currentIndex();
+		pVFM->setData(index.sibling(index.row(), 7), m_audioDuration, Qt::EditRole);
+
+	}
 }
 
 void ContentsPool::onVideoPlay()

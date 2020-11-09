@@ -140,11 +140,10 @@ MAPPARAM gAudioType[] =
 	{ 3,L"Emergency" },
 };
 
-MAPPARAM gPlayWithStnName[] =
+MAPPARAM gYesOrNo[] =
 {
-	{ 0,L"" },
-	{ 1,L"No" },
-	{ 2,L"Yes" },
+	{ 0,L"No" },
+	{ 1,L"Yes" },
 };
 
 MAPPARAM gVideoDevice[] =
@@ -169,10 +168,10 @@ MAPPARAM gImageIndexListType[] =
 	{ 2, L"Tag Item" },
 };
 
-MAPPARAM gStopPtnMode[] =
+MAPPARAM gBoundType[] =
 {
-	{0, L"Operation"},
-	{1, L"Simulation"},
+	{0, L"North" },
+	{1, L"South"},
 };
 
 CMapManage::CMapManage(void)
@@ -267,9 +266,9 @@ void CMapManage::InitMaps()
 		m_mAudioType[gAudioType[i].nValue] = std::wstring(gAudioType[i].szFieldName);
 	}
 
-	for (int i = 0; i < (sizeof(gPlayWithStnName) / sizeof(gPlayWithStnName[0])); i++)
+	for (int i = 0; i < (sizeof(gYesOrNo) / sizeof(gYesOrNo[0])); i++)
 	{
-		m_mPlayWithStnName[gPlayWithStnName[i].nValue] = std::wstring(gPlayWithStnName[i].szFieldName);
+		m_mYesOrNo[gYesOrNo[i].nValue] = std::wstring(gYesOrNo[i].szFieldName);
 	}
 
 	for (int i = 0; i < (sizeof(gVideoDevice) / sizeof(gVideoDevice[0])); i++)
@@ -287,8 +286,8 @@ void CMapManage::InitMaps()
 		m_mImageIndexListType[gImageIndexListType[i].nValue] = std::wstring(gImageIndexListType[i].szFieldName);
 	}
 
-	for (int i = 0; i < (sizeof(gStopPtnMode) / sizeof(gStopPtnMode[0])); i++)
+	for (int i = 0; i < (sizeof(gBoundType) / sizeof(gBoundType[0])); i++)
 	{
-		m_mStopPtnMode[gStopPtnMode[i].nValue] = std::wstring(gStopPtnMode[i].szFieldName);
+		m_mBoundType[gBoundType[i].nValue] = std::wstring(gBoundType[i].szFieldName);
 	}
 }

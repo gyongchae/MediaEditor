@@ -40,6 +40,7 @@ private slots:
 	void onAudioStop();
 	void onAudioPosChanged(qint64 pos);
 	void onAudioMediaChanged(const QMediaContent &media);
+	void onDurationChanged(qint64 dur);
 
 	// video related func
 	void onVideoPlay();

@@ -1,15 +1,16 @@
 #include "DefineFilePoolTables.h"
 
 DECLARE_STATIC_VARIABLES(AudioFilePool, false, AUDIO_FILE_POOL, -1, 6, 0)
-DECLARE_STATIC_TYPESETTINGS(AudioFilePool, 7) =
+DECLARE_STATIC_TYPESETTINGS(AudioFilePool, 8) =
 {
 	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),	0,	nullptr,true, false,false, MAKE_T("Table Index"),		100 },
 	{ TYPE_INTEGER,	MAKE_T("FILE_CODE"),	0,	nullptr,false,false,false, MAKE_T("File Code"),			100 },
 	{ TYPE_INTEGER,	MAKE_T("SPARE_CODE"),	0,	nullptr,false,false,false, MAKE_T("Spare Code"),		100 },
 	{ TYPE_TEXT,	MAKE_T("FILE_NAME"),	256,nullptr,false,false,false, MAKE_T("Audio File Name"),	100 },
 	{ TYPE_INTEGER,	MAKE_T("FILE_CRC"),		0,	nullptr,false,false,false, MAKE_T("CRC"),				100 },
-	{ TYPE_INTEGER,	MAKE_T("FILE_SIZE"),	256,nullptr,false,false,false, MAKE_T("Size"),				100 },
+	{ TYPE_INTEGER,	MAKE_T("FILE_SIZE"),	0,	nullptr,false,false,false, MAKE_T("Size"),				100 },
 	{ TYPE_INTEGER,	MAKE_T("TABLE_ORDER"),	0,	nullptr,false,true, false, MAKE_T("Order"),				100 },
+	{ TYPE_INTEGER,	MAKE_T("AUDIO_LEN"),	0,	nullptr,false,false,false, MAKE_T("ms"),				100 },
 };
 
 DECLARE_STATIC_VARIABLES(VideoFilePool, false, VIDEO_FILE_POOL, -1, 6, 0)

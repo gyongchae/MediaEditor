@@ -603,14 +603,6 @@ void QGLESLineMapCanvas::initBaseData(int nMapIndex)
 	glBufferData(GL_ARRAY_BUFFER, 100000 * sizeof(GLfloat), 0, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-
-
-
-
-
-
-
-
 	std::for_each(pTM->m_vStationImagePool.begin(), pTM->m_vStationImagePool.end(), [bitmapCheck, &vTexture, &nTextureRegisterIndex, &nVertexOrder, &nCurMaxHeight, &nWidthLimit, &nHeightLimit, &nBytesPerLine, &nBytesPerPixel, &nCurX, &nCurY, &nMaxHeight](std::shared_ptr<CSQLData> &pData)
 	{
 		StationImagePool *pPool = (StationImagePool*)pData.get();

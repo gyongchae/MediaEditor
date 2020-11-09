@@ -41,7 +41,7 @@ public:
 	DECLARE_INIT_FUNCTION_FOR_CLASS(PIDContents);
 	DECLARE_INIT_FUNCTION_FOR_CLASS(PIDIndexList);
 	DECLARE_INIT_FUNCTION_FOR_CLASS(AudioStationName);
-	DECLARE_INIT_FUNCTION_FOR_CLASS(AudioTotal);
+	DECLARE_INIT_FUNCTION_FOR_CLASS(AudioPlayList);
 	DECLARE_INIT_FUNCTION_FOR_CLASS(VideoDeviceGroup);
 	DECLARE_INIT_FUNCTION_FOR_CLASS(VideoPlayList);
 	DECLARE_INIT_FUNCTION_FOR_CLASS(EditorTagTable);
@@ -95,7 +95,6 @@ private slots:
 	void onShowLedPool();
 	void onShowDisplayListPool();
 	void onShowFileUpload();
-
 	void onShowUserInfo();
 
 	// easy to use
@@ -105,8 +104,14 @@ private slots:
 	void onAutoFillRouteDestination(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 	void onAutoFillDisplayItem(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 
-	// video file index changed
+	// audio / video file index changed
 	void onVideoIndexChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
+	void onAudioIndexChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
+	void onAudioStnIndexChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
+
+	// audio duration sync
+	void onAudioSyncDuration();
+	
 
 	// account type
 public:
@@ -116,5 +121,4 @@ private:
 	Ui::kvmrt2_media_editorClass ui;
 	int m_lastVersion[3]{ 0 };
 	UserInfoWidget *m_widgetUserInfo = nullptr; // user info widget
-
 };

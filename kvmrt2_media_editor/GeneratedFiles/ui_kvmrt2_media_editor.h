@@ -56,6 +56,7 @@ public:
     QAction *actioncanvas_test;
     QAction *actionTestCanvas;
     QAction *actionUserInfo;
+    QAction *actionSyncAudioDur;
     QWidget *centralWidget;
     QGridLayout *gridLayout_21;
     QTabWidget *tabMain;
@@ -112,7 +113,7 @@ public:
     QTableView *m_tblAudioStationName;
     QGroupBox *groupBox_13;
     QGridLayout *gridLayout_16;
-    QTableView *m_tblAudioTotal;
+    QTableView *m_tblAudioPlayList;
     QWidget *tabVideo;
     QGridLayout *gridLayout_14;
     QSplitter *splitter_5;
@@ -232,6 +233,8 @@ public:
         actionTestCanvas->setObjectName(QStringLiteral("actionTestCanvas"));
         actionUserInfo = new QAction(kvmrt2_media_editorClass);
         actionUserInfo->setObjectName(QStringLiteral("actionUserInfo"));
+        actionSyncAudioDur = new QAction(kvmrt2_media_editorClass);
+        actionSyncAudioDur->setObjectName(QStringLiteral("actionSyncAudioDur"));
         centralWidget = new QWidget(kvmrt2_media_editorClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout_21 = new QGridLayout(centralWidget);
@@ -473,10 +476,10 @@ public:
         gridLayout_16->setSpacing(6);
         gridLayout_16->setContentsMargins(11, 11, 11, 11);
         gridLayout_16->setObjectName(QStringLiteral("gridLayout_16"));
-        m_tblAudioTotal = new QTableView(groupBox_13);
-        m_tblAudioTotal->setObjectName(QStringLiteral("m_tblAudioTotal"));
+        m_tblAudioPlayList = new QTableView(groupBox_13);
+        m_tblAudioPlayList->setObjectName(QStringLiteral("m_tblAudioPlayList"));
 
-        gridLayout_16->addWidget(m_tblAudioTotal, 0, 0, 1, 1);
+        gridLayout_16->addWidget(m_tblAudioPlayList, 0, 0, 1, 1);
 
         splitter_6->addWidget(groupBox_13);
 
@@ -576,6 +579,7 @@ public:
         menuBar->addAction(menuFilePool->menuAction());
         menuBar->addAction(menuDisplayConfig->menuAction());
         menuBar->addAction(menuHelp->menuAction());
+        menuFile->addAction(actionSyncAudioDur);
         menuFile->addAction(actionSave);
         menuFile->addAction(actionSetting);
         menuFile->addAction(actionUserInfo);
@@ -669,6 +673,7 @@ public:
         actioncanvas_test->setText(QApplication::translate("kvmrt2_media_editorClass", "canvas test", Q_NULLPTR));
         actionTestCanvas->setText(QApplication::translate("kvmrt2_media_editorClass", "canvas test", Q_NULLPTR));
         actionUserInfo->setText(QApplication::translate("kvmrt2_media_editorClass", "&User Information", Q_NULLPTR));
+        actionSyncAudioDur->setText(QApplication::translate("kvmrt2_media_editorClass", "Sync Audio Du&ration", Q_NULLPTR));
         gbStationName->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Station Name", Q_NULLPTR));
         gbDistance->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Station Pair (Distance table)", Q_NULLPTR));
         rbInOrder->setText(QApplication::translate("kvmrt2_media_editorClass", "Auto 1", Q_NULLPTR));

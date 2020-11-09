@@ -28,10 +28,15 @@
 #include "DefineMode.h"
 #include <stdarg.h>
 #include "DefineMode.h"
+#include "IniFileManager.h"
 
 kvmrt2_media_editor::kvmrt2_media_editor(QString & dbPath, QString & currPath, QWidget * parent) : QMainWindow(parent)
 {
 	ui.setupUi(this);
+
+	setWindowTitle(QString("%1 (v%2)")
+		.arg(QApplication::applicationName())
+		.arg(QApplication::applicationVersion()));
 
 	CSQLData::SetLEDIndicatorParam(256, 24, 64, 32); // led size???
 	auto *pDM = CDataManage::GetInstance();
@@ -64,11 +69,14 @@ kvmrt2_media_editor::kvmrt2_media_editor(QString & dbPath, QString & currPath, Q
 		m_lastVersion[2] = pDM->m_pModOPDataVersion->data(index.sibling(0, 4), Qt::DisplayRole).toInt();
 	}
 
-	ui.statusBar->showMessage(QString("OP_DATA.DB was loaded (version: %1.%2.%3)")
+	ui.statusBar->showMessage(QString("OP_DATA.DB(v%1.%2.%3) was loaded.")
 		.arg(m_lastVersion[0]).arg(m_lastVersion[1]).arg(m_lastVersion[2]));
 
 
 	setHideItemsMainWindow(OFFICIAL_RELEASE);
+
+	// audio sync duration
+	connect(ui.actionSyncAudioDur, SIGNAL(triggered()), this, SLOT(onAudioSyncDuration()));
 
 	// user info widget init
 	m_widgetUserInfo = new UserInfoWidget;
@@ -98,7 +106,6 @@ void kvmrt2_media_editor::setHideItemsMainWindow(bool isRelease)
 		parentEL->setVisible(false);
 
 		SET_HIDE_TABLE_COLUMN(StationInformation, 0);
-		SET_HIDE_TABLE_COLUMN(StationInformation, 3);
 		SET_HIDE_TABLE_COLUMN_RANGE(StationInformation, 5, 18);
 		SET_HIDE_TABLE_COLUMN(StationDistance, 0);
 		SET_HIDE_TABLE_COLUMN(StationDistance, 5);
@@ -116,10 +123,21 @@ void kvmrt2_media_editor::setHideItemsMainWindow(bool isRelease)
 		SET_HIDE_TABLE_COLUMN(PIDContents, 0);
 		SET_HIDE_TABLE_COLUMN_RANGE(PIDContents, 3, 8);
 		SET_HIDE_TABLE_COLUMN_RANGE(PIDIndexList, 0, 2);
+		
 		SET_HIDE_TABLE_COLUMN(AudioStationName, 0);
 		SET_HIDE_TABLE_COLUMN(AudioStationName, 1);
-		SET_HIDE_TABLE_COLUMN(AudioTotal, 0);
-		SET_HIDE_TABLE_COLUMN(AudioTotal, 1);
+		SET_HIDE_TABLE_COLUMN(AudioStationName, 4);
+		SET_HIDE_TABLE_COLUMN(AudioStationName, 6);
+		
+		// db table 재배치 후 재확인 필요
+		SET_HIDE_TABLE_COLUMN(AudioPlayList, 0);
+		SET_HIDE_TABLE_COLUMN(AudioPlayList, 1);
+		SET_HIDE_TABLE_COLUMN(AudioPlayList, 3);
+		SET_HIDE_TABLE_COLUMN(AudioPlayList, 7);
+		SET_HIDE_TABLE_COLUMN(AudioPlayList, 9);
+		SET_HIDE_TABLE_COLUMN(AudioPlayList, 11);
+		SET_HIDE_TABLE_COLUMN(AudioPlayList, 13);
+
 		SET_HIDE_TABLE_COLUMN(VideoDeviceGroup, 0);
 		SET_HIDE_TABLE_COLUMN(VideoDeviceGroup, 1);
 		SET_HIDE_TABLE_COLUMN(VideoDeviceGroup, 3); // group id (no use)
@@ -144,7 +162,7 @@ void kvmrt2_media_editor::initTables()
 	CALL_INIT_FUNCTION(PIDContents);
 	CALL_INIT_FUNCTION(PIDIndexList);
 	CALL_INIT_FUNCTION(AudioStationName);
-	CALL_INIT_FUNCTION(AudioTotal);
+	CALL_INIT_FUNCTION(AudioPlayList);
 	CALL_INIT_FUNCTION(VideoDeviceGroup);
 	CALL_INIT_FUNCTION(VideoPlayList);
 	CALL_INIT_FUNCTION(EditorTagTable);
@@ -185,7 +203,7 @@ void kvmrt2_media_editor::initMapData()
 	SET_EVENT_TABLE(pDM, EventLists);
 	SET_EVENT_TABLE(pDM, PIDContents);
 	SET_EVENT_TABLE(pDM, PIDIndexList);
-	SET_EVENT_TABLE(pDM, AudioTotal);
+	SET_EVENT_TABLE(pDM, AudioPlayList);
 	SET_EVENT_TABLE(pDM, AudioStationName);
 	SET_EVENT_TABLE(pDM, VideoDeviceGroup);
 	SET_EVENT_TABLE(pDM, VideoPlayList);
@@ -356,7 +374,7 @@ void kvmrt2_media_editor::onSaveDB()
 			}
 		}
 
-		ui.statusBar->showMessage(QString("OP_DATA.DB has been saved (version: %1.%2.%3)")
+		ui.statusBar->showMessage(QString("OP_DATA.DB(v%1.%2.%3) has been saved.")
 			.arg(currVersion[0]).arg(currVersion[1]).arg(currVersion[2]));
 
 		pTM->SaveModified();
@@ -800,6 +818,168 @@ void kvmrt2_media_editor::onVideoIndexChanged(const QModelIndex & topLeft, const
 	}
 }
 
+void kvmrt2_media_editor::onAudioIndexChanged(const QModelIndex & topLeft, const QModelIndex & bottomRight)
+{
+	const int col = topLeft.column();
+	const int row = topLeft.row();
+
+	if (col == 6 || col == 8 || col == 10 || col == 12 || col == 4/*bell column*/) // audio index
+	{
+		
+		const int audioFileIdx = ui.m_tblAudioPlayList->currentIndex().data(Qt::EditRole).toInt();
+
+		auto *pDM = CDataManage::GetInstance();
+		auto *pTM = CTableManage::GetInstance();
+
+		std::vector<std::shared_ptr<CSQLData>>::iterator it;
+		it = find_if(pTM->VECTOR_CLASS(AudioFilePool).begin(), pTM->VECTOR_CLASS(AudioFilePool).end(),
+			findAudioFileNameByAudioIndex(audioFileIdx));
+		QString fileName = "";
+		if (it != pTM->VECTOR_CLASS(AudioFilePool).end())
+		{
+			auto *c = dynamic_cast<AudioFilePool*>(it->get());
+			fileName = QString::fromWCharArray(c->szFileName);
+			qDebug() << "audio file name:" << fileName;
+		}
+
+		if (col != 4) // bell column이 선택됐을 때는 무시한다.
+		{
+			GET_TABLE_MODEL(pDM, AudioPlayList)->setData(topLeft.sibling(row, col+1/*file name*/), fileName, Qt::EditRole);
+		}
+
+		int fileCount = 0;
+		if (GET_TABLE_MODEL(pDM, AudioPlayList)->data(topLeft.sibling(row, 4), Qt::EditRole).toInt() == 1) { fileCount++; }
+		if (GET_TABLE_MODEL(pDM, AudioPlayList)->data(topLeft.sibling(row, 7), Qt::EditRole).toString().length() != 0) { fileCount++; }
+		if (GET_TABLE_MODEL(pDM, AudioPlayList)->data(topLeft.sibling(row, 9), Qt::EditRole).toString().length() != 0) { fileCount++; }
+		if (GET_TABLE_MODEL(pDM, AudioPlayList)->data(topLeft.sibling(row, 11), Qt::EditRole).toString().length() != 0) { fileCount++; }
+		if (GET_TABLE_MODEL(pDM, AudioPlayList)->data(topLeft.sibling(row, 13), Qt::EditRole).toString().length() != 0) { fileCount++; }
+
+		GET_TABLE_MODEL(pDM, AudioPlayList)->setData(topLeft.sibling(row, 3/*count*/), fileCount, Qt::EditRole);
+	}
+}
+
+void kvmrt2_media_editor::onAudioStnIndexChanged(const QModelIndex & topLeft, const QModelIndex & bottomRight)
+{
+	const int col = topLeft.column();
+	const int row = topLeft.row();
+
+	if (col == 3 || col == 5) // audio index
+	{
+
+		const int audioFileIdx = ui.m_tblAudioStationName->currentIndex().data(Qt::EditRole).toInt();
+
+		auto *pDM = CDataManage::GetInstance();
+		auto *pTM = CTableManage::GetInstance();
+
+		std::vector<std::shared_ptr<CSQLData>>::iterator it;
+		it = find_if(pTM->VECTOR_CLASS(AudioFilePool).begin(), pTM->VECTOR_CLASS(AudioFilePool).end(),
+			findAudioFileNameByAudioIndex(audioFileIdx));
+		QString fileName = "";
+		if (it != pTM->VECTOR_CLASS(AudioFilePool).end())
+		{
+			auto *c = dynamic_cast<AudioFilePool*>(it->get());
+			fileName = QString::fromWCharArray(c->szFileName);
+			qDebug() << "audio file name:" << fileName;
+		}
+
+		GET_TABLE_MODEL(pDM, AudioStationName)->setData(topLeft.sibling(row, col + 1/*file name*/), fileName, Qt::EditRole);
+	}
+}
+
+void kvmrt2_media_editor::onAudioSyncDuration()
+{
+	qDebug() << "audio duration sync";
+
+
+
+
+
+	STATIONLIST.clear();
+
+	auto *pDM = CDataManage::GetInstance();
+	auto *pTM = CTableManage::GetInstance();
+	int totalRow = GET_TABLE(StationInformation)->model()->rowCount();
+
+	for (int i = 0; i < totalRow; i++)
+	{
+		QModelIndex index = GET_TABLE(StationInformation)->model()->index(i, 0);
+		if (index.isValid())
+		{
+			StationInfo stn;
+			stn.code = index.sibling(index.row(), 1).data().toInt();
+			stn.nameF = index.sibling(index.row(), 2).data().toString();
+			stn.nameS = index.sibling(index.row(), 3).data().toString();
+			stn.durNextBM = index.sibling(index.row(), 6).data().toInt();
+			stn.durNextEN = index.sibling(index.row(), 7).data().toInt();
+			stn.durArrivingBM = index.sibling(index.row(), 8).data().toInt();
+			stn.durArrivingEN = index.sibling(index.row(), 9).data().toInt();
+			stn.durArrivalBM = index.sibling(index.row(), 10).data().toInt();
+			stn.durArrivalEN = index.sibling(index.row(), 11).data().toInt();
+			stn.durExchangeBM = index.sibling(index.row(), 12).data().toInt();
+			stn.durExchangeEN = index.sibling(index.row(), 13).data().toInt();
+			stn.durFinalBM = index.sibling(index.row(), 14).data().toInt();
+			stn.durFinalEN = index.sibling(index.row(), 15).data().toInt();
+
+			qDebug() << stn.code << stn.nameF << stn.nameS << stn.durNextBM << stn.durNextEN
+				<< stn.durArrivingBM << stn.durArrivingEN << stn.durArrivalBM << stn.durArrivalEN
+				<< stn.durExchangeBM << stn.durExchangeEN << stn.durFinalBM << stn.durFinalEN << "\n";
+
+			STATIONLIST.append(stn);
+		}
+	}
+
+	qDebug() << "total size:" << STATIONLIST.size();
+
+	//auto *pTM = CTableManage::GetInstance();
+	//auto *pDM = CDataManage::GetInstance();
+	//bool bOKDep;
+	//bool bOKArr;
+	//bool bOKDistance;
+	//int nDistance;
+	//QString strDesc;
+
+	//int totalRow = GET_TABLE(StationDistance)->model()->rowCount();
+	//for (int i = 0; i < totalRow; ++i)
+	//{
+	//	QModelIndex topLeft = GET_TABLE(StationDistance)->model()->index(i, 0);
+	//	int nTotalDistance = 0;
+	//	if (topLeft.isValid())
+	//	{
+	//		int nRow = topLeft.row();
+	//		int nColumn = topLeft.column();
+	//		bool bOk, bParentOk;
+	//		int nDepStn = 0, nArrStn = 0;
+
+	//		nDepStn = topLeft.sibling(topLeft.row(), 1/*departure col*/).data().toInt(&bOKDep);
+	//		nArrStn = topLeft.sibling(topLeft.row(), 2/*arrival col*/).data().toInt(&bOKArr);
+	//		nDistance = topLeft.sibling(topLeft.row(), 3/*distance col*/).data().toInt(&bOKDistance);
+
+	//		if ((nDepStn&&nArrStn) || nDistance)
+	//		{
+	//			std::vector<std::shared_ptr<CSQLData>>::iterator itSt, itEn;
+	//			itSt = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findSQLData(nDepStn));
+	//			itEn = find_if(pTM->VECTOR_CLASS(StationInformation).begin(), pTM->VECTOR_CLASS(StationInformation).end(), findSQLData(nArrStn));
+	//			if ((itSt != pTM->VECTOR_CLASS(StationInformation).end()) && (itEn != pTM->VECTOR_CLASS(StationInformation).end()))
+	//			{
+	//				StationInformation *pSt = (StationInformation*)itSt->get();
+	//				StationInformation *pEn = (StationInformation*)itEn->get();
+	//				StationDistance* pDistance = (StationDistance*)pTM->VECTOR_CLASS(StationDistance).at(topLeft.row()).get();
+	//				strDesc = QString("[%1]%2 -> [%3]%4 (%5m)")
+	//					.arg(QString::number(pSt->nStationCode))
+	//					.arg(QString::fromStdWString(pSt->szStationName1))
+	//					.arg(QString::number(pEn->nStationCode))
+	//					.arg(QString::fromStdWString(pEn->szStationName1))
+	//					.arg(QString::number(pDistance->nDistance))
+	//					;
+	//				GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 4), strDesc, Qt::EditRole);
+	//				GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 6), pSt->nStationCode, Qt::EditRole);
+	//				GET_TABLE_MODEL(pDM, StationDistance)->setData(topLeft.sibling(topLeft.row(), 7), pEn->nStationCode, Qt::EditRole);
+	//			}
+	//		}
+	//	}
+	//}
+}
+
 void kvmrt2_media_editor::initAccountType(AccountType type)
 {
 	switch (type)
@@ -828,19 +1008,21 @@ void kvmrt2_media_editor::initAccountType(AccountType type)
 
 void kvmrt2_media_editor::aboutME()
 {
-	// version(major.minor.release)
-	QString txt = QString("Organization: %1\n\n"
-		"Application:%2\n\n"
-		"Version: %3\n\n"
-		"Contact: %4")
-		.arg(QCoreApplication::organizationName())
-		.arg(QCoreApplication::applicationName())
-		.arg(QCoreApplication::applicationVersion())
-		.arg("kcjeong@wjis.co.kr");
+	QString text = QString(
+		"<b>Organization</b>: %1<br>"
+		"<b>Application</b>: %2<br>"
+		"<b>Version</b>: %3<br>"
+		"<b>Contact</b>: <a href='mailto: kcjeong@wjis.co.kr'>kcjeong@wjis.co.kr</a><br>")
+		.arg(QApplication::organizationName())
+		.arg(QApplication::applicationName())
+		.arg(QApplication::applicationVersion());
 
-	QMessageBox::about(this,
-		QString("About Putrajaya Line Media Editor"),
-		QString(txt));
+	QMessageBox aboutMyApp(this);
+	aboutMyApp.setIcon(QMessageBox::Information);
+	aboutMyApp.setWindowTitle(QString("About %1").arg(QApplication::applicationName()));
+	aboutMyApp.setTextFormat(Qt::RichText);
+	aboutMyApp.setText(text);
+	aboutMyApp.exec();
 }
 
 void kvmrt2_media_editor::licenseInfo()
@@ -1181,7 +1363,7 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, StopPtnHeader)
 	GET_TABLE(StopPtnHeader)->setItemDelegateForColumn(1, new SQLDelegate(this, &pTM->VECTOR_CLASS(StationInformation), 0, 2, TYPE_TEXT));
 	GET_TABLE(StopPtnHeader)->setItemDelegateForColumn(2, new SQLDelegate(this, &pTM->VECTOR_CLASS(StationInformation), 0, 2, TYPE_TEXT));
 	GET_TABLE(StopPtnHeader)->setItemDelegateForColumn(4, new SQLDelegate(this, &pTM->VECTOR_CLASS(LineMapPool), 0, 1, TYPE_TEXT));
-	GET_TABLE(StopPtnHeader)->setItemDelegateForColumn(6, new comboBoxDelegate(this, &pMM->m_mStopPtnMode));
+	GET_TABLE(StopPtnHeader)->setItemDelegateForColumn(6, new comboBoxDelegate(this, &pMM->m_mBoundType));
 	GET_TABLE(StopPtnHeader)->setContextMenuPolicy(Qt::CustomContextMenu);
 
 	SET_SELECTION_BEHAVIOR(StopPtnHeader, QAbstractItemView::SelectRows);
@@ -1371,35 +1553,53 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, AudioStationName)
 
 	QHeaderView *header = GET_TABLE(AudioStationName)->horizontalHeader();
 	header->resizeSections(QHeaderView::ResizeToContents);
+	SET_HIDE_TABLE_COLUMN(AudioStationName, 4);
+	SET_HIDE_TABLE_COLUMN(AudioStationName, 6);
 
+	// audio file column
 	GET_TABLE(AudioStationName)->setItemDelegateForColumn(3, new SQLDelegate(this, &pTM->VECTOR_CLASS(AudioFilePool), 3, 3, TYPE_TEXT));
+	GET_TABLE(AudioStationName)->setItemDelegateForColumn(5, new SQLDelegate(this, &pTM->VECTOR_CLASS(AudioFilePool), 3, 3, TYPE_TEXT));
 
 	SET_SELECTION_BEHAVIOR(AudioStationName, QAbstractItemView::SelectRows);
 	SET_SELECTION_MODE(AudioStationName, QAbstractItemView::SingleSelection);
 
+	connect(pDM->m_pModAudioStationName.get(),
+		SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)),
+		this, SLOT(onAudioStnIndexChanged(const QModelIndex&, const QModelIndex&)));
 	return false;
 }
 
-IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, AudioTotal)
+IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, AudioPlayList)
 {
 	auto *pDM = CDataManage::GetInstance();
 	auto *pTM = CTableManage::GetInstance();
 	auto *pMM = CMapManage::GetInstance();
 
-	SET_MODEL_FOR_TABLE_VIEW(AudioTotal, pDM);
-	INSTALL_EVENT_FILTER(AudioTotal);
-	SET_DRAG_AND_DROP_ENABLED(AudioTotal);
+	SET_MODEL_FOR_TABLE_VIEW(AudioPlayList, pDM);
+	INSTALL_EVENT_FILTER(AudioPlayList);
+	SET_DRAG_AND_DROP_ENABLED(AudioPlayList);
 
-	QHeaderView *header = GET_TABLE(AudioTotal)->horizontalHeader();
+	QHeaderView *header = GET_TABLE(AudioPlayList)->horizontalHeader();
 	header->resizeSections(QHeaderView::ResizeToContents);
+	SET_HIDE_TABLE_COLUMN(AudioPlayList, 3);
+	SET_HIDE_TABLE_COLUMN(AudioPlayList, 7);
+	SET_HIDE_TABLE_COLUMN(AudioPlayList, 9);
+	SET_HIDE_TABLE_COLUMN(AudioPlayList, 11);
+	SET_HIDE_TABLE_COLUMN(AudioPlayList, 13);
 
-	GET_TABLE(AudioTotal)->setItemDelegateForColumn(3, new comboBoxDelegate(this, &pMM->m_mAudioType));
-	GET_TABLE(AudioTotal)->setItemDelegateForColumn(4, new SQLDelegate(this, &pTM->VECTOR_CLASS(AudioFilePool), 3, 3, TYPE_TEXT));
-	GET_TABLE(AudioTotal)->setItemDelegateForColumn(5, new SQLDelegate(this, &pTM->VECTOR_CLASS(AudioFilePool), 3, 3, TYPE_TEXT));
-	GET_TABLE(AudioTotal)->setItemDelegateForColumn(6, new comboBoxDelegate(this, &pMM->m_mPlayWithStnName));
+	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(4, new comboBoxDelegate(this, &pMM->m_mYesOrNo)); // start bell
+	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(5,  new comboBoxDelegate(this, &pMM->m_mYesOrNo)); // with station
+	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(6,  new SQLDelegate(SQLDelegate::AUDIO_FILE_IDX_TYPE, this, &pTM->VECTOR_CLASS(AudioFilePool), 3, 3, TYPE_TEXT));
+	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(8,  new SQLDelegate(SQLDelegate::AUDIO_FILE_IDX_TYPE, this, &pTM->VECTOR_CLASS(AudioFilePool), 3, 3, TYPE_TEXT));
+	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(10,  new SQLDelegate(SQLDelegate::AUDIO_FILE_IDX_TYPE, this, &pTM->VECTOR_CLASS(AudioFilePool), 3, 3, TYPE_TEXT));
+	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(12,  new SQLDelegate(SQLDelegate::AUDIO_FILE_IDX_TYPE, this, &pTM->VECTOR_CLASS(AudioFilePool), 3, 3, TYPE_TEXT));
 
-	SET_SELECTION_BEHAVIOR(AudioTotal, QAbstractItemView::SelectRows);
-	SET_SELECTION_MODE(AudioTotal, QAbstractItemView::SingleSelection);
+	SET_SELECTION_BEHAVIOR(AudioPlayList, QAbstractItemView::SelectRows);
+	SET_SELECTION_MODE(AudioPlayList, QAbstractItemView::SingleSelection);
+
+	connect(pDM->m_pModAudioPlayList.get(),
+		SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)),
+		this, SLOT(onAudioIndexChanged(const QModelIndex&, const QModelIndex&)));
 
 	return false;
 }

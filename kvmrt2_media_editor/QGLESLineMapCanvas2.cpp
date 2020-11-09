@@ -573,20 +573,20 @@ void QGLESLineMapCanvas::contextMenuEvent(QContextMenuEvent * e)
 		auto *pDM = CDataManage::GetInstance();
 		auto *pTM = CTableManage::GetInstance();
 		auto pVEC = pDM->GET_MODEL_CLASS(LineMapDisplayItem)->getVector();
-		
+
 		for (auto it : (*pVEC))
 		{
 			auto *pItem = (LineMapDisplayItem*)it.get();
 			qDebug() << "pItem->nRelatedDisplayItem:" << pItem->nRelatedDisplayItem;
-			auto nit = find_if(pTM->m_vDisplayItemPool.begin(), pTM->m_vDisplayItemPool.end(), 
+			auto nit = find_if(pTM->m_vDisplayItemPool.begin(), pTM->m_vDisplayItemPool.end(),
 				findDisplayItemByRelatedItem(pItem->nRelatedDisplayItem));
-			
+
 			if (nit != pTM->m_vDisplayItemPool.end())
 			{
 				auto dip = (DisplayItemPool*)nit->get();
 				qDebug() << "pItem->nPosX, pItem->nPosY, dip->nWidth, dip->nHeight" << pItem->nPosX << pItem->nPosY << dip->nWidth << dip->nHeight;
 				QRect tRect(pItem->nPosX, pItem->nPosY, dip->nWidth, dip->nHeight);
-				qDebug()  << "nOriginPosX, nOriginPosY" << nOriginPosX << nOriginPosY;
+				qDebug() << "nOriginPosX, nOriginPosY" << nOriginPosX << nOriginPosY;
 				if (tRect.contains(nOriginPosX, nOriginPosY))
 				{
 					m_nSelectedDispItem = pItem->GetIndex();
@@ -722,26 +722,31 @@ void QGLESLineMapCanvas::editNode(int nSelectedIndex)
 
 void QGLESLineMapCanvas::editDisplayItem(int idx)
 {
+	/*
+	참고링크
+	https://stackoverflow.com/questions/17512542/getting-multiple-inputs-from-qinputdialog-in-qtcreator
+	*/
+
 	auto *pDM = CDataManage::GetInstance();
 	auto pVEC = pDM->GET_MODEL_CLASS(LineMapDisplayItem)->getVector();
 	auto pit = find_if(pVEC->begin(), pVEC->end(), findSQLData(idx));
 	if (pit != pVEC->end())
 	{
 		auto *pItem = (LineMapDisplayItem*)pit->get();
-		
-		
+
+
 		int nRow = std::distance(pVEC->begin(), pit);
 		qDebug() << nRow;
 
 		QDialog dialog(this);
 		dialog.setWindowTitle("Edit Display Item Position");
-		
+
 		// Use a layout allowing to have a label next to each field
 		QFormLayout form(&dialog);
 
 		auto spinX = new QSpinBox(&dialog);
 		auto spinY = new QSpinBox(&dialog);
-		
+
 		spinX->setRange(-10000, 10000);
 		spinY->setRange(-10000, 10000);
 
@@ -750,18 +755,18 @@ void QGLESLineMapCanvas::editDisplayItem(int idx)
 
 		form.addRow("X :", spinX);
 		form.addRow("Y :", spinY);
-		
+
 		// Add some standard buttons (Cancel/Ok) at the bottom of the dialog
 		QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
 			Qt::Horizontal, &dialog);
 
 		form.addRow(&buttonBox);
-		
+
 		QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
 		QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
 
 		// Show the dialog as modal
-		if (dialog.exec() == QDialog::Accepted) 
+		if (dialog.exec() == QDialog::Accepted)
 		{
 			// If the user didn't dismiss the dialog, do something with the fields
 			qDebug() << spinX->value() << "---" << spinY->value();
@@ -1161,12 +1166,8 @@ void QGLESLineMapCanvas::alignNodes()
 	std::vector<QPoint> vTempPoint;
 	std::vector<unsigned int> vTempBuffer;
 	std::map<unsigned int, std::vector<int>> mMap;
-
-
-
-
-
 	std::vector<std::shared_ptr<CSQLData>> vTempNode;
+
 	if (m_vSelNodes.size())
 	{
 		uStart = m_vSelNodes.at(0);
@@ -2254,7 +2255,6 @@ void QGLESLineMapCanvas::paintStationRelated()
 			}
 			else
 			{
-
 				QMatrix4x4 mat;
 				mat.ortho(0, m_nWidth, m_nHeight, 0, -1, 1);
 				mat.translate(m_tStationSpot->m_fOrigin[0] + (GLfloat)pNode->nPosX, m_tStationSpot->m_fOrigin[1] + (GLfloat)pNode->nPosY);
@@ -2272,8 +2272,6 @@ void QGLESLineMapCanvas::paintStationRelated()
 
 	}
 }
-
-
 
 void QGLESLineMapCanvas::initDisplayItem()
 {
@@ -2299,8 +2297,6 @@ void QGLESLineMapCanvas::initDisplayItem()
 		}
 	}
 }
-
-
 
 void QGLESLineMapCanvas::setCurrentTime(int nCurTime)
 {

@@ -16,7 +16,6 @@
 #include <Gdiplus.h>
 #include <algorithm>
 
-
 enum
 {
 	STATE_PASSED = 0,
@@ -445,7 +444,6 @@ void QGLESLineMapPreview::paintGL()
 			}
 		}
 	}
-
 }
 
 void QGLESLineMapPreview::initStationRelated()
