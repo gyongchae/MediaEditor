@@ -5,22 +5,35 @@
 
 #define INIMANAGER IniFileManager::m_iniManager
 #define STATIONLIST IniFileManager::m_iniManager->m_listStnInfo
+#define OPDURLIST IniFileManager::m_iniManager->m_opDuration
 
 struct StationInfo
 {
-	int code;
 	QString nameF;
 	QString nameS;
-	int durNextBM;
-	int durNextEN;
-	int durArrivingBM;
-	int durArrivingEN;
-	int durArrivalBM;
-	int durArrivalEN;
-	int durExchangeBM;
-	int durExchangeEN;
-	int durFinalBM;
-	int durFinalEN;
+};
+
+struct audioStnDurInfo
+{
+	int code;
+	int nameBM;
+	int nameEN;
+};
+
+struct audioOpDurInfo
+{
+	int nextBM;
+	int nextEN;
+	int arrivingBM;
+	int arrivingEN;
+	int arrivalBM;
+	int arrivalEN;
+	int exchangeBM;
+	int exchangeEN;
+	int finalBM;
+	int finalEN;
+	int finalPh1BM;
+	int finalPh1EN;
 };
 
 class IniFileManager : public QObject
@@ -50,5 +63,6 @@ public:
 	void createStationInfoIni();
 
 	QList<StationInfo> m_listStnInfo;
+	audioOpDurInfo m_opDuration{ 0 };
 };
 

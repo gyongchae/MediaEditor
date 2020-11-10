@@ -136,6 +136,7 @@ void ContentsPool::deleteAudioFilePool()
 		int nRet = QMessageBox::warning(this, QString::fromStdWString(APPLICATION_NAME), QString::fromStdWString(ARE_YOU_SURE), QMessageBox::Yes | QMessageBox::No);
 		if (nRet == QMessageBox::Yes)
 		{
+			m_audioPlayer->stop();
 			nRow = index.row();
 			pVFM->removeRows(nRow, 1);
 		}
