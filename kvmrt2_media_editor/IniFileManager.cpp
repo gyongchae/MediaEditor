@@ -80,5 +80,86 @@ void IniFileManager::createStationInfoIni()
 {
 	QSettings settings(QString(ME_FOLDER_PATH) + QString(INI_FILE_ME_STNINFO), QSettings::IniFormat);
 
-	
+	for (auto stIni : m_listStnAudioInfo)
+	{
+		bool hasEx = (stIni.hasExchange == 1) ? true : false;
+		bool isPro = (stIni.isProvisional == 1) ? true : false;
+
+		settings.beginGroup(QString("%1").arg(stIni.code));
+		settings.setValue("fullName", stIni.nameF);
+		settings.setValue("shortName", stIni.nameS);
+		settings.setValue("hasExchange", hasEx);
+		settings.setValue("isProvisional", isPro);
+		settings.setValue("apprDistance", stIni.apprDistance);
+		settings.setValue("paNextBM", stIni.paNextBM);
+		settings.setValue("paNextEN", stIni.paNextEN);
+		settings.setValue("paArrivingBM", stIni.paApprBM);
+		settings.setValue("paArrivingEN", stIni.paApprEN);
+		settings.setValue("paArrivalBM", stIni.paArrvBM);
+		settings.setValue("paArrivalEN", stIni.paArrvEN);
+		settings.setValue("paExchangeBM", stIni.paExchangeBM);
+		settings.setValue("paExchangeEN", stIni.paExchangeEN);
+		settings.endGroup();
+	}
+}
+
+void IniFileManager::createPaInfoIni()
+{
+	QSettings settings(QString(ME_FOLDER_PATH) + QString(INI_FILE_ME_STNINFO), QSettings::IniFormat);
+
+	int index = 0;
+	settings.beginWriteArray("audios");
+	for (auto a : m_listAudioInfo)
+	{
+		settings.setArrayIndex(index++);
+		settings.setValue("id", a.id);
+		settings.setValue("desc", a.desc);
+		settings.setValue("duration", a.duration);
+	}
+	settings.endArray();
+}
+
+void IniFileManager::addStnIniInfo(const StationIniInfo & stIni)
+{
+	m_listStnAudioInfo.append(stIni);
+}
+
+void IniFileManager::addAudioListInfo(const audioListInfo & st)
+{
+	m_listAudioInfo.append(st);
+}
+
+void IniFileManager::clearStnIniInfo()
+{
+	m_listStnAudioInfo.clear();
+}
+
+void IniFileManager::clearAudioListInfo()
+{
+	m_listAudioInfo.clear();
+}
+
+void IniFileManager::readStationInfoIni(const int &stnCode)
+{
+	QSettings settings(QString(ME_FOLDER_PATH) + QString(INI_FILE_ME_STNINFO), QSettings::IniFormat);
+
+	settings.beginGroup(QString("%1").arg(stnCode));
+	for (auto k : settings.allKeys())
+		qDebug() << k << settings.value(k);
+	settings.endGroup();
+}
+
+void IniFileManager::readAudioListInfoIni()
+{
+	QSettings settings(QString(ME_FOLDER_PATH) + QString(INI_FILE_ME_STNINFO), QSettings::IniFormat);
+
+	settings.beginReadArray("audios");
+	int size = settings.value("size").toInt();
+	for (int i = 0; i < size; i++)
+	{
+		settings.setArrayIndex(i);
+		qDebug() << settings.value("id").toInt() 
+			<< settings.value("desc").toString() 
+			<< settings.value("duration").toInt();
+	}
 }

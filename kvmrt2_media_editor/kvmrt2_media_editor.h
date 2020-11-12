@@ -85,6 +85,7 @@ private slots:
 	
 	// action-related slot
 	void onSaveDB();
+	void onLoadDB(); // not implemented yet.
 	void onShowSetting();
 	void onShowAudioVideoPool();
 	void onShowFontPool();

@@ -21,11 +21,11 @@ m_tSettings[10].POINTER = (void*)(&nDurArrivalBM);
 m_tSettings[11].POINTER = (void*)(&nDurArrivalEN);
 m_tSettings[12].POINTER = (void*)(&nDurExchangeBM);
 m_tSettings[13].POINTER = (void*)(&nDurExchangeEN);
-m_tSettings[14].POINTER = (void*)(&nDurFinalBM);
-m_tSettings[15].POINTER = (void*)(&nDurFinalEN);
-m_tSettings[16].POINTER = (void*)(&nDurFinalPh1BM);
-m_tSettings[17].POINTER = (void*)(&nDurFinalPh1EN);
-m_tSettings[18].POINTER = (void*)(&nLedIndex);
+m_tSettings[14].POINTER = (void*)(&nHasExchange);
+m_tSettings[15].POINTER = (void*)(&nIsProVisional);
+m_tSettings[16].POINTER = (void*)(&nApprPaDistance);
+m_tSettings[17].POINTER = (void*)(&nSpare1);
+m_tSettings[18].POINTER = (void*)(&nSpare2);
 END_MAPPING_MEMBERS
 int nStationCode{ 0 };
 TYC szStationName1[128]{ 0 };
@@ -40,11 +40,11 @@ int nDurArrivalBM{ 0 };
 int nDurArrivalEN{ 0 };
 int nDurExchangeBM{ 0 };
 int nDurExchangeEN{ 0 };
-int nDurFinalBM{ 0 };
-int nDurFinalEN{ 0 };
-int nDurFinalPh1BM{ 0 };
-int nDurFinalPh1EN{ 0 };
-int nLedIndex{ 0 };
+int nHasExchange{ 0 };
+int nIsProVisional{ 0 };
+int nApprPaDistance{ 0 };
+int nSpare1{ 0 };
+int nSpare2{ 0 };
 END_CLASS_FROM_SQLDATA
 DECLARE_EDITOR_CLASS(StationInformation);
 // !StationInformation

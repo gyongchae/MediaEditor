@@ -18,11 +18,11 @@ DECLARE_STATIC_TYPESETTINGS(StationInformation, 19) =
 	{ TYPE_INTEGER,	MAKE_T("DUR_ARRIVAL_EN"),	0,	nullptr,false,	false,	false,	MAKE_T("Arrival EN"),	100 },
 	{ TYPE_INTEGER,	MAKE_T("DUR_EXCHANGE_BM"),	0,	nullptr,false,	false,	false,	MAKE_T("Exchange BM"),		100 },
 	{ TYPE_INTEGER,	MAKE_T("DUR_EXCHANGE_EN"),	0,	nullptr,false,	false,	false,	MAKE_T("Exchange EN"),	100 },
-	{ TYPE_INTEGER,	MAKE_T("DUR_FINAL_BM"),		0,	nullptr,false,	false,	false,	MAKE_T("Final BM"),		100 },
-	{ TYPE_INTEGER,	MAKE_T("DUR_FINAL_EN"),		0,	nullptr,false,	false,	false,	MAKE_T("Final EN"),	100 },
-	{ TYPE_INTEGER,	MAKE_T("DUR_FINAL_PH1_BM"), 0,	nullptr,false,	false,	false,	MAKE_T("Final PH1 BM"),	100 },
-	{ TYPE_INTEGER,	MAKE_T("DUR_FINAL_PH1_EN"), 0,	nullptr,false,	false,	false,	MAKE_T("Final PH1 EN"),	100 },
-	{ TYPE_INTEGER,	MAKE_T("SPARE3"), 0,	nullptr,false,	false,	false,	MAKE_T("FDI & SDI Indicator"),	100 },
+	{ TYPE_INTEGER,	MAKE_T("HAS_EXCHANGE"),		0,	nullptr,false,	false,	false,	MAKE_T("Has Exchange"),		100 },
+	{ TYPE_INTEGER,	MAKE_T("IS_PROVISIONAL"),		0,	nullptr,false,	false,	false,	MAKE_T("Provisional"),	100 },
+	{ TYPE_INTEGER,	MAKE_T("APPR_PA_DISTANCE"), 0,	nullptr,false,	false,	false,	MAKE_T("Arriving PA Distance"),	100 },
+	{ TYPE_INTEGER,	MAKE_T("SPARE1"), 0,	nullptr,false,	false,	false,	MAKE_T("Spare1"),	100 },
+	{ TYPE_INTEGER,	MAKE_T("SPARE2"), 0,	nullptr,false,	false,	false,	MAKE_T("Spare2"),	100 },
 };
 
 DECLARE_STATIC_VARIABLES(StationDistance, false, STATION_DISTANCE, -1, 5, 0)
@@ -206,7 +206,7 @@ DECLARE_STATIC_TYPESETTINGS(EditorTagTable, 4) =
 };
 
 // should be changed table name to DATA_VERSION
-DECLARE_STATIC_VARIABLES(OPDataVersion, false, VIDEOFILE_VERSION, -1, -1, 0)
+DECLARE_STATIC_VARIABLES(OPDataVersion, false, DATA_VERSION, -1, -1, 0)
 DECLARE_STATIC_TYPESETTINGS(OPDataVersion, 5) =
 {
 	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),	 0,	 nullptr,true, false,false, MAKE_T("Table Index"),	100 },

@@ -4,20 +4,23 @@
 #include "DefineMode.h"
 
 #define INIMANAGER IniFileManager::m_iniManager
-#define STATIONLIST IniFileManager::m_iniManager->m_listStnInfo
-#define OPDURLIST IniFileManager::m_iniManager->m_opDuration
 
-struct StationInfo
+struct StationIniInfo
 {
+	int code; // group(section) name
 	QString nameF;
 	QString nameS;
-};
-
-struct audioStnDurInfo
-{
-	int code;
-	int nameBM;
-	int nameEN;
+	int hasExchange;
+	int isProvisional;
+	int apprDistance;
+	int paNextBM;
+	int paNextEN;
+	int paApprBM;
+	int paApprEN;
+	int paArrvBM;
+	int paArrvEN;
+	int paExchangeBM;
+	int paExchangeEN;
 };
 
 struct audioOpDurInfo
@@ -28,12 +31,13 @@ struct audioOpDurInfo
 	int arrivingEN;
 	int arrivalBM;
 	int arrivalEN;
-	int exchangeBM;
-	int exchangeEN;
-	int finalBM;
-	int finalEN;
-	int finalPh1BM;
-	int finalPh1EN;
+};
+
+struct audioListInfo
+{
+	int id;
+	QString desc;
+	int duration;
 };
 
 class IniFileManager : public QObject
@@ -61,8 +65,19 @@ public:
 	// related to stationinfo ini
 	// station code
 	void createStationInfoIni();
+	void createPaInfoIni();
+	void addStnIniInfo(const StationIniInfo& stIni);
+	void addAudioListInfo(const audioListInfo& st);
+	void clearStnIniInfo();
+	void clearAudioListInfo();
+	void readStationInfoIni(const int &stnCode);
+	void readAudioListInfoIni();
 
-	QList<StationInfo> m_listStnInfo;
+
 	audioOpDurInfo m_opDuration{ 0 };
+
+private:
+	QList<StationIniInfo> m_listStnAudioInfo;
+	QList<audioListInfo> m_listAudioInfo;
 };
 
