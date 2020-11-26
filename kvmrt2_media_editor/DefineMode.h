@@ -1,6 +1,6 @@
 #pragma once
 
-const bool OFFICIAL_RELEASE = false;
+const bool OFFICIAL_RELEASE = true;
 
 
 #define ME_FOLDER_PATH "C:/PapisProgram/MediaEditor/"

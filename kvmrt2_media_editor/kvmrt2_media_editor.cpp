@@ -30,6 +30,9 @@
 #include "DefineMode.h"
 #include "IniFileManager.h"
 
+const int added_duration = 0;
+const int added_stn_name_duration = 0;
+
 kvmrt2_media_editor::kvmrt2_media_editor(QString & dbPath, QString & currPath, QWidget * parent) : QMainWindow(parent)
 {
 	ui.setupUi(this);
@@ -50,7 +53,7 @@ kvmrt2_media_editor::kvmrt2_media_editor(QString & dbPath, QString & currPath, Q
 	pMM->InitMaps();
 	pTM->LoadDatabase();
 	pDM->SetModel();
-
+	
 	pDM->setCurrPath(currPath);
 
 	initTables();
@@ -107,7 +110,9 @@ void kvmrt2_media_editor::setHideItemsMainWindow(bool isRelease)
 		parentEL->setVisible(false);
 
 		SET_HIDE_TABLE_COLUMN(StationInformation, 0);
-		SET_HIDE_TABLE_COLUMN_RANGE(StationInformation, 5, 18);
+		SET_HIDE_TABLE_COLUMN_RANGE(StationInformation, 5, 13);
+		SET_HIDE_TABLE_COLUMN(StationInformation, 17);
+		SET_HIDE_TABLE_COLUMN(StationInformation, 18);
 		SET_HIDE_TABLE_COLUMN(StationDistance, 0);
 		SET_HIDE_TABLE_COLUMN(StationDistance, 5);
 		SET_HIDE_TABLE_COLUMN(StationDistance, 6);
@@ -128,16 +133,24 @@ void kvmrt2_media_editor::setHideItemsMainWindow(bool isRelease)
 		SET_HIDE_TABLE_COLUMN(AudioStationName, 0);
 		SET_HIDE_TABLE_COLUMN(AudioStationName, 1);
 		SET_HIDE_TABLE_COLUMN(AudioStationName, 4);
-		SET_HIDE_TABLE_COLUMN(AudioStationName, 6);
+		SET_HIDE_TABLE_COLUMN(AudioStationName, 5);
+		SET_HIDE_TABLE_COLUMN(AudioStationName, 7);
+		SET_HIDE_TABLE_COLUMN(AudioStationName, 8);
 
-		// db table 재배치 후 재확인 필요
 		SET_HIDE_TABLE_COLUMN(AudioPlayList, 0);
 		SET_HIDE_TABLE_COLUMN(AudioPlayList, 1);
 		SET_HIDE_TABLE_COLUMN(AudioPlayList, 3);
+		SET_HIDE_TABLE_COLUMN(AudioPlayList, 4);
+		SET_HIDE_TABLE_COLUMN(AudioPlayList, 6);
 		SET_HIDE_TABLE_COLUMN(AudioPlayList, 7);
-		SET_HIDE_TABLE_COLUMN(AudioPlayList, 9);
+		SET_HIDE_TABLE_COLUMN(AudioPlayList, 10);
 		SET_HIDE_TABLE_COLUMN(AudioPlayList, 11);
 		SET_HIDE_TABLE_COLUMN(AudioPlayList, 13);
+		SET_HIDE_TABLE_COLUMN(AudioPlayList, 14);
+		SET_HIDE_TABLE_COLUMN(AudioPlayList, 16);
+		SET_HIDE_TABLE_COLUMN(AudioPlayList, 17);
+		SET_HIDE_TABLE_COLUMN(AudioPlayList, 19);
+		SET_HIDE_TABLE_COLUMN(AudioPlayList, 20);
 
 		SET_HIDE_TABLE_COLUMN(VideoDeviceGroup, 0);
 		SET_HIDE_TABLE_COLUMN(VideoDeviceGroup, 1);
@@ -867,6 +880,20 @@ void kvmrt2_media_editor::onAudioIndexChanged(const QModelIndex & topLeft, const
 
 			GET_TABLE_MODEL(pDM, AudioPlayList)->setData(topLeft.sibling(row, col + 1/*filename*/), fileName, Qt::EditRole);
 			GET_TABLE_MODEL(pDM, AudioPlayList)->setData(topLeft.sibling(row, col + 2/*duration*/), duration, Qt::EditRole);
+
+			if (col == 5) // when bell index column selected
+			{
+				int isBell = 0;
+				if (fileName.length() > 0)
+				{
+					isBell = 1; // bell alaram 'Yes'
+				}
+				else
+				{
+					isBell = 0; // bell alaram 'No'
+				}
+				GET_TABLE_MODEL(pDM, AudioPlayList)->setData(topLeft.sibling(row, 4/*bell alaram*/), isBell, Qt::EditRole);
+			}
 		}
 
 		int fileCount = 0;
@@ -971,8 +998,8 @@ void kvmrt2_media_editor::onAudioSyncDuration()
 			{
 				qDebug() << stnCode << "founded.";
 
-				const int stnAudioBM = audioNameIndex.sibling(audioNameIndex.row(), 5).data().toInt();
-				const int stnAudioEN = audioNameIndex.sibling(audioNameIndex.row(), 8).data().toInt();
+				const int stnAudioBM = audioNameIndex.sibling(audioNameIndex.row(), 5).data().toInt() + added_stn_name_duration;
+				const int stnAudioEN = audioNameIndex.sibling(audioNameIndex.row(), 8).data().toInt() + added_stn_name_duration;
 				int nextBM = iniMan->m_opDuration.nextBM + stnAudioBM;
 				int nextEN = iniMan->m_opDuration.nextEN + stnAudioEN;
 				int apprBM = iniMan->m_opDuration.arrivingBM + stnAudioBM;
@@ -1042,19 +1069,17 @@ void kvmrt2_media_editor::onAudioSyncDuration()
 		stIni.isProvisional = index.sibling(index.row(), 15).data().toInt();
 		stIni.apprDistance = index.sibling(index.row(), 16).data().toInt();
 
-		// ms to sec
-		// simply (value / 1000 + 1)
-		stIni.paNextBM = (index.sibling(index.row(), 6).data().toInt()  != 0) ? index.sibling(index.row(), 6).data().toInt() / 1000 + 1 : 0;
-		stIni.paNextEN = (index.sibling(index.row(), 7).data().toInt()  != 0) ? index.sibling(index.row(), 7).data().toInt() / 1000 + 1 : 0;
-		stIni.paApprBM = (index.sibling(index.row(), 8).data().toInt()  != 0) ? index.sibling(index.row(), 8).data().toInt() / 1000 + 1 : 0;
-		stIni.paApprEN = (index.sibling(index.row(), 9).data().toInt()  != 0) ? index.sibling(index.row(), 9).data().toInt() / 1000 + 1 : 0;
-		stIni.paArrvBM = (index.sibling(index.row(), 10).data().toInt() != 0) ? index.sibling(index.row(), 10).data().toInt() / 1000 + 1 : 0;
-		stIni.paArrvEN = (index.sibling(index.row(), 11).data().toInt() != 0) ? index.sibling(index.row(), 11).data().toInt() / 1000 + 1 : 0;
+		stIni.paNextBM = (index.sibling(index.row(), 6).data().toInt()  != 0) ? index.sibling(index.row(), 6).data().toInt()  /*/ 1000*/ + added_duration : 0;
+		stIni.paNextEN = (index.sibling(index.row(), 7).data().toInt()  != 0) ? index.sibling(index.row(), 7).data().toInt()  /*/ 1000*/ + added_duration : 0;
+		stIni.paApprBM = (index.sibling(index.row(), 8).data().toInt()  != 0) ? index.sibling(index.row(), 8).data().toInt()  /*/ 1000*/ + added_duration : 0;
+		stIni.paApprEN = (index.sibling(index.row(), 9).data().toInt()  != 0) ? index.sibling(index.row(), 9).data().toInt()  /*/ 1000*/ + added_duration : 0;
+		stIni.paArrvBM = (index.sibling(index.row(), 10).data().toInt() != 0) ? index.sibling(index.row(), 10).data().toInt() /*/ 1000*/ + added_duration : 0;
+		stIni.paArrvEN = (index.sibling(index.row(), 11).data().toInt() != 0) ? index.sibling(index.row(), 11).data().toInt() /*/ 1000*/ + added_duration : 0;
 		
 		if (stIni.hasExchange == 1) // 1 = true
 		{
-			stIni.paExchangeBM = index.sibling(index.row(), 12).data().toInt() / 1000 + 1;
-			stIni.paExchangeEN = index.sibling(index.row(), 13).data().toInt() / 1000 + 1;
+			stIni.paExchangeBM = index.sibling(index.row(), 12).data().toInt() /*/ 1000*/ + added_duration;
+			stIni.paExchangeEN = index.sibling(index.row(), 13).data().toInt() /*/ 1000*/ + added_duration;
 		}
 		else
 		{
@@ -1081,7 +1106,7 @@ void kvmrt2_media_editor::onAudioSyncDuration()
 				+ index.sibling(index.row(), 14).data().toInt() // audio file 2 duration (ms)
 				+ index.sibling(index.row(), 17).data().toInt() // audio file 3 duration (ms)
 				+ index.sibling(index.row(), 20).data().toInt() // audio file 4 duration (ms)
-				) / 1000 + 1;
+				) /*/ 1000*/ + added_duration;
 
 
 		audioListInfo st = { 0 };
@@ -1672,8 +1697,6 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, AudioStationName)
 
 	QHeaderView *header = GET_TABLE(AudioStationName)->horizontalHeader();
 	header->resizeSections(QHeaderView::ResizeToContents);
-	SET_HIDE_TABLE_COLUMN(AudioStationName, 4);
-	SET_HIDE_TABLE_COLUMN(AudioStationName, 7);
 
 	// audio file column
 	GET_TABLE(AudioStationName)->setItemDelegateForColumn(3, new SQLDelegate(this, &pTM->VECTOR_CLASS(AudioFilePool), 3, 3, TYPE_TEXT));
@@ -1700,11 +1723,6 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, AudioPlayList)
 
 	QHeaderView *header = GET_TABLE(AudioPlayList)->horizontalHeader();
 	header->resizeSections(QHeaderView::ResizeToContents);
-	SET_HIDE_TABLE_COLUMN(AudioPlayList, 6);
-	SET_HIDE_TABLE_COLUMN(AudioPlayList, 10);
-	SET_HIDE_TABLE_COLUMN(AudioPlayList, 13);
-	SET_HIDE_TABLE_COLUMN(AudioPlayList, 16);
-	SET_HIDE_TABLE_COLUMN(AudioPlayList, 19);
 
 	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(4, new comboBoxDelegate(this, &pMM->m_mYesOrNo)); // start bell
 	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(8, new comboBoxDelegate(this, &pMM->m_mYesOrNo)); // with station

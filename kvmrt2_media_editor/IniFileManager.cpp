@@ -154,7 +154,7 @@ void IniFileManager::readAudioListInfoIni()
 	QSettings settings(QString(ME_FOLDER_PATH) + QString(INI_FILE_ME_STNINFO), QSettings::IniFormat);
 
 	settings.beginReadArray("audios");
-	int size = settings.value("size").toInt();
+	const int& size = settings.value("size").toInt();
 	for (int i = 0; i < size; i++)
 	{
 		settings.setArrayIndex(i);
@@ -162,4 +162,5 @@ void IniFileManager::readAudioListInfoIni()
 			<< settings.value("desc").toString() 
 			<< settings.value("duration").toInt();
 	}
+	settings.endArray();
 }
