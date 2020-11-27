@@ -25,7 +25,7 @@ void IniFileManager::setIniManager(IniFileManager * iniManager)
 
 void IniFileManager::createAccountIniFile()
 {
-	QSettings settings(QString(ME_FOLDER_PATH) + QString(INI_FILE_ME_ACCOUNT), QSettings::IniFormat);
+	QSettings settings(QString(ME_APP_PATH) + QString(INI_FILE_ME_ACCOUNT), QSettings::IniFormat);
 	qInfo() << Q_FUNC_INFO << settings.fileName();
 
 	// nimda
@@ -50,7 +50,7 @@ void IniFileManager::loadAccountIniFile()
 
 void IniFileManager::changeAccountPassword(const QString & groupname, const QString & pw)
 {
-	QSettings settings(QString(ME_FOLDER_PATH) + QString(INI_FILE_ME_ACCOUNT), QSettings::IniFormat);
+	QSettings settings(QString(ME_APP_PATH) + QString(INI_FILE_ME_ACCOUNT), QSettings::IniFormat);
 	qInfo() << Q_FUNC_INFO << settings.fileName();
 	settings.beginGroup(groupname);
 	settings.setValue("pw", pw.toLocal8Bit().toBase64());
@@ -59,7 +59,7 @@ void IniFileManager::changeAccountPassword(const QString & groupname, const QStr
 
 const QString IniFileManager::getAccountValue(const QString & keyname)
 {
-	QSettings settings(QString(ME_FOLDER_PATH) + QString(INI_FILE_ME_ACCOUNT), QSettings::IniFormat);
+	QSettings settings(QString(ME_APP_PATH) + QString(INI_FILE_ME_ACCOUNT), QSettings::IniFormat);
 	return settings.value(keyname).toString();
 }
 
@@ -78,7 +78,7 @@ void IniFileManager::setAccountType(const AccountType & accountType)
 
 void IniFileManager::createStationInfoIni()
 {
-	QSettings settings(QString(ME_FOLDER_PATH) + QString(INI_FILE_ME_STNINFO), QSettings::IniFormat);
+	QSettings settings(QString(ME_DATA_PATH) + QString(INI_FILE_ME_STNINFO), QSettings::IniFormat);
 
 	for (auto stIni : m_listStnAudioInfo)
 	{
@@ -105,7 +105,7 @@ void IniFileManager::createStationInfoIni()
 
 void IniFileManager::createPaInfoIni()
 {
-	QSettings settings(QString(ME_FOLDER_PATH) + QString(INI_FILE_ME_STNINFO), QSettings::IniFormat);
+	QSettings settings(QString(ME_DATA_PATH) + QString(INI_FILE_ME_STNINFO), QSettings::IniFormat);
 
 	int index = 0;
 	settings.beginWriteArray("audios");
@@ -141,7 +141,7 @@ void IniFileManager::clearAudioListInfo()
 
 void IniFileManager::readStationInfoIni(const int &stnCode)
 {
-	QSettings settings(QString(ME_FOLDER_PATH) + QString(INI_FILE_ME_STNINFO), QSettings::IniFormat);
+	QSettings settings(QString(ME_DATA_PATH) + QString(INI_FILE_ME_STNINFO), QSettings::IniFormat);
 
 	settings.beginGroup(QString("%1").arg(stnCode));
 	for (auto k : settings.allKeys())
@@ -151,7 +151,7 @@ void IniFileManager::readStationInfoIni(const int &stnCode)
 
 void IniFileManager::readAudioListInfoIni()
 {
-	QSettings settings(QString(ME_FOLDER_PATH) + QString(INI_FILE_ME_STNINFO), QSettings::IniFormat);
+	QSettings settings(QString(ME_DATA_PATH) + QString(INI_FILE_ME_STNINFO), QSettings::IniFormat);
 
 	settings.beginReadArray("audios");
 	const int& size = settings.value("size").toInt();

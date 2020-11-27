@@ -37,9 +37,8 @@ kvmrt2_media_editor::kvmrt2_media_editor(QString & dbPath, QString & currPath, Q
 {
 	ui.setupUi(this);
 
-	setWindowTitle(QString("%1 (v%2)")
-		.arg(QApplication::applicationName())
-		.arg(QApplication::applicationVersion()));
+	setWindowTitle(QString("%1")
+		.arg(QApplication::applicationName()));
 
 	CSQLData::SetLEDIndicatorParam(256, 24, 64, 32); // led size???
 	auto *pDM = CDataManage::GetInstance();
@@ -1487,6 +1486,8 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, StationDistance)
 
 	QHeaderView *header = GET_TABLE(StationDistance)->horizontalHeader();
 	header->resizeSections(QHeaderView::ResizeToContents);
+	header->setStretchLastSection(true);
+
 
 	connect(GET_TABLE_MODEL(pDM, StationDistance).get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(updateStationDistance(const QModelIndex &, const QModelIndex &)));
 
@@ -1634,7 +1635,7 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, EditorTagTable)
 	GET_TABLE(EditorTagTable)->setItemDelegateForColumn(2, new comboBoxDelegate(this, &pMM->m_mMappingVariables));
 
 	QHeaderView *header = GET_TABLE(EditorTagTable)->horizontalHeader();
-	header->resizeSections(QHeaderView::ResizeToContents);
+	//header->resizeSections(QHeaderView::ResizeToContents);
 
 	return false;
 }
@@ -1722,7 +1723,7 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, AudioPlayList)
 	SET_DRAG_AND_DROP_ENABLED(AudioPlayList);
 
 	QHeaderView *header = GET_TABLE(AudioPlayList)->horizontalHeader();
-	header->resizeSections(QHeaderView::ResizeToContents);
+	//header->resizeSections(QHeaderView::ResizeToContents);
 
 	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(4, new comboBoxDelegate(this, &pMM->m_mYesOrNo)); // start bell
 	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(8, new comboBoxDelegate(this, &pMM->m_mYesOrNo)); // with station

@@ -466,6 +466,7 @@ public:
         gridLayout_15->setObjectName(QStringLiteral("gridLayout_15"));
         m_tblAudioStationName = new QTableView(groupBox_12);
         m_tblAudioStationName->setObjectName(QStringLiteral("m_tblAudioStationName"));
+        m_tblAudioStationName->horizontalHeader()->setDefaultSectionSize(130);
 
         gridLayout_15->addWidget(m_tblAudioStationName, 0, 0, 1, 1);
 
@@ -541,6 +542,7 @@ public:
         gridLayout_20->setObjectName(QStringLiteral("gridLayout_20"));
         m_tblEditorTagTable = new QTableView(groupBox);
         m_tblEditorTagTable->setObjectName(QStringLiteral("m_tblEditorTagTable"));
+        m_tblEditorTagTable->horizontalHeader()->setDefaultSectionSize(200);
 
         gridLayout_20->addWidget(m_tblEditorTagTable, 0, 0, 1, 1);
 

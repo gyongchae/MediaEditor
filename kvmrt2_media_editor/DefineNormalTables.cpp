@@ -146,32 +146,32 @@ DECLARE_STATIC_TYPESETTINGS(AudioPlayList, 22) =
 	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),	0,	nullptr,true, false,false, MAKE_T("Table Index"),	100 },
 	{ TYPE_INTEGER,	MAKE_T("TABLE_ORDER"),	0,	nullptr,false,true, false, MAKE_T("Order"),			100 },
 	{ TYPE_INTEGER,	MAKE_T("MESSAGE_ID"),	0,	nullptr,false,false,false, MAKE_T("Message ID"),	200 },
-	{ TYPE_INTEGER,	MAKE_T("PLAY_COUNT"),	0,	nullptr,false,false,false, MAKE_T("Num of Audio"),	200 },
+	{ TYPE_INTEGER,	MAKE_T("PLAY_COUNT"),	0,	nullptr,false,false,false, MAKE_T("Num of Audio"),	100 },
 
 	{ TYPE_INTEGER,	MAKE_T("BELL_ALARM"),	0,	nullptr,false,false,false, MAKE_T("Alaram Bell"),	200 },
-	{ TYPE_INTEGER,	MAKE_T("BELL_INDEX"),	0,	nullptr,false,false,false, MAKE_T("Bell Idx"),	200 },
-	{ TYPE_TEXT,	MAKE_T("BELL_NAME"),	128,nullptr,false,false,false, MAKE_T("Bell Name"),		400 },
-	{ TYPE_INTEGER,	MAKE_T("BELL_DURATION"),0,	nullptr,false,false,false, MAKE_T("Bell Duration"),	200 },
+	{ TYPE_INTEGER,	MAKE_T("BELL_INDEX"),	0,	nullptr,false,false,false, MAKE_T("Bell Idx"),		200 },
+	{ TYPE_TEXT,	MAKE_T("BELL_NAME"),	128,nullptr,false,false,false, MAKE_T("Bell Name"),		100 },
+	{ TYPE_INTEGER,	MAKE_T("BELL_DURATION"),0,	nullptr,false,false,false, MAKE_T("Bell Duration"),	100 },
 
 	{ TYPE_INTEGER,	MAKE_T("STATION_PA"),	0,	nullptr,false,false,false, MAKE_T("Station PA"),	200 },
 
 	{ TYPE_INTEGER,	MAKE_T("AUDIO_IDX1"),	0,	nullptr,false,false,false, MAKE_T("1st Audio"),		400 },
-	{ TYPE_TEXT,	MAKE_T("AUDIO_FILE1"),	128,nullptr,false,false,false, MAKE_T("(File1)"),		400 },
-	{ TYPE_INTEGER,	MAKE_T("AUDIO_DUR1"),	0,	nullptr,false,false,false, MAKE_T("Duration1"),		400 },
+	{ TYPE_TEXT,	MAKE_T("AUDIO_FILE1"),	128,nullptr,false,false,false, MAKE_T("(File1)"),		100 },
+	{ TYPE_INTEGER,	MAKE_T("AUDIO_DUR1"),	0,	nullptr,false,false,false, MAKE_T("Duration1"),		100 },
 
 	{ TYPE_INTEGER,	MAKE_T("AUDIO_IDX2"),	0,	nullptr,false,false,false, MAKE_T("2nd Audio"),		400 },
-	{ TYPE_TEXT,	MAKE_T("AUDIO_FILE2"),	128,nullptr,false,false,false, MAKE_T("(File2)"),		400 },
-	{ TYPE_INTEGER,	MAKE_T("AUDIO_DUR2"),	0,	nullptr,false,false,false, MAKE_T("Duration2"),		400 },
+	{ TYPE_TEXT,	MAKE_T("AUDIO_FILE2"),	128,nullptr,false,false,false, MAKE_T("(File2)"),		100 },
+	{ TYPE_INTEGER,	MAKE_T("AUDIO_DUR2"),	0,	nullptr,false,false,false, MAKE_T("Duration2"),		100 },
 	
 	{ TYPE_INTEGER,	MAKE_T("AUDIO_IDX3"),	0,	nullptr,false,false,false, MAKE_T("3rd Audio"),		400 },
-	{ TYPE_TEXT,	MAKE_T("AUDIO_FILE3"),	128,nullptr,false,false,false, MAKE_T("(File3)"),		400 },
-	{ TYPE_INTEGER,	MAKE_T("AUDIO_DUR3"),	0,	nullptr,false,false,false, MAKE_T("Duration3"),		400 },
+	{ TYPE_TEXT,	MAKE_T("AUDIO_FILE3"),	128,nullptr,false,false,false, MAKE_T("(File3)"),		100 },
+	{ TYPE_INTEGER,	MAKE_T("AUDIO_DUR3"),	0,	nullptr,false,false,false, MAKE_T("Duration3"),		100 },
 	
 	{ TYPE_INTEGER,	MAKE_T("AUDIO_IDX4"),	0,	nullptr,false,false,false, MAKE_T("4th Audio"),		400 },
-	{ TYPE_TEXT,	MAKE_T("AUDIO_FILE4"),	128,nullptr,false,false,false, MAKE_T("(File4)"),		400 },
-	{ TYPE_INTEGER,	MAKE_T("AUDIO_DUR4"),	0,	nullptr,false,false,false, MAKE_T("Duration4"),		400 },
+	{ TYPE_TEXT,	MAKE_T("AUDIO_FILE4"),	128,nullptr,false,false,false, MAKE_T("(File4)"),		100 },
+	{ TYPE_INTEGER,	MAKE_T("AUDIO_DUR4"),	0,	nullptr,false,false,false, MAKE_T("Duration4"),		100 },
 	
-	{ TYPE_TEXT,	MAKE_T("DESCRIPTION"),	128,nullptr,false,false,false, MAKE_T("Description"),		400 },
+	{ TYPE_TEXT,	MAKE_T("DESCRIPTION"),	128,nullptr,false,false,false, MAKE_T("Description"),	400 },
 };
 
 DECLARE_STATIC_VARIABLES(VideoDeviceGroup, false, VIDEO_DEVICE_GROUP, -1, 1, 0)
@@ -199,9 +199,9 @@ DECLARE_STATIC_TYPESETTINGS(VideoPlayList, 7) =
 DECLARE_STATIC_VARIABLES(EditorTagTable, false, EDITOR_TAG_TABLE, -1, 3, 0)
 DECLARE_STATIC_TYPESETTINGS(EditorTagTable, 4) =
 {
-	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),	0,	nullptr,true, false,false, MAKE_T("Table Index"),	100 },
-	{ TYPE_TEXT,	MAKE_T("DESCRIPTION"),	128,nullptr,false,false,false, MAKE_T("Tag Name"),		100 },
-	{ TYPE_INTEGER,	MAKE_T("VARIABLE"),		0,	nullptr,false,false,false, MAKE_T("Tag Type"),		100 },
+	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),	0,	nullptr,true, false,false, MAKE_T("Table Index"),	400 },
+	{ TYPE_TEXT,	MAKE_T("DESCRIPTION"),	128,nullptr,false,false,false, MAKE_T("Tag Name"),		400 },
+	{ TYPE_INTEGER,	MAKE_T("VARIABLE"),		0,	nullptr,false,false,false, MAKE_T("Tag Type"),		600 },
 	{ TYPE_INTEGER,	MAKE_T("TABLE_ORDER"),	0,	nullptr,false, true,false, MAKE_T("Order"),			100 },
 };
 

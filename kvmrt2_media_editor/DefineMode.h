@@ -3,8 +3,9 @@
 const bool OFFICIAL_RELEASE = true;
 
 
-#define ME_FOLDER_PATH "C:/PapisProgram/MediaEditor/"
-#define ME_LOG_FOLDER_PATH "C:/PapisProgram/MediaEditor/Logs/"
+#define ME_APP_PATH "C:/PapisProgram/MediaEditor/"
+#define ME_LOG_PATH "C:/PapisProgram/MediaEditor/Logs/"
+#define ME_DATA_PATH "C:/PapisProgram/PapisData/"
 
 #define INI_FILE_ME_DEFAULT "medefault.ini"
 #define INI_FILE_ME_ACCOUNT "meaccount.ini"
@@ -19,7 +20,6 @@ const bool OFFICIAL_RELEASE = true;
 #else
 #define WIZARD_FILE_PATH "C:/PapisProgram/FileUpload/UploadWizard2.exe"
 #endif //USING_DEBUG_WIZARD
-
 
 enum AccountType
 {
