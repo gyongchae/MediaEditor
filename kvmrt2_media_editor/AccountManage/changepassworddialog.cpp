@@ -63,7 +63,7 @@ ChangePasswordDialog::~ChangePasswordDialog()
 void ChangePasswordDialog::initDlg()
 {
 	// window icon
-	setWindowIcon(QIcon(QString(ME_FOLDER_PATH) + QString("Res/Free/Moon-dreamy.ico")));
+	setWindowIcon(QIcon(QString(ME_APP_PATH) + QString("Res/Free/Moon-dreamy.ico")));
 
 	// get ID from ini file 
 	ui.comboAccount->addItem(INIMANAGER->getAccountValue("Admin/id"));

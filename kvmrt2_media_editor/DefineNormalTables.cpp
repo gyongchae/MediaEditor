@@ -1,27 +1,28 @@
 #include "DefineNormalTables.h"
 
+
 DECLARE_STATIC_VARIABLES(StationInformation, false, STATION_INFORMATION, -1, 5, 0)
 DECLARE_STATIC_TYPESETTINGS(StationInformation, 19) =
 {
 	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),			0,	nullptr,true,	false,	false,	MAKE_T("Table Index"),			100 },
 	{ TYPE_INTEGER,	MAKE_T("STATION_CODE"),			0,	nullptr,false,	false,	false,	MAKE_T("Station Code"),			100 },
-	{ TYPE_TEXT,	MAKE_T("STATION_NAME1"),		128,nullptr,false,	false,	false,	MAKE_T("Station Name"),			100 },
-	{ TYPE_TEXT,	MAKE_T("STATION_NAME2"),		128,nullptr,false,	false,	false,	MAKE_T("Station Name2"),		100 },
+	{ TYPE_TEXT,	MAKE_T("STATION_NAME1"),		128,nullptr,false,	false,	false,	MAKE_T("Station Name (Full)"),			100 },
+	{ TYPE_TEXT,	MAKE_T("STATION_NAME2"),		128,nullptr,false,	false,	false,	MAKE_T("Station Name (Short)"),		100 },
 	{ TYPE_TEXT,	MAKE_T("DESCRIPTION"),			256,nullptr,false,	false,	false,	MAKE_T("Description"),			100 },
 	{ TYPE_INTEGER,	MAKE_T("TABLE_ORDER"),			0,	nullptr,false,	true,	false,	MAKE_T("Order"),				100 },
-	{ TYPE_INTEGER,	MAKE_T("ROUTEMAP_STN_IDX"),		0,	nullptr,false,	false,	false,	MAKE_T("Route Map Station"),	100 },
-	{ TYPE_INTEGER,	MAKE_T("ROUTEMAP_TRANSFER_IDX"),0,	nullptr,false,	false,	false,	MAKE_T("Route Map Transfer"),	100 },
-	{ TYPE_INTEGER,	MAKE_T("DRM_CURR_STN_IDX"),		0,	nullptr,false,	false,	false,	MAKE_T("DRMD Current Station"),	100 },
-	{ TYPE_INTEGER,	MAKE_T("DRM_NEXT_STN_IDX"),		0,	nullptr,false,	false,	false,	MAKE_T("DRMD Next Station"),	100 },
-	{ TYPE_INTEGER,	MAKE_T("DRM_CURR_TANSFER_IDX"), 0,	nullptr,false,	false,	false,	MAKE_T("DRMD Current Transfer"),100 },
-	{ TYPE_INTEGER,	MAKE_T("DRM_NEXT_TANSFER_IDX"), 0,	nullptr,false,	false,	false,	MAKE_T("DRMD Next Transfer"),	100 },
-	{ TYPE_INTEGER,	MAKE_T("DRM_DESTINATION_IDX"),	0,	nullptr,false,	false,	false,	MAKE_T("DRMD Destination"),		100 },
-	{ TYPE_INTEGER,	MAKE_T("PID_CURR_STN_IDX"),		0,	nullptr,false,	false,	false,	MAKE_T("PID Current Station"),	100 },
-	{ TYPE_INTEGER,	MAKE_T("PID_NEXT_STN_IDX"),		0,	nullptr,false,	false,	false,	MAKE_T("PID Next Station"),		100 },
-	{ TYPE_INTEGER,	MAKE_T("PID_CURR_TANSFER_IDX"), 0,	nullptr,false,	false,	false,	MAKE_T("PID Current Transfer"),	100 },
-	{ TYPE_INTEGER,	MAKE_T("PID_NEXT_TANSFER_IDX"), 0,	nullptr,false,	false,	false,	MAKE_T("PID Next Transfer"),	100 },
-	{ TYPE_INTEGER,	MAKE_T("PID_DESTINATION_IDX"),	0,	nullptr,false,	false,	false,	MAKE_T("PID Destination"),		100 },
-	{ TYPE_INTEGER,	MAKE_T("LED_INDEX"),			0,	nullptr,false,	false,	false,	MAKE_T("FDI & SDI Indicator"),	100 },
+	{ TYPE_INTEGER,	MAKE_T("DUR_NEXT_BM"),		0,	nullptr,false,	false,	false,	MAKE_T("Next BM"),	100 },
+	{ TYPE_INTEGER,	MAKE_T("DUR_NEXT_EN"),		0,	nullptr,false,	false,	false,	MAKE_T("Next EN"),	100 },
+	{ TYPE_INTEGER,	MAKE_T("DUR_ARRIVING_BM"),	0,	nullptr,false,	false,	false,	MAKE_T("Arriving BM"),	100 },
+	{ TYPE_INTEGER,	MAKE_T("DUR_ARRIVING_EN"),	0,	nullptr,false,	false,	false,	MAKE_T("Arriving EN"),	100 },
+	{ TYPE_INTEGER,	MAKE_T("DUR_ARRIVAL_BM"),	0,	nullptr,false,	false,	false,	MAKE_T("Arrival BM"),100 },
+	{ TYPE_INTEGER,	MAKE_T("DUR_ARRIVAL_EN"),	0,	nullptr,false,	false,	false,	MAKE_T("Arrival EN"),	100 },
+	{ TYPE_INTEGER,	MAKE_T("DUR_EXCHANGE_BM"),	0,	nullptr,false,	false,	false,	MAKE_T("Exchange BM"),		100 },
+	{ TYPE_INTEGER,	MAKE_T("DUR_EXCHANGE_EN"),	0,	nullptr,false,	false,	false,	MAKE_T("Exchange EN"),	100 },
+	{ TYPE_INTEGER,	MAKE_T("HAS_EXCHANGE"),		0,	nullptr,false,	false,	false,	MAKE_T("Has Exchange"),		100 },
+	{ TYPE_INTEGER,	MAKE_T("IS_PROVISIONAL"),		0,	nullptr,false,	false,	false,	MAKE_T("Provisional"),	100 },
+	{ TYPE_INTEGER,	MAKE_T("APPR_PA_DISTANCE"), 0,	nullptr,false,	false,	false,	MAKE_T("Arriving PA Distance"),	100 },
+	{ TYPE_INTEGER,	MAKE_T("SPARE1"), 0,	nullptr,false,	false,	false,	MAKE_T("Spare1"),	100 },
+	{ TYPE_INTEGER,	MAKE_T("SPARE2"), 0,	nullptr,false,	false,	false,	MAKE_T("Spare2"),	100 },
 };
 
 DECLARE_STATIC_VARIABLES(StationDistance, false, STATION_DISTANCE, -1, 5, 0)
@@ -60,7 +61,7 @@ DECLARE_STATIC_TYPESETTINGS(StopPtnHeader, 7) =
 	{ TYPE_TEXT,	MAKE_T("DESCRIPTION"),		256,nullptr,false,false,false, MAKE_T("Description"),		100 },
 	{ TYPE_INTEGER,	MAKE_T("LINE_MAP_INDEX"),	0,	nullptr,false,false,false, MAKE_T("Route Map Index"),	100 },
 	{ TYPE_INTEGER,	MAKE_T("TABLE_ORDER"),		0,	nullptr,false,true, false, MAKE_T("Order"),				100 },
-	{ TYPE_INTEGER,	MAKE_T("DRIVE_MODE"),	0,	nullptr,false,false,false, MAKE_T("Drive Mode"),	100 },
+	{ TYPE_INTEGER,	MAKE_T("BOUND"),			0,	nullptr,false,false,false, MAKE_T("Bound"),	100 },
 
 };
 
@@ -125,27 +126,52 @@ DECLARE_STATIC_TYPESETTINGS(PIDIndexList, 4) =
 	{ TYPE_INTEGER,MAKE_T("CONTENTS_POOL_INDEX"),	0,nullptr,false,false,false, MAKE_T("Display Item Index"), 100 },
 };
 
-DECLARE_STATIC_VARIABLES(AudioStationName, false, STATION_NAME_AUDIO, -1, 1, 0)
-DECLARE_STATIC_TYPESETTINGS(AudioStationName, 5) =
+DECLARE_STATIC_VARIABLES(AudioStationName, false, AUDIO_STATION_NAME, -1, 1, 0)
+DECLARE_STATIC_TYPESETTINGS(AudioStationName, 9) =
 {
 	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),	0,	nullptr,true, false,false, MAKE_T("Table Index"),	100 },
 	{ TYPE_INTEGER,	MAKE_T("TABLE_ORDER"),	0,	nullptr,false,true, false, MAKE_T("Order"),			100 },
 	{ TYPE_INTEGER,	MAKE_T("MESSAGE_ID"),	0,	nullptr,false,false,false, MAKE_T("Message ID"),	200 },
-	{ TYPE_TEXT,	MAKE_T("FILE_NAME"),	128,nullptr,false,false,false, MAKE_T("File Name"),		400 },
-	{ TYPE_TEXT,	MAKE_T("DESCRIPTION"),	128,nullptr,false,false,false, MAKE_T("Description"),	400 },
+	{ TYPE_INTEGER,	MAKE_T("AUDIO_IDX1"),	0,	nullptr,false,false,false, MAKE_T("Audio (BM)"),	200 },
+	{ TYPE_TEXT,	MAKE_T("AUDIO_FILE1"),128,	nullptr,false,false,false, MAKE_T("(Audio BM)"),	400 },
+	{ TYPE_INTEGER,	MAKE_T("AUDIO_DUR1"),	0,	nullptr,false,false,false, MAKE_T("Druation (BM)"),	200 },
+	{ TYPE_INTEGER,	MAKE_T("AUDIO_IDX2"),	0,	nullptr,false,false,false, MAKE_T("Audio (Eng)"),	200 },
+	{ TYPE_TEXT,	MAKE_T("AUDIO_FILE2"),128,	nullptr,false,false,false, MAKE_T("(Audio Eng)"),	400 },
+	{ TYPE_INTEGER,	MAKE_T("AUDIO_DUR2"),	0,	nullptr,false,false,false, MAKE_T("Druation (BM)"),	200 },
 };
 
-DECLARE_STATIC_VARIABLES(AudioTotal, false, TOTAL_AUDIO, -1, 1, 0)
-DECLARE_STATIC_TYPESETTINGS(AudioTotal, 8) =
+DECLARE_STATIC_VARIABLES(AudioPlayList, false, AUDIO_PLAY_LIST, -1, 1, 0)
+DECLARE_STATIC_TYPESETTINGS(AudioPlayList, 22) =
 {
-	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),	0,	nullptr,true, false,false, MAKE_T("Table Index"),		100 },
-	{ TYPE_INTEGER,	MAKE_T("TABLE_ORDER"),	0,	nullptr,false,true, false, MAKE_T("Order"),				100 },
-	{ TYPE_INTEGER,	MAKE_T("MESSAGE_ID"),	0,	nullptr,false,false,false, MAKE_T("Message ID"),		200 },
-	{ TYPE_INTEGER,	MAKE_T("MESSAGE_TYPE"),	0,	nullptr,false,false,false, MAKE_T("Message Type"),		200 },
-	{ TYPE_TEXT,	MAKE_T("BM_AUDIO_NAME"),128,nullptr,false,false,false, MAKE_T("Audio (BM)"),		400 },
-	{ TYPE_TEXT,	MAKE_T("EN_AUDIO_NAME"),128,nullptr,false,false,false, MAKE_T("Audio (ENG)"),		400 },
-	{ TYPE_INTEGER,	MAKE_T("TOTAL_COUNT"),	0,	nullptr,false,false,false, MAKE_T("Play with Station"), 200 },
-	{ TYPE_TEXT,	MAKE_T("DESCRIPTION"),	128,nullptr,false,false,false, MAKE_T("Description"),		400 },
+	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),	0,	nullptr,true, false,false, MAKE_T("Table Index"),	100 },
+	{ TYPE_INTEGER,	MAKE_T("TABLE_ORDER"),	0,	nullptr,false,true, false, MAKE_T("Order"),			100 },
+	{ TYPE_INTEGER,	MAKE_T("MESSAGE_ID"),	0,	nullptr,false,false,false, MAKE_T("Message ID"),	200 },
+	{ TYPE_INTEGER,	MAKE_T("PLAY_COUNT"),	0,	nullptr,false,false,false, MAKE_T("Num of Audio"),	100 },
+
+	{ TYPE_INTEGER,	MAKE_T("BELL_ALARM"),	0,	nullptr,false,false,false, MAKE_T("Alaram Bell"),	200 },
+	{ TYPE_INTEGER,	MAKE_T("BELL_INDEX"),	0,	nullptr,false,false,false, MAKE_T("Bell Idx"),		200 },
+	{ TYPE_TEXT,	MAKE_T("BELL_NAME"),	128,nullptr,false,false,false, MAKE_T("Bell Name"),		100 },
+	{ TYPE_INTEGER,	MAKE_T("BELL_DURATION"),0,	nullptr,false,false,false, MAKE_T("Bell Duration"),	100 },
+
+	{ TYPE_INTEGER,	MAKE_T("STATION_PA"),	0,	nullptr,false,false,false, MAKE_T("Station PA"),	200 },
+
+	{ TYPE_INTEGER,	MAKE_T("AUDIO_IDX1"),	0,	nullptr,false,false,false, MAKE_T("1st Audio"),		400 },
+	{ TYPE_TEXT,	MAKE_T("AUDIO_FILE1"),	128,nullptr,false,false,false, MAKE_T("(File1)"),		100 },
+	{ TYPE_INTEGER,	MAKE_T("AUDIO_DUR1"),	0,	nullptr,false,false,false, MAKE_T("Duration1"),		100 },
+
+	{ TYPE_INTEGER,	MAKE_T("AUDIO_IDX2"),	0,	nullptr,false,false,false, MAKE_T("2nd Audio"),		400 },
+	{ TYPE_TEXT,	MAKE_T("AUDIO_FILE2"),	128,nullptr,false,false,false, MAKE_T("(File2)"),		100 },
+	{ TYPE_INTEGER,	MAKE_T("AUDIO_DUR2"),	0,	nullptr,false,false,false, MAKE_T("Duration2"),		100 },
+	
+	{ TYPE_INTEGER,	MAKE_T("AUDIO_IDX3"),	0,	nullptr,false,false,false, MAKE_T("3rd Audio"),		400 },
+	{ TYPE_TEXT,	MAKE_T("AUDIO_FILE3"),	128,nullptr,false,false,false, MAKE_T("(File3)"),		100 },
+	{ TYPE_INTEGER,	MAKE_T("AUDIO_DUR3"),	0,	nullptr,false,false,false, MAKE_T("Duration3"),		100 },
+	
+	{ TYPE_INTEGER,	MAKE_T("AUDIO_IDX4"),	0,	nullptr,false,false,false, MAKE_T("4th Audio"),		400 },
+	{ TYPE_TEXT,	MAKE_T("AUDIO_FILE4"),	128,nullptr,false,false,false, MAKE_T("(File4)"),		100 },
+	{ TYPE_INTEGER,	MAKE_T("AUDIO_DUR4"),	0,	nullptr,false,false,false, MAKE_T("Duration4"),		100 },
+	
+	{ TYPE_TEXT,	MAKE_T("DESCRIPTION"),	128,nullptr,false,false,false, MAKE_T("Description"),	400 },
 };
 
 DECLARE_STATIC_VARIABLES(VideoDeviceGroup, false, VIDEO_DEVICE_GROUP, -1, 1, 0)
@@ -173,13 +199,14 @@ DECLARE_STATIC_TYPESETTINGS(VideoPlayList, 7) =
 DECLARE_STATIC_VARIABLES(EditorTagTable, false, EDITOR_TAG_TABLE, -1, 3, 0)
 DECLARE_STATIC_TYPESETTINGS(EditorTagTable, 4) =
 {
-	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),	0,	nullptr,true, false,false, MAKE_T("Table Index"),	100 },
-	{ TYPE_TEXT,	MAKE_T("DESCRIPTION"),	128,nullptr,false,false,false, MAKE_T("Tag Name"),		100 },
-	{ TYPE_INTEGER,	MAKE_T("VARIABLE"),		0,	nullptr,false,false,false, MAKE_T("Tag Type"),		100 },
+	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),	0,	nullptr,true, false,false, MAKE_T("Table Index"),	400 },
+	{ TYPE_TEXT,	MAKE_T("DESCRIPTION"),	128,nullptr,false,false,false, MAKE_T("Tag Name"),		400 },
+	{ TYPE_INTEGER,	MAKE_T("VARIABLE"),		0,	nullptr,false,false,false, MAKE_T("Tag Type"),		600 },
 	{ TYPE_INTEGER,	MAKE_T("TABLE_ORDER"),	0,	nullptr,false, true,false, MAKE_T("Order"),			100 },
 };
 
-DECLARE_STATIC_VARIABLES(OPDataVersion, false, VIDEOFILE_VERSION, -1, -1, 0)
+// should be changed table name to DATA_VERSION
+DECLARE_STATIC_VARIABLES(OPDataVersion, false, DATA_VERSION, -1, -1, 0)
 DECLARE_STATIC_TYPESETTINGS(OPDataVersion, 5) =
 {
 	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),	 0,	 nullptr,true, false,false, MAKE_T("Table Index"),	100 },

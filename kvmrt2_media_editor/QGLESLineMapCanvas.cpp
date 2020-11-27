@@ -14,7 +14,7 @@
 QGLESLineMapCanvas::QGLESLineMapCanvas(QWidget * parent)
 	: QOpenGLWidget(parent), m_nWidth(0), m_nHeight(0),
 	m_eEditMode(EDIT_TILE_MAP), m_nLineWidth(0), m_nCellSize(0), m_pLinkMenu(0), m_nSelectedArrow(-1),
-	m_nSelectedNode(-1), m_bCtrlKeyPressed(false), m_bPressed(false), m_eCurrentStnState(0), m_nCurTime(0), m_fOffsetX(0), m_fOffsetY(0), m_nDispItemSelected(0)
+	m_nSelectedNode(-1), m_bCtrlKeyPressed(false), m_bPressed(false), m_eCurrentStnState(0), m_nCurTime(0), m_fOffsetX(0), m_fOffsetY(0), m_nSelectedDispItem(0)
 {
 	memset(m_uVBOsID, 0, sizeof(m_uVBOsID));
 	setCurrentStationState(0);
@@ -26,7 +26,7 @@ QGLESLineMapCanvas::QGLESLineMapCanvas(QWidget * parent)
 QGLESLineMapCanvas::QGLESLineMapCanvas(int nRow, QWidget *parent)
 	: QOpenGLWidget(parent), m_nWidth(0), m_nHeight(0), m_nRow(nRow),
 	m_eEditMode(EDIT_TILE_MAP),m_nLineWidth(0), m_nCellSize(0), m_pLinkMenu(0), m_nSelectedArrow(-1),
-	m_nSelectedNode(-1), m_bCtrlKeyPressed(false), m_bPressed(false), m_eCurrentStnState(0), m_nCurTime(0),m_fOffsetX(0),m_fOffsetY(0), m_nDispItemSelected(0)
+	m_nSelectedNode(-1), m_bCtrlKeyPressed(false), m_bPressed(false), m_eCurrentStnState(0), m_nCurTime(0),m_fOffsetX(0),m_fOffsetY(0), m_nSelectedDispItem(0)
 {
 	memset(m_uVBOsID, 0,sizeof(m_uVBOsID));
 	setCurrentStationState(0);
@@ -126,7 +126,7 @@ void QGLESLineMapCanvas::initializeGL()
 	initLinkMenu();
 	initNodeMenu();
 	initArrowMenu();
-	initDisplayItem();
+	initDispItemMenu();
 	//reorderAllTimeLine();
 }
 
@@ -602,14 +602,6 @@ void QGLESLineMapCanvas::initBaseData(int nMapIndex)
 	glBindBuffer(GL_ARRAY_BUFFER, m_uVBOsID[2]);
 	glBufferData(GL_ARRAY_BUFFER, 100000 * sizeof(GLfloat), 0, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-
-
-
-
-
-
-
 
 	std::for_each(pTM->m_vStationImagePool.begin(), pTM->m_vStationImagePool.end(), [bitmapCheck, &vTexture, &nTextureRegisterIndex, &nVertexOrder, &nCurMaxHeight, &nWidthLimit, &nHeightLimit, &nBytesPerLine, &nBytesPerPixel, &nCurX, &nCurY, &nMaxHeight](std::shared_ptr<CSQLData> &pData)
 	{

@@ -32,9 +32,10 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>$(SolutionDir)extern\freetype-2.7.1\include;$(SolutionDir)extern\SFML-2.4.1-build\include;$(IncludePath);$(SolutionDir)include;$(SolutionDir)extern\glfw-2.7.6\include</IncludePath>
-    <LibraryPath>$(SolutionDir)extern\freetype-2.7.1\objs\win32\vc2008;$(SolutionDir)extern\SFML-2.4.1-build\lib\Release;$(SolutionDir)extern\SFML-2.4.1-build\lib\Debug;$(LibraryPath);$(SolutionDir)extern\glfw-2.7.6\support\msvc100\Debug;$(SolutionDir)lib</LibraryPath>
-    <ExecutablePath>$(VC_ExecutablePath_x86);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH)</ExecutablePath>
+    <IncludePath>C:\Program Files %28x86%29\taglib\include\taglib;$(SolutionDir)extern\freetype-2.7.1\include;$(SolutionDir)extern\SFML-2.4.1-build\include;$(IncludePath);$(SolutionDir)include;$(SolutionDir)extern\glfw-2.7.6\include</IncludePath>
+    <LibraryPath>$(SolutionDir)extern\freetype-2.7.1\objs\win32\vc2008;$(SolutionDir)extern\SFML-2.4.1-build\lib\Release;$(SolutionDir)extern\SFML-2.4.1-build\lib\Debug;$(LibraryPath);$(SolutionDir)extern\glfw-2.7.6\support\msvc100\Debug;$(SolutionDir)lib;C:\Program Files %28x86%29\taglib\lib</LibraryPath>
+    <ExecutablePath>$(VC_ExecutablePath_x86);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);C:\Program Files (x86)\taglib\include</ExecutablePath>
+    <ExtensionsToDeleteOnClean>*.dll;$(ExtensionsToDeleteOnClean)</ExtensionsToDeleteOnClean>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
@@ -71,7 +72,7 @@
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5OpenGLd.lib;opengl32.lib;glu32.lib;Qt5Widgetsd.lib;Qt5Sqld.lib;Qt5Concurrentd.lib;Qt5WinExtrasd.lib;Qt5OpenGLExtensionsd.lib;Qt5Multimediad.lib;Qt5MultimediaWidgetsd.lib;GLFW.lib;GLFWDLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\Users\yaho\OneDrive\Library\zlib128-dll\lib\zdll.lib;C:\Program Files (x86)\taglib\lib\tag.lib;qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5OpenGLd.lib;opengl32.lib;glu32.lib;Qt5Widgetsd.lib;Qt5Sqld.lib;Qt5Concurrentd.lib;Qt5WinExtrasd.lib;Qt5OpenGLExtensionsd.lib;Qt5Multimediad.lib;Qt5MultimediaWidgetsd.lib;GLFW.lib;GLFWDLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
@@ -87,6 +88,12 @@
       <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
       <OutputFile>.\GeneratedFiles\qrc_%(Filename).cpp</OutputFile>
     </QtRcc>
+    <PostBuildEvent>
+      <Command>XCOPY "$(SolutionDir)"lib\*.dll "$(TargetDir)" /D /K /Y</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copy dlls to target</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

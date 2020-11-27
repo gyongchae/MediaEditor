@@ -3371,7 +3371,7 @@ int unzGoToNextFile (unzFile file)
 }
 
 
-//  Try locate the file szFileName in the zipfile.
+//  Try locate the file szFileName1 in the zipfile.
 //  For the iCaseSensitivity signification, see unzStringFileNameCompare
 //  return value :
 //  UNZ_OK if the file is found. It becomes the current file.

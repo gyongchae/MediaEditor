@@ -50,6 +50,8 @@ enum
 	STATION_LEFT=1,
 	STATION_FOCUSED,
 	STATION_PASSED,
+	STATION_SKIPPED,
+	STATION_UNUSED
 };
 
 enum
@@ -163,7 +165,13 @@ public:
 	void setBoundRectangle(LineMapDisplayItem *pLMDI);
 	bool isPtInItemBound(LineMapDisplayItem *pItem, int nX, int nY, GLfloat *pX, GLfloat *pY);
 	GLfloat m_fOffsetX,m_fOffsetY;
-	int m_nDispItemSelected;
+
+	// display item menu
+	QMenu *m_pDispItemMenu = nullptr;
+	int m_nSelectedDispItem = -1;
+	void initDispItemMenu();
+	void editDisplayItem(int idx);
+	void deleteDisplayItem(int nIdx);
 
 private:
 	//VBO Backup

@@ -257,11 +257,11 @@ END_MAPPING_MEMBERS
 // !fields
 	bool bSelected{ false };
 	bool bContains{ false };
-	GLfloat m_fRect[3][4]{ 0.5f };
-	GLfloat m_fOrigin[3][2]{ 0.5f };
+	GLfloat m_fRect[3][4]{ { 0.5f } };
+	GLfloat m_fOrigin[3][2]{ { 0.5f } };
 	int nPrevCenterSpot[3]{ 0 };
-	GLfloat m_fSRect[3][4]{ 0.5f };
-	GLfloat m_fSOrigin[3][2]{ 0.5f };
+	GLfloat m_fSRect[3][4]{ { 0.5f } };
+	GLfloat m_fSOrigin[3][2]{ { 0.5f } };
 	int nSPrevCenterSpot[3]{ 0 };
 
 void SetOrigin(int nState,int nOrigin)

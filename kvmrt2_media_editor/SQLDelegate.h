@@ -13,7 +13,7 @@ class SQLDelegate : public QItemDelegate
 	Q_OBJECT
 
 public:
-	enum delegatetype {DEFAULT, TEXT_IMAGE, BITMAP_IMAGE, AUDIO_NAME};
+	enum delegatetype {DEFAULT_TYPE, TEXT_IMAGE_TYPE, BITMAP_IMAGE_TYPE, AUDIO_FILE_IDX_TYPE};
 	SQLDelegate(QObject *parent, std::vector<std::shared_ptr<CSQLData>> *pvSQL, int nSocCol, int nDesCol, TYPEDEFINE eDesType, bool bCreated = false);
 	SQLDelegate(delegatetype type, QObject *parent,std::vector<std::shared_ptr<CSQLData>> *pvSQL,int nSocCol,int nDesCol,TYPEDEFINE eDesType,bool bCreated=false);
 	~SQLDelegate();
@@ -29,7 +29,7 @@ public:
 	bool m_bCreated;
 
 private:
-	delegatetype m_type{ DEFAULT };
+	delegatetype m_type{ DEFAULT_TYPE };
 
 private slots:		
 	void commitAndCloseEditor();

@@ -77,7 +77,7 @@ void CTableManage::LoadDatabase()
 	CREATE_EDITOR_CLASS_FOR_CLASS(PIDContents)
 	CREATE_EDITOR_CLASS_FOR_CLASS(PIDIndexList)
 	CREATE_EDITOR_CLASS_FOR_CLASS(AudioStationName);
-	CREATE_EDITOR_CLASS_FOR_CLASS(AudioTotal);
+	CREATE_EDITOR_CLASS_FOR_CLASS(AudioPlayList);
 	CREATE_EDITOR_CLASS_FOR_CLASS(VideoDeviceGroup);
 	CREATE_EDITOR_CLASS_FOR_CLASS(VideoPlayList);
 	CREATE_EDITOR_CLASS_FOR_CLASS(EditorTagTable);
@@ -117,7 +117,7 @@ void CTableManage::LoadDatabase()
 
 	INIT_EDITORCLASS(PIDContents, m_dbSource);
 	INIT_EDITORCLASS(AudioStationName, m_dbSource);
-	INIT_EDITORCLASS(AudioTotal, m_dbSource);
+	INIT_EDITORCLASS(AudioPlayList, m_dbSource);
 	INIT_EDITORCLASS(VideoDeviceGroup, m_dbSource);
 	INIT_EDITORCLASS(EditorTagTable, m_dbSource);
 
@@ -186,7 +186,7 @@ void CTableManage::SaveModified()
 
 	SAVEDATA_FOR_CLASS(PIDContents);
 	SAVEDATA_FOR_CLASS(AudioStationName);
-	SAVEDATA_FOR_CLASS(AudioTotal);
+	SAVEDATA_FOR_CLASS(AudioPlayList);
 	SAVEDATA_FOR_CLASS(VideoDeviceGroup);
 	SAVEDATA_FOR_CLASS(EditorTagTable);
 

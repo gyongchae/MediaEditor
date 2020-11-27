@@ -278,7 +278,11 @@
            </property>
            <layout class="QGridLayout" name="gridLayout_15">
             <item row="0" column="0">
-             <widget class="QTableView" name="m_tblAudioStationName"/>
+             <widget class="QTableView" name="m_tblAudioStationName">
+              <attribute name="horizontalHeaderDefaultSectionSize">
+               <number>130</number>
+              </attribute>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -288,7 +292,7 @@
            </property>
            <layout class="QGridLayout" name="gridLayout_16">
             <item row="0" column="0">
-             <widget class="QTableView" name="m_tblAudioTotal"/>
+             <widget class="QTableView" name="m_tblAudioPlayList"/>
             </item>
            </layout>
           </widget>
@@ -350,7 +354,11 @@
           </property>
           <layout class="QGridLayout" name="gridLayout_20">
            <item row="0" column="0">
-            <widget class="QTableView" name="m_tblEditorTagTable"/>
+            <widget class="QTableView" name="m_tblEditorTagTable">
+             <attribute name="horizontalHeaderDefaultSectionSize">
+              <number>200</number>
+             </attribute>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -374,6 +382,7 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
+    <addaction name="actionSyncAudioDur"/>
     <addaction name="actionSave"/>
     <addaction name="actionSetting"/>
     <addaction name="actionUserInfo"/>
@@ -637,6 +646,11 @@
   <action name="actionUserInfo">
    <property name="text">
     <string>&amp;User Information</string>
+   </property>
+  </action>
+  <action name="actionSyncAudioDur">
+   <property name="text">
+    <string>Sync Audio Du&amp;ration</string>
    </property>
   </action>
  </widget>

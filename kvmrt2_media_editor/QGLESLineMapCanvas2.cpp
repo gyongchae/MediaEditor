@@ -10,6 +10,9 @@
 #include <algorithm>
 #include "TextureInformation/CTextureInfo.h"
 #include <qdebug.h>
+#include <qformlayout.h>
+#include <qlineedit.h>
+#include <qspinbox.h>
 
 #include "nodepropertydlg.h"
 
@@ -112,7 +115,7 @@ void QGLESLineMapCanvas::mousePressEvent(QMouseEvent *e)
 				if (isPtInItemBound(pItem, e->pos().x(), e->pos().y(), &m_fOffsetX, &m_fOffsetY))
 				{
 					m_bMoving = false;
-					m_nDispItemSelected = pItem->GetIndex();
+					m_nSelectedDispItem = pItem->GetIndex();
 					//pItem->bSelected = true;
 					update();
 					return;
@@ -131,7 +134,7 @@ void QGLESLineMapCanvas::mouseReleaseEvent(QMouseEvent *e)
 {
 	m_bPressed = false;
 	m_nSelectedNode = -1;
-	m_nDispItemSelected = 0;
+	m_nSelectedDispItem = 0;
 	update();
 }
 
@@ -157,9 +160,9 @@ void QGLESLineMapCanvas::mouseMoveEvent(QMouseEvent *e)
 		}
 		break;
 	case EDIT_DISPLAYITEM:
-		if (m_nDispItemSelected)
+		if (m_nSelectedDispItem)
 		{
-			int nSelIdx = m_nDispItemSelected;
+			int nSelIdx = m_nSelectedDispItem;
 			auto pVEC = pDM->GET_MODEL_CLASS(LineMapDisplayItem).get()->getVector();
 			auto fIt = find_if(pVEC->begin(), pVEC->end(), [&nSelIdx](std::shared_ptr<CSQLData> &pData) {return (pData->GetIndex() == nSelIdx); });
 			if (fIt != pVEC->end())
@@ -229,7 +232,7 @@ void QGLESLineMapCanvas::initLinkMenu()
 			pAction = new QAction(pDM->m_iconTile08, "CROSS (&7)", this);
 			pAction->setData(i);
 			m_pLinkMenu->addAction(pAction);
-			
+
 			break;
 		case TILE_F_UD_H_L:
 			pAction = new QAction(pDM->m_iconTile09, "F_UD_H_L (&8)", this);
@@ -269,7 +272,7 @@ void QGLESLineMapCanvas::initLinkMenu()
 		case TILE_C_RU:
 			pAction = new QAction(pDM->m_iconTile16, "C_RU (&Y)", this);
 			pAction->setData(i);
-			
+
 			m_pLinkMenu->addAction(pAction);
 			break;
 		default:
@@ -321,6 +324,22 @@ void QGLESLineMapCanvas::initArrowMenu()
 }
 
 
+void QGLESLineMapCanvas::initDispItemMenu()
+{
+	auto *pDM = CDataManage::GetInstance();
+	m_pDispItemMenu = new QMenu("Edit Display Item", this);
+	QAction *pAction;
+
+	pAction = new QAction(pDM->m_iconEditNode, "Edit pos", this);
+	pAction->setData(1);
+	m_pDispItemMenu->addAction(pAction);
+
+	pAction = new QAction(pDM->m_iconDelDispItem, "Delete", this);
+	pAction->setData(2);
+	m_pDispItemMenu->addAction(pAction);
+
+	connect(m_pDispItemMenu, SIGNAL(triggered(QAction*)), this, SLOT(selectAction(QAction*)));
+}
 
 
 void QGLESLineMapCanvas::initTileMaps()
@@ -506,6 +525,7 @@ void QGLESLineMapCanvas::contextMenuEvent(QContextMenuEvent * e)
 {
 	int nOriginPosX = m_nLatestPosX = e->pos().x();
 	int nOriginPosY = m_nLatestPosY = e->pos().y();
+
 	switch (m_eEditMode)
 	{
 	case EDIT_TILE_MAP:
@@ -547,7 +567,38 @@ void QGLESLineMapCanvas::contextMenuEvent(QContextMenuEvent * e)
 		}
 	}
 	break;
+	case EDIT_DISPLAYITEM:
+	{
+		m_nSelectedDispItem = -1;
+		auto *pDM = CDataManage::GetInstance();
+		auto *pTM = CTableManage::GetInstance();
+		auto pVEC = pDM->GET_MODEL_CLASS(LineMapDisplayItem)->getVector();
+
+		for (auto it : (*pVEC))
+		{
+			auto *pItem = (LineMapDisplayItem*)it.get();
+			qDebug() << "pItem->nRelatedDisplayItem:" << pItem->nRelatedDisplayItem;
+			auto nit = find_if(pTM->m_vDisplayItemPool.begin(), pTM->m_vDisplayItemPool.end(),
+				findDisplayItemByRelatedItem(pItem->nRelatedDisplayItem));
+
+			if (nit != pTM->m_vDisplayItemPool.end())
+			{
+				auto dip = (DisplayItemPool*)nit->get();
+				qDebug() << "pItem->nPosX, pItem->nPosY, dip->nWidth, dip->nHeight" << pItem->nPosX << pItem->nPosY << dip->nWidth << dip->nHeight;
+				QRect tRect(pItem->nPosX, pItem->nPosY, dip->nWidth, dip->nHeight);
+				qDebug() << "nOriginPosX, nOriginPosY" << nOriginPosX << nOriginPosY;
+				if (tRect.contains(nOriginPosX, nOriginPosY))
+				{
+					m_nSelectedDispItem = pItem->GetIndex();
+					qDebug() << "m_nDispItemSelected" << m_nSelectedDispItem;
+					m_pDispItemMenu->popup(e->globalPos());
+				}
+			}
+
+		}
 	}
+	}
+
 }
 
 void QGLESLineMapCanvas::setCurrentStationState(int nAction)
@@ -595,6 +646,19 @@ void QGLESLineMapCanvas::selectAction(QAction *action)
 			break;;
 		}
 		break;
+	case EDIT_DISPLAYITEM:
+		switch (nValue)
+		{
+		case 1:
+			qDebug() << Q_FUNC_INFO << "edit" << nValue;
+			editDisplayItem(m_nSelectedDispItem);
+			break;
+		case 2:
+			qDebug() << Q_FUNC_INFO << "delete" << nValue;
+			deleteDisplayItem(m_nSelectedDispItem);
+		default:
+			break;
+		}
 	default:
 		break;
 	}
@@ -656,10 +720,76 @@ void QGLESLineMapCanvas::editNode(int nSelectedIndex)
 	update();
 }
 
+void QGLESLineMapCanvas::editDisplayItem(int idx)
+{
+	/*
+	참고링크
+	https://stackoverflow.com/questions/17512542/getting-multiple-inputs-from-qinputdialog-in-qtcreator
+	*/
+
+	auto *pDM = CDataManage::GetInstance();
+	auto pVEC = pDM->GET_MODEL_CLASS(LineMapDisplayItem)->getVector();
+	auto pit = find_if(pVEC->begin(), pVEC->end(), findSQLData(idx));
+	if (pit != pVEC->end())
+	{
+		auto *pItem = (LineMapDisplayItem*)pit->get();
+
+
+		int nRow = std::distance(pVEC->begin(), pit);
+		qDebug() << nRow;
+
+		QDialog dialog(this);
+		dialog.setWindowTitle("Edit Display Item Position");
+
+		// Use a layout allowing to have a label next to each field
+		QFormLayout form(&dialog);
+
+		auto spinX = new QSpinBox(&dialog);
+		auto spinY = new QSpinBox(&dialog);
+
+		spinX->setRange(-10000, 10000);
+		spinY->setRange(-10000, 10000);
+
+		spinX->setValue(pItem->nPosX);
+		spinY->setValue(pItem->nPosY);
+
+		form.addRow("X :", spinX);
+		form.addRow("Y :", spinY);
+
+		// Add some standard buttons (Cancel/Ok) at the bottom of the dialog
+		QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
+			Qt::Horizontal, &dialog);
+
+		form.addRow(&buttonBox);
+
+		QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
+		QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
+
+		// Show the dialog as modal
+		if (dialog.exec() == QDialog::Accepted)
+		{
+			// If the user didn't dismiss the dialog, do something with the fields
+			qDebug() << spinX->value() << "---" << spinY->value();
+			pItem->nPosX = spinX->value();
+			pItem->nPosY = spinY->value();
+		}
+		m_bPressed = false;
+		m_nSelectedDispItem = -1;
+	}
+	update();
+}
+
 void QGLESLineMapCanvas::deleteArrow(int nSelectedIndex)
 {
 	auto *pDM = CDataManage::GetInstance();
 	pDM->GET_MODEL_CLASS(LineMapArrowTexture)->removeRow(nSelectedIndex);
+	update();
+}
+
+void QGLESLineMapCanvas::deleteDisplayItem(int nIdx)
+{
+	auto *pDM = CDataManage::GetInstance();
+	pDM->GET_MODEL_CLASS(LineMapDisplayItem)->removeRow(nIdx);
 	update();
 }
 
@@ -1036,12 +1166,8 @@ void QGLESLineMapCanvas::alignNodes()
 	std::vector<QPoint> vTempPoint;
 	std::vector<unsigned int> vTempBuffer;
 	std::map<unsigned int, std::vector<int>> mMap;
-
-
-
-
-
 	std::vector<std::shared_ptr<CSQLData>> vTempNode;
+
 	if (m_vSelNodes.size())
 	{
 		uStart = m_vSelNodes.at(0);
@@ -1387,12 +1513,12 @@ void QGLESLineMapCanvas::generateArrowFrom(unsigned short wStX, unsigned short w
 
 		Gdiplus::Pen P2(Gdiplus::Color::White, fPenWidth);
 		P2.SetLineJoin(Gdiplus::LineJoin::LineJoinRound);
-		
-		Gdiplus::Pen P3(Color(255,204,0), fPenWidth);
+
+		Gdiplus::Pen P3(Color(255, 204, 0), fPenWidth);
 		P3.SetLineJoin(Gdiplus::LineJoin::LineJoinRound);
 		P3.SetStartCap(Gdiplus::LineCap::LineCapDiamondAnchor);
 		P3.SetEndCap(Gdiplus::LineCap::LineCapArrowAnchor); // arrow shape, jkc
-		
+
 		// original
 		//Gdiplus::Pen P3(Gdiplus::Color::White, fPenWidth);
 		//P3.SetLineJoin(Gdiplus::LineJoin::LineJoinRound);
@@ -2129,7 +2255,6 @@ void QGLESLineMapCanvas::paintStationRelated()
 			}
 			else
 			{
-
 				QMatrix4x4 mat;
 				mat.ortho(0, m_nWidth, m_nHeight, 0, -1, 1);
 				mat.translate(m_tStationSpot->m_fOrigin[0] + (GLfloat)pNode->nPosX, m_tStationSpot->m_fOrigin[1] + (GLfloat)pNode->nPosY);
@@ -2147,8 +2272,6 @@ void QGLESLineMapCanvas::paintStationRelated()
 
 	}
 }
-
-
 
 void QGLESLineMapCanvas::initDisplayItem()
 {
@@ -2174,8 +2297,6 @@ void QGLESLineMapCanvas::initDisplayItem()
 		}
 	}
 }
-
-
 
 void QGLESLineMapCanvas::setCurrentTime(int nCurTime)
 {

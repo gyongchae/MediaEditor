@@ -96,7 +96,7 @@ void CDataManage::SetModel()
 	INIT_MODEL_FOR_CLASS(PIDContents);
 	INIT_MODEL_FOR_CLASS(PIDIndexList);
 	INIT_MODEL_FOR_CLASS(AudioStationName);
-	INIT_MODEL_FOR_CLASS(AudioTotal);
+	INIT_MODEL_FOR_CLASS(AudioPlayList);
 	INIT_MODEL_FOR_CLASS(VideoDeviceGroup);
 	INIT_MODEL_FOR_CLASS(VideoPlayList);
 	INIT_MODEL_FOR_CLASS(EditorTagTable);
@@ -164,7 +164,7 @@ void CDataManage::SetModel()
 
 	SET_VECTOR_FOR_MODEL_PARENT(pTM, PIDContents);
 	SET_VECTOR_FOR_MODEL_PARENT(pTM, AudioStationName);
-	SET_VECTOR_FOR_MODEL_PARENT(pTM, AudioTotal);
+	SET_VECTOR_FOR_MODEL_PARENT(pTM, AudioPlayList);
 	SET_VECTOR_FOR_MODEL_PARENT(pTM, VideoDeviceGroup);
 	SET_VECTOR_FOR_MODEL_PARENT(pTM, EditorTagTable);
 

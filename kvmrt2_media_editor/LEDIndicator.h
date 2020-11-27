@@ -48,7 +48,7 @@ public:
 	void setBitmap(int nPages,int nMode,LPVOID lpBuffer);
 	void setProperties(int nBits,int nPages,int nWidth,int nHeight,int nMode,int nRatio);
 	//BOOL setBitmapImage(QString strPath);
-	//BOOL LoadBitmapFromBMPFile( LPCTSTR szFileName, HBITMAP *phBitmap,HPALETTE *phPalette );
+	//BOOL LoadBitmapFromBMPFile( LPCTSTR szFileName1, HBITMAP *phBitmap,HPALETTE *phPalette );
 	//QByteArray binaryData();
 
 	void selectAllArea();

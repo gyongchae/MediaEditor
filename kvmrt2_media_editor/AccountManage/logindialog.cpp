@@ -11,7 +11,7 @@ LogInDialog::LogInDialog(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	setWindowIcon(QIcon(QString(ME_FOLDER_PATH) + QString("/Res/Free/Rick.ico")));
+	setWindowIcon(QIcon(QString(ME_APP_PATH) + QString("/Res/Free/Rick.ico")));
 
 	connect(ui.btnClose, SIGNAL(clicked(bool)), this, SLOT(close()));
 	connect(ui.btnLogIn, SIGNAL(clicked(bool)), this, SLOT(checkAccount()));
@@ -36,7 +36,7 @@ LogInDialog::~LogInDialog()
 
 bool LogInDialog::isIniFileExist(const QString & iniFile)
 {
-	QFileInfo checkFile(QString(ME_FOLDER_PATH) + iniFile);
+	QFileInfo checkFile(QString(ME_APP_PATH) + iniFile);
 	if (checkFile.exists() && checkFile.isFile())
 	{
 		qInfo() << checkFile.absoluteFilePath() << "is existed.";

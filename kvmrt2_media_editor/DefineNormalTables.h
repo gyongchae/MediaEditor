@@ -13,38 +13,38 @@ m_tSettings[2].POINTER = (void*)szStationName1;
 m_tSettings[3].POINTER = (void*)szStationName2;
 m_tSettings[4].POINTER = (void*)szDesc;
 m_tSettings[5].POINTER = (void*)(&nOrder);
-m_tSettings[6].POINTER = (void*)(&nRouteMapStnIndex);
-m_tSettings[7].POINTER = (void*)(&nRouteMapTransferIdx);
-m_tSettings[8].POINTER = (void*)(&nDrmCurrStnIdx);
-m_tSettings[9].POINTER = (void*)(&nDrmNextStnIdx);
-m_tSettings[10].POINTER = (void*)(&nDrmCurrTransferIdx);
-m_tSettings[11].POINTER = (void*)(&nDrmNextTransferIdx);
-m_tSettings[12].POINTER = (void*)(&nDrmDestinationIdx);
-m_tSettings[13].POINTER = (void*)(&nPidCurrStnIdx);
-m_tSettings[14].POINTER = (void*)(&nPidNextStnIdx);
-m_tSettings[15].POINTER = (void*)(&nPidCurrTransferIdx);
-m_tSettings[16].POINTER = (void*)(&nPidNextTransferIdx);
-m_tSettings[17].POINTER = (void*)(&nPidDestinationIdx);
-m_tSettings[18].POINTER = (void*)(&nLedIndex);
+m_tSettings[6].POINTER = (void*)(&nDurNextBM);
+m_tSettings[7].POINTER = (void*)(&nDurNextEN);
+m_tSettings[8].POINTER = (void*)(&nDurArrivingBM);
+m_tSettings[9].POINTER = (void*)(&nDurArrivingEN);
+m_tSettings[10].POINTER = (void*)(&nDurArrivalBM);
+m_tSettings[11].POINTER = (void*)(&nDurArrivalEN);
+m_tSettings[12].POINTER = (void*)(&nDurExchangeBM);
+m_tSettings[13].POINTER = (void*)(&nDurExchangeEN);
+m_tSettings[14].POINTER = (void*)(&nHasExchange);
+m_tSettings[15].POINTER = (void*)(&nIsProVisional);
+m_tSettings[16].POINTER = (void*)(&nApprPaDistance);
+m_tSettings[17].POINTER = (void*)(&nSpare1);
+m_tSettings[18].POINTER = (void*)(&nSpare2);
 END_MAPPING_MEMBERS
 int nStationCode{ 0 };
 TYC szStationName1[128]{ 0 };
 TYC szStationName2[128]{ 0 };
 TYC szDesc[256]{ 0 };
 int nOrder{ 1 };
-int nRouteMapStnIndex{ 0 };
-int nRouteMapTransferIdx{ 0 };
-int nDrmCurrStnIdx{ 0 };
-int nDrmNextStnIdx{ 0 };
-int nDrmCurrTransferIdx{ 0 };
-int nDrmNextTransferIdx{ 0 };
-int nDrmDestinationIdx{ 0 };
-int nPidCurrStnIdx{ 0 };
-int nPidNextStnIdx{ 0 };
-int nPidCurrTransferIdx{ 0 };
-int nPidNextTransferIdx{ 0 };
-int nPidDestinationIdx{ 0 };
-int nLedIndex{ 0 };
+int nDurNextBM{ 0 };
+int nDurNextEN{ 0 };
+int nDurArrivingBM{ 0 };
+int nDurArrivingEN{ 0 };
+int nDurArrivalBM{ 0 };
+int nDurArrivalEN{ 0 };
+int nDurExchangeBM{ 0 };
+int nDurExchangeEN{ 0 };
+int nHasExchange{ 0 };
+int nIsProVisional{ 0 };
+int nApprPaDistance{ 0 };
+int nSpare1{ 0 };
+int nSpare2{ 0 };
 END_CLASS_FROM_SQLDATA
 DECLARE_EDITOR_CLASS(StationInformation);
 // !StationInformation
@@ -113,14 +113,14 @@ m_tSettings[2].POINTER = (void*)(&nArrivalStnIndex);
 m_tSettings[3].POINTER = (void*)(szDesc);
 m_tSettings[4].POINTER = (void*)(&nRelatedLineMapIndex);
 m_tSettings[5].POINTER = (void*)(&nOrder);
-m_tSettings[6].POINTER = (void*)(&nDriveMode);
+m_tSettings[6].POINTER = (void*)(&nBound);
 END_MAPPING_MEMBERS
 int nDepartStnIndex{ 0 };
 int nArrivalStnIndex{ 0 };
 TYC szDesc[256]{ 0 };
 int nRelatedLineMapIndex{ 0 };
 int nOrder{ 1 };
-int nDriveMode{ 0 };
+int nBound{ 0 };
 END_CLASS_FROM_SQLDATA
 DECLARE_EDITOR_CLASS(StopPtnHeader);
 // !StopPtnHeader
@@ -257,48 +257,84 @@ DECLARE_EDITOR_CLASS(PIDIndexList);
 // AudioStationName
 BEGIN_CLASS_FROM_SQLDATA(AudioStationName, , );
 COMMON_VAL_FOR_SQLDATA;
-DECLARE_TYPESETTINGS(5);
+DECLARE_TYPESETTINGS(9);
 DECLARE_COMMON_FUNCTIONS OVERRIDE_DUMMY_EDITOR_FUNC;
 BEGIN_MAPPING_MEMBERS
 m_tSettings[0].POINTER = (void*)(&m_nTableIndex);
 m_tSettings[1].POINTER = (void*)(&nOrder);
 m_tSettings[2].POINTER = (void*)(&nMsgID);
-m_tSettings[3].POINTER = (void*)(szFileName);
-m_tSettings[4].POINTER = (void*)(szDesc);
+m_tSettings[3].POINTER = (void*)(&nAudioIdx1);
+m_tSettings[4].POINTER = (void*)(szFileName1);
+m_tSettings[5].POINTER = (void*)(&nStnDuration1);
+m_tSettings[6].POINTER = (void*)(&nAudioIdx2);
+m_tSettings[7].POINTER = (void*)(szFileName2);
+m_tSettings[8].POINTER = (void*)(&nStnDuration2);
 END_MAPPING_MEMBERS
 int nOrder{ 1 };
 int nMsgID{ 0 };
-TYC szFileName[128]{ 0 };
-TYC szDesc[128]{ 0 };
+int nAudioIdx1{ 0 };
+int nAudioIdx2{ 0 };
+int nStnDuration1{ 0 };
+int nStnDuration2{ 0 };
+TYC szFileName1[128]{ 0 };
+TYC szFileName2[128]{ 0 };
 END_CLASS_FROM_SQLDATA
 DECLARE_EDITOR_CLASS(AudioStationName);
 // !AudioStationName
 
-// AudioTotal
-BEGIN_CLASS_FROM_SQLDATA(AudioTotal, , );
+// AudioPlayList
+BEGIN_CLASS_FROM_SQLDATA(AudioPlayList, , );
 COMMON_VAL_FOR_SQLDATA;
-DECLARE_TYPESETTINGS(8);
+DECLARE_TYPESETTINGS(22);
 DECLARE_COMMON_FUNCTIONS OVERRIDE_DUMMY_EDITOR_FUNC;
 BEGIN_MAPPING_MEMBERS
 m_tSettings[0].POINTER = (void*)(&m_nTableIndex);
 m_tSettings[1].POINTER = (void*)(&nOrder);
 m_tSettings[2].POINTER = (void*)(&nMsgID);
-m_tSettings[3].POINTER = (void*)(&nMsgType);
-m_tSettings[4].POINTER = (void*)(szFileBM);
-m_tSettings[5].POINTER = (void*)(szFileEN);
-m_tSettings[6].POINTER = (void*)(&nPlayCount);
-m_tSettings[7].POINTER = (void*)(szDesc);
+m_tSettings[3].POINTER = (void*)(&nPlayCount);
+m_tSettings[4].POINTER = (void*)(&nWithBell);
+m_tSettings[5].POINTER = (void*)(&nBellIdx);
+m_tSettings[6].POINTER = (void*)(szBellName);
+m_tSettings[7].POINTER = (void*)(&nBellDur);
+m_tSettings[8].POINTER = (void*)(&nWithStation);
+m_tSettings[9].POINTER = (void*)(&nFileIdx1);
+m_tSettings[10].POINTER = (void*)(szFileName1);
+m_tSettings[11].POINTER = (void*)(&nFileDur1);
+m_tSettings[12].POINTER = (void*)(&nFileIdx2);
+m_tSettings[13].POINTER = (void*)(szFileName2);
+m_tSettings[14].POINTER = (void*)(&nFileDur2);
+m_tSettings[15].POINTER = (void*)(&nFileIdx3);
+m_tSettings[16].POINTER = (void*)(szFileName3);
+m_tSettings[17].POINTER = (void*)(&nFileDur3);
+m_tSettings[18].POINTER = (void*)(&nFileIdx4);
+m_tSettings[19].POINTER = (void*)(szFileName4);
+m_tSettings[20].POINTER = (void*)(&nFileDur4);
+m_tSettings[21].POINTER = (void*)(szDesc);
 END_MAPPING_MEMBERS
 int nOrder{ 1 };
 int nMsgID{ 0 };
-int nMsgType{ 0 };
-TYC szFileBM[128]{ 0 };
-TYC szFileEN[128]{ 0 };
 int nPlayCount{ 0 };
+int nWithBell{ 0 };
+int nWithStation{ 0 };
+int nBellIdx{ 0 };
+int nBellDur{ 0 };
+TYC szBellName[128]{ 0 };
+int nFileIdx1{ 0 };
+int nFileIdx2{ 0 };
+int nFileIdx3{ 0 };
+int nFileIdx4{ 0 };
+int nFileDur1{ 0 };
+int nFileDur2{ 0 };
+int nFileDur3{ 0 };
+int nFileDur4{ 0 };
+TYC szFileName1[128]{ 0 };
+TYC szFileName2[128]{ 0 };
+TYC szFileName3[128]{ 0 };
+TYC szFileName4[128]{ 0 };
 TYC szDesc[128]{ 0 };
 END_CLASS_FROM_SQLDATA
-DECLARE_EDITOR_CLASS(AudioTotal);
-// !AudioTotal
+DECLARE_EDITOR_CLASS(AudioPlayList);
+// !AudioPlayList
 
 // VideoDeviceGroup
 BEGIN_CLASS_FROM_SQLDATA_WITH_CHILDS(VideoDeviceGroup, , , 1);
