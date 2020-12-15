@@ -57,6 +57,13 @@ void NodePropertyDlg::initUI()
 		ui.comboPivot_R->addItem(QString::fromStdWString(nit.second.c_str()), nit.first);
 	}
 
+	ui.comboPivot_P->setCurrentIndex(5); // {5,L"CENTER MIDDLE"},
+	ui.comboPivot_T->setCurrentIndex(5); // {5,L"CENTER MIDDLE"},
+	ui.comboPivot_R->setCurrentIndex(5); // {5,L"CENTER MIDDLE"},
+	ui.comboPivot_P->setEnabled(false);
+	ui.comboPivot_T->setEnabled(false);
+	ui.comboPivot_R->setEnabled(false);
+
 	for (auto nit : pMM->m_mDisplayItemType)
 	{
 		ui.comboType_P->addItem(QString::fromStdWString(nit.second.c_str()), nit.first);

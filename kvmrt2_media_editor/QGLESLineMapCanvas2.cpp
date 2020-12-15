@@ -15,8 +15,15 @@
 #include <qspinbox.h>
 
 #include "nodepropertydlg.h"
+#include "routemaplineproperty.h"
 
 #define MAKECOORDKEY(A,B)	MAKELONG(B,A)
+
+/* TO DO LIST !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+date: 2020/12/8
+
+타일 맵에 대한 Active Station 설정할 수 있도록.
+*/
 
 
 void QGLESLineMapCanvas::mousePressEvent(QMouseEvent *e)
@@ -29,11 +36,50 @@ void QGLESLineMapCanvas::mousePressEvent(QMouseEvent *e)
 	int nCurX = (int)(nOriginPosX / m_nCellSize)*m_nCellSize + (m_nCellSize / 2);
 	int nCurY = (int)(nOriginPosY / m_nCellSize)*m_nCellSize + (m_nCellSize / 2);
 	if (e->button() == Qt::LeftButton)
-	{
+
 		switch (m_eEditMode)
 		{
+		case EDIT_TILE_MAP:
+			if (m_bLinkCtrlPressed)
+			{
+				QList<LineMapLink*> selLinks;
+				int stnCode = 0;
+				for (auto it : (*pDM->GET_MODEL_CLASS(LineMapLink)->getVector()))
+				{
+					auto *pLink = (LineMapLink*)it.get();
+					// tile size 기반으로 값 설정해놓은 거임
+					QRect tRect(pLink->nPosX - 18, pLink->nPosY - 18, 36, 36);
+					if (tRect.contains(nOriginPosX, nOriginPosY))
+					{
+						m_nSelectedLink = it.get()->GetIndex();
+						selLinks.append(pLink);
+					}
+				}
+
+				if (!selLinks.isEmpty())
+					stnCode = selLinks.first()->nActiveStation;
+
+				RouteMapLineProperty prop(stnCode);
+				int res = prop.exec();
+				if (res == QDialog::Accepted)
+				{
+					if (!selLinks.isEmpty())
+					{
+						for (auto &l : selLinks)
+						{
+							const int code = prop.getStationCode();
+							const QString name = prop.getStationName();
+							l->SetData(7, (void*)&code);
+							l->SetData(8, (void*)name.toStdWString().c_str());
+							emit updateRouteMapLine();
+						}
+					}
+				}
+				m_bLinkCtrlPressed = false;
+			}
+			break;
 		case EDIT_NODE:
-			if (!m_bCtrlKeyPressed)
+			if (!m_bNodeAlignPressed)
 			{
 				for (auto it : (*pDM->GET_MODEL_CLASS(LineMapNode)->getVector()))
 				{
@@ -126,7 +172,6 @@ void QGLESLineMapCanvas::mousePressEvent(QMouseEvent *e)
 		default:
 			break;
 		}
-	}
 	update();
 }
 
@@ -142,6 +187,9 @@ void QGLESLineMapCanvas::mouseMoveEvent(QMouseEvent *e)
 {
 	auto *pDM = CDataManage::GetInstance();
 	int nMinXPos, nMinYPos;
+
+	emit positionChanged(QString("x: %1, y: %2").arg(e->pos().x()).arg(e->pos().y()));
+
 	switch (m_eEditMode)
 	{
 	case EDIT_NODE:
@@ -532,7 +580,7 @@ void QGLESLineMapCanvas::contextMenuEvent(QContextMenuEvent * e)
 		m_pLinkMenu->popup(e->globalPos());
 		break;
 	case EDIT_NODE:
-		if (!m_bCtrlKeyPressed)
+		if (!m_bNodeAlignPressed)
 		{
 			m_nSelectedNode = -1;
 			auto *pDM = CDataManage::GetInstance();
@@ -620,7 +668,7 @@ void QGLESLineMapCanvas::selectAction(QAction *action)
 		addTileBySelection((TileType)nValue, m_nLatestPosX, m_nLatestPosY);
 		break;
 	case EDIT_NODE:
-		if (!m_bCtrlKeyPressed)
+		if (!m_bNodeAlignPressed)
 		{
 			switch (nValue)
 			{
@@ -995,14 +1043,21 @@ void QGLESLineMapCanvas::keyPressEvent(QKeyEvent * event)
 	auto *pDM = CDataManage::GetInstance();
 	switch (m_eEditMode)
 	{
+	case EDIT_TILE_MAP:
+		if (event->key() == Qt::Key_Control)
+		{
+			m_bLinkCtrlPressed = true;
+			qDebug() << Q_FUNC_INFO << "Ctrl key pressed." << m_bLinkCtrlPressed;
+		}
+		break;
 	case EDIT_NODE:
 		switch (event->key())
 		{
 		case Qt::Key_Control:
-			m_bCtrlKeyPressed = true;
+			m_bNodeAlignPressed = true;
 			break;
 		case Qt::Key_A:
-			if (m_bCtrlKeyPressed)
+			if (m_bNodeAlignPressed)
 			{
 				//Aligning code here;
 				alignNodes();
@@ -1012,6 +1067,9 @@ void QGLESLineMapCanvas::keyPressEvent(QKeyEvent * event)
 		}
 		update();
 		break;
+	default:
+		m_bLinkCtrlPressed = false;
+		break;
 	}
 }
 
@@ -1020,14 +1078,22 @@ void QGLESLineMapCanvas::keyReleaseEvent(QKeyEvent * event)
 	auto *pDM = CDataManage::GetInstance();
 	switch (m_eEditMode)
 	{
+	case EDIT_TILE_MAP:
+		if (event->key() == Qt::Key_Control)
+		{
+			m_bLinkCtrlPressed = false;
+			qDebug() << Q_FUNC_INFO << "Ctrl key released." << m_bLinkCtrlPressed;
+		}
+		break;
+
 	case EDIT_NODE:
 		switch (event->key())
 		{
 		case Qt::Key_Control:
-			m_bCtrlKeyPressed = false;
+			m_bNodeAlignPressed = false;
 			break;
 		case Qt::Key_A:
-			if (m_bCtrlKeyPressed)
+			if (m_bNodeAlignPressed)
 			{
 				//Aligning code here;
 				//alignNodes();
@@ -1037,7 +1103,12 @@ void QGLESLineMapCanvas::keyReleaseEvent(QKeyEvent * event)
 		}
 		update();
 		break;
+
 	case EDIT_DISPLAYITEM:
+		break;
+
+	default:
+		m_bLinkCtrlPressed = false;
 		break;
 	}
 }
@@ -1997,9 +2068,6 @@ bool QGLESLineMapCanvas::isPtInItemBound(LineMapDisplayItem *pItem, int nX, int 
 	return false;
 }
 
-
-
-
 void QGLESLineMapCanvas::setBoundRectangle(LineMapDisplayItem *pLMDI)
 {
 	pLMDI->m_fTempRect[0] = pLMDI->m_fTempRect[8] = (GLfloat)pLMDI->m_fRect[0];
@@ -2011,7 +2079,6 @@ void QGLESLineMapCanvas::setBoundRectangle(LineMapDisplayItem *pLMDI)
 	pLMDI->m_fTempRect[6] = (GLfloat)pLMDI->m_fRect[0];
 	pLMDI->m_fTempRect[7] = (GLfloat)pLMDI->m_fRect[3];
 }
-
 
 void QGLESLineMapCanvas::paintDisplayItemsPoolRect()
 {
@@ -2043,6 +2110,11 @@ void QGLESLineMapCanvas::paintDisplayItemsPoolRect()
 	glDisableVertexAttribArray(m_aLinePos);
 }
 
+void QGLESLineMapCanvas::getNodeIconRadioChangedIdx(const int idx)
+{
+	qDebug() << Q_FUNC_INFO << idx;
+	m_nCurrNodeIconIdx = idx;
+}
 
 void QGLESLineMapCanvas::paintStationRelated()
 {
@@ -2091,14 +2163,6 @@ void QGLESLineMapCanvas::paintStationRelated()
 						matrix.scale(pItem->m_fScale[0], pItem->m_fScale[1]);
 						matrix.translate(pItem->fOrigX, pItem->fOrigY);
 
-						//QMatrix4x4 matrix2;
-						//matrix2.ortho(0, m_nWidth, m_nHeight, 0, -1, 1);
-
-					//	QMatrix4x4 matrix3 = matrix * matrix2;
-						/*matrix.translate(pNode->nPosX, pNode->nPosY);
-						matrix.rotate(pNode->nRotAngle[m_eCurrentStnState - 1], 0, 0, 1.0f);
-						matrix.translate((GLfloat)pNode->m_fOrigin[m_eCurrentStnState - 1][0], (GLfloat)pNode->m_fOrigin[m_eCurrentStnState - 1][1]);*/
-
 						glUniform4f(m_uScrColor, pItem->m_fColor[3], pItem->m_fColor[2], pItem->m_fColor[1], pItem->m_fColor[0]);
 						glUniformMatrix4fv(m_uScrMatrix, 1, false, (const GLfloat*)&matrix);
 						for (auto subit : findIt->second->vIdxList)
@@ -2140,7 +2204,7 @@ void QGLESLineMapCanvas::paintStationRelated()
 		}
 		break;
 		}
-		if (m_bCtrlKeyPressed && (m_eEditMode == EDIT_NODE))
+		if (m_bNodeAlignPressed && (m_eEditMode == EDIT_NODE))
 		{
 			for (auto mit : m_mNodes)
 			{
@@ -2173,7 +2237,7 @@ void QGLESLineMapCanvas::paintStationRelated()
 				{
 				case DISP_DISPLAY_ITEM:
 				{
-					auto findIt = find_if(pDIP->begin(), pDIP->end(), findSQLData(pNode->nSRelatedIndex[m_eCurrentStnState - 1]));
+					auto findIt = find_if(pDIP->begin(), pDIP->end(), findSQLData(pNode->nSRelatedIndex[m_nCurrNodeIconIdx]));
 
 					if (findIt != pDIP->end())
 					{

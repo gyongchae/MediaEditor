@@ -42,6 +42,8 @@ public:
     QComboBox *m_cbMapWidth;
     QLabel *label_4;
     QComboBox *m_cbMapHeight;
+    QLabel *label_6;
+    QComboBox *m_cbMapBound;
     QSpacerItem *verticalSpacer;
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer;
@@ -51,7 +53,7 @@ public:
     {
         if (LineMapPreset->objectName().isEmpty())
             LineMapPreset->setObjectName(QStringLiteral("LineMapPreset"));
-        LineMapPreset->resize(292, 181);
+        LineMapPreset->resize(263, 217);
         verticalLayout = new QVBoxLayout(LineMapPreset);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
@@ -113,6 +115,17 @@ public:
 
         formLayout->setWidget(4, QFormLayout::FieldRole, m_cbMapHeight);
 
+        label_6 = new QLabel(LineMapPreset);
+        label_6->setObjectName(QStringLiteral("label_6"));
+
+        formLayout->setWidget(5, QFormLayout::LabelRole, label_6);
+
+        m_cbMapBound = new QComboBox(LineMapPreset);
+        m_cbMapBound->setObjectName(QStringLiteral("m_cbMapBound"));
+        m_cbMapBound->setEditable(false);
+
+        formLayout->setWidget(5, QFormLayout::FieldRole, m_cbMapBound);
+
 
         verticalLayout->addLayout(formLayout);
 
@@ -168,6 +181,7 @@ public:
         m_cbMapHeight->insertItems(0, QStringList()
          << QApplication::translate("LineMapPreset", "360", Q_NULLPTR)
         );
+        label_6->setText(QApplication::translate("LineMapPreset", "Bound", Q_NULLPTR));
     } // retranslateUi
 
 };

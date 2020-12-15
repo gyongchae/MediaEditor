@@ -3,7 +3,7 @@
 
 // LineMapPool
 DECLARE_STATIC_VARIABLES(LineMapPool, true, LINEMAP_POOL, -1, 23, 0)
-DECLARE_STATIC_TYPESETTINGS(LineMapPool, 24) =
+DECLARE_STATIC_TYPESETTINGS(LineMapPool, 25) =
 {
 	{ TYPE_INTEGER,		MAKE_T("TABLE_INDEX"),			0,	nullptr,true, false,false, MAKE_T("Table Index"),			100 },
 	{ TYPE_TEXT,		MAKE_T("MAP_NAME"),				256,nullptr,false,false,false, MAKE_T("Route Map Name"),		100 },
@@ -29,20 +29,23 @@ DECLARE_STATIC_TYPESETTINGS(LineMapPool, 24) =
 	{ TYPE_INTEGER,		MAKE_T("ARROW_LEFT_COLOR"),		0,	nullptr,false,false,false, MAKE_T("Remain Arrow Color"),	100 },
 	{ TYPE_INTEGER,		MAKE_T("ARROW_FOCUSED_COLOR1"),	0,	nullptr,false,false,false, MAKE_T("Focused Color"),			100 },
 	{ TYPE_INTEGER,		MAKE_T("TABLE_ORDER"),			0,	nullptr,false,true, false, MAKE_T("Order"),					100 },
+	{ TYPE_INTEGER,		MAKE_T("ROUTE_BOUND"),			0,	nullptr,false,false,false, MAKE_T("Bound"),					100 },
 };
 // !LineMapPool
 
 // LineMapLink
 DECLARE_STATIC_VARIABLES(LineMapLink,false,LINEMAP_LINK,1,6,0)
-DECLARE_STATIC_TYPESETTINGS(LineMapLink,7)=
+DECLARE_STATIC_TYPESETTINGS(LineMapLink,9)=
 {
-    {TYPE_INTEGER,MAKE_T("TABLE_INDEX"),	0,nullptr,true, false,false, MAKE_T("Table Index"),		100},
-    {TYPE_INTEGER,MAKE_T("PARENT_INDEX"),	0,nullptr,false,false,true,  MAKE_T("Parent Index"),	100},
-    {TYPE_INTEGER,MAKE_T("ITEM_TYPE"),		0,nullptr,false,false,false, MAKE_T("Item Type"),		100},
-    {TYPE_INTEGER,MAKE_T("POSX"),			0,nullptr,false,false,false, MAKE_T("Pos X"),			100},
-    {TYPE_INTEGER,MAKE_T("POSY"),			0,nullptr,false,false,false, MAKE_T("Pos Y"),			100},
-	{TYPE_INTEGER,MAKE_T("PROP"),			0,nullptr,false,false,false, MAKE_T("Prop"),			100 },
-	{TYPE_INTEGER,MAKE_T("TABLE_ORDER"),	0,nullptr,false,true, false, MAKE_T("Order"),			100},
+    {TYPE_INTEGER,MAKE_T("TABLE_INDEX"),	 0,nullptr,true, false,false, MAKE_T("Table Index"),	100},
+    {TYPE_INTEGER,MAKE_T("PARENT_INDEX"),	 0,nullptr,false,false,true,  MAKE_T("Parent Index"),	100},
+    {TYPE_INTEGER,MAKE_T("ITEM_TYPE"),		 0,nullptr,false,false,false, MAKE_T("Item Type"),		100},
+    {TYPE_INTEGER,MAKE_T("POSX"),			 0,nullptr,false,false,false, MAKE_T("Pos X"),			100},
+    {TYPE_INTEGER,MAKE_T("POSY"),			 0,nullptr,false,false,false, MAKE_T("Pos Y"),			100},
+	{TYPE_INTEGER,MAKE_T("PROP"),			 0,nullptr,false,false,false, MAKE_T("Prop"),			100 },
+	{TYPE_INTEGER,MAKE_T("TABLE_ORDER"),	 0,nullptr,false,true, false, MAKE_T("Order"),			100 },
+	{TYPE_INTEGER,MAKE_T("ACTIVE_STATION"),	 0,nullptr,false,false,false, MAKE_T("Active Station"),	100},
+	{TYPE_TEXT,	  MAKE_T("ACT_STATION_NAME"),128,nullptr,false,false,false,	MAKE_T("Station Name"),	100 },
 };
 // !LineMapLink
 

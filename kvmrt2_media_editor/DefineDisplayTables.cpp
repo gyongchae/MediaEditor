@@ -81,7 +81,7 @@ DECLARE_STATIC_TYPESETTINGS(DisplayProp, 16) =
 
 DECLARE_STATIC_VARIABLES(DisplayMetaItem, false, DISPLAY_METAITEM, 1, -1, 0)
 
-DECLARE_STATIC_TYPESETTINGS(DisplayMetaItem, 15) =
+DECLARE_STATIC_TYPESETTINGS(DisplayMetaItem, 16) =
 {
 	{ TYPE_INTEGER,MAKE_T("TABLE_INDEX"),0,nullptr,true,false,false, MAKE_T("Table Index"), 100 },
 	{ TYPE_INTEGER,MAKE_T("PARENT_INDEX"),0,nullptr,false,false,true, MAKE_T("ParentIndex"), 100 },
@@ -98,6 +98,7 @@ DECLARE_STATIC_TYPESETTINGS(DisplayMetaItem, 15) =
 	{ TYPE_INTEGER,MAKE_T("Z_ORDER"),0,nullptr,false,false,false, MAKE_T("Z Order"), 100 },
 	{ TYPE_INTEGER,MAKE_T("ORIGIN"),0,nullptr,false,false,false, MAKE_T("Z Order"), 100 },
 	{ TYPE_INTEGER,MAKE_T("TAG_INDEX"),0,nullptr,false,false,false, MAKE_T("Tag Index"), 100 },
+	{ TYPE_INTEGER,MAKE_T("TAG_VAR_VALUE"),0,nullptr,false,false,false, MAKE_T("Tag Variable Value"), 100 },
 };
 
 void DisplayMetaItem::SetBufferIndex(int nIndex, CTexPool *pPool)

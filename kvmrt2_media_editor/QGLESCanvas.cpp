@@ -13,15 +13,16 @@
 #include <QAction>
 #include <QMenu>
 #include <qdebug.h>
+#include <QKeyEvent>
 
 QGLESPIDCanvas::QGLESPIDCanvas(QWidget *parent)
-	: QOpenGLWidget(parent), m_fOffsetX(.0f), m_fOffsetY(.0f), m_nWidth(0), m_nHeight(0), m_nSelIdx(0), m_bSelected(false), m_nCurTime(0), 
+	: QOpenGLWidget(parent), m_fOffsetX(.0f), m_fOffsetY(.0f), m_nWidth(0), m_nHeight(0), m_nSelNormalIdx(0), m_bSelected(false), m_nCurTime(0), 
 	m_bMoving(false), m_pActDelItem(0), m_pActEditProp(0), m_pActDelProp(0), m_nLatestSelected(0), m_nLatestSelectedType(0),
 	m_pMetaItemMenu(0),m_pMenu(0), m_bMousePressed(false), m_bMouseMovedWhilePressed(false)
 {
 	setAcceptDrops(true);
 	initActions();
-	setMouseTracking(true);
+	setFocusPolicy(Qt::ClickFocus);
 }
 
 QGLESPIDCanvas::~QGLESPIDCanvas()
@@ -42,6 +43,31 @@ void QGLESPIDCanvas::initializeGL()
 	reorderAllTimeLine();
 	sortToZOrder();
 	//m_bMoving = false;
+}
+
+void QGLESPIDCanvas::keyPressEvent(QKeyEvent * event)
+{
+	qDebug() << Q_FUNC_INFO << event->text();
+	if (event->key() == Qt::Key_Control)
+	{
+		m_bScaleUp = true;
+	}
+	else if (event->key() == Qt::Key_Alt)
+	{
+		m_bScaleDown = true;
+	}
+}
+
+void QGLESPIDCanvas::keyReleaseEvent(QKeyEvent * event)
+{
+	if (event->key() == Qt::Key_Control)
+	{
+		m_bScaleUp = false;
+	}
+	else if(event->key() == Qt::Key_Alt)
+	{
+		m_bScaleDown = false;
+	}
 }
 
 void QGLESPIDCanvas::initShaders()
@@ -447,7 +473,6 @@ void QGLESPIDCanvas::selectMetaItemAction(QAction *action)
 			else
 			{
 				setSelectedItemVectors(pMI, 1);
-
 				pMI->m_fRect[0] = 0;
 				pMI->m_fRect[1] = 0;
 				pMI->m_fRect[2] = (GLfloat)pMI->nWidth;
@@ -461,7 +486,17 @@ void QGLESPIDCanvas::selectMetaItemAction(QAction *action)
 				pProp->nVisible = pMI->m_nVisible;
 				setMetaItemOrientation(pMI);
 				CDataManage::reorderTimeLine(pMI);
-				m_nSelIdx = 0;
+
+				auto *pTM = CTableManage::GetInstance();
+				// find tagVarValue by TagIndex
+				auto it = find_if(pTM->m_vEditorTagTable.begin(), pTM->m_vEditorTagTable.end(), findTagValuebyTagIndex(pMI->nTagIndex));
+				if (it != pTM->m_vEditorTagTable.end())
+				{
+					auto *ett = (EditorTagTable*)(it->get());
+					pMI->nTagVarValue = ett->nVariable;
+				}
+				
+				m_nSelNormalIdx = 0;
 				m_nSelMetaIdx = 0;
 			}
 		}
@@ -485,7 +520,7 @@ int QGLESPIDCanvas::isPropExist()
 {
 	auto *pDM = CDataManage::GetInstance();
 	auto pVEC = pDM->GET_MODEL_CLASS(DisplayItem).get()->getVector();
-	int nSelectedItem = m_nSelIdx;
+	int nSelectedItem = m_nSelNormalIdx;
 	auto it = find_if(pVEC->begin(), pVEC->end(), [&nSelectedItem](std::shared_ptr<CSQLData> &pData)
 	{
 		auto *pItem = (DisplayItem*)pData.get();
@@ -542,7 +577,7 @@ void QGLESPIDCanvas::removePropAtCurTime()
 	int nIndex = isPropExist();
 	pDM->GET_MODEL_CLASS(DisplayProp)->removeRow(nIndex);
 	auto pVEC = pDM->GET_MODEL_CLASS(DisplayItem).get()->getVector();
-	auto findIt=find_if(pVEC->begin(), pVEC->end(), findSQLData(m_nSelIdx));
+	auto findIt=find_if(pVEC->begin(), pVEC->end(), findSQLData(m_nSelNormalIdx));
 	if (findIt != pVEC->end())
 	{
 		setSelectedItemVectors((void *)findIt->get(), 0);
@@ -598,7 +633,7 @@ void QGLESPIDCanvas::addMetaItem()
 void QGLESPIDCanvas::deleteItem()
 {
 	auto *pDM = CDataManage::GetInstance();
-	pDM->GET_MODEL_CLASS(DisplayItem)->removeRow(m_nSelIdx);
+	pDM->GET_MODEL_CLASS(DisplayItem)->removeRow(m_nSelNormalIdx);
 	setSelectedItemVectors(0, 2);
 	update();
 }
@@ -607,7 +642,7 @@ void QGLESPIDCanvas::editProperties()
 {
 	auto *pDM = CDataManage::GetInstance();
 	auto pVEC = pDM->GET_MODEL_CLASS(DisplayItem).get()->getVector();
-	int nSelectedItem = m_nSelIdx;
+	int nSelectedItem = m_nSelNormalIdx;
 	int nRowItem=-1,nSubRowItem=-1;
 	auto it = find_if(pVEC->begin(), pVEC->end(), [&nSelectedItem](std::shared_ptr<CSQLData> &pData)
 	{
@@ -660,7 +695,7 @@ void QGLESPIDCanvas::editProperties()
 		}
 		sortToZOrder();
 	}
-	m_nSelIdx = 0;
+	m_nSelNormalIdx = 0;
 	m_nSelMetaIdx = 0;
 }
 
@@ -769,6 +804,16 @@ void QGLESPIDCanvas::editMetaItemProperties()
 			pProp->nVisible = pItem->m_nVisible;
 			setMetaItemOrientation(pItem);
 			CDataManage::reorderTimeLine(pItem);
+
+			auto *pTM = CTableManage::GetInstance();
+			// find tagVarValue by TagIndex
+			auto it = find_if(pTM->m_vEditorTagTable.begin(), pTM->m_vEditorTagTable.end(), findTagValuebyTagIndex(pItem->nTagIndex));
+			if (it != pTM->m_vEditorTagTable.end())
+			{
+				auto *ett = (EditorTagTable*)(it->get());
+				pItem->nTagVarValue = ett->nVariable;
+			}
+
 			setSelectedItemVectors(pItem, 1);
 		}
 		sortToZOrder();
@@ -777,11 +822,13 @@ void QGLESPIDCanvas::editMetaItemProperties()
 
 void QGLESPIDCanvas::dragMoveEvent(QDragMoveEvent *e)
 {
+	qDebug() << Q_FUNC_INFO << e->type() << m_nSelMetaIdx << m_nSelNormalIdx;
 	e->accept();
 }
 
 void QGLESPIDCanvas::dragEnterEvent(QDragEnterEvent *e)
 {
+	qDebug() << Q_FUNC_INFO << e->type() << m_nSelMetaIdx << m_nSelNormalIdx;
 	if (e->mimeData()->hasFormat("text/plain") && e->mimeData()->hasHtml())
 		e->acceptProposedAction();
 }
@@ -796,7 +843,7 @@ void QGLESPIDCanvas::contextMenuEvent(QContextMenuEvent * e)
 		auto *pItem = (DisplayItem*)it.get();
 		if (isPtInItemBound(pItem, e->pos().x(), e->pos().y()))
 		{
-			m_nSelIdx = pItem->GetIndex();
+			m_nSelNormalIdx = pItem->GetIndex();
 
 			if (isPropExist())
 				m_pActDelProp->setEnabled(true);
@@ -824,7 +871,7 @@ void QGLESPIDCanvas::contextMenuEvent(QContextMenuEvent * e)
 			m_pEditMetaItem->setEnabled(true);
 		
 			m_nSelMetaIdx = pItem->GetIndex();
-			m_nSelIdx = 0;
+			m_nSelNormalIdx = 0;
 
 			if (isMetaPropExist())
 				m_pRemoveMetaProp->setEnabled(true);
@@ -882,7 +929,7 @@ void QGLESPIDCanvas::dropEvent(QDropEvent * e)
 			pProp->nAtMiliseconds = m_nCurTime;
 			setPropertiesFromItem(pItem, pProp, e->pos().x(), e->pos().y());
 			syncBounds(pItem, pProp);
-			m_nSelIdx = pItem->GetIndex();
+			m_nSelNormalIdx = pItem->GetIndex();
 			m_nSelMetaIdx = 0;
 			setSelectedItemVectors(pItem, 0);
 		}
@@ -1087,72 +1134,159 @@ void QGLESPIDCanvas::mousePressEvent(QMouseEvent *e)
 	auto *pDM = CDataManage::GetInstance();
 	CTextureInfo *pTI = CTextureInfo::GetInstance();
 
-	if (e->button() == Qt::LeftButton)
+	if (!m_bScaleDown && !m_bScaleUp)
 	{
-		m_bMousePressed = true;
-		auto pVEC = pDM->GET_MODEL_CLASS(DisplayItem).get()->getVector();
-		auto pVECM = pDM->GET_MODEL_CLASS(DisplayMetaItem).get()->getVector();
-
-		for (auto it : (*pVEC))
+		if (e->button() == Qt::LeftButton)
 		{
-			auto *pItem = (DisplayItem*)it.get();
-			if (isPtInItemBound(pItem, e->pos().x(), e->pos().y(),&m_fOffsetX,&m_fOffsetY))
+			m_bMousePressed = true;
+			auto pVEC = pDM->GET_MODEL_CLASS(DisplayItem).get()->getVector();
+			auto pVECM = pDM->GET_MODEL_CLASS(DisplayMetaItem).get()->getVector();
+
+			for (auto it : (*pVEC))
 			{
-				m_bMoving = false;
-				pItem->bSelected = true;
-				m_nSelIdx = pItem->GetIndex();
-				setSelectedItemVectors( pItem, 0);
-				m_nSelMetaIdx = 0;
-				update();
-				return;
+				auto *pItem = (DisplayItem*)it.get();
+				if (isPtInItemBound(pItem, e->pos().x(), e->pos().y(), &m_fOffsetX, &m_fOffsetY))
+				{
+					m_bMoving = false;
+					pItem->bSelected = true;
+					m_nSelNormalIdx = pItem->GetIndex();
+					setSelectedItemVectors(pItem, 0);
+					m_nSelMetaIdx = 0;
+
+					update();
+					return;
+				}
 			}
-		}
 
-		for (auto it : (*pVEC))
-		{
-			auto *pItem = (DisplayItem*)it.get();
-			pItem->bSelected = false;
-		}
-
-		for (auto it : (*pVECM))
-		{
-			auto *pItem = (DisplayMetaItem*)it.get();
-			if (isPtInMetaItemBound(pItem, e->pos().x(), e->pos().y(), &m_fOffsetX, &m_fOffsetY))
+			for (auto it : (*pVEC))
 			{
-				m_bMoving = false;
-				pItem->bSelected = true;
-				m_nSelMetaIdx = pItem->GetIndex();
-
-				setSelectedItemVectors(pItem, 1);
-				m_nSelIdx = 0;
-				update();
-				return;
+				auto *pItem = (DisplayItem*)it.get();
+				pItem->bSelected = false;
 			}
-		}
 
-		for (auto it : (*pVECM))
-		{
-			auto *pItem = (DisplayMetaItem*)it.get();
-			pItem->bSelected = false;
+			for (auto it : (*pVECM))
+			{
+				auto *pItem = (DisplayMetaItem*)it.get();
+				if (isPtInMetaItemBound(pItem, e->pos().x(), e->pos().y(), &m_fOffsetX, &m_fOffsetY))
+				{
+					m_bMoving = false;
+					pItem->bSelected = true;
+					m_nSelMetaIdx = pItem->GetIndex();
+
+					setSelectedItemVectors(pItem, 1);
+					m_nSelNormalIdx = 0;
+					update();
+					return;
+				}
+			}
+
+			for (auto it : (*pVECM))
+			{
+				auto *pItem = (DisplayMetaItem*)it.get();
+				pItem->bSelected = false;
+			}
+
+			m_nSelNormalIdx = 0;
+			m_nSelMetaIdx = 0;
+			update();
+			return;
 		}
-		
-		m_nSelIdx = 0;
-		m_nSelMetaIdx = 0;
-		update();
-		return;
 	}
+	// scale up/down
+	//else
+	//{
+	//	if (e->button() == Qt::LeftButton)
+	//	{
+	//		m_bMousePressed = true;
+	//		auto pVEC = pDM->GET_MODEL_CLASS(DisplayItem).get()->getVector();
+	//		auto pVECM = pDM->GET_MODEL_CLASS(DisplayMetaItem).get()->getVector();
+
+	//		for (auto it : (*pVEC))
+	//		{
+	//			auto *pItem = (DisplayItem*)it.get();
+	//			if (isPtInItemBound(pItem, e->pos().x(), e->pos().y(), &m_fOffsetX, &m_fOffsetY))
+	//			{
+	//				m_bMoving = false;
+	//				pItem->bSelected = true;
+	//				m_nSelNormalIdx = pItem->GetIndex();
+	//				setSelectedItemVectors(pItem, 0);
+	//				m_nSelMetaIdx = 0;
+	//				
+	//				GLfloat scaleX = pItem->m_fScale[0];
+	//				GLfloat scaleY = pItem->m_fScale[1];
+
+	//				qDebug() << "scale X/Y" << scaleX << scaleY;
+
+	//				if (m_bScaleDown)
+	//				{
+	//					scaleX -= 0.2;
+	//					scaleY -= 0.2;
+	//				}
+
+	//				if (m_bScaleUp)
+	//				{
+	//					scaleX += 0.2;
+	//					scaleY += 0.2;
+	//				}
+	//				int nCurTime = m_nCurTime;
+
+	//				//해당되는 시간을 찾는다.
+	//				auto iit = find_if(pItem->m_vChildItem[0].vSQLData.begin(), pItem->m_vChildItem[0].vSQLData.end(), [&nCurTime](std::shared_ptr<CSQLData> &pData)
+	//				{
+	//					auto *pProp = (DisplayProp*)pData.get();
+	//					return (pProp->nAtMiliseconds == nCurTime);
+	//				});
+	//				if (iit != pItem->m_vChildItem[0].vSQLData.end())
+	//				{
+	//					auto *pProp = (DisplayProp*)iit->get();
+	//					//setPropertiesFromItem(pItem, pProp, scaleX, scaleY);
+	//					pItem->m_fScale[0] = scaleX;
+	//					pItem->m_fScale[1] = scaleY;
+	//					pProp->fScalingY = pItem->m_fScale[1];
+	//					pProp->fScalingX = pItem->m_fScale[0];
+	//					pProp->fAngle = pItem->m_fRotation;
+	//					pProp->nVisible = pItem->m_nVisible;
+	//					unsigned int uRed = (unsigned char)(GLfloat)((pItem->m_fColor[0] / 1.0f) * 255.0f);
+	//					unsigned int uGreen = (unsigned char)(GLfloat)((pItem->m_fColor[1] / 1.0f) * 255.0f);
+	//					unsigned int uBlue = (unsigned char)(GLfloat)((pItem->m_fColor[2] / 1.0f) * 255.0f);
+	//					unsigned int uAlpha = (unsigned char)(GLfloat)((pItem->m_fColor[3] / 1.0f) * 255.0f);
+	//					pProp->uColor = (uRed << 24) | (uGreen << 16) | (uBlue << 8) | (uAlpha);
+
+	//					if (pProp->GetRecordState() != EDIT_INSERTED)
+	//					{
+	//						pProp->SetRecordState(EDIT_UPDATED);
+	//					}
+
+	//					m_fOffsetX = 0;
+	//					m_fOffsetY = 0;
+	//				}
+
+	//				update();
+	//				return;
+	//			}
+	//		}
+
+	//		for (auto it : (*pVEC))
+	//		{
+	//			auto *pItem = (DisplayItem*)it.get();
+	//			pItem->bSelected = false;
+	//		}
+	//	}
+	//}	
 }
 
 
 void QGLESPIDCanvas::mouseMoveEvent(QMouseEvent *e)
 {
-	int nSelIdx = m_nSelIdx;
+	int nSelIdx = m_nSelNormalIdx;
 	auto *pDM = CDataManage::GetInstance();
 	CTextureInfo *pTI = CTextureInfo::GetInstance();
 	emit positionChanged(QString("x : %1 y : %2").arg(e->pos().x()).arg(e->pos().y()));
 	
 	if (m_bMousePressed)
 	{
+		const int posX = e->pos().x();
+		const int posY = e->pos().y();
 		m_bMouseMovedWhilePressed = true;
 		auto pVEC = pDM->GET_MODEL_CLASS(DisplayItem).get()->getVector();
 		if (nSelIdx)
@@ -1160,16 +1294,19 @@ void QGLESPIDCanvas::mouseMoveEvent(QMouseEvent *e)
 			auto fIt = find_if(pVEC->begin(), pVEC->end(), [&nSelIdx](std::shared_ptr<CSQLData> &pData) {return (pData->GetIndex() == nSelIdx); });
 			if (fIt != pVEC->end())
 			{
-				m_bMoving = true;
+
 				DisplayItem *pItem = (DisplayItem*)fIt->get();
+				m_bMoving = true;
+
 				pItem->m_fTrans[0] = (GLfloat)e->pos().x() - m_fOffsetX;
 				pItem->m_fTrans[1] = (GLfloat)e->pos().y() - m_fOffsetY;
+				qDebug() << pItem->m_fTrans[0] << pItem->m_fTrans[1] << m_fOffsetX << m_fOffsetY << posX << posY;
 				update();
 				return;
 			}
 		}
 
-		int nMetaSelIdx = m_nSelMetaIdx;
+		const int nMetaSelIdx = m_nSelMetaIdx;
 		auto pVECM = pDM->GET_MODEL_CLASS(DisplayMetaItem).get()->getVector();
 		if (nMetaSelIdx)
 		{
@@ -1185,7 +1322,8 @@ void QGLESPIDCanvas::mouseMoveEvent(QMouseEvent *e)
 			}
 		}
 
-		
+		m_lastPosX = posX;
+		m_lastPosY = posY;
 	}
 }
 
@@ -1214,7 +1352,7 @@ void QGLESPIDCanvas::reorderAllTimeLine()
 void QGLESPIDCanvas::mouseReleaseEvent(QMouseEvent *e)
 {
 	m_bMoving = false;
-	int nSelIdx = m_nSelIdx;
+	int nSelIdx = m_nSelNormalIdx;
 	int nSelMetaIdx = m_nSelMetaIdx;
 
 	m_bMousePressed = false;
@@ -1246,6 +1384,7 @@ void QGLESPIDCanvas::mouseReleaseEvent(QMouseEvent *e)
 				});
 				if (iit != pItem->m_vChildItem[0].vSQLData.end())
 				{
+					
 					auto *pProp = (DisplayProp*)iit->get();
 					setPropertiesFromItem(pItem, pProp, e->pos().x() - m_fOffsetX, e->pos().y() - m_fOffsetY);
 					m_fOffsetX = 0;
@@ -1322,7 +1461,7 @@ void QGLESPIDCanvas::mouseReleaseEvent(QMouseEvent *e)
 
 
 	sortToZOrder();
-	m_nSelIdx = 0;
+	m_nSelNormalIdx = 0;
 	m_nSelMetaIdx = 0;
 
 	m_bMouseMovedWhilePressed = false;
@@ -1330,12 +1469,21 @@ void QGLESPIDCanvas::mouseReleaseEvent(QMouseEvent *e)
 	return;
 }
 
-void QGLESPIDCanvas::setPropertiesFromItem(DisplayItem* pItem, DisplayProp *pProp,GLfloat nX, GLfloat nY)
+inline void QGLESPIDCanvas::setPropertiesFromItem(DisplayItem * pItem, DisplayProp * pProp, GLfloat nX, GLfloat nY)
 {
-	pProp->fX = (GLfloat)nX;
-	pProp->fY = (GLfloat)nY;
-	pProp->fScalingX = pItem->m_fScale[0];
+	if (!m_bScaleUp && !m_bScaleDown)
+	{
+		pProp->fX = (GLfloat)nX;
+		pProp->fY = (GLfloat)nY;
+	}
+	//else
+	//{
+	//	pItem->m_fScale[0] = nX;
+	//	pItem->m_fScale[1] = nY;
+	//}
+
 	pProp->fScalingY = pItem->m_fScale[1];
+	pProp->fScalingX = pItem->m_fScale[0];
 	pProp->fAngle = pItem->m_fRotation;
 	pProp->nVisible = pItem->m_nVisible;
 	unsigned int uRed = (unsigned char)(GLfloat)((pItem->m_fColor[0] / 1.0f) * 255.0f);

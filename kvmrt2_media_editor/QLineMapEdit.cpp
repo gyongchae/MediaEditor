@@ -7,6 +7,8 @@
 #include "QGLESLineMapCanvas.h"
 #include <qdebug.h>
 #include "DefineMode.h"
+#include "MapManage.h"
+#include "qindexcombobox.h"
 
 QLineMapEdit::QLineMapEdit(int nIndexRow, QWidget *parent)
 	: QDialog(parent),m_nRow(nIndexRow)
@@ -45,14 +47,31 @@ QLineMapEdit::~QLineMapEdit()
 {
 }
 
+void QLineMapEdit::changedIconRadio()
+{
+	qDebug() << ui.rbPassed->isChecked() << ui.rbTarget->isChecked() << ui.rbRemain->isChecked();
+	
+	if(ui.rbPassed->isChecked())		emit nodeIconRadioChanged(STN_NODE_PASSED);
+	else if (ui.rbTarget->isChecked())	emit nodeIconRadioChanged(STN_NODE_TARGET);
+	else if (ui.rbRemain->isChecked())	emit nodeIconRadioChanged(STN_NODE_REMAIN);
+	else								emit nodeIconRadioChanged(STN_NODE_PASSED);
+
+	ui.openGLWidget->update();
+	update();
+}
+
 void QLineMapEdit::initModels(int nRow)
 {
 	auto *pDM = CDataManage::GetInstance();
 	auto *pTM = CTableManage::GetInstance();
+	
 	pDM->GET_MODEL_CLASS(LineMapLink)->setVectors(&pTM->VECTOR_CLASS(LineMapPool)[nRow]->m_vChildItem[0].vSQLData, &pTM->VECTOR_CLASS(LineMapPool)[nRow]->m_vChildItem[0].vSQLDataDelItems, pTM->VECTOR_CLASS(LineMapPool)[nRow].get()->GetIndex());
 	pDM->GET_MODEL_CLASS(LineMapNode)->setVectors(&pTM->VECTOR_CLASS(LineMapPool)[nRow]->m_vChildItem[2].vSQLData, &pTM->VECTOR_CLASS(LineMapPool)[nRow]->m_vChildItem[2].vSQLDataDelItems, pTM->VECTOR_CLASS(LineMapPool)[nRow].get()->GetIndex());
 	pDM->GET_MODEL_CLASS(LineMapArrowTexture)->setVectors(&pTM->VECTOR_CLASS(LineMapPool)[nRow]->m_vChildItem[3].vSQLData, &pTM->VECTOR_CLASS(LineMapPool)[nRow]->m_vChildItem[3].vSQLDataDelItems, pTM->VECTOR_CLASS(LineMapPool)[nRow].get()->GetIndex());
 	pDM->GET_MODEL_CLASS(LineMapDisplayItem)->setVectors(&pTM->VECTOR_CLASS(LineMapPool)[nRow]->m_vChildItem[4].vSQLData, &pTM->VECTOR_CLASS(LineMapPool)[nRow]->m_vChildItem[4].vSQLDataDelItems, pTM->VECTOR_CLASS(LineMapPool)[nRow].get()->GetIndex());
+
+	m_pVector = &pTM->VECTOR_CLASS(LineMapPool)[nRow]->m_vChildItem[2].vSQLData;
+	m_pDelVector = &pTM->VECTOR_CLASS(LineMapPool)[nRow]->m_vChildItem[2].vSQLDataDelItems;
 }
 
 void QLineMapEdit::resizeEvent(QResizeEvent *)
@@ -97,6 +116,29 @@ void QLineMapEdit::initWidgets()
 	
 	connect(m_showSpotGroup, SIGNAL(buttonClicked(int)),
 		this, SLOT(clickedSetSpotButton(int)));
+
+	auto *pMM = CMapManage::GetInstance();
+	for (auto i : pMM->m_mBoundType)
+	{
+		ui.comboBound->addItem(QString::fromStdWString(i.second), i.first);
+	}
+
+	connect(ui.rbPassed, SIGNAL(clicked()), this, SLOT(changedIconRadio()));
+	connect(ui.rbTarget, SIGNAL(clicked()), this, SLOT(changedIconRadio()));
+	connect(ui.rbRemain, SIGNAL(clicked()), this, SLOT(changedIconRadio()));
+	connect(this, SIGNAL(nodeIconRadioChanged(const int)), ui.openGLWidget, SLOT(getNodeIconRadioChangedIdx(const int)));
+
+	connect(ui.openGLWidget, SIGNAL(positionChanged(const QString &)), 
+		ui.labelCoordXY, SLOT(setText(const QString &)));
+
+	auto *pTM = CTableManage::GetInstance();
+	ui.comboStationInfo->Initialize(&pTM->VECTOR_CLASS(StationInformation), 0, 2, TYPE_TEXT);
+	connect(ui.comboStationInfo, SIGNAL(currentIndexChanged(int)), this, SLOT(onUpdateRouteMapLine(int)));
+	connect(ui.comboStationInfo, SIGNAL(highlighted(int)), this, SLOT(onUpdateRouteMapLine(int)));
+	connect(ui.comboBound, SIGNAL(currentIndexChanged(int)), this, SLOT(onUpdateRouteMapLine(int)));
+	connect(ui.comboBound, SIGNAL(highlighted(int)), this, SLOT(onUpdateRouteMapLine(int)));
+	connect(ui.openGLWidget, SIGNAL(updateRouteMapLine()), this, SLOT(onUpdateRouteMapLine()));
+	connect(this, SIGNAL(sendStnIdxAndBound(int,int)), ui.openGLWidget, SLOT(getChangedStnAndBound(int, int)));
 }
 
 IMPLEMENT_INIT_FUNCTION_FOR_CLASS(QLineMapEdit, LineMapLink)
@@ -110,6 +152,13 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(QLineMapEdit, LineMapLink)
 	SET_SELECTION_BEHAVIOR(LineMapLink, QAbstractItemView::SelectRows);
 	SET_SELECTION_MODE(LineMapLink, QAbstractItemView::SingleSelection);
 	SET_DRAG_AND_DROP_ENABLED(LineMapLink);
+
+	connect(GET_TABLE_MODEL(pDM, LineMapLink).get(),
+		SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)), 
+		this, 
+		SLOT(onUpdateRouteMapLine(const QModelIndex &, const QModelIndex &)));
+
+
 	return false;
 }
 
@@ -276,6 +325,8 @@ void QLineMapEdit::pasteNodeProperty()
 		}
 	}
 
+	ui.openGLWidget->update();
+	update();
 }
 
 void QLineMapEdit::pasteSpotProperty()
@@ -311,6 +362,9 @@ void QLineMapEdit::pasteSpotProperty()
 		{
 		}
 	}
+
+	ui.openGLWidget->update();
+	update();
 }
 
 void QLineMapEdit::clickedSetSpotButton(int id)
@@ -332,6 +386,27 @@ void QLineMapEdit::colorApply()
 {
 	m_pLineMapMapper->submit();
 	Sleep(50);
+	ui.openGLWidget->update();
+	update();
+}
+
+void QLineMapEdit::onUpdateRouteMapLine(const int idx)
+{
+	emit sendStnIdxAndBound(ui.comboStationInfo->currentIndex(), ui.comboBound->currentIndex());
+	ui.openGLWidget->update();
+	update();
+}
+
+void QLineMapEdit::onUpdateRouteMapLine(const QModelIndex & topLeft, const QModelIndex & bottomRight)
+{
+	emit sendStnIdxAndBound(ui.comboStationInfo->currentIndex(), ui.comboBound->currentIndex());
+	ui.openGLWidget->update();
+	update();
+}
+
+void QLineMapEdit::onUpdateRouteMapLine()
+{
+	emit sendStnIdxAndBound(ui.comboStationInfo->currentIndex(), ui.comboBound->currentIndex());
 	ui.openGLWidget->update();
 	update();
 }
@@ -370,6 +445,7 @@ void QLineMapEdit::initMapper()
 		m_pLineMapMapper->addMapping(ui.m_ctlArrowFocusedColor, 20, "colorValue");
 		m_pLineMapMapper->addMapping(ui.m_ctlArrowSecondFocusedColor, 21, "colorValue");
 		m_pLineMapMapper->addMapping(ui.m_ctlArrowRemainedColor, 22, "colorValue");
+		m_pLineMapMapper->addMapping(ui.comboBound, 24, "currentIndex");
 		m_pLineMapMapper->setCurrentIndex(m_nRow);
 	}
 }

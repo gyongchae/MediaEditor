@@ -103,7 +103,7 @@ public:
     {
         if (NodePropertyDlg->objectName().isEmpty())
             NodePropertyDlg->setObjectName(QStringLiteral("NodePropertyDlg"));
-        NodePropertyDlg->resize(641, 285);
+        NodePropertyDlg->resize(714, 285);
         verticalLayout_3 = new QVBoxLayout(NodePropertyDlg);
         verticalLayout_3->setSpacing(6);
         verticalLayout_3->setContentsMargins(11, 11, 11, 11);

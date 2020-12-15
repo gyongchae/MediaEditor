@@ -72,11 +72,22 @@ protected:
 	void contextMenuEvent(QContextMenuEvent * event) Q_DECL_OVERRIDE;
 	void dropEvent(QDropEvent * e) Q_DECL_OVERRIDE;
 
+	// new func for resize item
+	void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+	void keyReleaseEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+
 	void initShaders();
 	void initShadersForLine();
 
-	GLfloat m_fOffsetX;
-	GLfloat m_fOffsetY;
+	GLfloat m_fOffsetX; // 선택한 아이템 내에서 선택한 위치 좌표 X
+	GLfloat m_fOffsetY; // 선택한 아이템 내에서 선택한 위치 좌표 Y
+
+private:
+	bool m_bScaleUp = false;
+	bool m_bScaleDown = false;
+	int m_lastPosX = 0;
+	int m_lastPosY = 0;
+
 
 private:
 	std::vector<std::shared_ptr<MaxRectsPixelBuffer>> vBinPacked;
@@ -112,7 +123,7 @@ private:
 	QOpenGLShaderProgram lineProgram;
 
 	int m_nSelMetaIdx;
-	int m_nSelIdx;
+	int m_nSelNormalIdx;
 
 	int m_nLatestSelected;
 	int m_nLatestSelectedType;

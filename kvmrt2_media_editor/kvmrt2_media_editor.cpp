@@ -576,6 +576,7 @@ void kvmrt2_media_editor::onBtnRouteAutoAdd()
 	전제 조건
 	1. 역 코드는 1씩 증가한다. (안 쓰는 역 발생함)
 	2. 거리 테이블에 역 쌍들은 출발역-도착역 간 코드가 1씩 차이난다.
+	역 코드가 아니라 table order로 변경함.
 	*/
 
 	/*
@@ -1522,7 +1523,9 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, StopPtnHeader)
 	connect(GET_TABLE(StopPtnHeader), SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(showContextMenu(const QPoint &)));
 	CONNECT_ROW_CHAHANGED_SLOT(StopPtnHeader, updateStopPtnRoutes(const QModelIndex &, const QModelIndex &));
 
-	connect(GET_TABLE_MODEL(pDM, StopPtnHeader).get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(updateStopPtnHeader(const QModelIndex &, const QModelIndex &)));
+	connect(GET_TABLE_MODEL(pDM, StopPtnHeader).get(), 
+		SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)), 
+		this, SLOT(updateStopPtnHeader(const QModelIndex &, const QModelIndex &)));
 
 	return false;
 }

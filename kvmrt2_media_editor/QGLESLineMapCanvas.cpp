@@ -14,7 +14,7 @@
 QGLESLineMapCanvas::QGLESLineMapCanvas(QWidget * parent)
 	: QOpenGLWidget(parent), m_nWidth(0), m_nHeight(0),
 	m_eEditMode(EDIT_TILE_MAP), m_nLineWidth(0), m_nCellSize(0), m_pLinkMenu(0), m_nSelectedArrow(-1),
-	m_nSelectedNode(-1), m_bCtrlKeyPressed(false), m_bPressed(false), m_eCurrentStnState(0), m_nCurTime(0), m_fOffsetX(0), m_fOffsetY(0), m_nSelectedDispItem(0)
+	m_nSelectedNode(-1), m_bNodeAlignPressed(false), m_bPressed(false), m_eCurrentStnState(0), m_nCurTime(0), m_fOffsetX(0), m_fOffsetY(0), m_nSelectedDispItem(0)
 {
 	memset(m_uVBOsID, 0, sizeof(m_uVBOsID));
 	setCurrentStationState(0);
@@ -26,7 +26,7 @@ QGLESLineMapCanvas::QGLESLineMapCanvas(QWidget * parent)
 QGLESLineMapCanvas::QGLESLineMapCanvas(int nRow, QWidget *parent)
 	: QOpenGLWidget(parent), m_nWidth(0), m_nHeight(0), m_nRow(nRow),
 	m_eEditMode(EDIT_TILE_MAP),m_nLineWidth(0), m_nCellSize(0), m_pLinkMenu(0), m_nSelectedArrow(-1),
-	m_nSelectedNode(-1), m_bCtrlKeyPressed(false), m_bPressed(false), m_eCurrentStnState(0), m_nCurTime(0),m_fOffsetX(0),m_fOffsetY(0), m_nSelectedDispItem(0)
+	m_nSelectedNode(-1), m_bNodeAlignPressed(false), m_bPressed(false), m_eCurrentStnState(0), m_nCurTime(0),m_fOffsetX(0),m_fOffsetY(0), m_nSelectedDispItem(0)
 {
 	memset(m_uVBOsID, 0,sizeof(m_uVBOsID));
 	setCurrentStationState(0);
@@ -98,6 +98,59 @@ void QGLESLineMapCanvas::deleteItem()
 void QGLESLineMapCanvas::editProperties()
 {
 	
+}
+
+void QGLESLineMapCanvas::getChangedStnAndBound(const int stnOrder, const int bound)
+{
+	m_unusedLines.clear();
+	if (stnOrder != 0)
+	{
+		auto *pDM = CDataManage::GetInstance();
+		auto *pTM = CTableManage::GetInstance();
+		auto linkVec = pDM->GET_MODEL_CLASS(LineMapLink)->getVector();
+
+		auto stnVec = pTM->m_vStationInformation;
+
+		int stnCode = 0;
+
+		auto it = find_if(stnVec.begin(), stnVec.end(), findStationNameCodeByTableOrder(stnOrder));
+		if (it != stnVec.end())
+		{
+			auto *a = dynamic_cast<StationInformation*>(it->get());
+			stnCode = a->nStationCode;
+		}
+
+		qDebug() << "Selected STN CODE:" << stnCode;
+
+		QList<LineMapLink*> unusedLines;
+		if (bound == 0) // north
+		{
+			for (auto it : (*linkVec))
+			{
+				LineMapLink *pLink = (LineMapLink*)it.get();
+				if (pLink->nActiveStation < stnCode)
+				{
+					unusedLines.append(pLink);
+				}
+			}
+		}
+		else if (bound == 1) // south (101 -> 141)
+		{
+			for (auto it : (*linkVec))
+			{
+				LineMapLink *pLink = (LineMapLink*)it.get();
+				if (pLink->nActiveStation > stnCode)
+				{
+					unusedLines.append(pLink);
+				}
+			}
+		}
+		else
+		{
+
+		}
+		m_unusedLines = unusedLines;
+	}
 }
 
 void QGLESLineMapCanvas::setBoundRectangle(DisplayItem *pItem)
@@ -190,12 +243,37 @@ void QGLESLineMapCanvas::paintGL()
 			matrix.ortho(0, m_nWidth, m_nHeight, 0, -1, 1);
 			matrix.translate(pLink->nPosX- (m_nCellSize/2),pLink->nPosY- (m_nCellSize/2));
 			
-
-			glUniform4f(m_uScrColor,(((pPool->uLineColor) & 0xFF)) / 255.0f,
-				(((pPool->uLineColor >> 8) & 0xFF)) / 255.0f,
-				(((pPool->uLineColor >> 16) & 0xFF)) / 255.0f,
-				(((pPool->uLineColor >> 24) & 0xFF)) / 255.0f);
-
+			bool bUnused = false;
+			if (!m_unusedLines.isEmpty())
+			{
+				for (auto a : m_unusedLines)
+				{
+					if (pLink->m_nTableIndex == a->m_nTableIndex)
+					{
+						bUnused = true;
+						break;
+					}
+				}
+				if (!bUnused)
+				{
+					glUniform4f(m_uScrColor, (((pPool->uLineColor) & 0xFF)) / 255.0f,
+						(((pPool->uLineColor >> 8) & 0xFF)) / 255.0f,
+						(((pPool->uLineColor >> 16) & 0xFF)) / 255.0f,
+						(((pPool->uLineColor >> 24) & 0xFF)) / 255.0f);
+				}
+				else
+				{
+					// set Unused line color!!!!!!
+					glUniform4f(m_uScrColor, 0.1, 0.1, 0.1, 1.0);
+				}
+			}
+			else
+			{
+				glUniform4f(m_uScrColor, (((pPool->uLineColor) & 0xFF)) / 255.0f,
+					(((pPool->uLineColor >> 8) & 0xFF)) / 255.0f,
+					(((pPool->uLineColor >> 16) & 0xFF)) / 255.0f,
+					(((pPool->uLineColor >> 24) & 0xFF)) / 255.0f);
+			}
 
 			glUniformMatrix4fv(m_uScrMatrix, 1, false, (const GLfloat*)&matrix);
 			for (auto subit : findIt->second->vIdxList)

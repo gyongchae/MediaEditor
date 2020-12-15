@@ -143,6 +143,9 @@
     <Filter Include="MAIN\User Manager">
       <UniqueIdentifier>{1c8570a5-f3d6-4bc1-ae79-5daa04be802d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SCREEN\ROUTE MAP\LINK PROP %28NEW%29">
+      <UniqueIdentifier>{b2e380de-7492-42ef-afec-8b1f383b4a05}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BinPacked\MaxRectsPixelBuffer.cpp">
@@ -514,6 +517,9 @@
     <ClCompile Include="AccountManage\changepassworddialog.cpp">
       <Filter>MAIN\User Manager</Filter>
     </ClCompile>
+    <ClCompile Include="routemaplineproperty.cpp">
+      <Filter>SCREEN\ROUTE MAP\LINK PROP %28NEW%29</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="LEDIndicator.h">
@@ -575,6 +581,9 @@
     </QtMoc>
     <QtMoc Include="AccountManage\changepassworddialog.h">
       <Filter>MAIN\User Manager</Filter>
+    </QtMoc>
+    <QtMoc Include="routemaplineproperty.h">
+      <Filter>SCREEN\ROUTE MAP\LINK PROP %28NEW%29</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -643,6 +652,9 @@
     </QtUic>
     <QtUic Include="AccountManage\changepassworddialog.ui">
       <Filter>MAIN\User Manager</Filter>
+    </QtUic>
+    <QtUic Include="routemaplineproperty.ui">
+      <Filter>SCREEN\ROUTE MAP\LINK PROP %28NEW%29</Filter>
     </QtUic>
   </ItemGroup>
   <ItemGroup>

@@ -8,6 +8,8 @@
 #include <QtGui>
 #include <qdebug.h>
 #include "DefineMode.h"
+#include "MapManage.h"
+#include "comboBoxDelegate.h"
 
 LineMapPoolEdit::LineMapPoolEdit(QWidget *parent)
 	: QDialog(parent)
@@ -42,6 +44,8 @@ LineMapPoolEdit::~LineMapPoolEdit()
 IMPLEMENT_INIT_FUNCTION_FOR_CLASS(LineMapPoolEdit,LineMapPool)
 {
 	auto *pDM = CDataManage::GetInstance();
+	auto *pMM = CMapManage::GetInstance();
+
 	SET_MODEL_FOR_TABLE_VIEW(LineMapPool, pDM);
 	INSTALL_EVENT_FILTER(LineMapPool);
 
@@ -52,6 +56,8 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(LineMapPoolEdit,LineMapPool)
 
 	QHeaderView *header=GET_TABLE(LineMapPool)->horizontalHeader();
 	header->resizeSections(QHeaderView::ResizeToContents);
+
+	ui.m_tblLineMapPool->setItemDelegateForColumn(24, new comboBoxDelegate(this, &pMM->m_mBoundType));
 
 	connect(GET_TABLE(LineMapPool),SIGNAL(doubleClicked(const QModelIndex&)),this,SLOT(insertmodifyLineMapPool(const QModelIndex&)));	
 	return false;
@@ -165,10 +171,11 @@ void LineMapPoolEdit::insertmodifyLineMapPool(const QModelIndex &index)
 {
 	auto *pDM = CDataManage::GetInstance();
 	auto *pTM=CTableManage::GetInstance();
-	int nRow=index.row();
+	int nRow = index.row();
+	int nCol = index.column();
 	if(GET_TABLE(LineMapPool)==sender())
 	{
-		if(nRow<pTM->VECTOR_CLASS(LineMapPool).size())
+		if(nRow < pTM->VECTOR_CLASS(LineMapPool).size())
 		{
 			QLineMapEdit linemapEdit(nRow, this);
 			if(linemapEdit.exec()==QDialog::Accepted)

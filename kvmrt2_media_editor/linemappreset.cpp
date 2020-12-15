@@ -3,6 +3,7 @@
 #include "TileMapSupport.h"
 #include "TableManage.h"
 #include <QDebug>
+#include "MapManage.h"
 
 
 LineMapPreset::LineMapPreset(int nRow, QWidget *parent)
@@ -12,16 +13,23 @@ LineMapPreset::LineMapPreset(int nRow, QWidget *parent)
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 	auto *pDM = CDataManage::GetInstance();
 
+	auto *pMM = CMapManage::GetInstance();
+	for (auto i : pMM->m_mBoundType)
+	{
+		ui.m_cbMapBound->addItem(QString::fromStdWString(i.second), i.first);
+	}
+
 	if (!m_pWidgetMapper)
 	{
 		m_pWidgetMapper = new QDataWidgetMapper(this);
 		m_pWidgetMapper->setModel((QAbstractItemModel*)pDM->m_pModLineMapPool.get());
 		m_pWidgetMapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
-		m_pWidgetMapper->addMapping(ui.editTitle, 1);
+		m_pWidgetMapper->addMapping(ui.editTitle, 1); // db table column
 		m_pWidgetMapper->addMapping(ui.m_cbTileSize, 2);
 		m_pWidgetMapper->addMapping(ui.m_cbLineThick, 3);
 		m_pWidgetMapper->addMapping(ui.m_cbMapWidth, 6);
 		m_pWidgetMapper->addMapping(ui.m_cbMapHeight, 7);
+		m_pWidgetMapper->addMapping(ui.m_cbMapBound, 24);
 		m_pWidgetMapper->setCurrentIndex(m_nRow);
 	}
 
@@ -29,6 +37,7 @@ LineMapPreset::LineMapPreset(int nRow, QWidget *parent)
 	ui.m_cbLineThick->setCurrentIndex(0);
 	ui.m_cbMapWidth->setCurrentIndex(0);
 	ui.m_cbMapHeight->setCurrentIndex(0);
+	ui.m_cbMapBound->setCurrentIndex(0);
 
 	connect(ui.buttonBox, SIGNAL(accepted()), this, SLOT(acceptedChanges()));
 	connect(ui.buttonBox, SIGNAL(rejected()), this, SLOT(rejectedChanges()));

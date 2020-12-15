@@ -436,6 +436,22 @@ private:
 	int m_nCode;
 };
 
+struct findStationNameCodeByTableOrder : public std::unary_function<SHARED_PTRC(CSQLData), bool>
+{
+	findStationNameCodeByTableOrder(int order)
+		:m_nOrder(order)
+	{
+
+	}
+	bool operator ()(SHARED_PTRC(CSQLData) &p)
+	{
+		StationInformation *c = dynamic_cast<StationInformation*>(p.get());
+		return (c->nOrder == m_nOrder);
+	}
+private:
+	int m_nOrder;
+};
+
 struct findStationNameCodeByTableIndex : public std::unary_function<SHARED_PTRC(CSQLData), bool>
 {
 	findStationNameCodeByTableIndex(int nIndex)
@@ -495,6 +511,21 @@ struct findDeviceTypeByIndex : public std::unary_function<SHARED_PTRC(CSQLData),
 	bool operator()(SHARED_PTRC(CSQLData) &p)
 	{
 		auto *c = dynamic_cast<VideoDeviceGroup*>(p.get());
+		return(c->m_nTableIndex == m_idx);
+	}
+private:
+	int m_idx;
+};
+
+struct findTagValuebyTagIndex : public std::unary_function<SHARED_PTRC(CSQLData), bool>
+{
+	findTagValuebyTagIndex(int idx) : m_idx(idx)
+	{
+
+	}
+	bool operator()(SHARED_PTRC(CSQLData) &p)
+	{
+		auto *c = dynamic_cast<EditorTagTable*>(p.get());
 		return(c->m_nTableIndex == m_idx);
 	}
 private:

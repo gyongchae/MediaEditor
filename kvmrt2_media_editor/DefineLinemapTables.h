@@ -13,7 +13,7 @@
 // LineMapLink
 BEGIN_CLASS_FROM_SQLDATA(LineMapLink, , );
 COMMON_VAL_FOR_SQLDATA;
-DECLARE_TYPESETTINGS(7);
+DECLARE_TYPESETTINGS(9);
 DECLARE_COMMON_FUNCTIONS OVERRIDE_DUMMY_EDITOR_FUNC;
 BEGIN_MAPPING_MEMBERS
 	m_tSettings[0].POINTER = (void*)(&m_nTableIndex);
@@ -23,6 +23,8 @@ BEGIN_MAPPING_MEMBERS
 	m_tSettings[4].POINTER = (void*)(&nPosY);
 	m_tSettings[5].POINTER = (void*)(&nProp);
 	m_tSettings[6].POINTER = (void*)(&nOrder); // no use
+	m_tSettings[7].POINTER = (void*)(&nActiveStation);
+	m_tSettings[8].POINTER = (void*)(szActStnName);
 END_MAPPING_MEMBERS
 	// fields
 	int nParent{ 0 };
@@ -30,13 +32,15 @@ END_MAPPING_MEMBERS
 	int nPosX{ 0 };
 	int nPosY{ 0 };
 	int nProp{ 0 };
+	int nOrder{ 0 };
+	int nActiveStation{ 0 };
+	TYC szActStnName[128]{ 0 };
 	// !fields
 	int nAngleSt{ 0 };
 	int nAngleEn{ 0 };
 	bool bSelected{ false };
 	bool bContains{ false };
 	int nSelCount{ 0 };
-	int nOrder{ 0 };
 #ifdef PAC_EDITOR
 	QPainterPath m_tPath;
 	QPainterPath m_tRevPath;
@@ -227,6 +231,7 @@ BEGIN_MAPPING_MEMBERS
 	m_tSettings[45].POINTER = (void*)(&nSType[2]); // indicates spot image refer display pool or image list pool
 
 	m_tSettings[46].POINTER = (void*)(&nOrder);
+	
 END_MAPPING_MEMBERS
 // fields
 	int nParent{ 0 };
@@ -235,11 +240,12 @@ END_MAPPING_MEMBERS
 	int nPosY{ 0 };
 	int nProp{ 0 };
 	int nStationIndex{ 0 };
+	int nStationCode{ 0 }; // not used yet
 
 	// node-related
 	int nOffsetX[3]{ 0 };
 	int nOffsetY[3]{ 0 };
-	int nCenterSpot[3]{ 0 };
+	int nCenterSpot[3]{ 5,5,5 }; // 	{5,L"CENTER MIDDLE"},
 	int nRotAngle[3]{ 0 };
 	int nType[3]{ 0 }; // display pool or image list pool
 	int nColored[3]{ 0 }; // always 0 (unchecked)
@@ -248,7 +254,7 @@ END_MAPPING_MEMBERS
 	// spot-related
 	int nSOffsetX[3]{ 0 };
 	int nSOffsetY[3]{ 0 };
-	int nSCenterSpot[3]{ 0 };
+	int nSCenterSpot[3]{ 5,5,5 }; // {5, L"CENTER MIDDLE"},
 	int nSUseDefault[3]; // init node image red circle
 	int nSRelatedIndex[3]{ 0 };
 	int nSType[3]{ 0 };
@@ -429,10 +435,15 @@ END_CLASS_FROM_SQLDATA
 DECLARE_EDITOR_CLASS(LineMapArrowTexture);
 // !LineMapArrowTexture
 
+/*
+TO DO LIST, 2020-12-09
+Add Unused Line Color!!!!!!!!!!!
+*/
+
 // LineMapPool
 BEGIN_CLASS_FROM_SQLDATA_WITH_CHILDS(LineMapPool, , , 5);
 COMMON_VAL_FOR_SQLDATA;
-DECLARE_TYPESETTINGS(24);
+DECLARE_TYPESETTINGS(25);
 DECLARE_COMMON_FUNCTIONS;/* OVERRIDE_DUMMY_EDITOR_FUNC*/
 BEGIN_MAPPING_MEMBERS
 	m_tSettings[0].POINTER = (void*)(&m_nTableIndex);
@@ -459,6 +470,7 @@ BEGIN_MAPPING_MEMBERS
 	m_tSettings[21].POINTER = (void*)(&uArrowFocusedColor1);
 	m_tSettings[22].POINTER = (void*)(&uArrowLeftColor);
 	m_tSettings[23].POINTER = (void*)(&nOrder);
+	m_tSettings[24].POINTER = (void*)(&nBound);
 END_MAPPING_MEMBERS
 	// fields
 	TYC szDesc[256]{ 0 };
@@ -484,6 +496,7 @@ END_MAPPING_MEMBERS
 	unsigned int uArrowFocusedColor1{ 0xffffffff };
 	unsigned int uArrowLeftColor{ 0xffffffff };
 	int nOrder{ 1 };
+	int nBound{ 0 };
 	// !fields
 
 virtual CEditSQLData* GetEditor(int nRow)

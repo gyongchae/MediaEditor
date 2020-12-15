@@ -315,6 +315,7 @@
     <ClCompile Include="QGLESLineMapCanvas2.cpp" />
     <ClCompile Include="QGLESLineMapPreview.cpp" />
     <ClCompile Include="QLineMapPreview.cpp" />
+    <ClCompile Include="routemaplineproperty.cpp" />
     <ClCompile Include="SQLData.cpp" />
     <ClCompile Include="TexPool.cpp" />
     <ClCompile Include="ValueMonitor.cpp" />
@@ -405,6 +406,7 @@
     <QtUic Include="QLineMapPreview.ui" />
     <QtUic Include="qpideditor.ui" />
     <QtUic Include="registrysettings.ui" />
+    <QtUic Include="routemaplineproperty.ui" />
     <QtUic Include="StationImagePool.ui" />
   </ItemGroup>
   <ItemGroup>
@@ -507,6 +509,11 @@
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);.\dataRelated;.\FileUpload;.\NewCanvas;.\FUTURE;.\AccountManage</IncludePath>
     </QtMoc>
     <ClInclude Include="resource.h" />
+    <QtMoc Include="routemaplineproperty.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtOpenGL;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtSql;$(QTDIR)\include\QtConcurrent;$(QTDIR)\include\QtWinExtras;$(QTDIR)\include\QtOpenGLExtensions;$(QTDIR)\include\QtMultimedia;$(QTDIR)\include\QtMultimediaWidgets;.\FileUpload;.\NewCanvas;.\FUTURE;.\AccountManage</IncludePath>
+      <Define Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">UNICODE;WIN32;NOMINMAX;WIN64;PAC_EDITOR;%(PreprocessorDefinitions);QT_WIDGETS_LIB</Define>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);.\dataRelated;.\FileUpload;.\NewCanvas;.\FUTURE;.\AccountManage</IncludePath>
+    </QtMoc>
     <ClInclude Include="SQLData.h" />
     <ClInclude Include="ValueMonitor.h" />
     <ClInclude Include="DataManage.h" />

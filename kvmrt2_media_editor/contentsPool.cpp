@@ -268,7 +268,7 @@ void ContentsPool::addVideoFilePool(bool bInsert)
 	QFileInfo fileInfo;
 	QString fileName = pDM->videoPath();
 	QStringList filePaths = QFileDialog::getOpenFileNames(this, QString::fromStdWString(L"Find video files"),
-		pDM->videoPath(), tr("Video File (*.mp4 *.MP4 *.avi *.AVI *.mpg *.MPG)"));
+		pDM->videoPath(), tr("Video File (*.mp4 *.MP4 *.avi *.AVI)"));
 	if (filePaths.size())
 	{
 		while (filePaths.size())

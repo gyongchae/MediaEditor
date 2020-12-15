@@ -54,6 +54,14 @@ enum
 	STATION_UNUSED
 };
 
+// new enum
+enum
+{
+	STN_NODE_PASSED = 0,
+	STN_NODE_TARGET,
+	STN_NODE_REMAIN,
+};
+
 enum
 {
 	DISP_DISPLAY_ITEM = 0,
@@ -81,6 +89,11 @@ public:
 	bool GetTextureInfo(std::vector<GLfloat> &vVertex, std::vector<GLushort> &vIndices, GLfloat fTexPosX, GLfloat fTexPosY, GLfloat fTexWidth, GLfloat fTexHeight, GLfloat fTexWholeWidth, GLfloat fTexWholeHeight, GLfloat fTextureOffset, GLsizei *pCount, GLsizei *pOffset, GLuint uVBOId, GLuint uIBOId);
 
 	void setArrowTexture(LineMapArrowTexture *pLMAT, std::vector<GLfloat> &vVertex, std::vector<GLushort> &vIndices, std::vector<GLfloat> &vVertexArrow, int nWholeWidth, int nWholeHeight, int nBytesPerPixel);
+
+signals:
+	void positionChanged(const QString &/*str*/);
+	void updateRouteMapLine();
+
 private:
 	std::vector<std::shared_ptr<MaxRectsPixelBuffer>> vBinPacked;
 	std::vector<std::shared_ptr<MaxRectsPixelBuffer>> vBinPackedDest;
@@ -142,7 +155,9 @@ public:		//a part that related to edit
 	void editSpot(int nSelectedIndex);
 	void resetPos(LineMapLink *pLink);
 	int m_nSelectedNode;
-	bool m_bCtrlKeyPressed;
+	int m_nSelectedLink = -1;
+	bool m_bNodeAlignPressed;
+	bool m_bLinkCtrlPressed = false;
 	bool m_bPressed;	//is L button pressed?
 
 	void realignNodes();
@@ -225,6 +240,16 @@ protected slots:
 	void setCurrentTime(int index);
 	void deleteItem();
 	void editProperties();
+
+	public slots:
+	void getNodeIconRadioChangedIdx(const int idx);
+	void getChangedStnAndBound(const int stnOrder, const int bound);
+
+
+private:
+	int m_nCurrNodeIconIdx = STN_NODE_PASSED;
+
+	QList<LineMapLink*> m_unusedLines;
 };
 
 #endif

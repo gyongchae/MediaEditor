@@ -161,7 +161,7 @@ BEGIN_CLASS_FROM_SQLDATA_WITH_CHILDS(DisplayMetaItem, \
 	fRatioX = fRatioY = fOffsetX = fOffsetY = fOrigX = fOrigY = 0.0f; nWidth = nHeight = 128;, , 1)
 
 	COMMON_VAL_FOR_SQLDATA
-	DECLARE_TYPESETTINGS(15)
+	DECLARE_TYPESETTINGS(16)
 DECLARE_COMMON_FUNCTIONS OVERRIDE_DUMMY_EDITOR_FUNC
 
 BEGIN_MAPPING_MEMBERS
@@ -180,6 +180,7 @@ m_tSettings[11].POINTER = (void*)(&nAppearTo);
 m_tSettings[12].POINTER = (void*)(&nZOrder);
 m_tSettings[13].POINTER = (void*)(&nOrigin);
 m_tSettings[14].POINTER = (void*)(&nTagIndex);
+m_tSettings[15].POINTER = (void*)(&nTagVarValue);
 \
 END_MAPPING_MEMBERS
 
@@ -197,6 +198,7 @@ int nWidth;
 int nHeight;
 int nRelatedIndex;
 int nTagIndex;
+int nTagVarValue{ 0 };
 GLfloat fOrigX, fOrigY;
 
 GLfloat fRatioX, fRatioY, fOffsetX, fOffsetY;
@@ -354,6 +356,21 @@ struct findDisplayItemByRelatedItem : public std::unary_function<SHARED_PTRC(CSQ
 	{
 		auto *c = dynamic_cast<DisplayItemPool*>(p.get());
 		return(c->m_nTableIndex == m_idx);
+	}
+private:
+	int m_idx;
+};
+
+struct findDisplayItemByDisplayType : public std::unary_function<SHARED_PTRC(CSQLData), bool>
+{
+	findDisplayItemByDisplayType(int idx) : m_idx(idx)
+	{
+
+	}
+	bool operator()(SHARED_PTRC(CSQLData) &p)
+	{
+		auto *c = dynamic_cast<DisplayItemPool*>(p.get());
+		return(c->nDisplayType == m_idx);
 	}
 private:
 	int m_idx;

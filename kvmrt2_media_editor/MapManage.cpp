@@ -86,6 +86,7 @@ MAPPARAM gMappingVariables[] =
 	{ 9, L"Hour" },
 	{ 10, L"Minute" },
 	{ 11, L"Am/Pm"},
+	{ 12, L"GIF Animation"},
 };
 
 
@@ -129,7 +130,8 @@ MAPPARAM gDisplayPoolType[] =
 	{ 3,L"Emergency"},
 	{ 4,L"Operation"},
 	{ 5,L"DRMD Pattern Test"},
-	{ 6,L"PID Pattern Test"}
+	{ 6,L"PID Pattern Test"},
+	{ 7,L"Unused Station Icon"},
 };
 
 MAPPARAM gAudioType[] =
@@ -172,6 +174,7 @@ MAPPARAM gBoundType[] =
 {
 	{0, L"North" },
 	{1, L"South"},
+	{2, L"-"},
 };
 
 CMapManage::CMapManage(void)

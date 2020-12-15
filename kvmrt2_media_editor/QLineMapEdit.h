@@ -52,6 +52,21 @@ public:
 	DECLARE_INIT_FUNCTION_FOR_CLASS(ImageIndexList);
 
 	std::shared_ptr<CSQLData> m_pCopyLineMapNode;
+	std::shared_ptr<CSQLData> m_pMapLine;
+
+signals:
+	void nodeIconRadioChanged(const int);
+	void sendStnIdxAndBound(int, int); // stncode, boundinfo
+
+public slots:
+	void changedIconRadio();
+	void onUpdateRouteMapLine(const int idx);
+	void onUpdateRouteMapLine(const QModelIndex & topLeft, const QModelIndex & bottomRight);
+	void onUpdateRouteMapLine();
+
+private:
+	int m_nLinkRow{ 0 };
+	int m_nLinkStnCode{0};
 
 protected slots:
 	void colorApply();
@@ -76,6 +91,10 @@ private:
 	tagNodeProperty m_tNode{0};
 	tagSpotProperty m_tSpot{0};
 	int m_selectedRow{ -1 }; // no copy target
+
+private:
+	std::vector<std::shared_ptr<CSQLData>> *m_pVector;
+	std::vector<std::shared_ptr<CSQLData>> *m_pDelVector;
 
 private:
 	Ui::QLineMapEdit ui;

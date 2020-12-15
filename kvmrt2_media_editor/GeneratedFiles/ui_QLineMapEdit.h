@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QGridLayout>
@@ -32,21 +33,24 @@
 #include <QtWidgets/QWidget>
 #include "QGLESLineMapCanvas.h"
 #include "qcolorpickerpushbutton.h"
+#include "qindexcombobox.h"
 
 QT_BEGIN_NAMESPACE
 
 class Ui_QLineMapEdit
 {
 public:
-    QVBoxLayout *verticalLayout_4;
+    QVBoxLayout *verticalLayout_3;
     QScrollArea *scrollArea;
     QWidget *scrollAreaWidgetContents;
     QGridLayout *gridLayout_9;
     QGLESLineMapCanvas *openGLWidget;
+    QHBoxLayout *horizontalLayout_5;
+    QVBoxLayout *verticalLayout_2;
     QHBoxLayout *horizontalLayout_3;
     QGroupBox *gbBasicMenu;
+    QGridLayout *gridLayout_13;
     QGridLayout *gridLayout_8;
-    QVBoxLayout *verticalLayout_2;
     QLabel *label_13;
     QLineEdit *editTitle;
     QLabel *label_14;
@@ -57,7 +61,8 @@ public:
     QLineEdit *editWidth;
     QLabel *label_17;
     QLineEdit *editHeight;
-    QVBoxLayout *verticalLayout_3;
+    QLabel *label_18;
+    QComboBox *comboBound;
     QGroupBox *m_grpEditMode;
     QGridLayout *gridLayout;
     QRadioButton *m_ctlTile;
@@ -66,13 +71,13 @@ public:
     QRadioButton *m_ctlNode;
     QRadioButton *m_ctlImageList;
     QGroupBox *groupBox_2;
+    QGridLayout *gridLayout_12;
     QGridLayout *gridLayout_6;
-    QFormLayout *formLayout_2;
     QLabel *label;
-    QColorPickerPushButton *m_ctlBackgroundColor;
-    QLabel *label_2;
     QColorPickerPushButton *m_ctlForegroundColor;
     QPushButton *m_pbApplyColor;
+    QColorPickerPushButton *m_ctlBackgroundColor;
+    QLabel *label_2;
     QStackedWidget *m_ctlStackedWidget;
     QWidget *page;
     QGridLayout *gridLayout_3;
@@ -95,24 +100,26 @@ public:
     QGridLayout *gridLayout_2;
     QVBoxLayout *verticalLayout_6;
     QHBoxLayout *horizontalLayout_6;
-    QPushButton *pushButton;
+    QLabel *label_19;
+    QIndexComboBox *comboStationInfo;
     QSpacerItem *horizontalSpacer_5;
-    QPushButton *pushButton_2;
-    QPushButton *pushButton_3;
-    QSpacerItem *horizontalSpacer_3;
-    QPushButton *pushButton_4;
     QTableView *m_tblLineMapLink;
     QWidget *pageNodeEdit;
-    QGridLayout *gridLayout_12;
     QGridLayout *gridLayout_11;
+    QHBoxLayout *horizontalLayout_12;
+    QPushButton *btnCopyProp;
     QPushButton *btnPasteNode;
     QPushButton *btnPasteSpot;
-    QSpacerItem *horizontalSpacer_2;
+    QTableView *m_tblLineMapNode;
+    QHBoxLayout *horizontalLayout_11;
     QPushButton *btnShowSpotDefault;
     QPushButton *btnShowSpotCustom;
-    QSpacerItem *horizontalSpacer_6;
-    QPushButton *btnCopyProp;
-    QTableView *m_tblLineMapNode;
+    QHBoxLayout *horizontalLayout_10;
+    QRadioButton *rbPassed;
+    QRadioButton *rbTarget;
+    QRadioButton *rbRemain;
+    QSpacerItem *horizontalSpacer_2;
+    QSpacerItem *horizontalSpacer_3;
     QWidget *pageArrowEdit;
     QGridLayout *gridLayout_5;
     QHBoxLayout *horizontalLayout;
@@ -135,6 +142,7 @@ public:
     QGridLayout *gridLayout_10;
     QTableView *m_tblImageIndexList;
     QHBoxLayout *horizontalLayout_4;
+    QLabel *labelCoordXY;
     QSpacerItem *horizontalSpacer_4;
     QPushButton *btnClose;
 
@@ -142,17 +150,17 @@ public:
     {
         if (QLineMapEdit->objectName().isEmpty())
             QLineMapEdit->setObjectName(QStringLiteral("QLineMapEdit"));
-        QLineMapEdit->resize(1157, 591);
-        verticalLayout_4 = new QVBoxLayout(QLineMapEdit);
-        verticalLayout_4->setSpacing(6);
-        verticalLayout_4->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
+        QLineMapEdit->resize(1515, 722);
+        verticalLayout_3 = new QVBoxLayout(QLineMapEdit);
+        verticalLayout_3->setSpacing(6);
+        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
         scrollArea = new QScrollArea(QLineMapEdit);
         scrollArea->setObjectName(QStringLiteral("scrollArea"));
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 1137, 262));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 1495, 420));
         gridLayout_9 = new QGridLayout(scrollAreaWidgetContents);
         gridLayout_9->setSpacing(6);
         gridLayout_9->setContentsMargins(11, 11, 11, 11);
@@ -164,85 +172,116 @@ public:
 
         scrollArea->setWidget(scrollAreaWidgetContents);
 
-        verticalLayout_4->addWidget(scrollArea);
+        verticalLayout_3->addWidget(scrollArea);
 
+        horizontalLayout_5 = new QHBoxLayout();
+        horizontalLayout_5->setSpacing(6);
+        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
+        verticalLayout_2 = new QVBoxLayout();
+        verticalLayout_2->setSpacing(6);
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setSpacing(6);
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
         gbBasicMenu = new QGroupBox(QLineMapEdit);
         gbBasicMenu->setObjectName(QStringLiteral("gbBasicMenu"));
-        gridLayout_8 = new QGridLayout(gbBasicMenu);
-        gridLayout_8->setSpacing(6);
-        gridLayout_8->setContentsMargins(11, 11, 11, 11);
+        gridLayout_13 = new QGridLayout(gbBasicMenu);
+        gridLayout_13->setSpacing(4);
+        gridLayout_13->setContentsMargins(11, 11, 11, 11);
+        gridLayout_13->setObjectName(QStringLiteral("gridLayout_13"));
+        gridLayout_13->setContentsMargins(4, 4, 4, 4);
+        gridLayout_8 = new QGridLayout();
+        gridLayout_8->setSpacing(3);
         gridLayout_8->setObjectName(QStringLiteral("gridLayout_8"));
-        verticalLayout_2 = new QVBoxLayout();
-        verticalLayout_2->setSpacing(6);
-        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         label_13 = new QLabel(gbBasicMenu);
         label_13->setObjectName(QStringLiteral("label_13"));
 
-        verticalLayout_2->addWidget(label_13);
+        gridLayout_8->addWidget(label_13, 0, 0, 1, 1);
 
         editTitle = new QLineEdit(gbBasicMenu);
         editTitle->setObjectName(QStringLiteral("editTitle"));
+        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(editTitle->sizePolicy().hasHeightForWidth());
+        editTitle->setSizePolicy(sizePolicy);
 
-        verticalLayout_2->addWidget(editTitle);
+        gridLayout_8->addWidget(editTitle, 0, 1, 1, 1);
 
         label_14 = new QLabel(gbBasicMenu);
         label_14->setObjectName(QStringLiteral("label_14"));
 
-        verticalLayout_2->addWidget(label_14);
+        gridLayout_8->addWidget(label_14, 1, 0, 1, 1);
 
         editTileSize = new QLineEdit(gbBasicMenu);
         editTileSize->setObjectName(QStringLiteral("editTileSize"));
+        sizePolicy.setHeightForWidth(editTileSize->sizePolicy().hasHeightForWidth());
+        editTileSize->setSizePolicy(sizePolicy);
 
-        verticalLayout_2->addWidget(editTileSize);
+        gridLayout_8->addWidget(editTileSize, 1, 1, 1, 1);
 
         label_15 = new QLabel(gbBasicMenu);
         label_15->setObjectName(QStringLiteral("label_15"));
 
-        verticalLayout_2->addWidget(label_15);
+        gridLayout_8->addWidget(label_15, 2, 0, 1, 1);
 
         editLineThick = new QLineEdit(gbBasicMenu);
         editLineThick->setObjectName(QStringLiteral("editLineThick"));
+        sizePolicy.setHeightForWidth(editLineThick->sizePolicy().hasHeightForWidth());
+        editLineThick->setSizePolicy(sizePolicy);
 
-        verticalLayout_2->addWidget(editLineThick);
+        gridLayout_8->addWidget(editLineThick, 2, 1, 1, 1);
 
         label_16 = new QLabel(gbBasicMenu);
         label_16->setObjectName(QStringLiteral("label_16"));
 
-        verticalLayout_2->addWidget(label_16);
+        gridLayout_8->addWidget(label_16, 3, 0, 1, 1);
 
         editWidth = new QLineEdit(gbBasicMenu);
         editWidth->setObjectName(QStringLiteral("editWidth"));
+        sizePolicy.setHeightForWidth(editWidth->sizePolicy().hasHeightForWidth());
+        editWidth->setSizePolicy(sizePolicy);
 
-        verticalLayout_2->addWidget(editWidth);
+        gridLayout_8->addWidget(editWidth, 3, 1, 1, 1);
 
         label_17 = new QLabel(gbBasicMenu);
         label_17->setObjectName(QStringLiteral("label_17"));
 
-        verticalLayout_2->addWidget(label_17);
+        gridLayout_8->addWidget(label_17, 4, 0, 1, 1);
 
         editHeight = new QLineEdit(gbBasicMenu);
         editHeight->setObjectName(QStringLiteral("editHeight"));
+        sizePolicy.setHeightForWidth(editHeight->sizePolicy().hasHeightForWidth());
+        editHeight->setSizePolicy(sizePolicy);
 
-        verticalLayout_2->addWidget(editHeight);
+        gridLayout_8->addWidget(editHeight, 4, 1, 1, 1);
 
+        label_18 = new QLabel(gbBasicMenu);
+        label_18->setObjectName(QStringLiteral("label_18"));
 
-        gridLayout_8->addLayout(verticalLayout_2, 0, 0, 1, 1);
+        gridLayout_8->addWidget(label_18, 5, 0, 1, 1);
+
+        comboBound = new QComboBox(gbBasicMenu);
+        comboBound->setObjectName(QStringLiteral("comboBound"));
+        sizePolicy.setHeightForWidth(comboBound->sizePolicy().hasHeightForWidth());
+        comboBound->setSizePolicy(sizePolicy);
+
+        gridLayout_8->addWidget(comboBound, 5, 1, 1, 1);
+
+        gridLayout_8->setColumnStretch(1, 1);
+
+        gridLayout_13->addLayout(gridLayout_8, 0, 0, 1, 1);
 
 
         horizontalLayout_3->addWidget(gbBasicMenu);
 
-        verticalLayout_3 = new QVBoxLayout();
-        verticalLayout_3->setSpacing(6);
-        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
         m_grpEditMode = new QGroupBox(QLineMapEdit);
         m_grpEditMode->setObjectName(QStringLiteral("m_grpEditMode"));
         gridLayout = new QGridLayout(m_grpEditMode);
-        gridLayout->setSpacing(6);
+        gridLayout->setSpacing(4);
         gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setContentsMargins(4, 4, 4, 4);
         m_ctlTile = new QRadioButton(m_grpEditMode);
         m_ctlTile->setObjectName(QStringLiteral("m_ctlTile"));
 
@@ -269,50 +308,69 @@ public:
         gridLayout->addWidget(m_ctlImageList, 3, 0, 1, 1);
 
 
-        verticalLayout_3->addWidget(m_grpEditMode);
+        horizontalLayout_3->addWidget(m_grpEditMode);
+
+
+        verticalLayout_2->addLayout(horizontalLayout_3);
 
         groupBox_2 = new QGroupBox(QLineMapEdit);
         groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
-        gridLayout_6 = new QGridLayout(groupBox_2);
+        gridLayout_12 = new QGridLayout(groupBox_2);
+        gridLayout_12->setSpacing(6);
+        gridLayout_12->setContentsMargins(11, 11, 11, 11);
+        gridLayout_12->setObjectName(QStringLiteral("gridLayout_12"));
+        gridLayout_6 = new QGridLayout();
         gridLayout_6->setSpacing(6);
-        gridLayout_6->setContentsMargins(11, 11, 11, 11);
         gridLayout_6->setObjectName(QStringLiteral("gridLayout_6"));
-        formLayout_2 = new QFormLayout();
-        formLayout_2->setSpacing(6);
-        formLayout_2->setObjectName(QStringLiteral("formLayout_2"));
         label = new QLabel(groupBox_2);
         label->setObjectName(QStringLiteral("label"));
+        label->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
 
-        formLayout_2->setWidget(0, QFormLayout::LabelRole, label);
-
-        m_ctlBackgroundColor = new QColorPickerPushButton(groupBox_2);
-        m_ctlBackgroundColor->setObjectName(QStringLiteral("m_ctlBackgroundColor"));
-
-        formLayout_2->setWidget(0, QFormLayout::FieldRole, m_ctlBackgroundColor);
-
-        label_2 = new QLabel(groupBox_2);
-        label_2->setObjectName(QStringLiteral("label_2"));
-
-        formLayout_2->setWidget(1, QFormLayout::LabelRole, label_2);
+        gridLayout_6->addWidget(label, 0, 0, 1, 1);
 
         m_ctlForegroundColor = new QColorPickerPushButton(groupBox_2);
         m_ctlForegroundColor->setObjectName(QStringLiteral("m_ctlForegroundColor"));
+        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(m_ctlForegroundColor->sizePolicy().hasHeightForWidth());
+        m_ctlForegroundColor->setSizePolicy(sizePolicy1);
 
-        formLayout_2->setWidget(1, QFormLayout::FieldRole, m_ctlForegroundColor);
+        gridLayout_6->addWidget(m_ctlForegroundColor, 0, 3, 1, 1);
 
         m_pbApplyColor = new QPushButton(groupBox_2);
         m_pbApplyColor->setObjectName(QStringLiteral("m_pbApplyColor"));
+        QSizePolicy sizePolicy2(QSizePolicy::Maximum, QSizePolicy::Maximum);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(m_pbApplyColor->sizePolicy().hasHeightForWidth());
+        m_pbApplyColor->setSizePolicy(sizePolicy2);
 
-        formLayout_2->setWidget(2, QFormLayout::SpanningRole, m_pbApplyColor);
+        gridLayout_6->addWidget(m_pbApplyColor, 0, 4, 1, 1);
+
+        m_ctlBackgroundColor = new QColorPickerPushButton(groupBox_2);
+        m_ctlBackgroundColor->setObjectName(QStringLiteral("m_ctlBackgroundColor"));
+        sizePolicy1.setHeightForWidth(m_ctlBackgroundColor->sizePolicy().hasHeightForWidth());
+        m_ctlBackgroundColor->setSizePolicy(sizePolicy1);
+
+        gridLayout_6->addWidget(m_ctlBackgroundColor, 0, 1, 1, 1);
+
+        label_2 = new QLabel(groupBox_2);
+        label_2->setObjectName(QStringLiteral("label_2"));
+        label_2->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+
+        gridLayout_6->addWidget(label_2, 0, 2, 1, 1);
+
+        gridLayout_6->setColumnStretch(1, 1);
+        gridLayout_6->setColumnStretch(3, 1);
+
+        gridLayout_12->addLayout(gridLayout_6, 0, 0, 1, 1);
 
 
-        gridLayout_6->addLayout(formLayout_2, 0, 0, 1, 1);
+        verticalLayout_2->addWidget(groupBox_2);
 
 
-        verticalLayout_3->addWidget(groupBox_2);
-
-
-        horizontalLayout_3->addLayout(verticalLayout_3);
+        horizontalLayout_5->addLayout(verticalLayout_2);
 
         m_ctlStackedWidget = new QStackedWidget(QLineMapEdit);
         m_ctlStackedWidget->setObjectName(QStringLiteral("m_ctlStackedWidget"));
@@ -412,33 +470,19 @@ public:
         horizontalLayout_6 = new QHBoxLayout();
         horizontalLayout_6->setSpacing(6);
         horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
-        pushButton = new QPushButton(pageTileEdit);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
+        label_19 = new QLabel(pageTileEdit);
+        label_19->setObjectName(QStringLiteral("label_19"));
 
-        horizontalLayout_6->addWidget(pushButton);
+        horizontalLayout_6->addWidget(label_19);
+
+        comboStationInfo = new QIndexComboBox(pageTileEdit);
+        comboStationInfo->setObjectName(QStringLiteral("comboStationInfo"));
+
+        horizontalLayout_6->addWidget(comboStationInfo);
 
         horizontalSpacer_5 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_6->addItem(horizontalSpacer_5);
-
-        pushButton_2 = new QPushButton(pageTileEdit);
-        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
-
-        horizontalLayout_6->addWidget(pushButton_2);
-
-        pushButton_3 = new QPushButton(pageTileEdit);
-        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
-
-        horizontalLayout_6->addWidget(pushButton_3);
-
-        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_6->addItem(horizontalSpacer_3);
-
-        pushButton_4 = new QPushButton(pageTileEdit);
-        pushButton_4->setObjectName(QStringLiteral("pushButton_4"));
-
-        horizontalLayout_6->addWidget(pushButton_4);
 
 
         verticalLayout_6->addLayout(horizontalLayout_6);
@@ -455,53 +499,80 @@ public:
         m_ctlStackedWidget->addWidget(pageTileEdit);
         pageNodeEdit = new QWidget();
         pageNodeEdit->setObjectName(QStringLiteral("pageNodeEdit"));
-        gridLayout_12 = new QGridLayout(pageNodeEdit);
-        gridLayout_12->setSpacing(6);
-        gridLayout_12->setContentsMargins(11, 11, 11, 11);
-        gridLayout_12->setObjectName(QStringLiteral("gridLayout_12"));
-        gridLayout_11 = new QGridLayout();
+        gridLayout_11 = new QGridLayout(pageNodeEdit);
         gridLayout_11->setSpacing(6);
+        gridLayout_11->setContentsMargins(11, 11, 11, 11);
         gridLayout_11->setObjectName(QStringLiteral("gridLayout_11"));
+        horizontalLayout_12 = new QHBoxLayout();
+        horizontalLayout_12->setSpacing(6);
+        horizontalLayout_12->setObjectName(QStringLiteral("horizontalLayout_12"));
+        btnCopyProp = new QPushButton(pageNodeEdit);
+        btnCopyProp->setObjectName(QStringLiteral("btnCopyProp"));
+
+        horizontalLayout_12->addWidget(btnCopyProp);
+
         btnPasteNode = new QPushButton(pageNodeEdit);
         btnPasteNode->setObjectName(QStringLiteral("btnPasteNode"));
 
-        gridLayout_11->addWidget(btnPasteNode, 0, 1, 1, 1);
+        horizontalLayout_12->addWidget(btnPasteNode);
 
         btnPasteSpot = new QPushButton(pageNodeEdit);
         btnPasteSpot->setObjectName(QStringLiteral("btnPasteSpot"));
 
-        gridLayout_11->addWidget(btnPasteSpot, 0, 2, 1, 1);
-
-        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        gridLayout_11->addItem(horizontalSpacer_2, 0, 3, 1, 1);
-
-        btnShowSpotDefault = new QPushButton(pageNodeEdit);
-        btnShowSpotDefault->setObjectName(QStringLiteral("btnShowSpotDefault"));
-
-        gridLayout_11->addWidget(btnShowSpotDefault, 1, 0, 1, 1);
-
-        btnShowSpotCustom = new QPushButton(pageNodeEdit);
-        btnShowSpotCustom->setObjectName(QStringLiteral("btnShowSpotCustom"));
-
-        gridLayout_11->addWidget(btnShowSpotCustom, 1, 1, 1, 1);
-
-        horizontalSpacer_6 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        gridLayout_11->addItem(horizontalSpacer_6, 1, 2, 1, 1);
-
-        btnCopyProp = new QPushButton(pageNodeEdit);
-        btnCopyProp->setObjectName(QStringLiteral("btnCopyProp"));
-
-        gridLayout_11->addWidget(btnCopyProp, 0, 0, 1, 1);
+        horizontalLayout_12->addWidget(btnPasteSpot);
 
 
-        gridLayout_12->addLayout(gridLayout_11, 0, 0, 1, 1);
+        gridLayout_11->addLayout(horizontalLayout_12, 0, 0, 1, 2);
 
         m_tblLineMapNode = new QTableView(pageNodeEdit);
         m_tblLineMapNode->setObjectName(QStringLiteral("m_tblLineMapNode"));
 
-        gridLayout_12->addWidget(m_tblLineMapNode, 1, 0, 1, 1);
+        gridLayout_11->addWidget(m_tblLineMapNode, 1, 0, 1, 7);
+
+        horizontalLayout_11 = new QHBoxLayout();
+        horizontalLayout_11->setSpacing(6);
+        horizontalLayout_11->setObjectName(QStringLiteral("horizontalLayout_11"));
+        btnShowSpotDefault = new QPushButton(pageNodeEdit);
+        btnShowSpotDefault->setObjectName(QStringLiteral("btnShowSpotDefault"));
+
+        horizontalLayout_11->addWidget(btnShowSpotDefault);
+
+        btnShowSpotCustom = new QPushButton(pageNodeEdit);
+        btnShowSpotCustom->setObjectName(QStringLiteral("btnShowSpotCustom"));
+
+        horizontalLayout_11->addWidget(btnShowSpotCustom);
+
+
+        gridLayout_11->addLayout(horizontalLayout_11, 0, 3, 1, 1);
+
+        horizontalLayout_10 = new QHBoxLayout();
+        horizontalLayout_10->setSpacing(6);
+        horizontalLayout_10->setObjectName(QStringLiteral("horizontalLayout_10"));
+        rbPassed = new QRadioButton(pageNodeEdit);
+        rbPassed->setObjectName(QStringLiteral("rbPassed"));
+
+        horizontalLayout_10->addWidget(rbPassed);
+
+        rbTarget = new QRadioButton(pageNodeEdit);
+        rbTarget->setObjectName(QStringLiteral("rbTarget"));
+
+        horizontalLayout_10->addWidget(rbTarget);
+
+        rbRemain = new QRadioButton(pageNodeEdit);
+        rbRemain->setObjectName(QStringLiteral("rbRemain"));
+
+        horizontalLayout_10->addWidget(rbRemain);
+
+
+        gridLayout_11->addLayout(horizontalLayout_10, 0, 5, 1, 1);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_11->addItem(horizontalSpacer_2, 0, 2, 1, 1);
+
+        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_11->addItem(horizontalSpacer_3, 0, 4, 1, 1);
 
         m_ctlStackedWidget->addWidget(pageNodeEdit);
         pageArrowEdit = new QWidget();
@@ -609,16 +680,19 @@ public:
 
         m_ctlStackedWidget->addWidget(pageImageList);
 
-        horizontalLayout_3->addWidget(m_ctlStackedWidget);
+        horizontalLayout_5->addWidget(m_ctlStackedWidget);
 
-        horizontalLayout_3->setStretch(1, 1);
-        horizontalLayout_3->setStretch(2, 2);
 
-        verticalLayout_4->addLayout(horizontalLayout_3);
+        verticalLayout_3->addLayout(horizontalLayout_5);
 
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setSpacing(6);
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        labelCoordXY = new QLabel(QLineMapEdit);
+        labelCoordXY->setObjectName(QStringLiteral("labelCoordXY"));
+
+        horizontalLayout_4->addWidget(labelCoordXY);
+
         horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout_4->addItem(horizontalSpacer_4);
@@ -629,13 +703,13 @@ public:
         horizontalLayout_4->addWidget(btnClose);
 
 
-        verticalLayout_4->addLayout(horizontalLayout_4);
+        verticalLayout_3->addLayout(horizontalLayout_4);
 
-        verticalLayout_4->setStretch(0, 2);
+        verticalLayout_3->setStretch(0, 4);
 
         retranslateUi(QLineMapEdit);
 
-        m_ctlStackedWidget->setCurrentIndex(2);
+        m_ctlStackedWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(QLineMapEdit);
@@ -650,6 +724,7 @@ public:
         label_15->setText(QApplication::translate("QLineMapEdit", "Line Thickness", Q_NULLPTR));
         label_16->setText(QApplication::translate("QLineMapEdit", "Width", Q_NULLPTR));
         label_17->setText(QApplication::translate("QLineMapEdit", "Height", Q_NULLPTR));
+        label_18->setText(QApplication::translate("QLineMapEdit", "Bound", Q_NULLPTR));
         m_grpEditMode->setTitle(QApplication::translate("QLineMapEdit", "Edit Mode", Q_NULLPTR));
         m_ctlTile->setText(QApplication::translate("QLineMapEdit", "Tile (Line)", Q_NULLPTR));
         m_ctlArrow->setText(QApplication::translate("QLineMapEdit", "Arrow (No Use)", Q_NULLPTR));
@@ -658,10 +733,10 @@ public:
         m_ctlImageList->setText(QApplication::translate("QLineMapEdit", "Image List (No Use)", Q_NULLPTR));
         groupBox_2->setTitle(QApplication::translate("QLineMapEdit", "Colour", Q_NULLPTR));
         label->setText(QApplication::translate("QLineMapEdit", "Background", Q_NULLPTR));
-        m_ctlBackgroundColor->setText(QApplication::translate("QLineMapEdit", "Change Colour", Q_NULLPTR));
-        label_2->setText(QApplication::translate("QLineMapEdit", "Line", Q_NULLPTR));
-        m_ctlForegroundColor->setText(QApplication::translate("QLineMapEdit", "Change Colour", Q_NULLPTR));
+        m_ctlForegroundColor->setText(QApplication::translate("QLineMapEdit", "Colour", Q_NULLPTR));
         m_pbApplyColor->setText(QApplication::translate("QLineMapEdit", "Apply", Q_NULLPTR));
+        m_ctlBackgroundColor->setText(QApplication::translate("QLineMapEdit", "Colour", Q_NULLPTR));
+        label_2->setText(QApplication::translate("QLineMapEdit", "Line", Q_NULLPTR));
         m_ctlPassedColor->setText(QApplication::translate("QLineMapEdit", "Passed Station Color", Q_NULLPTR));
         label_3->setText(QApplication::translate("QLineMapEdit", "Passed Station Color", Q_NULLPTR));
         m_ctlFocusedColor->setText(QApplication::translate("QLineMapEdit", "Focused Station Color", Q_NULLPTR));
@@ -676,19 +751,20 @@ public:
         label_11->setText(QApplication::translate("QLineMapEdit", "Second Arrow Color for Focused Area", Q_NULLPTR));
         m_ctlArrowRemainedColor->setText(QApplication::translate("QLineMapEdit", "Arrow Color for Remained area", Q_NULLPTR));
         label_12->setText(QApplication::translate("QLineMapEdit", "Arrow Color for Remained area", Q_NULLPTR));
-        pushButton->setText(QApplication::translate("QLineMapEdit", "Line (Link)", Q_NULLPTR));
-        pushButton_2->setText(QApplication::translate("QLineMapEdit", "Spare", Q_NULLPTR));
-        pushButton_3->setText(QApplication::translate("QLineMapEdit", "Spare", Q_NULLPTR));
-        pushButton_4->setText(QApplication::translate("QLineMapEdit", "Spare", Q_NULLPTR));
-        btnPasteNode->setText(QApplication::translate("QLineMapEdit", "Paste Node Name Property", Q_NULLPTR));
-        btnPasteSpot->setText(QApplication::translate("QLineMapEdit", "Paste Node Icon Property", Q_NULLPTR));
-        btnShowSpotDefault->setText(QApplication::translate("QLineMapEdit", "Set All Nodes Icon Default", Q_NULLPTR));
-        btnShowSpotCustom->setText(QApplication::translate("QLineMapEdit", "Set All Nodes Icon Custom", Q_NULLPTR));
+        label_19->setText(QApplication::translate("QLineMapEdit", "Final Station", Q_NULLPTR));
         btnCopyProp->setText(QApplication::translate("QLineMapEdit", "Copy Selected Node Property", Q_NULLPTR));
+        btnPasteNode->setText(QApplication::translate("QLineMapEdit", "Paste Name Property", Q_NULLPTR));
+        btnPasteSpot->setText(QApplication::translate("QLineMapEdit", "Paste Icon Property", Q_NULLPTR));
+        btnShowSpotDefault->setText(QApplication::translate("QLineMapEdit", "Set Default Icon", Q_NULLPTR));
+        btnShowSpotCustom->setText(QApplication::translate("QLineMapEdit", "Set Custom Icon", Q_NULLPTR));
+        rbPassed->setText(QApplication::translate("QLineMapEdit", "Passed Icon", Q_NULLPTR));
+        rbTarget->setText(QApplication::translate("QLineMapEdit", "Target Icon", Q_NULLPTR));
+        rbRemain->setText(QApplication::translate("QLineMapEdit", "Remain Icon", Q_NULLPTR));
         label_6->setText(QApplication::translate("QLineMapEdit", "Forward ", Q_NULLPTR));
         label_7->setText(QApplication::translate("QLineMapEdit", "Backward", Q_NULLPTR));
         label_8->setText(QApplication::translate("QLineMapEdit", "Width", Q_NULLPTR));
         m_pbApplyArrowOffset->setText(QApplication::translate("QLineMapEdit", "Apply", Q_NULLPTR));
+        labelCoordXY->setText(QApplication::translate("QLineMapEdit", "XY", Q_NULLPTR));
         btnClose->setText(QApplication::translate("QLineMapEdit", "Close", Q_NULLPTR));
     } // retranslateUi
 
