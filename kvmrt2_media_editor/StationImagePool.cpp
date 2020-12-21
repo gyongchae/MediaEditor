@@ -63,7 +63,7 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(stationImagePool,StationImagePool)
 			this,
 			SLOT(updateStationImagePool(const QModelIndex &,const QModelIndex &)));
 
-	m_pSFMLView = new QTextAligner(ui.frame, QPoint(0, 0), QSize(999, 999), QTextAligner::TEXT);
+	m_pSFMLView = new QTextAligner(ui.widget, QPoint(0, 0), QSize(999, 999), QTextAligner::TEXT);
 	m_pSFMLView->setBackgroundColor(pDM->m_txtPoolBack);
 
 	return false;

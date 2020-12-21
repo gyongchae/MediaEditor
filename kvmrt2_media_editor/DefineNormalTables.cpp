@@ -71,7 +71,7 @@ DECLARE_STATIC_TYPESETTINGS(StopPtnRoutes, 13) =
 	{ TYPE_INTEGER,MAKE_T("TABLE_INDEX"),			0,nullptr,true, false,false,	MAKE_T("Table Index"),					100 },
 	{ TYPE_INTEGER,MAKE_T("PARENT_INDEX"),			0,nullptr,false,false,true,		MAKE_T("Parent Index"),					100 },
 	{ TYPE_INTEGER,MAKE_T("TABLE_ORDER"),			0,nullptr,false,true, false,	MAKE_T("Order"),						100 },
-	{ TYPE_INTEGER,MAKE_T("DISTANCE_INDEX"),		0,nullptr,false,false,false,	MAKE_T("Distance Index"),				100 },
+	{ TYPE_INTEGER,MAKE_T("DISTANCE_INDEX"),		0,nullptr,false,false,false,	MAKE_T("Distance Index"),				400 },
 	
 	// no use LED destination index
 	{ TYPE_INTEGER,MAKE_T("DESTINATION_INDEX_LED"),	0,nullptr,false,false,false,	MAKE_T("Destination Index(LED)"),		100 }, // no use
@@ -197,12 +197,13 @@ DECLARE_STATIC_TYPESETTINGS(VideoPlayList, 7) =
 };
 
 DECLARE_STATIC_VARIABLES(EditorTagTable, false, EDITOR_TAG_TABLE, -1, 3, 0)
-DECLARE_STATIC_TYPESETTINGS(EditorTagTable, 4) =
+DECLARE_STATIC_TYPESETTINGS(EditorTagTable, 5) =
 {
 	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),	0,	nullptr,true, false,false, MAKE_T("Table Index"),	400 },
 	{ TYPE_TEXT,	MAKE_T("DESCRIPTION"),	128,nullptr,false,false,false, MAKE_T("Tag Name"),		400 },
 	{ TYPE_INTEGER,	MAKE_T("VARIABLE"),		0,	nullptr,false,false,false, MAKE_T("Tag Type"),		600 },
 	{ TYPE_INTEGER,	MAKE_T("TABLE_ORDER"),	0,	nullptr,false, true,false, MAKE_T("Order"),			100 },
+	{ TYPE_INTEGER,	MAKE_T("GIF_FRAME"),	0,	nullptr,false,false,false, MAKE_T("Total GIF Frames"),		600 },
 };
 
 // should be changed table name to DATA_VERSION

@@ -14,16 +14,18 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDialog>
-#include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QScrollArea>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QTableView>
 #include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
 
@@ -49,17 +51,21 @@ public:
     QPushButton *btnDelImgIndex;
     QSpacerItem *horizontalSpacer_3;
     QTableView *m_tblImageIndex;
-    QFrame *frame;
+    QScrollArea *scrollArea;
+    QWidget *scrollAreaWidgetContents;
+    QGridLayout *gridLayout_3;
+    QWidget *widget;
+    QLabel *label;
     QHBoxLayout *horizontalLayout;
     QPushButton *btnColor;
-    QSpacerItem *horizontalSpacer;
+    QSpacerItem *horizontalSpacer_4;
     QPushButton *btnClose;
 
     void setupUi(QDialog *imageListPool)
     {
         if (imageListPool->objectName().isEmpty())
             imageListPool->setObjectName(QStringLiteral("imageListPool"));
-        imageListPool->resize(817, 606);
+        imageListPool->resize(901, 633);
         verticalLayout_3 = new QVBoxLayout(imageListPool);
         verticalLayout_3->setSpacing(6);
         verticalLayout_3->setContentsMargins(11, 11, 11, 11);
@@ -67,7 +73,6 @@ public:
         splitter_2 = new QSplitter(imageListPool);
         splitter_2->setObjectName(QStringLiteral("splitter_2"));
         splitter_2->setOrientation(Qt::Vertical);
-        splitter_2->setChildrenCollapsible(true);
         splitter = new QSplitter(splitter_2);
         splitter->setObjectName(QStringLiteral("splitter"));
         splitter->setOrientation(Qt::Horizontal);
@@ -153,16 +158,47 @@ public:
 
         verticalLayout_2->setStretch(1, 1);
 
-        gridLayout_2->addLayout(verticalLayout_2, 1, 0, 1, 1);
+        gridLayout_2->addLayout(verticalLayout_2, 0, 0, 1, 1);
 
         splitter->addWidget(groupBox_2);
         splitter_2->addWidget(splitter);
-        frame = new QFrame(splitter_2);
-        frame->setObjectName(QStringLiteral("frame"));
-        frame->setMinimumSize(QSize(0, 200));
-        frame->setFrameShape(QFrame::StyledPanel);
-        frame->setFrameShadow(QFrame::Raised);
-        splitter_2->addWidget(frame);
+        scrollArea = new QScrollArea(splitter_2);
+        scrollArea->setObjectName(QStringLiteral("scrollArea"));
+        scrollArea->setWidgetResizable(true);
+        scrollAreaWidgetContents = new QWidget();
+        scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
+        scrollAreaWidgetContents->setGeometry(QRect(0, -883, 1017, 1027));
+        gridLayout_3 = new QGridLayout(scrollAreaWidgetContents);
+        gridLayout_3->setSpacing(6);
+        gridLayout_3->setContentsMargins(11, 11, 11, 11);
+        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
+        widget = new QWidget(scrollAreaWidgetContents);
+        widget->setObjectName(QStringLiteral("widget"));
+        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(widget->sizePolicy().hasHeightForWidth());
+        widget->setSizePolicy(sizePolicy1);
+        widget->setMinimumSize(QSize(999, 999));
+
+        gridLayout_3->addWidget(widget, 0, 0, 1, 1);
+
+        label = new QLabel(scrollAreaWidgetContents);
+        label->setObjectName(QStringLiteral("label"));
+        QSizePolicy sizePolicy2(QSizePolicy::Minimum, QSizePolicy::Preferred);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
+        label->setSizePolicy(sizePolicy2);
+        label->setMaximumSize(QSize(16777215, 4));
+        label->setStyleSheet(QLatin1String("QLabel {\n"
+"background-color: rgba(255, 255, 255, 255);\n"
+"}"));
+
+        gridLayout_3->addWidget(label, 1, 0, 1, 1);
+
+        scrollArea->setWidget(scrollAreaWidgetContents);
+        splitter_2->addWidget(scrollArea);
 
         verticalLayout_3->addWidget(splitter_2);
 
@@ -174,9 +210,9 @@ public:
 
         horizontalLayout->addWidget(btnColor);
 
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalSpacer_4 = new QSpacerItem(87, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        horizontalLayout->addItem(horizontalSpacer);
+        horizontalLayout->addItem(horizontalSpacer_4);
 
         btnClose = new QPushButton(imageListPool);
         btnClose->setObjectName(QStringLiteral("btnClose"));
@@ -201,6 +237,7 @@ public:
         groupBox_2->setTitle(QApplication::translate("imageListPool", "Image List Index", Q_NULLPTR));
         btnAddImgIndex->setText(QApplication::translate("imageListPool", "Add", Q_NULLPTR));
         btnDelImgIndex->setText(QApplication::translate("imageListPool", "Del", Q_NULLPTR));
+        label->setText(QString());
         btnColor->setText(QApplication::translate("imageListPool", "Background Colour", Q_NULLPTR));
         btnClose->setText(QApplication::translate("imageListPool", "Close", Q_NULLPTR));
     } // retranslateUi

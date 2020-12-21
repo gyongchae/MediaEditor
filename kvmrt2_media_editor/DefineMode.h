@@ -1,6 +1,6 @@
 #pragma once
 
-const bool OFFICIAL_RELEASE = false;
+const bool OFFICIAL_RELEASE = true;
 
 
 #define ME_APP_PATH "C:/PapisProgram/MediaEditor/"
@@ -20,6 +20,16 @@ const bool OFFICIAL_RELEASE = false;
 #else
 #define WIZARD_FILE_PATH "C:/PapisProgram/FileUpload/UploadWizard2.exe"
 #endif //USING_DEBUG_WIZARD
+
+#ifdef SYS_WIN64
+#define FFMPEG_FILE_PATH "C:/PapisProgram/MediaEditor/ffmpeg64/ffmpeg.exe"
+#define FFPLAY_FILE_PATH "C:/PapisProgram/MediaEditor/ffmpeg64/ffplay.exe"
+#else
+#define FFMPEG_FILE_PATH "C:/PapisProgram/MediaEditor/ffmpeg32/ffmpeg.exe"
+#define FFPLAY_FILE_PATH "C:/PapisProgram/MediaEditor/ffmpeg32/ffplay.exe"
+#endif // 
+
+
 
 enum AccountType
 {

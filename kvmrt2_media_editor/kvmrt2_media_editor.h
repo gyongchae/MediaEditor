@@ -46,43 +46,43 @@ public:
 	DECLARE_INIT_FUNCTION_FOR_CLASS(VideoPlayList);
 	DECLARE_INIT_FUNCTION_FOR_CLASS(EditorTagTable);
 
-	 // for copy and paste
-	 void initContextMenu();
-	 std::shared_ptr<CSQLData> m_pCopyStopPtnHeader;
-	 std::shared_ptr<CSQLData> m_pCopyStopPtnRoutes;
-	 std::shared_ptr<CSQLData> m_pCopyEventLists;
-	 std::shared_ptr<CSQLData> m_pCopyPIDContents;
-	 QTableView *m_pFocusedTableView;
+	// for copy and paste
+	void initContextMenu();
+	std::shared_ptr<CSQLData> m_pCopyStopPtnHeader;
+	std::shared_ptr<CSQLData> m_pCopyStopPtnRoutes;
+	std::shared_ptr<CSQLData> m_pCopyEventLists;
+	std::shared_ptr<CSQLData> m_pCopyPIDContents;
+	QTableView *m_pFocusedTableView;
 
-	 void setHideItemsMainWindow(bool isRelease = false);
+	void setHideItemsMainWindow(bool isRelease = false);
 
 private:
 	QAction *m_pActCopyItem;
 	QAction *m_pActPasteItem;
 	QMenu *m_pCopyMenu;
 
-private slots:
+	private slots:
 	void updateVideoFileVersion();
 	void aboutME();
 	void licenseInfo();
 
 	// parent-child related slot
-	void updateStopPtnRoutes(	const QModelIndex & current, const QModelIndex & previous);
-	void updateEventLists(		const QModelIndex & current, const QModelIndex & previous);
-	void updatePIDIndexList(	const QModelIndex & current, const QModelIndex & previous);
-	void updateVideoPlayList(	const QModelIndex & current, const QModelIndex & previous);
-	void updateStationDistance(	const QModelIndex & current, const QModelIndex & previous);
-	void updateStopPtnHeader(	const QModelIndex & current, const QModelIndex & previous);
+	void updateStopPtnRoutes(const QModelIndex & current, const QModelIndex & previous);
+	void updateEventLists(const QModelIndex & current, const QModelIndex & previous);
+	void updatePIDIndexList(const QModelIndex & current, const QModelIndex & previous);
+	void updateVideoPlayList(const QModelIndex & current, const QModelIndex & previous);
+	void updateStationDistance(const QModelIndex & current, const QModelIndex & previous);
+	void updateStopPtnHeader(const QModelIndex & current, const QModelIndex & previous);
 
-	void selectionChangedStopPtnRoutes(	int, int);
-	void selectionChangedEventLists(	int, int);
-	void selectionChangedPIDIndexList(	int, int);
+	void selectionChangedStopPtnRoutes(int, int);
+	void selectionChangedEventLists(int, int);
+	void selectionChangedPIDIndexList(int, int);
 
 	// copy & paste context menu-related slot
 	void showContextMenu(const QPoint &);
 	void copyItemTriggered();
 	void pasteItemTriggered();
-	
+
 	// action-related slot
 	void onSaveDB();
 	void onLoadDB(); // not implemented yet.
@@ -112,7 +112,7 @@ private slots:
 
 	// audio duration sync
 	void onAudioSyncDuration();
-	
+
 
 	// account type
 public:
@@ -122,4 +122,41 @@ private:
 	Ui::kvmrt2_media_editorClass ui;
 	int m_lastVersion[3]{ 0 };
 	UserInfoWidget *m_widgetUserInfo = nullptr; // user info widget
+
+public:
+	void initNewFeature();
+
+public slots:
+	void onAddStnBtnClicked();
+	void onDelStnBtnClicked();
+	void onDelAllStnBtnClicked();
+	void onAddPairBtnClicked();
+	void onDelPairBtnClicked();
+	void onDelAllPairBtnClicked();
+	void onAddPatternBtnClicked();
+	void onDelPatternBtnClicked();
+	void onDelAllPatternBtnClicked();
+	void onAddRouteBtnClicked();
+	void onDelRouteBtnClicked();
+	void onAddDisplayListBtnClicked();
+	void onDelDisplayListBtnClicked();
+	void onDelAllDisplayListBtnClicked();
+	void onAddDisplayItemBtnClicked();
+	void onDelDisplayItemBtnClicked();
+	void onDelAllDisplayItemBtnClicked();
+	void onAddStnAudioBtnClicked();
+	void onDelStnAudioBtnClicked();
+	void onDelAllStnAudioBtnClicked();
+	void onAddAudioListBtnClicked();
+	void onDelAudioListBtnClicked();
+	void onDelAllAudioListBtnClicked();
+	void onAddVideoGroupBtnClicked();
+	void onDelVideoGroupBtnClicked();
+	void onDelAllVideoGroupBtnClicked();
+	void onAddVideoListBtnClicked();
+	void onDelVideoListBtnClicked();
+	void onDelAllVideoListBtnClicked();
+	void onAddDataTagBtnClicked();
+	void onDelDataTagBtnClicked();
+	void onDelAllDataTagBtnClicked();
 };

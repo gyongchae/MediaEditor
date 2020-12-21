@@ -193,7 +193,6 @@ void QGLESLineMapCanvas::paintGL()
 {
 	prepareArrow(1024,1024);
 
-
 	CTableManage *pTM = (CTableManage*)CTableManage::GetInstance();
 	LineMapPool *pPool = (LineMapPool*)pTM->m_vLineMapPool.at(m_nRow).get();
 
@@ -532,7 +531,6 @@ void QGLESLineMapCanvas::initshadersForArrow()
 	m_uArrowMatrix = arrowProgram.uniformLocation("u_matrix");
 	m_uArrowFirstTex = arrowProgram.uniformLocation("firstTex");
 	m_uArrowSecondTex = arrowProgram.uniformLocation("secondTex");
-
 }
 
 void QGLESLineMapCanvas::setCurrentEditMode(int nMode)

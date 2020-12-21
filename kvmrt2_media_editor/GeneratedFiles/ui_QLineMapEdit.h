@@ -150,7 +150,7 @@ public:
     {
         if (QLineMapEdit->objectName().isEmpty())
             QLineMapEdit->setObjectName(QStringLiteral("QLineMapEdit"));
-        QLineMapEdit->resize(1515, 722);
+        QLineMapEdit->resize(1460, 722);
         verticalLayout_3 = new QVBoxLayout(QLineMapEdit);
         verticalLayout_3->setSpacing(6);
         verticalLayout_3->setContentsMargins(11, 11, 11, 11);
@@ -160,7 +160,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 1495, 420));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 1440, 420));
         gridLayout_9 = new QGridLayout(scrollAreaWidgetContents);
         gridLayout_9->setSpacing(6);
         gridLayout_9->setContentsMargins(11, 11, 11, 11);

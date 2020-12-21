@@ -383,17 +383,19 @@ DECLARE_EDITOR_CLASS(VideoPlayList);
 // EditorTagTable
 BEGIN_CLASS_FROM_SQLDATA(EditorTagTable, , );
 COMMON_VAL_FOR_SQLDATA;
-DECLARE_TYPESETTINGS(4);
+DECLARE_TYPESETTINGS(5);
 DECLARE_COMMON_FUNCTIONS OVERRIDE_DUMMY_EDITOR_FUNC;
 BEGIN_MAPPING_MEMBERS
 m_tSettings[0].POINTER = (void*)(&m_nTableIndex);
 m_tSettings[1].POINTER = (void*)(szDesc);
 m_tSettings[2].POINTER = (void*)(&nVariable);
 m_tSettings[3].POINTER = (void*)(&nOrder);
+m_tSettings[4].POINTER = (void*)(&nGifFrame);
 END_MAPPING_MEMBERS
 TYC szDesc[128]{ 0 }; // title
 int nVariable{ 0 }; // tag type
 int nOrder{ 1 };
+int nGifFrame{ 0 };
 END_CLASS_FROM_SQLDATA
 DECLARE_EDITOR_CLASS(EditorTagTable);
 // !EditorTagTable

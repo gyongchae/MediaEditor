@@ -247,9 +247,9 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(ContentsPool, VideoFilePool)
 
 void ContentsPool::addVideoFilePool(bool bInsert)
 {
-	int nRow;
-	int nFileSize;
-	unsigned short uCRC;
+	int nRow = 0;
+	int nFileSize = 0;
+	unsigned short uCRC = 0;
 	auto *pDM = CDataManage::GetInstance();
 	std::shared_ptr<dataModel> pVFM = pDM->GET_MODEL_CLASS(VideoFilePool);
 	QModelIndex index = GET_TABLE(VideoFilePool)->currentIndex();
@@ -269,7 +269,7 @@ void ContentsPool::addVideoFilePool(bool bInsert)
 	QString fileName = pDM->videoPath();
 	QStringList filePaths = QFileDialog::getOpenFileNames(this, QString::fromStdWString(L"Find video files"),
 		pDM->videoPath(), tr("Video File (*.mp4 *.MP4 *.avi *.AVI)"));
-	if (filePaths.size())
+	if (!filePaths.isEmpty())
 	{
 		while (filePaths.size())
 		{
@@ -286,6 +286,68 @@ void ContentsPool::addVideoFilePool(bool bInsert)
 			pVFM->setData(index.sibling(index.row(), 5), nFileSize, Qt::EditRole);
 			strDes = pDM->videoPath() + '/' + fileName;
 			bool bRet = QFile::copy(strSoc, strDes);
+			
+			int answer = QMessageBox::question(this, "Make rotated video", "Do you need a rotated one for PID?");
+			if (answer == QMessageBox::Yes)
+			{
+				if (!strDes.isEmpty())
+				{
+					// video rotation
+					// refer: https://superuser.com/questions/578321/how-to-rotate-a-video-180-with-ffmpeg
+					QProcess process;
+					QStringList strList;
+					QString rotateName = QString("%1/%2_180_pid_wjis.%3").arg(pDM->videoPath()).arg(fileInfo.baseName()).arg(fileInfo.completeSuffix());
+					QFileInfo rotFileInfo(rotateName);
+					if (!rotFileInfo.exists())
+					{
+						strList
+							<< "-i"
+							<< strDes
+							<< "-vf"
+							<< "rotate=PI:bilinear=0,format=yuv420p"
+							<< "-metadata:s:v"
+							<< "rotate=0"
+							<< "-codec:v"
+							<< "libx264"
+							<< "-codec:a"
+							<< "copy"
+							<< rotateName;
+						process.start(FFMPEG_FILE_PATH, strList);
+						process.waitForFinished();
+
+						if (process.exitCode() == 0) // rotate complete
+						{
+							nFileSize = 0;
+							uCRC = 0;
+							pVFM->insertRows(nRow + 1, 1);
+							index = pVFM->index(nRow + 1, 0);
+							uCRC = CDataManage::CheckCRCFile(rotateName, &nFileSize);
+							pVFM->setData(index.sibling(index.row(), 3), rotFileInfo.fileName(), Qt::EditRole);
+							pVFM->setData(index.sibling(index.row(), 4), uCRC, Qt::EditRole);
+							pVFM->setData(index.sibling(index.row(), 5), nFileSize, Qt::EditRole);
+						}
+						else
+						{
+							QString processErrMsg = QString::fromStdString(process.readAllStandardError().toStdString());
+							QMessageBox::warning(this, "Unexpected Error!", QString("%1").arg(processErrMsg));
+						}
+					}
+					else
+					{
+						nFileSize = 0;
+						uCRC = 0;
+						pVFM->insertRows(nRow + 1, 1);
+						index = pVFM->index(nRow + 1, 0);
+						uCRC = CDataManage::CheckCRCFile(rotateName, &nFileSize);
+						pVFM->setData(index.sibling(index.row(), 3), rotFileInfo.fileName(), Qt::EditRole);
+						pVFM->setData(index.sibling(index.row(), 4), uCRC, Qt::EditRole);
+						pVFM->setData(index.sibling(index.row(), 5), nFileSize, Qt::EditRole);
+
+						QMessageBox::information(this, "File already existed", QString("Existing roatated video (%1) added.").arg(rotFileInfo.fileName()));
+					}
+				}
+			}
+			
 			GET_TABLE(VideoFilePool)->setCurrentIndex(index);
 		}
 	}
@@ -354,17 +416,40 @@ void ContentsPool::onDurationChanged(qint64 dur)
 		std::shared_ptr<dataModel> pVFM = pDM->GET_MODEL_CLASS(AudioFilePool);
 		QModelIndex index = GET_TABLE(AudioFilePool)->currentIndex();
 		pVFM->setData(index.sibling(index.row(), 7), m_audioDuration, Qt::EditRole);
-
 	}
 }
 
 void ContentsPool::onVideoPlay()
 {
-	// doesn't work
-	// see Media Player Example on QtAssistant
-	//QProcess *process = new QProcess(this);
-	//process->start(QString("C:/PapisProgram/PTU/PTU2.exe"));
-
-	QMessageBox::information(this, "SORRY!",
-		"This function is not available now.");
+	int nRow;
+	auto *pDM = CDataManage::GetInstance();
+	auto *pTM = CTableManage::GetInstance();
+	std::shared_ptr<dataModel> pVFM = pDM->GET_MODEL_CLASS(VideoFilePool);
+	QModelIndex index = GET_TABLE(VideoFilePool)->currentIndex();
+	nRow = index.row();
+	if (index.isValid())
+	{
+		auto *t = (VideoFilePool*)pVFM->m_pEditor->m_pvSQLData->at(nRow).get();
+		qDebug() << QString::fromStdWString(t->szFileName);
+		QProcess process;
+		QStringList args;
+		QString fileName = QString("C:/PapisProgram/PapisData/Video/%1").arg(QString::fromStdWString(t->szFileName));
+		QFileInfo fInfo(fileName);
+		if (fInfo.exists())
+		{
+			args << fileName;
+			process.start(FFPLAY_FILE_PATH, args);
+			process.waitForFinished();
+			
+			if (process.exitCode() != 0)
+			{
+				QString processErrMsg = QString::fromStdString(process.readAllStandardError().toStdString());
+				QMessageBox::warning(this, "Unexpected Error!", QString("%1").arg(processErrMsg));
+			}
+		}
+		else
+		{
+			QMessageBox::warning(this, "Warning!", QString("The file does not exist.\n(File Path: %1)").arg(fileName));
+		}
+	}
 }

@@ -64,11 +64,22 @@ public:
     QGridLayout *gridLayout_4;
     QSplitter *splitter;
     QGroupBox *gbStationName;
-    QGridLayout *gridLayout;
+    QVBoxLayout *verticalLayout_3;
+    QHBoxLayout *horizontalLayout_5;
+    QHBoxLayout *horizontalLayout_4;
+    QPushButton *btnAddStation;
+    QPushButton *btnDelStation;
+    QPushButton *btnDelAllStation;
+    QSpacerItem *horizontalSpacer_3;
     QTableView *m_tblStationInformation;
     QGroupBox *gbDistance;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
+    QHBoxLayout *horizontalLayout_6;
+    QPushButton *btnAddPair;
+    QPushButton *btnDelPair;
+    QPushButton *btnDelAllPair;
+    QSpacerItem *horizontalSpacer_4;
     QRadioButton *rbInOrder;
     QRadioButton *rbInReverseOrder;
     QRadioButton *rbCustomOrder;
@@ -80,14 +91,24 @@ public:
     QSplitter *splitter_4;
     QSplitter *splitter_3;
     QGroupBox *gbStopPattern;
-    QGridLayout *gridLayout_8;
+    QVBoxLayout *verticalLayout_4;
+    QHBoxLayout *horizontalLayout_7;
+    QHBoxLayout *horizontalLayout_8;
+    QPushButton *btnAddStopPattern;
+    QPushButton *btnDelStopPattern;
+    QPushButton *btnDelAllStopPattern;
+    QSpacerItem *horizontalSpacer_5;
     QTableView *m_tblStopPtnHeader;
     QGroupBox *gbTrainRoute;
     QVBoxLayout *verticalLayout_2;
+    QHBoxLayout *horizontalLayout_3;
+    QHBoxLayout *horizontalLayout_9;
+    QPushButton *btnAddRoute;
+    QPushButton *btnDelRoute;
+    QSpacerItem *horizontalSpacer_2;
     QHBoxLayout *horizontalLayout_2;
     QPushButton *btnRouteAutoAdd;
     QPushButton *btnDelRoutes;
-    QSpacerItem *horizontalSpacer_2;
     QTableView *m_tblStopPtnRoutes;
     QSplitter *splitter_2;
     QGroupBox *gbTrainNumber;
@@ -100,33 +121,75 @@ public:
     QGridLayout *gridLayout_19;
     QSplitter *splitter_7;
     QGroupBox *groupBox_15;
-    QGridLayout *gridLayout_18;
+    QVBoxLayout *verticalLayout_5;
+    QHBoxLayout *horizontalLayout_10;
+    QHBoxLayout *horizontalLayout_11;
+    QPushButton *btnAddDisplayList;
+    QPushButton *btnDelDisplayList;
+    QPushButton *btnDelAllDisplayList;
+    QSpacerItem *horizontalSpacer_6;
     QTableView *m_tblPIDContents;
     QGroupBox *groupBox_16;
-    QGridLayout *gridLayout_3;
+    QVBoxLayout *verticalLayout_6;
+    QHBoxLayout *horizontalLayout_12;
+    QHBoxLayout *horizontalLayout_13;
+    QPushButton *btnAddDisplayItem;
+    QPushButton *btnDelDisplayItem;
+    QPushButton *btnDelAllDisplayItem;
+    QSpacerItem *horizontalSpacer_7;
     QTableView *m_tblPIDIndexList;
     QWidget *tabAudio;
     QGridLayout *gridLayout_17;
     QSplitter *splitter_6;
     QGroupBox *groupBox_12;
-    QGridLayout *gridLayout_15;
+    QVBoxLayout *verticalLayout_7;
+    QHBoxLayout *horizontalLayout_14;
+    QHBoxLayout *horizontalLayout_15;
+    QPushButton *btnAddStnAudio;
+    QPushButton *btnDelStnAudio;
+    QPushButton *btnDelAllStnAudio;
+    QSpacerItem *horizontalSpacer_8;
     QTableView *m_tblAudioStationName;
     QGroupBox *groupBox_13;
-    QGridLayout *gridLayout_16;
+    QVBoxLayout *verticalLayout_8;
+    QHBoxLayout *horizontalLayout_16;
+    QHBoxLayout *horizontalLayout_17;
+    QPushButton *btnAddAudioList;
+    QPushButton *btnDelAudioList;
+    QPushButton *btnDelAllAudioList;
+    QSpacerItem *horizontalSpacer_9;
     QTableView *m_tblAudioPlayList;
     QWidget *tabVideo;
     QGridLayout *gridLayout_14;
     QSplitter *splitter_5;
     QGroupBox *groupBox_10;
-    QGridLayout *gridLayout_13;
+    QVBoxLayout *verticalLayout_9;
+    QHBoxLayout *horizontalLayout_18;
+    QHBoxLayout *horizontalLayout_19;
+    QPushButton *btnAddVideoGroup;
+    QPushButton *btnDelVideoGroup;
+    QPushButton *btnDelAllVideoGroup;
+    QSpacerItem *horizontalSpacer_10;
     QTableView *m_tblVideoDeviceGroup;
     QGroupBox *groupBox_9;
-    QGridLayout *gridLayout_12;
+    QVBoxLayout *verticalLayout_10;
+    QHBoxLayout *horizontalLayout_20;
+    QHBoxLayout *horizontalLayout_21;
+    QPushButton *btnAddVideoList;
+    QPushButton *btnDelVideoList;
+    QPushButton *btnDelAllVideoList;
+    QSpacerItem *horizontalSpacer_11;
     QTableView *m_tblVideoPlayList;
     QWidget *tabDataTag;
     QGridLayout *gridLayout_2;
     QGroupBox *groupBox;
-    QGridLayout *gridLayout_20;
+    QVBoxLayout *verticalLayout_11;
+    QHBoxLayout *horizontalLayout_22;
+    QHBoxLayout *horizontalLayout_23;
+    QPushButton *btnAddDataTag;
+    QPushButton *btnDelDataTag;
+    QPushButton *btnDelAllDataTag;
+    QSpacerItem *horizontalSpacer_12;
     QTableView *m_tblEditorTagTable;
     QMenuBar *menuBar;
     QMenu *menuFile;
@@ -140,7 +203,7 @@ public:
     {
         if (kvmrt2_media_editorClass->objectName().isEmpty())
             kvmrt2_media_editorClass->setObjectName(QStringLiteral("kvmrt2_media_editorClass"));
-        kvmrt2_media_editorClass->resize(1140, 839);
+        kvmrt2_media_editorClass->resize(1140, 711);
         QIcon icon;
         icon.addFile(QStringLiteral("Resources/More Kidcons Win/Icons/Kitty.ico"), QSize(), QIcon::Normal, QIcon::Off);
         kvmrt2_media_editorClass->setWindowIcon(icon);
@@ -259,15 +322,50 @@ public:
         splitter->setOrientation(Qt::Horizontal);
         gbStationName = new QGroupBox(splitter);
         gbStationName->setObjectName(QStringLiteral("gbStationName"));
-        gridLayout = new QGridLayout(gbStationName);
-        gridLayout->setSpacing(6);
-        gridLayout->setContentsMargins(11, 11, 11, 11);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        verticalLayout_3 = new QVBoxLayout(gbStationName);
+        verticalLayout_3->setSpacing(6);
+        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        horizontalLayout_5 = new QHBoxLayout();
+        horizontalLayout_5->setSpacing(6);
+        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setSpacing(6);
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        btnAddStation = new QPushButton(gbStationName);
+        btnAddStation->setObjectName(QStringLiteral("btnAddStation"));
+        btnAddStation->setFont(font);
+
+        horizontalLayout_4->addWidget(btnAddStation);
+
+        btnDelStation = new QPushButton(gbStationName);
+        btnDelStation->setObjectName(QStringLiteral("btnDelStation"));
+        btnDelStation->setFont(font);
+
+        horizontalLayout_4->addWidget(btnDelStation);
+
+        btnDelAllStation = new QPushButton(gbStationName);
+        btnDelAllStation->setObjectName(QStringLiteral("btnDelAllStation"));
+        btnDelAllStation->setFont(font);
+
+        horizontalLayout_4->addWidget(btnDelAllStation);
+
+
+        horizontalLayout_5->addLayout(horizontalLayout_4);
+
+        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_5->addItem(horizontalSpacer_3);
+
+
+        verticalLayout_3->addLayout(horizontalLayout_5);
+
         m_tblStationInformation = new QTableView(gbStationName);
         m_tblStationInformation->setObjectName(QStringLiteral("m_tblStationInformation"));
 
-        gridLayout->addWidget(m_tblStationInformation, 0, 1, 1, 1);
+        verticalLayout_3->addWidget(m_tblStationInformation);
 
+        verticalLayout_3->setStretch(1, 1);
         splitter->addWidget(gbStationName);
         gbDistance = new QGroupBox(splitter);
         gbDistance->setObjectName(QStringLiteral("gbDistance"));
@@ -278,6 +376,31 @@ public:
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout_6 = new QHBoxLayout();
+        horizontalLayout_6->setSpacing(6);
+        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
+        btnAddPair = new QPushButton(gbDistance);
+        btnAddPair->setObjectName(QStringLiteral("btnAddPair"));
+
+        horizontalLayout_6->addWidget(btnAddPair);
+
+        btnDelPair = new QPushButton(gbDistance);
+        btnDelPair->setObjectName(QStringLiteral("btnDelPair"));
+
+        horizontalLayout_6->addWidget(btnDelPair);
+
+        btnDelAllPair = new QPushButton(gbDistance);
+        btnDelAllPair->setObjectName(QStringLiteral("btnDelAllPair"));
+
+        horizontalLayout_6->addWidget(btnDelAllPair);
+
+
+        horizontalLayout->addLayout(horizontalLayout_6);
+
+        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer_4);
+
         rbInOrder = new QRadioButton(gbDistance);
         rbInOrder->setObjectName(QStringLiteral("rbInOrder"));
 
@@ -332,14 +455,45 @@ public:
         splitter_3->setOrientation(Qt::Horizontal);
         gbStopPattern = new QGroupBox(splitter_3);
         gbStopPattern->setObjectName(QStringLiteral("gbStopPattern"));
-        gridLayout_8 = new QGridLayout(gbStopPattern);
-        gridLayout_8->setSpacing(6);
-        gridLayout_8->setContentsMargins(11, 11, 11, 11);
-        gridLayout_8->setObjectName(QStringLiteral("gridLayout_8"));
+        verticalLayout_4 = new QVBoxLayout(gbStopPattern);
+        verticalLayout_4->setSpacing(6);
+        verticalLayout_4->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
+        horizontalLayout_7 = new QHBoxLayout();
+        horizontalLayout_7->setSpacing(6);
+        horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
+        horizontalLayout_8 = new QHBoxLayout();
+        horizontalLayout_8->setSpacing(6);
+        horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
+        btnAddStopPattern = new QPushButton(gbStopPattern);
+        btnAddStopPattern->setObjectName(QStringLiteral("btnAddStopPattern"));
+
+        horizontalLayout_8->addWidget(btnAddStopPattern);
+
+        btnDelStopPattern = new QPushButton(gbStopPattern);
+        btnDelStopPattern->setObjectName(QStringLiteral("btnDelStopPattern"));
+
+        horizontalLayout_8->addWidget(btnDelStopPattern);
+
+        btnDelAllStopPattern = new QPushButton(gbStopPattern);
+        btnDelAllStopPattern->setObjectName(QStringLiteral("btnDelAllStopPattern"));
+
+        horizontalLayout_8->addWidget(btnDelAllStopPattern);
+
+
+        horizontalLayout_7->addLayout(horizontalLayout_8);
+
+        horizontalSpacer_5 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_7->addItem(horizontalSpacer_5);
+
+
+        verticalLayout_4->addLayout(horizontalLayout_7);
+
         m_tblStopPtnHeader = new QTableView(gbStopPattern);
         m_tblStopPtnHeader->setObjectName(QStringLiteral("m_tblStopPtnHeader"));
 
-        gridLayout_8->addWidget(m_tblStopPtnHeader, 0, 0, 1, 1);
+        verticalLayout_4->addWidget(m_tblStopPtnHeader);
 
         splitter_3->addWidget(gbStopPattern);
         gbTrainRoute = new QGroupBox(splitter_3);
@@ -348,6 +502,29 @@ public:
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setSpacing(6);
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        horizontalLayout_9 = new QHBoxLayout();
+        horizontalLayout_9->setSpacing(6);
+        horizontalLayout_9->setObjectName(QStringLiteral("horizontalLayout_9"));
+        btnAddRoute = new QPushButton(gbTrainRoute);
+        btnAddRoute->setObjectName(QStringLiteral("btnAddRoute"));
+
+        horizontalLayout_9->addWidget(btnAddRoute);
+
+        btnDelRoute = new QPushButton(gbTrainRoute);
+        btnDelRoute->setObjectName(QStringLiteral("btnDelRoute"));
+
+        horizontalLayout_9->addWidget(btnDelRoute);
+
+
+        horizontalLayout_3->addLayout(horizontalLayout_9);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_3->addItem(horizontalSpacer_2);
+
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
@@ -361,19 +538,17 @@ public:
 
         horizontalLayout_2->addWidget(btnDelRoutes);
 
-        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        horizontalLayout_2->addItem(horizontalSpacer_2);
+        horizontalLayout_3->addLayout(horizontalLayout_2);
 
 
-        verticalLayout_2->addLayout(horizontalLayout_2);
+        verticalLayout_2->addLayout(horizontalLayout_3);
 
         m_tblStopPtnRoutes = new QTableView(gbTrainRoute);
         m_tblStopPtnRoutes->setObjectName(QStringLiteral("m_tblStopPtnRoutes"));
 
         verticalLayout_2->addWidget(m_tblStopPtnRoutes);
 
-        verticalLayout_2->setStretch(1, 1);
         splitter_3->addWidget(gbTrainRoute);
         splitter_4->addWidget(splitter_3);
         splitter_2 = new QSplitter(splitter_4);
@@ -421,26 +596,88 @@ public:
         splitter_7->setOrientation(Qt::Horizontal);
         groupBox_15 = new QGroupBox(splitter_7);
         groupBox_15->setObjectName(QStringLiteral("groupBox_15"));
-        gridLayout_18 = new QGridLayout(groupBox_15);
-        gridLayout_18->setSpacing(6);
-        gridLayout_18->setContentsMargins(11, 11, 11, 11);
-        gridLayout_18->setObjectName(QStringLiteral("gridLayout_18"));
+        verticalLayout_5 = new QVBoxLayout(groupBox_15);
+        verticalLayout_5->setSpacing(6);
+        verticalLayout_5->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
+        horizontalLayout_10 = new QHBoxLayout();
+        horizontalLayout_10->setSpacing(6);
+        horizontalLayout_10->setObjectName(QStringLiteral("horizontalLayout_10"));
+        horizontalLayout_11 = new QHBoxLayout();
+        horizontalLayout_11->setSpacing(6);
+        horizontalLayout_11->setObjectName(QStringLiteral("horizontalLayout_11"));
+        btnAddDisplayList = new QPushButton(groupBox_15);
+        btnAddDisplayList->setObjectName(QStringLiteral("btnAddDisplayList"));
+
+        horizontalLayout_11->addWidget(btnAddDisplayList);
+
+        btnDelDisplayList = new QPushButton(groupBox_15);
+        btnDelDisplayList->setObjectName(QStringLiteral("btnDelDisplayList"));
+
+        horizontalLayout_11->addWidget(btnDelDisplayList);
+
+        btnDelAllDisplayList = new QPushButton(groupBox_15);
+        btnDelAllDisplayList->setObjectName(QStringLiteral("btnDelAllDisplayList"));
+
+        horizontalLayout_11->addWidget(btnDelAllDisplayList);
+
+
+        horizontalLayout_10->addLayout(horizontalLayout_11);
+
+        horizontalSpacer_6 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_10->addItem(horizontalSpacer_6);
+
+
+        verticalLayout_5->addLayout(horizontalLayout_10);
+
         m_tblPIDContents = new QTableView(groupBox_15);
         m_tblPIDContents->setObjectName(QStringLiteral("m_tblPIDContents"));
 
-        gridLayout_18->addWidget(m_tblPIDContents, 0, 0, 1, 1);
+        verticalLayout_5->addWidget(m_tblPIDContents);
 
         splitter_7->addWidget(groupBox_15);
         groupBox_16 = new QGroupBox(splitter_7);
         groupBox_16->setObjectName(QStringLiteral("groupBox_16"));
-        gridLayout_3 = new QGridLayout(groupBox_16);
-        gridLayout_3->setSpacing(6);
-        gridLayout_3->setContentsMargins(11, 11, 11, 11);
-        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
+        verticalLayout_6 = new QVBoxLayout(groupBox_16);
+        verticalLayout_6->setSpacing(6);
+        verticalLayout_6->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_6->setObjectName(QStringLiteral("verticalLayout_6"));
+        horizontalLayout_12 = new QHBoxLayout();
+        horizontalLayout_12->setSpacing(6);
+        horizontalLayout_12->setObjectName(QStringLiteral("horizontalLayout_12"));
+        horizontalLayout_13 = new QHBoxLayout();
+        horizontalLayout_13->setSpacing(6);
+        horizontalLayout_13->setObjectName(QStringLiteral("horizontalLayout_13"));
+        btnAddDisplayItem = new QPushButton(groupBox_16);
+        btnAddDisplayItem->setObjectName(QStringLiteral("btnAddDisplayItem"));
+
+        horizontalLayout_13->addWidget(btnAddDisplayItem);
+
+        btnDelDisplayItem = new QPushButton(groupBox_16);
+        btnDelDisplayItem->setObjectName(QStringLiteral("btnDelDisplayItem"));
+
+        horizontalLayout_13->addWidget(btnDelDisplayItem);
+
+        btnDelAllDisplayItem = new QPushButton(groupBox_16);
+        btnDelAllDisplayItem->setObjectName(QStringLiteral("btnDelAllDisplayItem"));
+
+        horizontalLayout_13->addWidget(btnDelAllDisplayItem);
+
+
+        horizontalLayout_12->addLayout(horizontalLayout_13);
+
+        horizontalSpacer_7 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_12->addItem(horizontalSpacer_7);
+
+
+        verticalLayout_6->addLayout(horizontalLayout_12);
+
         m_tblPIDIndexList = new QTableView(groupBox_16);
         m_tblPIDIndexList->setObjectName(QStringLiteral("m_tblPIDIndexList"));
 
-        gridLayout_3->addWidget(m_tblPIDIndexList, 0, 0, 1, 1);
+        verticalLayout_6->addWidget(m_tblPIDIndexList);
 
         splitter_7->addWidget(groupBox_16);
 
@@ -460,27 +697,89 @@ public:
         splitter_6->setOrientation(Qt::Horizontal);
         groupBox_12 = new QGroupBox(splitter_6);
         groupBox_12->setObjectName(QStringLiteral("groupBox_12"));
-        gridLayout_15 = new QGridLayout(groupBox_12);
-        gridLayout_15->setSpacing(6);
-        gridLayout_15->setContentsMargins(11, 11, 11, 11);
-        gridLayout_15->setObjectName(QStringLiteral("gridLayout_15"));
+        verticalLayout_7 = new QVBoxLayout(groupBox_12);
+        verticalLayout_7->setSpacing(6);
+        verticalLayout_7->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_7->setObjectName(QStringLiteral("verticalLayout_7"));
+        horizontalLayout_14 = new QHBoxLayout();
+        horizontalLayout_14->setSpacing(6);
+        horizontalLayout_14->setObjectName(QStringLiteral("horizontalLayout_14"));
+        horizontalLayout_15 = new QHBoxLayout();
+        horizontalLayout_15->setSpacing(6);
+        horizontalLayout_15->setObjectName(QStringLiteral("horizontalLayout_15"));
+        btnAddStnAudio = new QPushButton(groupBox_12);
+        btnAddStnAudio->setObjectName(QStringLiteral("btnAddStnAudio"));
+
+        horizontalLayout_15->addWidget(btnAddStnAudio);
+
+        btnDelStnAudio = new QPushButton(groupBox_12);
+        btnDelStnAudio->setObjectName(QStringLiteral("btnDelStnAudio"));
+
+        horizontalLayout_15->addWidget(btnDelStnAudio);
+
+        btnDelAllStnAudio = new QPushButton(groupBox_12);
+        btnDelAllStnAudio->setObjectName(QStringLiteral("btnDelAllStnAudio"));
+
+        horizontalLayout_15->addWidget(btnDelAllStnAudio);
+
+
+        horizontalLayout_14->addLayout(horizontalLayout_15);
+
+        horizontalSpacer_8 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_14->addItem(horizontalSpacer_8);
+
+
+        verticalLayout_7->addLayout(horizontalLayout_14);
+
         m_tblAudioStationName = new QTableView(groupBox_12);
         m_tblAudioStationName->setObjectName(QStringLiteral("m_tblAudioStationName"));
         m_tblAudioStationName->horizontalHeader()->setDefaultSectionSize(130);
 
-        gridLayout_15->addWidget(m_tblAudioStationName, 0, 0, 1, 1);
+        verticalLayout_7->addWidget(m_tblAudioStationName);
 
         splitter_6->addWidget(groupBox_12);
         groupBox_13 = new QGroupBox(splitter_6);
         groupBox_13->setObjectName(QStringLiteral("groupBox_13"));
-        gridLayout_16 = new QGridLayout(groupBox_13);
-        gridLayout_16->setSpacing(6);
-        gridLayout_16->setContentsMargins(11, 11, 11, 11);
-        gridLayout_16->setObjectName(QStringLiteral("gridLayout_16"));
+        verticalLayout_8 = new QVBoxLayout(groupBox_13);
+        verticalLayout_8->setSpacing(6);
+        verticalLayout_8->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_8->setObjectName(QStringLiteral("verticalLayout_8"));
+        horizontalLayout_16 = new QHBoxLayout();
+        horizontalLayout_16->setSpacing(6);
+        horizontalLayout_16->setObjectName(QStringLiteral("horizontalLayout_16"));
+        horizontalLayout_17 = new QHBoxLayout();
+        horizontalLayout_17->setSpacing(6);
+        horizontalLayout_17->setObjectName(QStringLiteral("horizontalLayout_17"));
+        btnAddAudioList = new QPushButton(groupBox_13);
+        btnAddAudioList->setObjectName(QStringLiteral("btnAddAudioList"));
+
+        horizontalLayout_17->addWidget(btnAddAudioList);
+
+        btnDelAudioList = new QPushButton(groupBox_13);
+        btnDelAudioList->setObjectName(QStringLiteral("btnDelAudioList"));
+
+        horizontalLayout_17->addWidget(btnDelAudioList);
+
+        btnDelAllAudioList = new QPushButton(groupBox_13);
+        btnDelAllAudioList->setObjectName(QStringLiteral("btnDelAllAudioList"));
+
+        horizontalLayout_17->addWidget(btnDelAllAudioList);
+
+
+        horizontalLayout_16->addLayout(horizontalLayout_17);
+
+        horizontalSpacer_9 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_16->addItem(horizontalSpacer_9);
+
+
+        verticalLayout_8->addLayout(horizontalLayout_16);
+
         m_tblAudioPlayList = new QTableView(groupBox_13);
         m_tblAudioPlayList->setObjectName(QStringLiteral("m_tblAudioPlayList"));
 
-        gridLayout_16->addWidget(m_tblAudioPlayList, 0, 0, 1, 1);
+        verticalLayout_8->addWidget(m_tblAudioPlayList);
 
         splitter_6->addWidget(groupBox_13);
 
@@ -500,26 +799,88 @@ public:
         splitter_5->setOrientation(Qt::Horizontal);
         groupBox_10 = new QGroupBox(splitter_5);
         groupBox_10->setObjectName(QStringLiteral("groupBox_10"));
-        gridLayout_13 = new QGridLayout(groupBox_10);
-        gridLayout_13->setSpacing(6);
-        gridLayout_13->setContentsMargins(11, 11, 11, 11);
-        gridLayout_13->setObjectName(QStringLiteral("gridLayout_13"));
+        verticalLayout_9 = new QVBoxLayout(groupBox_10);
+        verticalLayout_9->setSpacing(6);
+        verticalLayout_9->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_9->setObjectName(QStringLiteral("verticalLayout_9"));
+        horizontalLayout_18 = new QHBoxLayout();
+        horizontalLayout_18->setSpacing(6);
+        horizontalLayout_18->setObjectName(QStringLiteral("horizontalLayout_18"));
+        horizontalLayout_19 = new QHBoxLayout();
+        horizontalLayout_19->setSpacing(6);
+        horizontalLayout_19->setObjectName(QStringLiteral("horizontalLayout_19"));
+        btnAddVideoGroup = new QPushButton(groupBox_10);
+        btnAddVideoGroup->setObjectName(QStringLiteral("btnAddVideoGroup"));
+
+        horizontalLayout_19->addWidget(btnAddVideoGroup);
+
+        btnDelVideoGroup = new QPushButton(groupBox_10);
+        btnDelVideoGroup->setObjectName(QStringLiteral("btnDelVideoGroup"));
+
+        horizontalLayout_19->addWidget(btnDelVideoGroup);
+
+        btnDelAllVideoGroup = new QPushButton(groupBox_10);
+        btnDelAllVideoGroup->setObjectName(QStringLiteral("btnDelAllVideoGroup"));
+
+        horizontalLayout_19->addWidget(btnDelAllVideoGroup);
+
+
+        horizontalLayout_18->addLayout(horizontalLayout_19);
+
+        horizontalSpacer_10 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_18->addItem(horizontalSpacer_10);
+
+
+        verticalLayout_9->addLayout(horizontalLayout_18);
+
         m_tblVideoDeviceGroup = new QTableView(groupBox_10);
         m_tblVideoDeviceGroup->setObjectName(QStringLiteral("m_tblVideoDeviceGroup"));
 
-        gridLayout_13->addWidget(m_tblVideoDeviceGroup, 0, 0, 1, 1);
+        verticalLayout_9->addWidget(m_tblVideoDeviceGroup);
 
         splitter_5->addWidget(groupBox_10);
         groupBox_9 = new QGroupBox(splitter_5);
         groupBox_9->setObjectName(QStringLiteral("groupBox_9"));
-        gridLayout_12 = new QGridLayout(groupBox_9);
-        gridLayout_12->setSpacing(6);
-        gridLayout_12->setContentsMargins(11, 11, 11, 11);
-        gridLayout_12->setObjectName(QStringLiteral("gridLayout_12"));
+        verticalLayout_10 = new QVBoxLayout(groupBox_9);
+        verticalLayout_10->setSpacing(6);
+        verticalLayout_10->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_10->setObjectName(QStringLiteral("verticalLayout_10"));
+        horizontalLayout_20 = new QHBoxLayout();
+        horizontalLayout_20->setSpacing(6);
+        horizontalLayout_20->setObjectName(QStringLiteral("horizontalLayout_20"));
+        horizontalLayout_21 = new QHBoxLayout();
+        horizontalLayout_21->setSpacing(6);
+        horizontalLayout_21->setObjectName(QStringLiteral("horizontalLayout_21"));
+        btnAddVideoList = new QPushButton(groupBox_9);
+        btnAddVideoList->setObjectName(QStringLiteral("btnAddVideoList"));
+
+        horizontalLayout_21->addWidget(btnAddVideoList);
+
+        btnDelVideoList = new QPushButton(groupBox_9);
+        btnDelVideoList->setObjectName(QStringLiteral("btnDelVideoList"));
+
+        horizontalLayout_21->addWidget(btnDelVideoList);
+
+        btnDelAllVideoList = new QPushButton(groupBox_9);
+        btnDelAllVideoList->setObjectName(QStringLiteral("btnDelAllVideoList"));
+
+        horizontalLayout_21->addWidget(btnDelAllVideoList);
+
+
+        horizontalLayout_20->addLayout(horizontalLayout_21);
+
+        horizontalSpacer_11 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_20->addItem(horizontalSpacer_11);
+
+
+        verticalLayout_10->addLayout(horizontalLayout_20);
+
         m_tblVideoPlayList = new QTableView(groupBox_9);
         m_tblVideoPlayList->setObjectName(QStringLiteral("m_tblVideoPlayList"));
 
-        gridLayout_12->addWidget(m_tblVideoPlayList, 0, 0, 1, 1);
+        verticalLayout_10->addWidget(m_tblVideoPlayList);
 
         splitter_5->addWidget(groupBox_9);
 
@@ -536,15 +897,46 @@ public:
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         groupBox = new QGroupBox(tabDataTag);
         groupBox->setObjectName(QStringLiteral("groupBox"));
-        gridLayout_20 = new QGridLayout(groupBox);
-        gridLayout_20->setSpacing(6);
-        gridLayout_20->setContentsMargins(11, 11, 11, 11);
-        gridLayout_20->setObjectName(QStringLiteral("gridLayout_20"));
+        verticalLayout_11 = new QVBoxLayout(groupBox);
+        verticalLayout_11->setSpacing(6);
+        verticalLayout_11->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_11->setObjectName(QStringLiteral("verticalLayout_11"));
+        horizontalLayout_22 = new QHBoxLayout();
+        horizontalLayout_22->setSpacing(6);
+        horizontalLayout_22->setObjectName(QStringLiteral("horizontalLayout_22"));
+        horizontalLayout_23 = new QHBoxLayout();
+        horizontalLayout_23->setSpacing(6);
+        horizontalLayout_23->setObjectName(QStringLiteral("horizontalLayout_23"));
+        btnAddDataTag = new QPushButton(groupBox);
+        btnAddDataTag->setObjectName(QStringLiteral("btnAddDataTag"));
+
+        horizontalLayout_23->addWidget(btnAddDataTag);
+
+        btnDelDataTag = new QPushButton(groupBox);
+        btnDelDataTag->setObjectName(QStringLiteral("btnDelDataTag"));
+
+        horizontalLayout_23->addWidget(btnDelDataTag);
+
+        btnDelAllDataTag = new QPushButton(groupBox);
+        btnDelAllDataTag->setObjectName(QStringLiteral("btnDelAllDataTag"));
+
+        horizontalLayout_23->addWidget(btnDelAllDataTag);
+
+
+        horizontalLayout_22->addLayout(horizontalLayout_23);
+
+        horizontalSpacer_12 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_22->addItem(horizontalSpacer_12);
+
+
+        verticalLayout_11->addLayout(horizontalLayout_22);
+
         m_tblEditorTagTable = new QTableView(groupBox);
         m_tblEditorTagTable->setObjectName(QStringLiteral("m_tblEditorTagTable"));
         m_tblEditorTagTable->horizontalHeader()->setDefaultSectionSize(200);
 
-        gridLayout_20->addWidget(m_tblEditorTagTable, 0, 0, 1, 1);
+        verticalLayout_11->addWidget(m_tblEditorTagTable);
 
 
         gridLayout_2->addWidget(groupBox, 0, 0, 1, 1);
@@ -677,29 +1069,61 @@ public:
         actionUserInfo->setText(QApplication::translate("kvmrt2_media_editorClass", "&User Information", Q_NULLPTR));
         actionSyncAudioDur->setText(QApplication::translate("kvmrt2_media_editorClass", "Sync Audio Du&ration", Q_NULLPTR));
         gbStationName->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Station Name", Q_NULLPTR));
+        btnAddStation->setText(QApplication::translate("kvmrt2_media_editorClass", "Add", Q_NULLPTR));
+        btnDelStation->setText(QApplication::translate("kvmrt2_media_editorClass", "Delete", Q_NULLPTR));
+        btnDelAllStation->setText(QApplication::translate("kvmrt2_media_editorClass", "Delete All", Q_NULLPTR));
         gbDistance->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Station Pair (Distance table)", Q_NULLPTR));
+        btnAddPair->setText(QApplication::translate("kvmrt2_media_editorClass", "Add", Q_NULLPTR));
+        btnDelPair->setText(QApplication::translate("kvmrt2_media_editorClass", "Delete", Q_NULLPTR));
+        btnDelAllPair->setText(QApplication::translate("kvmrt2_media_editorClass", "Delete All", Q_NULLPTR));
         rbInOrder->setText(QApplication::translate("kvmrt2_media_editorClass", "Auto 1", Q_NULLPTR));
         rbInReverseOrder->setText(QApplication::translate("kvmrt2_media_editorClass", "Auto 2", Q_NULLPTR));
         rbCustomOrder->setText(QApplication::translate("kvmrt2_media_editorClass", "Custom", Q_NULLPTR));
         btnRefreshDistanceTable->setText(QApplication::translate("kvmrt2_media_editorClass", "Fill Description", Q_NULLPTR));
         tabMain->setTabText(tabMain->indexOf(tabStation), QApplication::translate("kvmrt2_media_editorClass", "Station Information", Q_NULLPTR));
         gbStopPattern->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Stop Pattern", Q_NULLPTR));
+        btnAddStopPattern->setText(QApplication::translate("kvmrt2_media_editorClass", "Add", Q_NULLPTR));
+        btnDelStopPattern->setText(QApplication::translate("kvmrt2_media_editorClass", "Delete", Q_NULLPTR));
+        btnDelAllStopPattern->setText(QApplication::translate("kvmrt2_media_editorClass", "Delete All", Q_NULLPTR));
         gbTrainRoute->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Train Route", Q_NULLPTR));
-        btnRouteAutoAdd->setText(QApplication::translate("kvmrt2_media_editorClass", "Auto Add", Q_NULLPTR));
+        btnAddRoute->setText(QApplication::translate("kvmrt2_media_editorClass", "Add", Q_NULLPTR));
+        btnDelRoute->setText(QApplication::translate("kvmrt2_media_editorClass", "Delete", Q_NULLPTR));
+        btnRouteAutoAdd->setText(QApplication::translate("kvmrt2_media_editorClass", "Auto Add All", Q_NULLPTR));
         btnDelRoutes->setText(QApplication::translate("kvmrt2_media_editorClass", "Delete All", Q_NULLPTR));
         gbTrainNumber->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Train Number", Q_NULLPTR));
         gbRouteEvent->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Route Event List", Q_NULLPTR));
         tabMain->setTabText(tabMain->indexOf(tabRoute), QApplication::translate("kvmrt2_media_editorClass", "Train Route Information", Q_NULLPTR));
         groupBox_15->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Display List Name", Q_NULLPTR));
-        groupBox_16->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Display List", Q_NULLPTR));
+        btnAddDisplayList->setText(QApplication::translate("kvmrt2_media_editorClass", "Add", Q_NULLPTR));
+        btnDelDisplayList->setText(QApplication::translate("kvmrt2_media_editorClass", "Delete", Q_NULLPTR));
+        btnDelAllDisplayList->setText(QApplication::translate("kvmrt2_media_editorClass", "Delete All", Q_NULLPTR));
+        groupBox_16->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Display Item List", Q_NULLPTR));
+        btnAddDisplayItem->setText(QApplication::translate("kvmrt2_media_editorClass", "Add", Q_NULLPTR));
+        btnDelDisplayItem->setText(QApplication::translate("kvmrt2_media_editorClass", "Delete", Q_NULLPTR));
+        btnDelAllDisplayItem->setText(QApplication::translate("kvmrt2_media_editorClass", "Delete All", Q_NULLPTR));
         tabMain->setTabText(tabMain->indexOf(tabScreen), QApplication::translate("kvmrt2_media_editorClass", "Screen Contents", Q_NULLPTR));
         groupBox_12->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Station Name Audio", Q_NULLPTR));
+        btnAddStnAudio->setText(QApplication::translate("kvmrt2_media_editorClass", "Add", Q_NULLPTR));
+        btnDelStnAudio->setText(QApplication::translate("kvmrt2_media_editorClass", "Delete", Q_NULLPTR));
+        btnDelAllStnAudio->setText(QApplication::translate("kvmrt2_media_editorClass", "Delete All", Q_NULLPTR));
         groupBox_13->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Audio Play List", Q_NULLPTR));
+        btnAddAudioList->setText(QApplication::translate("kvmrt2_media_editorClass", "Add", Q_NULLPTR));
+        btnDelAudioList->setText(QApplication::translate("kvmrt2_media_editorClass", "Delete", Q_NULLPTR));
+        btnDelAllAudioList->setText(QApplication::translate("kvmrt2_media_editorClass", "Delete All", Q_NULLPTR));
         tabMain->setTabText(tabMain->indexOf(tabAudio), QApplication::translate("kvmrt2_media_editorClass", "Audio Contents", Q_NULLPTR));
         groupBox_10->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Video Play Group", Q_NULLPTR));
+        btnAddVideoGroup->setText(QApplication::translate("kvmrt2_media_editorClass", "Add", Q_NULLPTR));
+        btnDelVideoGroup->setText(QApplication::translate("kvmrt2_media_editorClass", "Delete", Q_NULLPTR));
+        btnDelAllVideoGroup->setText(QApplication::translate("kvmrt2_media_editorClass", "Delete All", Q_NULLPTR));
         groupBox_9->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Video Play List", Q_NULLPTR));
+        btnAddVideoList->setText(QApplication::translate("kvmrt2_media_editorClass", "Add", Q_NULLPTR));
+        btnDelVideoList->setText(QApplication::translate("kvmrt2_media_editorClass", "Delete", Q_NULLPTR));
+        btnDelAllVideoList->setText(QApplication::translate("kvmrt2_media_editorClass", "Delete All", Q_NULLPTR));
         tabMain->setTabText(tabMain->indexOf(tabVideo), QApplication::translate("kvmrt2_media_editorClass", "Video Contents", Q_NULLPTR));
         groupBox->setTitle(QApplication::translate("kvmrt2_media_editorClass", "Data Tag (Editor tag table)", Q_NULLPTR));
+        btnAddDataTag->setText(QApplication::translate("kvmrt2_media_editorClass", "Add", Q_NULLPTR));
+        btnDelDataTag->setText(QApplication::translate("kvmrt2_media_editorClass", "Delete", Q_NULLPTR));
+        btnDelAllDataTag->setText(QApplication::translate("kvmrt2_media_editorClass", "Delete All", Q_NULLPTR));
         tabMain->setTabText(tabMain->indexOf(tabDataTag), QApplication::translate("kvmrt2_media_editorClass", "Data Tag", Q_NULLPTR));
         menuFile->setTitle(QApplication::translate("kvmrt2_media_editorClass", "&File", Q_NULLPTR));
         menuFilePool->setTitle(QApplication::translate("kvmrt2_media_editorClass", "&Data File Pool", Q_NULLPTR));

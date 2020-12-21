@@ -58,7 +58,7 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(bitmapImagePool, BitmapImagePool)
 	CONNECT_ROW_CHAHANGED_SLOT(BitmapImagePool, updateBitmapImage(const QModelIndex &, const QModelIndex &));
 	connect(GET_TABLE_MODEL(pDM, BitmapImagePool).get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(updateBitmapImagePool(const QModelIndex &, const QModelIndex &)));
 
-	m_pSFMLView = new QTextAligner(ui.frame, QPoint(0, 0), QSize(999, 999), QTextAligner::BITMAP);
+	m_pSFMLView = new QTextAligner(ui.widget, QPoint(0, 0), QSize(999, 999), QTextAligner::BITMAP);
 	m_pSFMLView->setBackgroundColor(pDM->m_bmpPoolBack);
 	return false;
 }
@@ -90,7 +90,7 @@ void bitmapImagePool::addBitmapImagePool(bool bInsert)
 			this,
 			QString::fromStdWString(L"Find image files"),
 			QDir::homePath(),
-			tr("File (*.png *.PNG *.bmp *.BMP)"));
+			tr("File (*.png *.PNG *.bmp *.BMP *.gif *.GIF)"));
 	if (filePaths.size())
 	{
 		while (filePaths.size())
@@ -101,14 +101,96 @@ void bitmapImagePool::addBitmapImagePool(bool bInsert)
 			if (pByte.get())
 			{
 				QFileInfo fileInfo(filePath);
-				QString filename(fileInfo.fileName());
-				pVFM->insertRows(nRow, 1);
-				BitmapImagePool *pImage = (BitmapImagePool*)pTM->m_vBitmapImagePool[nRow].get();
-				wcscpy(pImage->szFileName, filename.toStdWString().c_str());
-				pImage->nWidth = nActualWidth;
-				pImage->nHeight = nActualHeight;
-				pImage->nDataLength = nActualWidth*nActualHeight * 4;
-				pImage->pByte = pByte;
+				if (fileInfo.completeSuffix() == "gif" || fileInfo.completeSuffix() == "GIF")
+				{
+					QString filename(fileInfo.fileName());
+					pVFM->insertRows(nRow, 1);
+					BitmapImagePool *pImage = (BitmapImagePool*)pTM->m_vBitmapImagePool[nRow].get();
+					wcscpy(pImage->szFileName, filename.toStdWString().c_str());
+					pImage->nWidth = nActualWidth;
+					pImage->nHeight = nActualHeight;
+					pImage->nDataLength = nActualWidth*nActualHeight * 4;
+					pImage->pByte = pByte;
+					nRow += 1;
+
+					int ans = QMessageBox::question(this, "Add Splitted Png File", QString("%1 is a GIF file. It needs to save not only GIF but splitted PNGs.\n"
+													"Do you want to save splitted PNGs?").arg(fileInfo.fileName()));
+					if (ans == QMessageBox::Yes)
+					{
+						qDebug() << "<GIF FILE INFORMATION>"
+							<< "[1]" << fileInfo.fileName() << "\n"
+							<< "[2]" << fileInfo.baseName() << "\n"
+							<< "[3]" << fileInfo.filePath() << "\n"
+							<< "[4]" << fileInfo.completeSuffix() << "\n"
+							<< "[5]" << fileInfo.absoluteFilePath() << "\n"
+							<< "[6]" << fileInfo.absolutePath() << "\n";
+
+						QString fileName(fileInfo.fileName());
+						QString originalFileName = fileInfo.baseName();
+						QProcess process;
+						QStringList args;
+						QString splitFileName = QString("%1/%2_%d.png").arg(fileInfo.absolutePath()).arg(fileInfo.baseName());
+						args << "-i"
+							<< fileInfo.filePath()
+							<< "-vsync"
+							<< "0"
+							<< splitFileName;
+
+						process.start(FFMPEG_FILE_PATH, args);
+						process.waitForFinished();
+						if (process.exitCode() == 0) // success!
+						{
+							int fileNums = 0;
+							for (int i = 1; i < 100; i++)
+							{
+								QString splitFile = QString("%1/%2_%3.png").arg(fileInfo.absolutePath()).arg(originalFileName).arg(i);
+								QFileInfo fInfo(fileInfo.absoluteDir(), splitFile);
+								if (fInfo.exists())
+								{
+									int nWidth = 0;
+									int nHeight = 0;
+									std::shared_ptr<unsigned char> splitByte = pTMS->GetBitmapBuffer((wchar_t*)splitFile.toStdWString().c_str(), 0, 0, &nWidth, &nHeight);
+									if (splitByte.get())
+									{
+										pVFM->insertRows(nRow, 1);
+										BitmapImagePool *pImage = (BitmapImagePool*)pTM->m_vBitmapImagePool[nRow].get();
+										wcscpy(pImage->szFileName, fInfo.fileName().toStdWString().c_str());
+										pImage->nWidth = nWidth;
+										pImage->nHeight = nHeight;
+										pImage->nDataLength = nWidth*nHeight * 4;
+										pImage->pByte = splitByte;
+										nRow += 1;
+									}
+								}
+								else
+								{
+									fileNums = i - 1;
+									break;
+								}
+							}
+							qDebug() << "total file nums:" << fileNums;
+						}
+						else
+						{
+							QString err = QString::fromStdString(process.readAllStandardError().toStdString());
+							QMessageBox::warning(this, "Unexpected Error!", QString("%1").arg(err));
+						}
+
+						// gif split refer : https://www.reddit.com/r/ffmpeg/comments/cqwlwo/extracting_frames_from_gif/
+						//ffmpeg -i input/Clap.gif -vsync 0 temp/temp%d.png
+					}
+				}
+				else
+				{
+					QString filename(fileInfo.fileName());
+					pVFM->insertRows(nRow, 1);
+					BitmapImagePool *pImage = (BitmapImagePool*)pTM->m_vBitmapImagePool[nRow].get();
+					wcscpy(pImage->szFileName, filename.toStdWString().c_str());
+					pImage->nWidth = nActualWidth;
+					pImage->nHeight = nActualHeight;
+					pImage->nDataLength = nActualWidth*nActualHeight * 4;
+					pImage->pByte = pByte;
+				}
 			}
 			GET_TABLE(BitmapImagePool)->setCurrentIndex(index);
 		}

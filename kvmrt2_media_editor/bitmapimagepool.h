@@ -5,7 +5,6 @@
 #include "ui_bitmapimagepool.h"
 #include "TableViewHelper.h"
 
-
 class QTextAligner;
 
 class bitmapImagePool : public QDialog
@@ -18,6 +17,7 @@ public:
 		
 public:
 	bool eventFilter(QObject *object, QEvent *event);
+	//void findSplittedPng(const QString d);
 
 private:
 	Ui::bitmapImagePool ui;

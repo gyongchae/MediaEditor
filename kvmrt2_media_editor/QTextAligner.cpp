@@ -81,6 +81,7 @@ void QTextAligner::OnUpdate()
 
 void QTextAligner::OnResize(int x, int y)
 {
+	qDebug() << "SFML view resize:" << x << y;
 	setSize(sf::Vector2u(x, y));
 	setView(sf::View(sf::FloatRect(0.f, 0.f, (float)x, (float)y)));
 }

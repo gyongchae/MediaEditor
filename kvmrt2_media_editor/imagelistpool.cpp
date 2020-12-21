@@ -9,6 +9,7 @@
 #include <qmessagebox.h>
 #include <qcolordialog.h>
 #include "DefineMode.h"
+#include <QScrollArea>
 
 #define IMAGE_LIST_POOL_CLASS imageListPool
 
@@ -16,12 +17,14 @@ imageListPool::imageListPool(QWidget *parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
-
+	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
 	auto *pDM = CDataManage::GetInstance();
-	m_pSFMLView = new QTextAligner(ui.frame, QPoint(0, 0), QSize(1920, 1080), QTextAligner::IMAGELIST);
-	m_pSFMLView->setBackgroundColor(pDM->m_imgListBack);
 
+	m_pSFMLView = new QTextAligner(ui.widget, QPoint(0, 0), QSize(1024, 1024), QTextAligner::IMAGELIST);
+	//m_pSFMLView = new QTextAligner(ui.widget, QPoint(0, 0), ui.widget->size(), QTextAligner::IMAGELIST);
+	m_pSFMLView->setBackgroundColor(pDM->m_imgListBack);
+	
 	CALL_INIT_FUNCTION(ImageIndexList);
 	CALL_INIT_FUNCTION(ImageIndex);
 
@@ -294,6 +297,12 @@ bool imageListPool::deleteRowFromTable(QTableView *pView, dataModel *pModel)
 		}
 	}
 	return false;
+}
+
+void imageListPool::resizeEvent(QResizeEvent * event)
+{
+	qDebug() << Q_FUNC_INFO << this->size();
+	QDialog::resizeEvent(event);
 }
 
 void imageListPool::itemPositionChanged(int nIndex, int x, int y)

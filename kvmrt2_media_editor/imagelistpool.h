@@ -26,6 +26,10 @@ public:
 	void addRowToTable(bool bInsert,QTableView *pView,dataModel *pModel);
 	bool deleteRowFromTable(QTableView *pView,dataModel *pModel);
 	
+protected:
+	void resizeEvent(QResizeEvent *event) override;
+
+
 private:
 	Ui::imageListPool ui;
 	QTextAligner* m_pSFMLView;

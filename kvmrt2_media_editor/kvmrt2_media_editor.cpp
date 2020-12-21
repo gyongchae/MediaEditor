@@ -61,6 +61,8 @@ kvmrt2_media_editor::kvmrt2_media_editor(QString & dbPath, QString & currPath, Q
 	initContextMenu();
 	initIcons();
 
+	initNewFeature();
+
 	ui.rbCustomOrder->setChecked(true);
 
 	if (pDM->m_pModOPDataVersion->rowCount() == 1)
@@ -119,11 +121,13 @@ void kvmrt2_media_editor::setHideItemsMainWindow(bool isRelease)
 		SET_HIDE_TABLE_COLUMN(StopPtnHeader, 0);
 		SET_HIDE_TABLE_COLUMN(StopPtnHeader, 5);
 		SET_HIDE_TABLE_COLUMN(StopPtnHeader, 6);
+
 		SET_HIDE_TABLE_COLUMN(StopPtnRoutes, 0);
 		SET_HIDE_TABLE_COLUMN(StopPtnRoutes, 1);
 		SET_HIDE_TABLE_COLUMN(StopPtnRoutes, 2);
 		SET_HIDE_TABLE_COLUMN(StopPtnRoutes, 4);
 		SET_HIDE_TABLE_COLUMN(StopPtnRoutes, 5);
+		SET_HIDE_TABLE_COLUMN(StopPtnRoutes, 6);
 		SET_HIDE_TABLE_COLUMN_RANGE(StopPtnRoutes, 7, 12);
 		SET_HIDE_TABLE_COLUMN(PIDContents, 0);
 		SET_HIDE_TABLE_COLUMN_RANGE(PIDContents, 3, 8);
@@ -501,6 +505,10 @@ void kvmrt2_media_editor::onShowFileUpload()
 	QStringList arguments;
 	arguments << "ME";
 	process->start(QString(WIZARD_FILE_PATH), arguments);
+	process->waitForFinished();
+	int exitCode = process->exitCode();
+	qDebug() << Q_FUNC_INFO << "exit code" << exitCode;
+	//process->close();
 }
 
 void kvmrt2_media_editor::onShowUserInfo()
@@ -912,9 +920,35 @@ void kvmrt2_media_editor::onAudioStnIndexChanged(const QModelIndex & topLeft, co
 	const int col = topLeft.column();
 	const int row = topLeft.row();
 
-	if (col == 3 || col == 6) // audio index
+	if (col == 3) // BM Audio Index
 	{
+		const int audioFileIdx = ui.m_tblAudioStationName->currentIndex().data(Qt::EditRole).toInt();
 
+		auto *pDM = CDataManage::GetInstance();
+		auto *pTM = CTableManage::GetInstance();
+
+		std::vector<std::shared_ptr<CSQLData>>::iterator it;
+		it = find_if(pTM->VECTOR_CLASS(AudioFilePool).begin(), pTM->VECTOR_CLASS(AudioFilePool).end(),
+			findAudioFileNameByAudioIndex(audioFileIdx));
+		QString fileName = "";
+		int duration = 0;
+		if (it != pTM->VECTOR_CLASS(AudioFilePool).end())
+		{
+			auto *c = dynamic_cast<AudioFilePool*>(it->get());
+			fileName = QString::fromWCharArray(c->szFileName);
+			duration = c->nAudioLen;
+			qDebug() << "audio file:" << fileName << duration;
+		}
+
+		// column 변경 시 column 위치 주의
+		GET_TABLE_MODEL(pDM, AudioStationName)->setData(topLeft.sibling(row, col + 1/*filename*/), fileName, Qt::EditRole);
+		GET_TABLE_MODEL(pDM, AudioStationName)->setData(topLeft.sibling(row, col + 2/*duration*/), duration, Qt::EditRole);
+		GET_TABLE_MODEL(pDM, AudioStationName)->setData(topLeft.sibling(row, 6/*filename*/), audioFileIdx, Qt::EditRole);
+		GET_TABLE_MODEL(pDM, AudioStationName)->setData(topLeft.sibling(row, 7/*filename*/), fileName, Qt::EditRole);
+		GET_TABLE_MODEL(pDM, AudioStationName)->setData(topLeft.sibling(row, 8/*duration*/), duration, Qt::EditRole);
+	}
+	else if (col == 6) // audio index
+	{
 		const int audioFileIdx = ui.m_tblAudioStationName->currentIndex().data(Qt::EditRole).toInt();
 
 		auto *pDM = CDataManage::GetInstance();
@@ -1143,6 +1177,422 @@ void kvmrt2_media_editor::initAccountType(AccountType type)
 		}
 		break;
 	}
+}
+
+
+void kvmrt2_media_editor::initNewFeature()
+{
+	// station name table
+	connect(ui.btnAddStation, SIGNAL(clicked()), this, SLOT(onAddStnBtnClicked()));
+	connect(ui.btnDelStation, SIGNAL(clicked()), this, SLOT(onDelStnBtnClicked()));
+	connect(ui.btnDelAllStation, SIGNAL(clicked()), this, SLOT(onDelAllStnBtnClicked()));
+	// station distance (pair) table
+	connect(ui.btnAddPair, SIGNAL(clicked()), this, SLOT(onAddPairBtnClicked()));
+	connect(ui.btnDelPair, SIGNAL(clicked()), this, SLOT(onDelPairBtnClicked()));
+	connect(ui.btnDelAllPair, SIGNAL(clicked()), this, SLOT(onDelAllPairBtnClicked()));
+	// stop pattern table
+	connect(ui.btnAddStopPattern, SIGNAL(clicked()), this, SLOT(onAddPatternBtnClicked()));
+	connect(ui.btnDelStopPattern, SIGNAL(clicked()), this, SLOT(onDelPatternBtnClicked()));
+	connect(ui.btnDelAllStopPattern, SIGNAL(clicked()), this, SLOT(onDelAllPatternBtnClicked()));
+	// train route
+	connect(ui.btnAddRoute, SIGNAL(clicked()), this, SLOT(onAddRouteBtnClicked()));
+	connect(ui.btnDelRoute, SIGNAL(clicked()), this, SLOT(onDelRouteBtnClicked()));
+	// display list / display list item
+	connect(ui.btnAddDisplayList, SIGNAL(clicked()), this, SLOT(onAddDisplayListBtnClicked()));
+	connect(ui.btnDelDisplayList, SIGNAL(clicked()), this, SLOT(onDelDisplayListBtnClicked()));
+	connect(ui.btnDelAllDisplayList, SIGNAL(clicked()), this, SLOT(onDelAllDisplayListBtnClicked()));
+	connect(ui.btnAddDisplayItem, SIGNAL(clicked()), this, SLOT(onAddDisplayItemBtnClicked()));
+	connect(ui.btnDelDisplayItem, SIGNAL(clicked()), this, SLOT(onDelDisplayItemBtnClicked()));
+	connect(ui.btnDelAllDisplayItem, SIGNAL(clicked()), this, SLOT(onDelAllDisplayItemBtnClicked()));
+	// audio stn name / aduio list
+	connect(ui.btnAddVideoGroup, SIGNAL(clicked()), this, SLOT(onAddVideoGroupBtnClicked()));
+	connect(ui.btnDelVideoGroup, SIGNAL(clicked()), this, SLOT(onDelVideoGroupBtnClicked()));
+	connect(ui.btnDelAllVideoGroup, SIGNAL(clicked()), this, SLOT(onDelAllVideoGroupBtnClicked()));
+	connect(ui.btnAddAudioList, SIGNAL(clicked()), this, SLOT(onAddAudioListBtnClicked()));
+	connect(ui.btnDelAudioList, SIGNAL(clicked()), this, SLOT(onDelAudioListBtnClicked()));
+	connect(ui.btnDelAllAudioList, SIGNAL(clicked()), this, SLOT(onDelAllAudioListBtnClicked()));
+	// video stn name / video list
+	connect(ui.btnAddStnAudio, SIGNAL(clicked()), this, SLOT(onAddStnAudioBtnClicked()));
+	connect(ui.btnDelStnAudio, SIGNAL(clicked()), this, SLOT(onDelStnAudioBtnClicked()));
+	connect(ui.btnDelAllStnAudio, SIGNAL(clicked()), this, SLOT(onDelAllStnAudioBtnClicked()));
+	connect(ui.btnAddVideoList, SIGNAL(clicked()), this, SLOT(onAddVideoListBtnClicked()));
+	connect(ui.btnDelVideoList, SIGNAL(clicked()), this, SLOT(onDelVideoListBtnClicked()));
+	connect(ui.btnDelAllVideoList, SIGNAL(clicked()), this, SLOT(onDelAllVideoListBtnClicked()));
+	// editor tag table
+	connect(ui.btnAddDataTag, SIGNAL(clicked()), this, SLOT(onAddDataTagBtnClicked()));
+	connect(ui.btnDelDataTag, SIGNAL(clicked()), this, SLOT(onDelDataTagBtnClicked()));
+	connect(ui.btnDelAllDataTag, SIGNAL(clicked()), this, SLOT(onDelAllDataTagBtnClicked()));
+}
+
+void kvmrt2_media_editor::onAddStnBtnClicked()
+{
+	qDebug() << Q_FUNC_INFO;
+	auto *pDM = CDataManage::GetInstance();
+	addRowToTable(false, ui.m_tblStationInformation, pDM->m_pModStationInformation.get());
+}
+
+void kvmrt2_media_editor::onDelStnBtnClicked()
+{
+	qDebug() << Q_FUNC_INFO;
+	auto *pDM = CDataManage::GetInstance();
+	deleteRowFromTable(ui.m_tblStationInformation, pDM->m_pModStationInformation.get());
+}
+
+void kvmrt2_media_editor::onDelAllStnBtnClicked()
+{
+	auto *pDM = CDataManage::GetInstance();
+	const int rowCount = pDM->m_pModStationInformation.get()->rowCount();
+	int ret = QMessageBox::question(this,
+		"Delete All",
+		QString("Do you want to delete all station information? (total %1)")
+		.arg(rowCount));
+
+	if (ret == QMessageBox::Yes)
+	{
+		for (int r = 0; r < rowCount; ++r)
+		{
+			ui.m_tblStationInformation->model()->removeRows(0, 1);
+		}
+	}
+	else {}
+}
+
+void kvmrt2_media_editor::onAddPairBtnClicked()
+{
+	qDebug() << Q_FUNC_INFO;
+	auto *pDM = CDataManage::GetInstance();
+	addRowToTable(false, ui.m_tblStationDistance, pDM->m_pModStationDistance.get());
+}
+
+void kvmrt2_media_editor::onDelPairBtnClicked()
+{
+	qDebug() << Q_FUNC_INFO;
+	auto *pDM = CDataManage::GetInstance();
+	deleteRowFromTable(ui.m_tblStationDistance, pDM->m_pModStationDistance.get());
+}
+
+void kvmrt2_media_editor::onDelAllPairBtnClicked()
+{
+	auto *pDM = CDataManage::GetInstance();
+	const int rowCount = pDM->m_pModStationDistance.get()->rowCount();
+	int ret = QMessageBox::question(this,
+		"Delete All",
+		QString("Do you want to delete all station pairs? (total %1)")
+		.arg(rowCount));
+
+	if (ret == QMessageBox::Yes)
+	{
+		for (int r = 0; r < rowCount; ++r)
+		{
+			ui.m_tblStationDistance->model()->removeRows(0, 1);
+		}
+	}
+	else {}
+}
+
+void kvmrt2_media_editor::onAddPatternBtnClicked()
+{
+	qDebug() << Q_FUNC_INFO;
+	auto *pDM = CDataManage::GetInstance();
+	addRowToTable(false, ui.m_tblStopPtnHeader, pDM->m_pModStopPtnHeader.get());
+}
+
+void kvmrt2_media_editor::onDelPatternBtnClicked()
+{
+	qDebug() << Q_FUNC_INFO;
+	auto *pDM = CDataManage::GetInstance();
+	deleteRowFromTable(ui.m_tblStopPtnHeader, pDM->m_pModStopPtnHeader.get());
+}
+
+void kvmrt2_media_editor::onDelAllPatternBtnClicked()
+{
+	auto *pDM = CDataManage::GetInstance();
+	const int rowCount = pDM->m_pModStopPtnHeader.get()->rowCount();
+	int ret = QMessageBox::question(this,
+		"Delete All",
+		QString("Do you want to delete all stop patterns? (total %1)")
+		.arg(rowCount));
+
+	if (ret == QMessageBox::Yes)
+	{
+		for (int r = 0; r < rowCount; ++r)
+		{
+			ui.m_tblStopPtnHeader->model()->removeRows(0, 1);
+		}
+	}
+	else {}
+}
+
+void kvmrt2_media_editor::onAddRouteBtnClicked()
+{
+	qDebug() << Q_FUNC_INFO;
+	auto *pTM = CTableManage::GetInstance();
+	auto *pDM = CDataManage::GetInstance();
+	int hdrRow = GET_TABLE(StopPtnHeader)->currentIndex().row();
+	if (hdrRow != -1/*unselected*/) // check stop pattern header validation
+	{
+		addRowToTable(false, ui.m_tblStopPtnRoutes, pDM->m_pModStopPtnRoutes.get());
+	}
+	else
+	{
+		QMessageBox::warning(this, "Invalid Stop Pattern", "Select stop pattern first!");
+	}
+}
+
+void kvmrt2_media_editor::onDelRouteBtnClicked()
+{
+	qDebug() << Q_FUNC_INFO;
+	auto *pDM = CDataManage::GetInstance();
+	deleteRowFromTable(ui.m_tblStopPtnRoutes, pDM->m_pModStopPtnRoutes.get());
+}
+
+void kvmrt2_media_editor::onAddDisplayListBtnClicked()
+{
+	qDebug() << Q_FUNC_INFO;
+	auto *pDM = CDataManage::GetInstance();
+	addRowToTable(false, ui.m_tblPIDContents, pDM->m_pModPIDContents.get());
+}
+
+void kvmrt2_media_editor::onDelDisplayListBtnClicked()
+{
+	qDebug() << Q_FUNC_INFO;
+	auto *pDM = CDataManage::GetInstance();
+	deleteRowFromTable(ui.m_tblPIDContents, pDM->m_pModPIDContents.get());
+}
+
+void kvmrt2_media_editor::onDelAllDisplayListBtnClicked()
+{
+	auto *pDM = CDataManage::GetInstance();
+	const int rowCount = pDM->m_pModPIDContents.get()->rowCount();
+	int ret = QMessageBox::question(this,
+		"Delete All",
+		QString("Do you want to delete all display list? (total %1)")
+		.arg(rowCount));
+
+	if (ret == QMessageBox::Yes)
+	{
+		for (int r = 0; r < rowCount; ++r)
+		{
+			ui.m_tblPIDContents->model()->removeRows(0, 1);
+		}
+	}
+	else {}
+}
+
+void kvmrt2_media_editor::onAddDisplayItemBtnClicked()
+{
+	qDebug() << Q_FUNC_INFO;
+	auto *pDM = CDataManage::GetInstance();
+	auto *pTM = CTableManage::GetInstance();
+	int hdrRow = GET_TABLE(PIDContents)->currentIndex().row();
+	if (hdrRow != -1/*unselected*/)
+	{
+		addRowToTable(false, ui.m_tblPIDIndexList, pDM->m_pModPIDIndexList.get());
+	}
+	else
+	{
+		QMessageBox::warning(this, "Invalid Display List", "Select display list first!");
+	}
+}
+
+void kvmrt2_media_editor::onDelDisplayItemBtnClicked()
+{
+	qDebug() << Q_FUNC_INFO;
+	auto *pDM = CDataManage::GetInstance();
+	deleteRowFromTable(ui.m_tblPIDIndexList, pDM->m_pModPIDIndexList.get());
+}
+
+void kvmrt2_media_editor::onDelAllDisplayItemBtnClicked()
+{
+	auto *pDM = CDataManage::GetInstance();
+	const int rowCount = pDM->m_pModPIDIndexList.get()->rowCount();
+	int ret = QMessageBox::question(this,
+		"Delete All",
+		QString("Do you want to delete all display items? (total %1)")
+		.arg(rowCount));
+
+	if (ret == QMessageBox::Yes)
+	{
+		for (int r = 0; r < rowCount; ++r)
+		{
+			ui.m_tblPIDIndexList->model()->removeRows(0, 1);
+		}
+	}
+	else {}
+}
+
+void kvmrt2_media_editor::onAddStnAudioBtnClicked()
+{
+	qDebug() << Q_FUNC_INFO;
+	auto *pDM = CDataManage::GetInstance();
+	addRowToTable(false, ui.m_tblAudioStationName, pDM->m_pModAudioStationName.get());
+}
+
+void kvmrt2_media_editor::onDelStnAudioBtnClicked()
+{
+	qDebug() << Q_FUNC_INFO;
+	auto *pDM = CDataManage::GetInstance();
+	deleteRowFromTable(ui.m_tblAudioStationName, pDM->m_pModAudioStationName.get());
+}
+
+void kvmrt2_media_editor::onDelAllStnAudioBtnClicked()
+{
+	auto *pDM = CDataManage::GetInstance();
+	const int rowCount = pDM->m_pModAudioStationName.get()->rowCount();
+	int ret = QMessageBox::question(this,
+		"Delete All",
+		QString("Do you want to delete all station audio list? (total %1)")
+		.arg(rowCount));
+
+	if (ret == QMessageBox::Yes)
+	{
+		for (int r = 0; r < rowCount; ++r)
+		{
+			ui.m_tblAudioStationName->model()->removeRows(0, 1);
+		}
+	}
+	else {}
+}
+
+void kvmrt2_media_editor::onAddAudioListBtnClicked()
+{
+	qDebug() << Q_FUNC_INFO;
+	auto *pDM = CDataManage::GetInstance();
+	addRowToTable(false, ui.m_tblVideoPlayList, pDM->m_pModVideoPlayList.get());
+}
+
+void kvmrt2_media_editor::onDelAudioListBtnClicked()
+{
+	qDebug() << Q_FUNC_INFO;
+	auto *pDM = CDataManage::GetInstance();
+	deleteRowFromTable(ui.m_tblVideoPlayList, pDM->m_pModVideoPlayList.get());
+}
+
+void kvmrt2_media_editor::onDelAllAudioListBtnClicked()
+{
+	auto *pDM = CDataManage::GetInstance();
+	const int rowCount = pDM->m_pModVideoPlayList.get()->rowCount();
+	int ret = QMessageBox::question(this,
+		"Delete All",
+		QString("Do you want to delete all audio list? (total %1)")
+		.arg(rowCount));
+
+	if (ret == QMessageBox::Yes)
+	{
+		for (int r = 0; r < rowCount; ++r)
+		{
+			ui.m_tblVideoPlayList->model()->removeRows(0, 1);
+		}
+	}
+	else {}
+}
+
+void kvmrt2_media_editor::onAddVideoGroupBtnClicked()
+{
+	qDebug() << Q_FUNC_INFO;
+	auto *pDM = CDataManage::GetInstance();
+	addRowToTable(false, ui.m_tblVideoDeviceGroup, pDM->m_pModVideoDeviceGroup.get());
+}
+
+void kvmrt2_media_editor::onDelVideoGroupBtnClicked()
+{
+	qDebug() << Q_FUNC_INFO;
+	auto *pDM = CDataManage::GetInstance();
+	deleteRowFromTable(ui.m_tblVideoDeviceGroup, pDM->m_pModVideoDeviceGroup.get());
+}
+
+void kvmrt2_media_editor::onDelAllVideoGroupBtnClicked()
+{
+	auto *pDM = CDataManage::GetInstance();
+	const int rowCount = pDM->m_pModVideoDeviceGroup.get()->rowCount();
+	int ret = QMessageBox::question(this,
+		"Delete All",
+		QString("Do you want to delete all video group list? (total %1)")
+		.arg(rowCount));
+
+	if (ret == QMessageBox::Yes)
+	{
+		for (int r = 0; r < rowCount; ++r)
+		{
+			ui.m_tblVideoDeviceGroup->model()->removeRows(0, 1);
+		}
+	}
+	else {}
+}
+
+void kvmrt2_media_editor::onAddVideoListBtnClicked()
+{
+	qDebug() << Q_FUNC_INFO;
+	auto *pDM = CDataManage::GetInstance();
+	auto *pTM = CTableManage::GetInstance();
+	int hdrRow = GET_TABLE(VideoDeviceGroup)->currentIndex().row();
+	if (hdrRow != -1/*unselected*/)
+	{
+		addRowToTable(false, ui.m_tblVideoPlayList, pDM->m_pModVideoPlayList.get());
+	}
+	else
+	{
+		QMessageBox::warning(this, "Invalid Video List", "Select video list first!");
+	}
+}
+
+void kvmrt2_media_editor::onDelVideoListBtnClicked()
+{
+	qDebug() << Q_FUNC_INFO;
+	auto *pDM = CDataManage::GetInstance();
+	deleteRowFromTable(ui.m_tblVideoPlayList, pDM->m_pModVideoPlayList.get());
+}
+
+void kvmrt2_media_editor::onDelAllVideoListBtnClicked()
+{
+	auto *pDM = CDataManage::GetInstance();
+	const int rowCount = pDM->m_pModVideoPlayList.get()->rowCount();
+	int ret = QMessageBox::question(this,
+		"Delete All",
+		QString("Do you want to delete all video list? (total %1)")
+		.arg(rowCount));
+
+	if (ret == QMessageBox::Yes)
+	{
+		for (int r = 0; r < rowCount; ++r)
+		{
+			ui.m_tblVideoPlayList->model()->removeRows(0, 1);
+		}
+	}
+	else {}
+}
+
+void kvmrt2_media_editor::onAddDataTagBtnClicked()
+{
+	qDebug() << Q_FUNC_INFO;
+	auto *pDM = CDataManage::GetInstance();
+	addRowToTable(false, ui.m_tblEditorTagTable, pDM->m_pModEditorTagTable.get());
+}
+
+void kvmrt2_media_editor::onDelDataTagBtnClicked()
+{
+	qDebug() << Q_FUNC_INFO;
+	auto *pDM = CDataManage::GetInstance();
+	deleteRowFromTable(ui.m_tblEditorTagTable, pDM->m_pModEditorTagTable.get());
+}
+
+void kvmrt2_media_editor::onDelAllDataTagBtnClicked()
+{
+	auto *pDM = CDataManage::GetInstance();
+	const int rowCount = pDM->m_pModEditorTagTable.get()->rowCount();
+	int ret = QMessageBox::question(this,
+		"Delete All",
+		QString("Do you want to delete all editor tags? (total %1)")
+		.arg(rowCount));
+
+	if (ret == QMessageBox::Yes)
+	{
+		for (int r = 0; r < rowCount; ++r)
+		{
+			ui.m_tblEditorTagTable->model()->removeRows(0, 1);
+		}
+	}
+	else {}
 }
 
 void kvmrt2_media_editor::aboutME()
@@ -1559,7 +2009,8 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, StopPtnRoutes)
 	SET_SELECTION_CHANGED_FOR_TABLE(pDM, StopPtnRoutes, selectionChangedStopPtnRoutes(int, int));
 
 	QHeaderView *header = GET_TABLE(StopPtnRoutes)->horizontalHeader();
-	header->resizeSections(QHeaderView::ResizeToContents);
+	//header->resizeSections(QHeaderView::ResizeToContents);
+	header->setStretchLastSection(true);
 
 	connect(GET_TABLE(StopPtnRoutes), SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(showContextMenu(const QPoint &)));
 	CONNECT_ROW_CHAHANGED_SLOT(StopPtnRoutes, updateEventLists(const QModelIndex &, const QModelIndex &));
@@ -1637,6 +2088,9 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, EditorTagTable)
 	SET_DRAG_AND_DROP_ENABLED(EditorTagTable);
 	GET_TABLE(EditorTagTable)->setItemDelegateForColumn(2, new comboBoxDelegate(this, &pMM->m_mMappingVariables));
 
+	auto *spbox = new QSpinBox();
+	spbox->setMinimum(0);
+	GET_TABLE(EditorTagTable)->setItemDelegateForColumn(4, new QItemDelegate(spbox));
 	QHeaderView *header = GET_TABLE(EditorTagTable)->horizontalHeader();
 	//header->resizeSections(QHeaderView::ResizeToContents);
 
