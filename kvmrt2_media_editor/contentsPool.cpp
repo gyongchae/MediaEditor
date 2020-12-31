@@ -253,6 +253,10 @@ void ContentsPool::addVideoFilePool(bool bInsert)
 	auto *pDM = CDataManage::GetInstance();
 	std::shared_ptr<dataModel> pVFM = pDM->GET_MODEL_CLASS(VideoFilePool);
 	QModelIndex index = GET_TABLE(VideoFilePool)->currentIndex();
+
+	bool bAskAgain = true; // for rotation question
+	int answer = -1;
+
 	if (index.isValid())
 	{
 		nRow = index.row();
@@ -273,6 +277,7 @@ void ContentsPool::addVideoFilePool(bool bInsert)
 	{
 		while (filePaths.size())
 		{
+			setCursor(Qt::WaitCursor);
 			QString filePath = filePaths.takeFirst();
 			QString strSoc, strDes;
 			strSoc = filePath;
@@ -286,8 +291,13 @@ void ContentsPool::addVideoFilePool(bool bInsert)
 			pVFM->setData(index.sibling(index.row(), 5), nFileSize, Qt::EditRole);
 			strDes = pDM->videoPath() + '/' + fileName;
 			bool bRet = QFile::copy(strSoc, strDes);
-			
-			int answer = QMessageBox::question(this, "Make rotated video", "Do you need a rotated one for PID?");
+			setCursor(Qt::ArrowCursor);
+
+			if (bAskAgain)
+			{
+				answer = QMessageBox::question(this, "Make rotated video", "Do you need a rotated one for PID?", QMessageBox::Yes | QMessageBox::No | QMessageBox::YesToAll | QMessageBox::NoToAll);
+			}
+
 			if (answer == QMessageBox::Yes)
 			{
 				if (!strDes.isEmpty())
@@ -300,6 +310,7 @@ void ContentsPool::addVideoFilePool(bool bInsert)
 					QFileInfo rotFileInfo(rotateName);
 					if (!rotFileInfo.exists())
 					{
+						setCursor(Qt::WaitCursor);
 						strList
 							<< "-i"
 							<< strDes
@@ -314,9 +325,11 @@ void ContentsPool::addVideoFilePool(bool bInsert)
 							<< rotateName;
 						process.start(FFMPEG_FILE_PATH, strList);
 						process.waitForFinished();
+						setCursor(Qt::ArrowCursor);
 
 						if (process.exitCode() == 0) // rotate complete
 						{
+							setCursor(Qt::WaitCursor);
 							nFileSize = 0;
 							uCRC = 0;
 							pVFM->insertRows(nRow + 1, 1);
@@ -325,6 +338,7 @@ void ContentsPool::addVideoFilePool(bool bInsert)
 							pVFM->setData(index.sibling(index.row(), 3), rotFileInfo.fileName(), Qt::EditRole);
 							pVFM->setData(index.sibling(index.row(), 4), uCRC, Qt::EditRole);
 							pVFM->setData(index.sibling(index.row(), 5), nFileSize, Qt::EditRole);
+							setCursor(Qt::ArrowCursor);
 						}
 						else
 						{
@@ -334,6 +348,7 @@ void ContentsPool::addVideoFilePool(bool bInsert)
 					}
 					else
 					{
+						setCursor(Qt::WaitCursor);
 						nFileSize = 0;
 						uCRC = 0;
 						pVFM->insertRows(nRow + 1, 1);
@@ -342,11 +357,84 @@ void ContentsPool::addVideoFilePool(bool bInsert)
 						pVFM->setData(index.sibling(index.row(), 3), rotFileInfo.fileName(), Qt::EditRole);
 						pVFM->setData(index.sibling(index.row(), 4), uCRC, Qt::EditRole);
 						pVFM->setData(index.sibling(index.row(), 5), nFileSize, Qt::EditRole);
-
+						setCursor(Qt::ArrowCursor);
 						QMessageBox::information(this, "File already existed", QString("Existing roatated video (%1) added.").arg(rotFileInfo.fileName()));
 					}
+
 				}
 			}
+			 else if (answer == QMessageBox::YesToAll)
+			 {
+				 if (!strDes.isEmpty())
+				 {
+					 // video rotation
+					 // refer: https://superuser.com/questions/578321/how-to-rotate-a-video-180-with-ffmpeg
+					 QProcess process;
+					 QStringList strList;
+					 QString rotateName = QString("%1/%2_180_pid_wjis.%3").arg(pDM->videoPath()).arg(fileInfo.baseName()).arg(fileInfo.completeSuffix());
+					 QFileInfo rotFileInfo(rotateName);
+					 if (!rotFileInfo.exists())
+					 {
+						 setCursor(Qt::WaitCursor);
+						 strList
+							 << "-i"
+							 << strDes
+							 << "-vf"
+							 << "rotate=PI:bilinear=0,format=yuv420p"
+							 << "-metadata:s:v"
+							 << "rotate=0"
+							 << "-codec:v"
+							 << "libx264"
+							 << "-codec:a"
+							 << "copy"
+							 << rotateName;
+						 process.start(FFMPEG_FILE_PATH, strList);
+						 process.waitForFinished();
+						 setCursor(Qt::ArrowCursor);
+
+						 if (process.exitCode() == 0) // rotate complete
+						 {
+							 setCursor(Qt::WaitCursor);
+							 nFileSize = 0;
+							 uCRC = 0;
+							 pVFM->insertRows(nRow + 1, 1);
+							 index = pVFM->index(nRow + 1, 0);
+							 uCRC = CDataManage::CheckCRCFile(rotateName, &nFileSize);
+							 pVFM->setData(index.sibling(index.row(), 3), rotFileInfo.fileName(), Qt::EditRole);
+							 pVFM->setData(index.sibling(index.row(), 4), uCRC, Qt::EditRole);
+							 pVFM->setData(index.sibling(index.row(), 5), nFileSize, Qt::EditRole);
+							 setCursor(Qt::ArrowCursor);
+						 }
+						 else
+						 {
+							 QString processErrMsg = QString::fromStdString(process.readAllStandardError().toStdString());
+							 QMessageBox::warning(this, "Unexpected Error!", QString("%1").arg(processErrMsg));
+						 }
+					 }
+					 else
+					 {
+						 setCursor(Qt::WaitCursor);
+						 nFileSize = 0;
+						 uCRC = 0;
+						 pVFM->insertRows(nRow + 1, 1);
+						 index = pVFM->index(nRow + 1, 0);
+						 uCRC = CDataManage::CheckCRCFile(rotateName, &nFileSize);
+						 pVFM->setData(index.sibling(index.row(), 3), rotFileInfo.fileName(), Qt::EditRole);
+						 pVFM->setData(index.sibling(index.row(), 4), uCRC, Qt::EditRole);
+						 pVFM->setData(index.sibling(index.row(), 5), nFileSize, Qt::EditRole);
+						 setCursor(Qt::ArrowCursor);
+						 QMessageBox::information(this, "File already existed", QString("Existing roatated video (%1) added.").arg(rotFileInfo.fileName()));
+					 }
+
+				 }
+				 bAskAgain = false;
+				 answer = QMessageBox::Yes;
+			 }
+			 else if (answer == QMessageBox::NoToAll)
+			 {
+				 bAskAgain = false;
+				 answer = QMessageBox::No;
+			 }
 			
 			GET_TABLE(VideoFilePool)->setCurrentIndex(index);
 		}
@@ -437,7 +525,12 @@ void ContentsPool::onVideoPlay()
 		QFileInfo fInfo(fileName);
 		if (fInfo.exists())
 		{
-			args << fileName;
+			args
+				<< "-x"
+				<< "640"
+				<< "-y"
+				<< "480"
+				<< fileName;
 			process.start(FFPLAY_FILE_PATH, args);
 			process.waitForFinished();
 			

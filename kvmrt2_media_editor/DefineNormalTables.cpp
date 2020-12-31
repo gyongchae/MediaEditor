@@ -4,12 +4,12 @@
 DECLARE_STATIC_VARIABLES(StationInformation, false, STATION_INFORMATION, -1, 5, 0)
 DECLARE_STATIC_TYPESETTINGS(StationInformation, 19) =
 {
-	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),			0,	nullptr,true,	false,	false,	MAKE_T("Table Index"),			100 },
-	{ TYPE_INTEGER,	MAKE_T("STATION_CODE"),			0,	nullptr,false,	false,	false,	MAKE_T("Station Code"),			100 },
-	{ TYPE_TEXT,	MAKE_T("STATION_NAME1"),		128,nullptr,false,	false,	false,	MAKE_T("Station Name (Full)"),			100 },
-	{ TYPE_TEXT,	MAKE_T("STATION_NAME2"),		128,nullptr,false,	false,	false,	MAKE_T("Station Name (Short)"),		100 },
-	{ TYPE_TEXT,	MAKE_T("DESCRIPTION"),			256,nullptr,false,	false,	false,	MAKE_T("Description"),			100 },
-	{ TYPE_INTEGER,	MAKE_T("TABLE_ORDER"),			0,	nullptr,false,	true,	false,	MAKE_T("Order"),				100 },
+	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),		0,	nullptr,true,	false,	false,	MAKE_T("Table Index"),			100 },
+	{ TYPE_INTEGER,	MAKE_T("STATION_CODE"),		0,	nullptr,false,	false,	false,	MAKE_T("Station Code"),			100 },
+	{ TYPE_TEXT,	MAKE_T("STATION_NAME1"),	128,nullptr,false,	false,	false,	MAKE_T("Station Name (Full)"),			100 },
+	{ TYPE_TEXT,	MAKE_T("STATION_NAME2"),	128,nullptr,false,	false,	false,	MAKE_T("Station Name (Short)"),		100 },
+	{ TYPE_TEXT,	MAKE_T("DESCRIPTION"),		256,nullptr,false,	false,	false,	MAKE_T("Description"),			100 },
+	{ TYPE_INTEGER,	MAKE_T("TABLE_ORDER"),		0,	nullptr,false,	true,	false,	MAKE_T("Order"),				100 },
 	{ TYPE_INTEGER,	MAKE_T("DUR_NEXT_BM"),		0,	nullptr,false,	false,	false,	MAKE_T("Next BM"),	100 },
 	{ TYPE_INTEGER,	MAKE_T("DUR_NEXT_EN"),		0,	nullptr,false,	false,	false,	MAKE_T("Next EN"),	100 },
 	{ TYPE_INTEGER,	MAKE_T("DUR_ARRIVING_BM"),	0,	nullptr,false,	false,	false,	MAKE_T("Arriving BM"),	100 },
@@ -19,10 +19,10 @@ DECLARE_STATIC_TYPESETTINGS(StationInformation, 19) =
 	{ TYPE_INTEGER,	MAKE_T("DUR_EXCHANGE_BM"),	0,	nullptr,false,	false,	false,	MAKE_T("Exchange BM"),		100 },
 	{ TYPE_INTEGER,	MAKE_T("DUR_EXCHANGE_EN"),	0,	nullptr,false,	false,	false,	MAKE_T("Exchange EN"),	100 },
 	{ TYPE_INTEGER,	MAKE_T("HAS_EXCHANGE"),		0,	nullptr,false,	false,	false,	MAKE_T("Has Exchange"),		100 },
-	{ TYPE_INTEGER,	MAKE_T("IS_PROVISIONAL"),		0,	nullptr,false,	false,	false,	MAKE_T("Provisional"),	100 },
+	{ TYPE_INTEGER,	MAKE_T("IS_PROVISIONAL"),	0,	nullptr,false,	false,	false,	MAKE_T("Provisional"),	100 },
 	{ TYPE_INTEGER,	MAKE_T("APPR_PA_DISTANCE"), 0,	nullptr,false,	false,	false,	MAKE_T("Arriving PA Distance"),	100 },
-	{ TYPE_INTEGER,	MAKE_T("SPARE1"), 0,	nullptr,false,	false,	false,	MAKE_T("Spare1"),	100 },
-	{ TYPE_INTEGER,	MAKE_T("SPARE2"), 0,	nullptr,false,	false,	false,	MAKE_T("Spare2"),	100 },
+	{ TYPE_INTEGER,	MAKE_T("SPARE1"),			0,	nullptr,false,	false,	false,	MAKE_T("Spare1"),	100 },
+	{ TYPE_INTEGER,	MAKE_T("SPARE2"),			0,	nullptr,false,	false,	false,	MAKE_T("Spare2"),	100 },
 };
 
 DECLARE_STATIC_VARIABLES(StationDistance, false, STATION_DISTANCE, -1, 5, 0)

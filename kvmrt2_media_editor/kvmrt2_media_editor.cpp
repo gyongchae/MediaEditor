@@ -120,7 +120,7 @@ void kvmrt2_media_editor::setHideItemsMainWindow(bool isRelease)
 		SET_HIDE_TABLE_COLUMN(StationDistance, 7);
 		SET_HIDE_TABLE_COLUMN(StopPtnHeader, 0);
 		SET_HIDE_TABLE_COLUMN(StopPtnHeader, 5);
-		SET_HIDE_TABLE_COLUMN(StopPtnHeader, 6);
+		//SET_HIDE_TABLE_COLUMN(StopPtnHeader, 6);
 
 		SET_HIDE_TABLE_COLUMN(StopPtnRoutes, 0);
 		SET_HIDE_TABLE_COLUMN(StopPtnRoutes, 1);
@@ -154,6 +154,8 @@ void kvmrt2_media_editor::setHideItemsMainWindow(bool isRelease)
 		SET_HIDE_TABLE_COLUMN(AudioPlayList, 17);
 		SET_HIDE_TABLE_COLUMN(AudioPlayList, 19);
 		SET_HIDE_TABLE_COLUMN(AudioPlayList, 20);
+		SET_HIDE_TABLE_COLUMN(AudioPlayList, 15); // 3rd audio index
+		SET_HIDE_TABLE_COLUMN(AudioPlayList, 18); // 4th audio index
 
 		SET_HIDE_TABLE_COLUMN(VideoDeviceGroup, 0);
 		SET_HIDE_TABLE_COLUMN(VideoDeviceGroup, 1);
@@ -383,7 +385,7 @@ void kvmrt2_media_editor::onSaveDB()
 			}
 			else
 			{
-
+				
 			}
 		}
 
@@ -2181,6 +2183,7 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, AudioPlayList)
 
 	QHeaderView *header = GET_TABLE(AudioPlayList)->horizontalHeader();
 	//header->resizeSections(QHeaderView::ResizeToContents);
+	header->setStretchLastSection(true);
 
 	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(4, new comboBoxDelegate(this, &pMM->m_mYesOrNo)); // start bell
 	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(8, new comboBoxDelegate(this, &pMM->m_mYesOrNo)); // with station
