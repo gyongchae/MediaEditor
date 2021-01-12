@@ -52,7 +52,7 @@ kvmrt2_media_editor::kvmrt2_media_editor(QString & dbPath, QString & currPath, Q
 	pMM->InitMaps();
 	pTM->LoadDatabase();
 	pDM->SetModel();
-	
+
 	pDM->setCurrPath(currPath);
 
 	initTables();
@@ -73,7 +73,7 @@ kvmrt2_media_editor::kvmrt2_media_editor(QString & dbPath, QString & currPath, Q
 		m_lastVersion[2] = pDM->m_pModOPDataVersion->data(index.sibling(0, 4), Qt::DisplayRole).toInt();
 	}
 
-	ui.statusBar->showMessage(QString("OP_DATA.DB(v%1.%2.%3) loaded. (%4)")
+	ui.statusBar->showMessage(QString("OP_DATA_FULL.DB(v%1.%2.%3) loaded. (%4)")
 		.arg(m_lastVersion[0]).arg(m_lastVersion[1]).arg(m_lastVersion[2])
 		.arg(QDateTime::currentDateTime().toString("hh:mm dd/MM/yyyy")));
 
@@ -111,6 +111,7 @@ void kvmrt2_media_editor::setHideItemsMainWindow(bool isRelease)
 		parentEL->setVisible(false);
 
 		SET_HIDE_TABLE_COLUMN(StationInformation, 0);
+		SET_HIDE_TABLE_COLUMN(StationInformation, 4);
 		SET_HIDE_TABLE_COLUMN_RANGE(StationInformation, 5, 13);
 		SET_HIDE_TABLE_COLUMN(StationInformation, 17);
 		SET_HIDE_TABLE_COLUMN(StationInformation, 18);
@@ -371,8 +372,8 @@ void kvmrt2_media_editor::onSaveDB()
 	currVersion[1] = pDM->m_pModOPDataVersion->data(index.sibling(0, 3), Qt::DisplayRole).toInt();
 	currVersion[2] = pDM->m_pModOPDataVersion->data(index.sibling(0, 4), Qt::DisplayRole).toInt();
 
-	int mbResult = QMessageBox::information(this, QString("Save OP_DATA.DB"),
-		QString("Do you want to save OP_DATA.DB(version %1.%2.%3)?").arg(currVersion[0]).arg(currVersion[1]).arg(currVersion[2]),
+	int mbResult = QMessageBox::information(this, QString("Save OP_DATA_FULL.DB"),
+		QString("Do you want to save OP_DATA_FULL.DB(version %1.%2.%3)?").arg(currVersion[0]).arg(currVersion[1]).arg(currVersion[2]),
 		QMessageBox::Ok | QMessageBox::Cancel);
 
 	if (mbResult == QMessageBox::Ok)
@@ -385,38 +386,34 @@ void kvmrt2_media_editor::onSaveDB()
 			}
 			else
 			{
-				
+
 			}
 		}
 
 		setCursor(Qt::WaitCursor);
 		pTM->SaveModified();
 
-		ui.statusBar->showMessage(QString("OP_DATA.DB(v%1.%2.%3) has been saved. (%4)")
+		ui.statusBar->showMessage(QString("OP_DATA_FULL.DB(v%1.%2.%3) has been saved. (%4)")
 			.arg(currVersion[0]).arg(currVersion[1]).arg(currVersion[2])
 			.arg(QDateTime::currentDateTime().toString("hh:mm dd/MM/yyyy")));
 		// refresh ini file
 		onAudioSyncDuration();
+		if (!copyAudioVideoDB())
+		{
+			QMessageBox::critical(this, "Critical error", "Audio/Video DB (OP_DATA.DB) didn't saved.");
+		}
 		setCursor(Qt::ArrowCursor);
 	}
 	else
 	{
-		QMessageBox::information(this,  "Save canceled", "OP_DATA.DB didn't saved.");
+		QMessageBox::information(this, "Save canceled", "OP_DATA_FULL.DB didn't saved.");
 	}
 }
 
 // for test func
 void kvmrt2_media_editor::onLoadDB()
 {
-	auto *ini = IniFileManager::iniManager();
-	int totalStationInfoRows = GET_TABLE(StationInformation)->model()->rowCount();
-	for (int i = 0; i < totalStationInfoRows; i++)
-	{
-		QModelIndex stnIndex = GET_TABLE(StationInformation)->model()->index(i, 0);
-		int stnCode = stnIndex.sibling(stnIndex.row(), 1).data().toInt();
-		ini->readStationInfoIni(stnCode);
-	}
-	ini->readAudioListInfoIni();
+	copyAudioVideoDB();
 }
 
 void kvmrt2_media_editor::onShowSetting() // DB version setting
@@ -1105,13 +1102,13 @@ void kvmrt2_media_editor::onAudioSyncDuration()
 		stIni.isProvisional = index.sibling(index.row(), 15).data().toInt();
 		stIni.apprDistance = index.sibling(index.row(), 16).data().toInt();
 
-		stIni.paNextBM = (index.sibling(index.row(), 6).data().toInt()  != 0) ? index.sibling(index.row(), 6).data().toInt()  /*/ 1000*/ + added_duration : 0;
-		stIni.paNextEN = (index.sibling(index.row(), 7).data().toInt()  != 0) ? index.sibling(index.row(), 7).data().toInt()  /*/ 1000*/ + added_duration : 0;
-		stIni.paApprBM = (index.sibling(index.row(), 8).data().toInt()  != 0) ? index.sibling(index.row(), 8).data().toInt()  /*/ 1000*/ + added_duration : 0;
-		stIni.paApprEN = (index.sibling(index.row(), 9).data().toInt()  != 0) ? index.sibling(index.row(), 9).data().toInt()  /*/ 1000*/ + added_duration : 0;
+		stIni.paNextBM = (index.sibling(index.row(), 6).data().toInt() != 0) ? index.sibling(index.row(), 6).data().toInt()  /*/ 1000*/ + added_duration : 0;
+		stIni.paNextEN = (index.sibling(index.row(), 7).data().toInt() != 0) ? index.sibling(index.row(), 7).data().toInt()  /*/ 1000*/ + added_duration : 0;
+		stIni.paApprBM = (index.sibling(index.row(), 8).data().toInt() != 0) ? index.sibling(index.row(), 8).data().toInt()  /*/ 1000*/ + added_duration : 0;
+		stIni.paApprEN = (index.sibling(index.row(), 9).data().toInt() != 0) ? index.sibling(index.row(), 9).data().toInt()  /*/ 1000*/ + added_duration : 0;
 		stIni.paArrvBM = (index.sibling(index.row(), 10).data().toInt() != 0) ? index.sibling(index.row(), 10).data().toInt() /*/ 1000*/ + added_duration : 0;
 		stIni.paArrvEN = (index.sibling(index.row(), 11).data().toInt() != 0) ? index.sibling(index.row(), 11).data().toInt() /*/ 1000*/ + added_duration : 0;
-		
+
 		if (stIni.hasExchange == 1) // 1 = true
 		{
 			stIni.paExchangeBM = index.sibling(index.row(), 12).data().toInt() /*/ 1000*/ + added_duration;
@@ -1975,8 +1972,8 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, StopPtnHeader)
 	connect(GET_TABLE(StopPtnHeader), SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(showContextMenu(const QPoint &)));
 	CONNECT_ROW_CHAHANGED_SLOT(StopPtnHeader, updateStopPtnRoutes(const QModelIndex &, const QModelIndex &));
 
-	connect(GET_TABLE_MODEL(pDM, StopPtnHeader).get(), 
-		SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)), 
+	connect(GET_TABLE_MODEL(pDM, StopPtnHeader).get(),
+		SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),
 		this, SLOT(updateStopPtnHeader(const QModelIndex &, const QModelIndex &)));
 
 	return false;
@@ -2455,3 +2452,129 @@ void kvmrt2_media_editor::selectionChangedPIDIndexList(int nTop, int nBottom)
 	GET_TABLE(PIDIndexList)->selectionModel()->select(selectedItems, QItemSelectionModel::Select);
 }
 
+bool kvmrt2_media_editor::copyAudioVideoDB()
+{
+	QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+	db.setDatabaseName("C:/PapisProgram/PapisData/OP_DATA_FULL.DB");
+	if (!db.open())
+	{
+		QMessageBox::critical(nullptr, QString("Cannot open database"),
+			QString("Unable to establish a db connection."), QMessageBox::Cancel);
+		return false;
+	}
+
+	QSqlQuery query;
+	// attach sqlite
+	query.exec("ATTACH 'C:/PapisProgram/PapisData/OP_DATA.DB' as target");
+	qDebug() << Q_FUNC_INFO << query.lastError();
+
+	// create table
+	query.exec(QString("CREATE TABLE target.AUDIO_FILE_POOL ("
+		"TABLE_INDEX	INTEGER,	"
+		"FILE_CODE		INTEGER,	"
+		"SPARE_CODE		INTEGER,	"
+		"FILE_NAME		TEXT(256),	"
+		"FILE_CRC	INTEGER,	"
+		"FILE_SIZE		INTEGER,	"
+		"TABLE_ORDER	INTEGER,	"
+		"AUDIO_LEN		INTEGER,	"
+		"PRIMARY KEY(TABLE_INDEX)); "));
+	qDebug() << Q_FUNC_INFO << query.lastError();
+
+	query.exec(QString("CREATE TABLE target.AUDIO_PLAY_LIST ( "
+		"TABLE_INDEX	INTEGER,   "
+		"TABLE_ORDER	INTEGER,   "
+		"MESSAGE_ID	INTEGER,   "
+		"PLAY_COUNT	INTEGER,   "
+		"BELL_ALARM	INTEGER,   "
+		"BELL_INDEX	INTEGER,   "
+		"BELL_NAME	TEXT(128),	   "
+		"BELL_DURATION	INTEGER,   "
+		"STATION_PA	INTEGER,   "
+		"AUDIO_IDX1	INTEGER,   "
+		"AUDIO_FILE1	TEXT(128), "
+		"AUDIO_DUR1	INTEGER,   "
+		"AUDIO_IDX2	INTEGER,   "
+		"AUDIO_FILE2	TEXT(128), "
+		"AUDIO_DUR2	INTEGER,   "
+		"AUDIO_IDX3	INTEGER,   "
+		"AUDIO_FILE3	TEXT(128), "
+		"AUDIO_DUR3	INTEGER,   "
+		"AUDIO_IDX4	INTEGER,   "
+		"AUDIO_FILE4	TEXT(128), "
+		"AUDIO_DUR4	INTEGER,   "
+		"DESCRIPTION	TEXT(128), "
+		"PRIMARY KEY(TABLE_INDEX)); "));
+	qDebug() << Q_FUNC_INFO << query.lastError();
+
+	query.exec(QString("CREATE TABLE target.AUDIO_STATION_NAME ( "
+		"TABLE_INDEX	INTEGER,   "
+		"TABLE_ORDER	INTEGER,   "
+		"MESSAGE_ID	INTEGER,   "
+		"AUDIO_IDX1	INTEGER,   "
+		"AUDIO_FILE1	TEXT(128), "
+		"AUDIO_DUR1	INTEGER,   "
+		"AUDIO_IDX2	INTEGER,   "
+		"AUDIO_FILE2	TEXT(128), "
+		"AUDIO_DUR2	INTEGER, "
+		"PRIMARY KEY(TABLE_INDEX));"));
+	qDebug() << Q_FUNC_INFO << query.lastError();
+
+	query.exec(QString("CREATE TABLE target.DATA_VERSION ( "
+		"TABLE_INDEX	INTEGER, "
+		"VERSION_STRING	TEXT(32), "
+		"VERSION_1	INTEGER, "
+		"VERSION_2	INTEGER, "
+		"VERSION_3	INTEGER, "
+		"PRIMARY KEY(TABLE_INDEX)); "));
+	qDebug() << Q_FUNC_INFO << query.lastError();
+
+	query.exec(QString("CREATE TABLE target.VIDEO_DEVICE_GROUP ( "
+		"TABLE_INDEX	INTEGER,  "
+		"TABLE_ORDER	INTEGER,  "
+		"DEVICE_TYPE	INTEGER,  "
+		"GROUP_ID	INTEGER,	  "
+		"DESCRIPTION	TEXT(256),"
+		"PRIMARY KEY(TABLE_INDEX)); "));
+	qDebug() << Q_FUNC_INFO << query.lastError();
+
+	query.exec(QString("CREATE TABLE target.VIDEO_PLAY_LIST ( "
+		"TABLE_INDEX	INTEGER,  "
+		"PARENT_INDEX	INTEGER,  "
+		"TABLE_ORDER	INTEGER,  "
+		"VIDEO_INDEX	INTEGER,  "
+		"FILE_NAME	TEXT(256),	  "
+		"DESCRIPTION	TEXT(256),"
+		"DEVICE_TYPE	INTEGER,  "
+		"PRIMARY KEY(TABLE_INDEX)); "));
+	qDebug() << Q_FUNC_INFO << query.lastError();
+
+	query.exec(QString("CREATE TABLE target.VIDEO_FILE_POOL ( "
+		"TABLE_INDEX	INTEGER, "
+		"FILE_CODE	INTEGER,	 "
+		"SPARE_CODE	INTEGER, "
+		"FILE_NAME	TEXT(256),	 "
+		"FILE_CRC	INTEGER,	 "
+		"FILE_SIZE	INTEGER,	 "
+		"TABLE_ORDER	INTEGER, "
+		"PRIMARY KEY(TABLE_INDEX)); "));
+	qDebug() << Q_FUNC_INFO << query.lastError();
+
+	// copy
+	query.exec("INSERT INTO target.AUDIO_FILE_POOL SELECT * FROM AUDIO_FILE_POOL");
+	qDebug() << Q_FUNC_INFO << query.lastError();
+	query.exec("INSERT INTO target.AUDIO_PLAY_LIST SELECT * FROM AUDIO_PLAY_LIST");
+	qDebug() << Q_FUNC_INFO << query.lastError();
+	query.exec("INSERT INTO target.AUDIO_STATION_NAME SELECT * FROM AUDIO_STATION_NAME");
+	qDebug() << Q_FUNC_INFO << query.lastError();
+	query.exec("INSERT INTO target.DATA_VERSION SELECT * FROM DATA_VERSION");
+	qDebug() << Q_FUNC_INFO << query.lastError();
+	query.exec("INSERT INTO target.VIDEO_DEVICE_GROUP SELECT * FROM VIDEO_DEVICE_GROUP");
+	qDebug() << Q_FUNC_INFO << query.lastError();
+	query.exec("INSERT INTO target.VIDEO_PLAY_LIST SELECT * FROM VIDEO_PLAY_LIST");
+	qDebug() << Q_FUNC_INFO << query.lastError();
+	query.exec("INSERT INTO target.VIDEO_FILE_POOL SELECT * FROM VIDEO_FILE_POOL");
+	qDebug() << Q_FUNC_INFO << query.lastError();
+
+	return true;
+}

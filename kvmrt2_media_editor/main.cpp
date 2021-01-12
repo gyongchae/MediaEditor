@@ -18,7 +18,7 @@
 
 #define MY_ORGANIZATION_NAME "Woojin BSPSG"
 #define MY_APPLICATION_NAME "MRT2 Media Editor"
-#define MY_APP_VERSION "1.0.3"
+#define MY_APP_VERSION "1.0.3a"
 
 class CGdiPlusStarter
 {

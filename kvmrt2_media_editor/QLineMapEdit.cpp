@@ -11,15 +11,15 @@
 #include "qindexcombobox.h"
 
 QLineMapEdit::QLineMapEdit(int nIndexRow, QWidget *parent)
-	: QDialog(parent),m_nRow(nIndexRow)
+	: QDialog(parent), m_nRow(nIndexRow)
 {
 	ui.setupUi(this);
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
-	
+
 	auto *pDM = CDataManage::GetInstance();
 	auto *pTMS = CTileMapSupport::GetInstance();
-	auto *pLMP=(LineMapPool*)pDM->GET_MODEL_CLASS(LineMapPool)->getVector()->at(nIndexRow).get();
-	
+	auto *pLMP = (LineMapPool*)pDM->GET_MODEL_CLASS(LineMapPool)->getVector()->at(nIndexRow).get();
+
 	m_nTileSize = pLMP->nProp;
 	m_nLineThick = pLMP->nWidth;
 	m_ScreenSize = QSize(pLMP->nWholeWidth, pLMP->nWholeHeight);
@@ -50,8 +50,8 @@ QLineMapEdit::~QLineMapEdit()
 void QLineMapEdit::changedIconRadio()
 {
 	qDebug() << ui.rbPassed->isChecked() << ui.rbTarget->isChecked() << ui.rbRemain->isChecked();
-	
-	if(ui.rbPassed->isChecked())		emit nodeIconRadioChanged(STN_NODE_PASSED);
+
+	if (ui.rbPassed->isChecked())		emit nodeIconRadioChanged(STN_NODE_PASSED);
 	else if (ui.rbTarget->isChecked())	emit nodeIconRadioChanged(STN_NODE_TARGET);
 	else if (ui.rbRemain->isChecked())	emit nodeIconRadioChanged(STN_NODE_REMAIN);
 	else								emit nodeIconRadioChanged(STN_NODE_PASSED);
@@ -64,7 +64,7 @@ void QLineMapEdit::initModels(int nRow)
 {
 	auto *pDM = CDataManage::GetInstance();
 	auto *pTM = CTableManage::GetInstance();
-	
+
 	pDM->GET_MODEL_CLASS(LineMapLink)->setVectors(&pTM->VECTOR_CLASS(LineMapPool)[nRow]->m_vChildItem[0].vSQLData, &pTM->VECTOR_CLASS(LineMapPool)[nRow]->m_vChildItem[0].vSQLDataDelItems, pTM->VECTOR_CLASS(LineMapPool)[nRow].get()->GetIndex());
 	pDM->GET_MODEL_CLASS(LineMapNode)->setVectors(&pTM->VECTOR_CLASS(LineMapPool)[nRow]->m_vChildItem[2].vSQLData, &pTM->VECTOR_CLASS(LineMapPool)[nRow]->m_vChildItem[2].vSQLDataDelItems, pTM->VECTOR_CLASS(LineMapPool)[nRow].get()->GetIndex());
 	pDM->GET_MODEL_CLASS(LineMapArrowTexture)->setVectors(&pTM->VECTOR_CLASS(LineMapPool)[nRow]->m_vChildItem[3].vSQLData, &pTM->VECTOR_CLASS(LineMapPool)[nRow]->m_vChildItem[3].vSQLDataDelItems, pTM->VECTOR_CLASS(LineMapPool)[nRow].get()->GetIndex());
@@ -90,13 +90,13 @@ void QLineMapEdit::initWidgets()
 	m_editGroup->addButton(ui.m_ctlDisplayItem, 4);
 	m_editGroup->addButton(ui.m_ctlImageList, 5);
 	m_editGroup->setExclusive(true);
-	
+
 	connect(m_editGroup, SIGNAL(buttonClicked(int)), ui.openGLWidget, SLOT(setCurrentEditMode(int)));
 	connect(m_editGroup, SIGNAL(buttonClicked(int)), ui.m_ctlStackedWidget, SLOT(setCurrentIndex(int)));
 
 	connect(ui.m_pbApplyColor, SIGNAL(clicked()), this, SLOT(colorApply()));
 	connect(ui.m_pbApplyArrowOffset, SIGNAL(clicked()), this, SLOT(arrowOffsetApply()));
-	
+
 	ui.m_ctlTile->setChecked(true);
 	ui.m_ctlStackedWidget->setCurrentIndex(1);
 
@@ -113,7 +113,7 @@ void QLineMapEdit::initWidgets()
 	m_showSpotGroup = new QButtonGroup(this);
 	m_showSpotGroup->addButton(ui.btnShowSpotCustom, 0);
 	m_showSpotGroup->addButton(ui.btnShowSpotDefault, 1);
-	
+
 	connect(m_showSpotGroup, SIGNAL(buttonClicked(int)),
 		this, SLOT(clickedSetSpotButton(int)));
 
@@ -128,7 +128,7 @@ void QLineMapEdit::initWidgets()
 	connect(ui.rbRemain, SIGNAL(clicked()), this, SLOT(changedIconRadio()));
 	connect(this, SIGNAL(nodeIconRadioChanged(const int)), ui.openGLWidget, SLOT(getNodeIconRadioChangedIdx(const int)));
 
-	connect(ui.openGLWidget, SIGNAL(positionChanged(const QString &)), 
+	connect(ui.openGLWidget, SIGNAL(positionChanged(const QString &)),
 		ui.labelCoordXY, SLOT(setText(const QString &)));
 
 	auto *pTM = CTableManage::GetInstance();
@@ -138,7 +138,7 @@ void QLineMapEdit::initWidgets()
 	connect(ui.comboBound, SIGNAL(currentIndexChanged(int)), this, SLOT(onUpdateRouteMapLine(int)));
 	connect(ui.comboBound, SIGNAL(highlighted(int)), this, SLOT(onUpdateRouteMapLine(int)));
 	connect(ui.openGLWidget, SIGNAL(updateRouteMapLine()), this, SLOT(onUpdateRouteMapLine()));
-	connect(this, SIGNAL(sendStnIdxAndBound(int,int)), ui.openGLWidget, SLOT(getChangedStnAndBound(int, int)));
+	connect(this, SIGNAL(sendStnIdxAndBound(int, int)), ui.openGLWidget, SLOT(getChangedStnAndBound(int, int)));
 }
 
 IMPLEMENT_INIT_FUNCTION_FOR_CLASS(QLineMapEdit, LineMapLink)
@@ -149,13 +149,21 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(QLineMapEdit, LineMapLink)
 	INSTALL_EVENT_FILTER(LineMapLink);
 	QHeaderView *header = GET_TABLE(LineMapLink)->horizontalHeader();
 	header->resizeSections(QHeaderView::ResizeToContents);
+
+	if (OFFICIAL_RELEASE)
+	{
+		header->hideSection(0);
+		header->hideSection(1);
+		header->hideSection(5);
+	}
+
 	SET_SELECTION_BEHAVIOR(LineMapLink, QAbstractItemView::SelectRows);
 	SET_SELECTION_MODE(LineMapLink, QAbstractItemView::SingleSelection);
 	SET_DRAG_AND_DROP_ENABLED(LineMapLink);
 
 	connect(GET_TABLE_MODEL(pDM, LineMapLink).get(),
-		SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)), 
-		this, 
+		SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),
+		this,
 		SLOT(onUpdateRouteMapLine(const QModelIndex &, const QModelIndex &)));
 
 
@@ -229,7 +237,7 @@ void QLineMapEdit::copyNodeProperty()
 	int totalRows = GET_TABLE_MODEL(pDM, LineMapNode)->rowCount();
 
 	QModelIndex fromIndex = GET_TABLE(LineMapNode)->currentIndex();
-	
+
 	if (fromIndex.isValid())
 	{
 		m_selectedRow = fromIndex.row();
@@ -298,9 +306,9 @@ void QLineMapEdit::pasteNodeProperty()
 		if (i != m_selectedRow)
 		{
 			QModelIndex index = pVLMN->index(i, 0);
-			pVLMN->setData(index.sibling(i,  7), m_tNode.nOffsetX[0], Qt::EditRole);
-			pVLMN->setData(index.sibling(i,  8), m_tNode.nOffsetY[0], Qt::EditRole);
-			pVLMN->setData(index.sibling(i,  9), m_tNode.nCenterSpot[0], Qt::EditRole);
+			pVLMN->setData(index.sibling(i, 7), m_tNode.nOffsetX[0], Qt::EditRole);
+			pVLMN->setData(index.sibling(i, 8), m_tNode.nOffsetY[0], Qt::EditRole);
+			pVLMN->setData(index.sibling(i, 9), m_tNode.nCenterSpot[0], Qt::EditRole);
 			pVLMN->setData(index.sibling(i, 10), m_tNode.nRotAngle[0], Qt::EditRole);
 			pVLMN->setData(index.sibling(i, 11), m_tNode.nType[0], Qt::EditRole); // indicates node image refer to display pool or image list pool
 			pVLMN->setData(index.sibling(i, 12), m_tNode.nColored[0], Qt::EditRole);
@@ -399,9 +407,34 @@ void QLineMapEdit::onUpdateRouteMapLine(const int idx)
 
 void QLineMapEdit::onUpdateRouteMapLine(const QModelIndex & topLeft, const QModelIndex & bottomRight)
 {
-	emit sendStnIdxAndBound(ui.comboStationInfo->currentIndex(), ui.comboBound->currentIndex());
-	ui.openGLWidget->update();
-	update();
+	auto *pTM = CTableManage::GetInstance();
+	auto *pDM = CDataManage::GetInstance();
+	if (topLeft.column() == 7)
+	{
+		// find station name by station code
+		bool ok;
+		const int &stnCode = topLeft.data().toInt(&ok);
+		qDebug() << "station code:" << stnCode;
+		auto found = find_if(pTM->m_vStationInformation.begin(), pTM->m_vStationInformation.end(),
+			findStationNameCode(stnCode));
+		if (found != pTM->m_vStationInformation.end())
+		{
+			auto *p = dynamic_cast<StationInformation*>(found->get());
+			QString stnName = QString::fromStdWString(p->szStationName1);
+			qDebug() << "found name:" << stnName;
+			pDM->m_pModLineMapLink->setData(topLeft.sibling(topLeft.row(), 8), stnName, Qt::EditRole);
+		}
+		else
+		{
+			pDM->m_pModLineMapLink->setData(topLeft.sibling(topLeft.row(), 8), "", Qt::EditRole);
+		}
+	}
+	else
+	{
+		emit sendStnIdxAndBound(ui.comboStationInfo->currentIndex(), ui.comboBound->currentIndex());
+		ui.openGLWidget->update();
+		update();
+	}
 }
 
 void QLineMapEdit::onUpdateRouteMapLine()

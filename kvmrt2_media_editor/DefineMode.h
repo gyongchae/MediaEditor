@@ -1,6 +1,6 @@
 #pragma once
 
-const bool OFFICIAL_RELEASE = false;
+const bool OFFICIAL_RELEASE = true;
 
 
 #define ME_APP_PATH "C:/PapisProgram/MediaEditor/"
@@ -11,7 +11,8 @@ const bool OFFICIAL_RELEASE = false;
 #define INI_FILE_ME_ACCOUNT "meaccount.ini"
 #define INI_FILE_ME_STNINFO "stationinfo.ini"
 
-#define OP_DATA_DB_PATH "C:/PapisProgram/PapisData/OP_DATA.DB"
+#define OP_DATA_DB_PATH "C:/PapisProgram/PapisData/OP_DATA_FULL.DB"
+#define OP_DISPLAY_DB_PATH "C:/PapisProgram/PapisData/OP_DISPLAY_DATA.DB"
 
 //#define USING_DEBUG_WIZARD 
 

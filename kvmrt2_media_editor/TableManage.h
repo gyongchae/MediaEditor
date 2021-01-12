@@ -10,7 +10,7 @@
 #include <sqlite3.h>
 
 
-#define DATABASE_FILE_NAME				_T("OP_DATA.DB")
+#define DATABASE_FILE_NAME				_T("OP_DATA_FULL.DB")
 #define VECTOR_CLASS(CLASS_NAME)		m_v##CLASS_NAME
 #define VECTOR_DELETE_CLASS(CLASS_NAME) m_v##CLASS_NAME##DelItems
 #define EDITOR_POINTER(CLASS_NAME)		m_p##CLASS_NAME##Editor

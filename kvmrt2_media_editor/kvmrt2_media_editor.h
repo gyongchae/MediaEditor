@@ -126,7 +126,7 @@ private:
 public:
 	void initNewFeature();
 
-public slots:
+	public slots:
 	void onAddStnBtnClicked();
 	void onDelStnBtnClicked();
 	void onDelAllStnBtnClicked();
@@ -159,4 +159,7 @@ public slots:
 	void onAddDataTagBtnClicked();
 	void onDelDataTagBtnClicked();
 	void onDelAllDataTagBtnClicked();
+
+public:
+	bool copyAudioVideoDB();
 };
