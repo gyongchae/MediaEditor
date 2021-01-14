@@ -54,7 +54,7 @@ public:
     {
         if (stationImagePool->objectName().isEmpty())
             stationImagePool->setObjectName(QStringLiteral("stationImagePool"));
-        stationImagePool->resize(576, 453);
+        stationImagePool->resize(946, 581);
         verticalLayout_3 = new QVBoxLayout(stationImagePool);
         verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
         splitter = new QSplitter(stationImagePool);

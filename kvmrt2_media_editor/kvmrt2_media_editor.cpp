@@ -16,10 +16,8 @@
 #include "qtextaligner.h"
 #include "TileMapSupport.h"
 #include "imageListPool.h"
-#include "ledindicatorpool.h"
 #include "MapManage.h"
 #include "editDisplayItemPool.h"
-#include "QLineMapPreview.h"
 #include "WaveConcentate/Wave.h"
 #include "StringScaler.h"
 #include "SQLDelegate.h"
@@ -30,8 +28,9 @@
 #include "DefineMode.h"
 #include "IniFileManager.h"
 
-const int added_duration = 0;
-const int added_stn_name_duration = 0;
+const int added_duration = 1000; // ms
+const int added_operation_pa_duration = 500; // ms
+const int added_stn_name_duration = 1000; // ms
 
 kvmrt2_media_editor::kvmrt2_media_editor(QString & dbPath, QString & currPath, QWidget * parent) : QMainWindow(parent)
 {
@@ -40,7 +39,6 @@ kvmrt2_media_editor::kvmrt2_media_editor(QString & dbPath, QString & currPath, Q
 	setWindowTitle(QString("%1")
 		.arg(QApplication::applicationName()));
 
-	CSQLData::SetLEDIndicatorParam(256, 24, 64, 32); // led size???
 	auto *pDM = CDataManage::GetInstance();
 	auto *pMM = CMapManage::GetInstance();
 	auto *pTM = CTableManage::GetInstance();
@@ -61,7 +59,7 @@ kvmrt2_media_editor::kvmrt2_media_editor(QString & dbPath, QString & currPath, Q
 	initContextMenu();
 	initIcons();
 
-	initNewFeature();
+	initButtons();
 
 	ui.rbCustomOrder->setChecked(true);
 
@@ -73,7 +71,7 @@ kvmrt2_media_editor::kvmrt2_media_editor(QString & dbPath, QString & currPath, Q
 		m_lastVersion[2] = pDM->m_pModOPDataVersion->data(index.sibling(0, 4), Qt::DisplayRole).toInt();
 	}
 
-	ui.statusBar->showMessage(QString("OP_DATA_FULL.DB(v%1.%2.%3) loaded. (%4)")
+	ui.statusBar->showMessage(QString("TOTAL_PAPIS_DATA.DB(v%1.%2.%3) loaded. (%4)")
 		.arg(m_lastVersion[0]).arg(m_lastVersion[1]).arg(m_lastVersion[2])
 		.arg(QDateTime::currentDateTime().toString("hh:mm dd/MM/yyyy")));
 
@@ -101,6 +99,7 @@ void kvmrt2_media_editor::setHideItemsMainWindow(bool isRelease)
 		ui.actionNew->setVisible(false);
 		ui.actionLoad->setVisible(false);
 		ui.actionLedPool->setVisible(false);
+		ui.actionSyncAudioDur->setVisible(false);
 
 		auto *pDM = CDataManage::GetInstance();
 		auto *pTM = CTableManage::GetInstance();
@@ -200,7 +199,6 @@ void kvmrt2_media_editor::initActions()
 	CONNECT_ACTION_TRIGGERED_SLOT(ui.actionRouteMapPool, onShowRouteMapPool);
 	CONNECT_ACTION_TRIGGERED_SLOT(ui.actionBitmapPool, onShowBitmapPool);
 	CONNECT_ACTION_TRIGGERED_SLOT(ui.actionImageListPool, onShowImageListPool);
-	CONNECT_ACTION_TRIGGERED_SLOT(ui.actionLedPool, onShowLedPool);
 	CONNECT_ACTION_TRIGGERED_SLOT(ui.actionDisplayListPool, onShowDisplayListPool);
 	CONNECT_ACTION_TRIGGERED_SLOT(ui.actionUpdate, onShowFileUpload);
 	CONNECT_ACTION_TRIGGERED_SLOT(ui.actionExit, close);
@@ -250,7 +248,6 @@ void kvmrt2_media_editor::initIcons()
 	ui.actionImageListPool->setIcon(pDM->m_iconImageList);
 	ui.actionDisplayListPool->setIcon(pDM->m_iconDisplayPool);
 	ui.actionRouteMapPool->setIcon(pDM->m_iconRouteMap);
-	ui.actionLedPool->setIcon(pDM->m_iconLED);
 	ui.actionUpdate->setIcon(pDM->m_iconUpdate);
 
 	ui.actionUserInfo->setIcon(pDM->m_iconUserInfo);
@@ -372,8 +369,8 @@ void kvmrt2_media_editor::onSaveDB()
 	currVersion[1] = pDM->m_pModOPDataVersion->data(index.sibling(0, 3), Qt::DisplayRole).toInt();
 	currVersion[2] = pDM->m_pModOPDataVersion->data(index.sibling(0, 4), Qt::DisplayRole).toInt();
 
-	int mbResult = QMessageBox::information(this, QString("Save OP_DATA_FULL.DB"),
-		QString("Do you want to save OP_DATA_FULL.DB(version %1.%2.%3)?").arg(currVersion[0]).arg(currVersion[1]).arg(currVersion[2]),
+	int mbResult = QMessageBox::information(this, QString("Save TOTAL_PAPIS_DATA.DB"),
+		QString("Do you want to save TOTAL_PAPIS_DATA.DB(version %1.%2.%3)?").arg(currVersion[0]).arg(currVersion[1]).arg(currVersion[2]),
 		QMessageBox::Ok | QMessageBox::Cancel);
 
 	if (mbResult == QMessageBox::Ok)
@@ -393,12 +390,12 @@ void kvmrt2_media_editor::onSaveDB()
 		setCursor(Qt::WaitCursor);
 		pTM->SaveModified();
 
-		ui.statusBar->showMessage(QString("OP_DATA_FULL.DB(v%1.%2.%3) has been saved. (%4)")
+		ui.statusBar->showMessage(QString("TOTAL_PAPIS_DATA.DB(v%1.%2.%3) has been saved. (%4)")
 			.arg(currVersion[0]).arg(currVersion[1]).arg(currVersion[2])
 			.arg(QDateTime::currentDateTime().toString("hh:mm dd/MM/yyyy")));
 		// refresh ini file
 		onAudioSyncDuration();
-		if (!copyAudioVideoDB())
+		if (!copyDB())
 		{
 			QMessageBox::critical(this, "Critical error", "Audio/Video DB (OP_DATA.DB) didn't saved.");
 		}
@@ -406,14 +403,14 @@ void kvmrt2_media_editor::onSaveDB()
 	}
 	else
 	{
-		QMessageBox::information(this, "Save canceled", "OP_DATA_FULL.DB didn't saved.");
+		QMessageBox::information(this, "Save canceled", "TOTAL_PAPIS_DATA.DB didn't saved.");
 	}
 }
 
 // for test func
 void kvmrt2_media_editor::onLoadDB()
 {
-	copyAudioVideoDB();
+	copyDB();
 }
 
 void kvmrt2_media_editor::onShowSetting() // DB version setting
@@ -475,15 +472,6 @@ void kvmrt2_media_editor::onShowImageListPool()
 {
 	imageListPool imageListPool(this);
 	if (imageListPool.exec())
-	{
-
-	}
-}
-
-void kvmrt2_media_editor::onShowLedPool()
-{
-	LEDIndicatorPool ledPool(this);
-	if (ledPool.exec())
 	{
 
 	}
@@ -1102,17 +1090,17 @@ void kvmrt2_media_editor::onAudioSyncDuration()
 		stIni.isProvisional = index.sibling(index.row(), 15).data().toInt();
 		stIni.apprDistance = index.sibling(index.row(), 16).data().toInt();
 
-		stIni.paNextBM = (index.sibling(index.row(), 6).data().toInt() != 0) ? index.sibling(index.row(), 6).data().toInt()  /*/ 1000*/ + added_duration : 0;
-		stIni.paNextEN = (index.sibling(index.row(), 7).data().toInt() != 0) ? index.sibling(index.row(), 7).data().toInt()  /*/ 1000*/ + added_duration : 0;
-		stIni.paApprBM = (index.sibling(index.row(), 8).data().toInt() != 0) ? index.sibling(index.row(), 8).data().toInt()  /*/ 1000*/ + added_duration : 0;
-		stIni.paApprEN = (index.sibling(index.row(), 9).data().toInt() != 0) ? index.sibling(index.row(), 9).data().toInt()  /*/ 1000*/ + added_duration : 0;
-		stIni.paArrvBM = (index.sibling(index.row(), 10).data().toInt() != 0) ? index.sibling(index.row(), 10).data().toInt() /*/ 1000*/ + added_duration : 0;
-		stIni.paArrvEN = (index.sibling(index.row(), 11).data().toInt() != 0) ? index.sibling(index.row(), 11).data().toInt() /*/ 1000*/ + added_duration : 0;
+		stIni.paNextBM = (index.sibling(index.row(), 6).data().toInt() != 0) ? index.sibling(index.row(), 6).data().toInt() + added_operation_pa_duration : 0;
+		stIni.paNextEN = (index.sibling(index.row(), 7).data().toInt() != 0) ? index.sibling(index.row(), 7).data().toInt() + added_operation_pa_duration : 0;
+		stIni.paApprBM = (index.sibling(index.row(), 8).data().toInt() != 0) ? index.sibling(index.row(), 8).data().toInt() + added_operation_pa_duration : 0;
+		stIni.paApprEN = (index.sibling(index.row(), 9).data().toInt() != 0) ? index.sibling(index.row(), 9).data().toInt() + added_operation_pa_duration : 0;
+		stIni.paArrvBM = (index.sibling(index.row(), 10).data().toInt() != 0) ? index.sibling(index.row(), 10).data().toInt() + added_operation_pa_duration : 0;
+		stIni.paArrvEN = (index.sibling(index.row(), 11).data().toInt() != 0) ? index.sibling(index.row(), 11).data().toInt() + added_operation_pa_duration : 0;
 
 		if (stIni.hasExchange == 1) // 1 = true
 		{
-			stIni.paExchangeBM = index.sibling(index.row(), 12).data().toInt() /*/ 1000*/ + added_duration;
-			stIni.paExchangeEN = index.sibling(index.row(), 13).data().toInt() /*/ 1000*/ + added_duration;
+			stIni.paExchangeBM = index.sibling(index.row(), 12).data().toInt() + added_operation_pa_duration;
+			stIni.paExchangeEN = index.sibling(index.row(), 13).data().toInt() + added_operation_pa_duration;
 		}
 		else
 		{
@@ -1139,7 +1127,7 @@ void kvmrt2_media_editor::onAudioSyncDuration()
 				+ index.sibling(index.row(), 14).data().toInt() // audio file 2 duration (ms)
 				+ index.sibling(index.row(), 17).data().toInt() // audio file 3 duration (ms)
 				+ index.sibling(index.row(), 20).data().toInt() // audio file 4 duration (ms)
-				) /*/ 1000*/ + added_duration;
+				) + added_duration;
 
 
 		audioListInfo st = { 0 };
@@ -1179,7 +1167,7 @@ void kvmrt2_media_editor::initAccountType(AccountType type)
 }
 
 
-void kvmrt2_media_editor::initNewFeature()
+void kvmrt2_media_editor::initButtons()
 {
 	// station name table
 	connect(ui.btnAddStation, SIGNAL(clicked()), this, SLOT(onAddStnBtnClicked()));
@@ -1990,8 +1978,6 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, StopPtnRoutes)
 	SET_SELECTION_MODE(StopPtnRoutes, QAbstractItemView::SingleSelection);
 
 	GET_TABLE(StopPtnRoutes)->setItemDelegateForColumn(3, new SQLDelegate(this, &pTM->VECTOR_CLASS(StationDistance), 0, 4, TYPE_TEXT));
-	GET_TABLE(StopPtnRoutes)->setItemDelegateForColumn(4, new SQLDelegate(this, &pTM->VECTOR_CLASS(EDDIndex), 0, 1, TYPE_TEXT));
-	GET_TABLE(StopPtnRoutes)->setItemDelegateForColumn(5, new comboBoxDelegate(this, &pMM->m_mDoorOpenDirection));
 	GET_TABLE(StopPtnRoutes)->setItemDelegateForColumn(6, new SQLDelegate(this, &pTM->VECTOR_CLASS(StationInformation), 0, 2, TYPE_TEXT));
 
 	//GET_TABLE(StopPtnRoutes)->setItemDelegateForColumn(7, new SQLDelegate(this, &pTM->VECTOR_CLASS(AudioContents), 0, 1, TYPE_TEXT));
@@ -2452,10 +2438,17 @@ void kvmrt2_media_editor::selectionChangedPIDIndexList(int nTop, int nBottom)
 	GET_TABLE(PIDIndexList)->selectionModel()->select(selectedItems, QItemSelectionModel::Select);
 }
 
-bool kvmrt2_media_editor::copyAudioVideoDB()
+bool kvmrt2_media_editor::copyDB()
 {
+	// delete OP_DATA.DB
+	bool rmResult = QDir().remove(QString("C:/PapisProgram/PapisData/OP_DATA.DB"));
+	if (!rmResult)
+	{
+		QMessageBox::warning(this, "Remove failed", "OP_DATA.DB didn't removed.");
+	}
+
 	QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-	db.setDatabaseName("C:/PapisProgram/PapisData/OP_DATA_FULL.DB");
+	db.setDatabaseName("C:/PapisProgram/PapisData/TOTAL_PAPIS_DATA.DB");
 	if (!db.open())
 	{
 		QMessageBox::critical(nullptr, QString("Cannot open database"),
@@ -2463,13 +2456,13 @@ bool kvmrt2_media_editor::copyAudioVideoDB()
 		return false;
 	}
 
+	const QString copiedDB = "target";
 	QSqlQuery query;
 	// attach sqlite
-	query.exec("ATTACH 'C:/PapisProgram/PapisData/OP_DATA.DB' as target");
-	qDebug() << Q_FUNC_INFO << query.lastError();
+	query.exec(QString("ATTACH 'C:/PapisProgram/PapisData/OP_DATA.DB' as %1").arg(copiedDB));
 
 	// create table
-	query.exec(QString("CREATE TABLE target.AUDIO_FILE_POOL ("
+	query.exec(QString("CREATE TABLE %1.AUDIO_FILE_POOL ("
 		"TABLE_INDEX	INTEGER,	"
 		"FILE_CODE		INTEGER,	"
 		"SPARE_CODE		INTEGER,	"
@@ -2478,10 +2471,9 @@ bool kvmrt2_media_editor::copyAudioVideoDB()
 		"FILE_SIZE		INTEGER,	"
 		"TABLE_ORDER	INTEGER,	"
 		"AUDIO_LEN		INTEGER,	"
-		"PRIMARY KEY(TABLE_INDEX)); "));
-	qDebug() << Q_FUNC_INFO << query.lastError();
+		"PRIMARY KEY(TABLE_INDEX)); ").arg(copiedDB));
 
-	query.exec(QString("CREATE TABLE target.AUDIO_PLAY_LIST ( "
+	query.exec(QString("CREATE TABLE %1.AUDIO_PLAY_LIST ( "
 		"TABLE_INDEX	INTEGER,   "
 		"TABLE_ORDER	INTEGER,   "
 		"MESSAGE_ID	INTEGER,   "
@@ -2504,10 +2496,9 @@ bool kvmrt2_media_editor::copyAudioVideoDB()
 		"AUDIO_FILE4	TEXT(128), "
 		"AUDIO_DUR4	INTEGER,   "
 		"DESCRIPTION	TEXT(128), "
-		"PRIMARY KEY(TABLE_INDEX)); "));
-	qDebug() << Q_FUNC_INFO << query.lastError();
+		"PRIMARY KEY(TABLE_INDEX)); ").arg(copiedDB));
 
-	query.exec(QString("CREATE TABLE target.AUDIO_STATION_NAME ( "
+	query.exec(QString("CREATE TABLE %1.AUDIO_STATION_NAME ( "
 		"TABLE_INDEX	INTEGER,   "
 		"TABLE_ORDER	INTEGER,   "
 		"MESSAGE_ID	INTEGER,   "
@@ -2517,28 +2508,25 @@ bool kvmrt2_media_editor::copyAudioVideoDB()
 		"AUDIO_IDX2	INTEGER,   "
 		"AUDIO_FILE2	TEXT(128), "
 		"AUDIO_DUR2	INTEGER, "
-		"PRIMARY KEY(TABLE_INDEX));"));
-	qDebug() << Q_FUNC_INFO << query.lastError();
+		"PRIMARY KEY(TABLE_INDEX));").arg(copiedDB));
 
-	query.exec(QString("CREATE TABLE target.DATA_VERSION ( "
+	query.exec(QString("CREATE TABLE %1.DATA_VERSION ( "
 		"TABLE_INDEX	INTEGER, "
 		"VERSION_STRING	TEXT(32), "
 		"VERSION_1	INTEGER, "
 		"VERSION_2	INTEGER, "
 		"VERSION_3	INTEGER, "
-		"PRIMARY KEY(TABLE_INDEX)); "));
-	qDebug() << Q_FUNC_INFO << query.lastError();
+		"PRIMARY KEY(TABLE_INDEX)); ").arg(copiedDB));
 
-	query.exec(QString("CREATE TABLE target.VIDEO_DEVICE_GROUP ( "
+	query.exec(QString("CREATE TABLE %1.VIDEO_DEVICE_GROUP ( "
 		"TABLE_INDEX	INTEGER,  "
 		"TABLE_ORDER	INTEGER,  "
 		"DEVICE_TYPE	INTEGER,  "
 		"GROUP_ID	INTEGER,	  "
 		"DESCRIPTION	TEXT(256),"
-		"PRIMARY KEY(TABLE_INDEX)); "));
-	qDebug() << Q_FUNC_INFO << query.lastError();
+		"PRIMARY KEY(TABLE_INDEX)); ").arg(copiedDB));
 
-	query.exec(QString("CREATE TABLE target.VIDEO_PLAY_LIST ( "
+	query.exec(QString("CREATE TABLE %1.VIDEO_PLAY_LIST ( "
 		"TABLE_INDEX	INTEGER,  "
 		"PARENT_INDEX	INTEGER,  "
 		"TABLE_ORDER	INTEGER,  "
@@ -2546,10 +2534,9 @@ bool kvmrt2_media_editor::copyAudioVideoDB()
 		"FILE_NAME	TEXT(256),	  "
 		"DESCRIPTION	TEXT(256),"
 		"DEVICE_TYPE	INTEGER,  "
-		"PRIMARY KEY(TABLE_INDEX)); "));
-	qDebug() << Q_FUNC_INFO << query.lastError();
+		"PRIMARY KEY(TABLE_INDEX)); ").arg(copiedDB));
 
-	query.exec(QString("CREATE TABLE target.VIDEO_FILE_POOL ( "
+	query.exec(QString("CREATE TABLE %1.VIDEO_FILE_POOL ( "
 		"TABLE_INDEX	INTEGER, "
 		"FILE_CODE	INTEGER,	 "
 		"SPARE_CODE	INTEGER, "
@@ -2557,24 +2544,76 @@ bool kvmrt2_media_editor::copyAudioVideoDB()
 		"FILE_CRC	INTEGER,	 "
 		"FILE_SIZE	INTEGER,	 "
 		"TABLE_ORDER	INTEGER, "
-		"PRIMARY KEY(TABLE_INDEX)); "));
-	qDebug() << Q_FUNC_INFO << query.lastError();
+		"PRIMARY KEY(TABLE_INDEX)); ").arg(copiedDB));
 
-	// copy
-	query.exec("INSERT INTO target.AUDIO_FILE_POOL SELECT * FROM AUDIO_FILE_POOL");
-	qDebug() << Q_FUNC_INFO << query.lastError();
-	query.exec("INSERT INTO target.AUDIO_PLAY_LIST SELECT * FROM AUDIO_PLAY_LIST");
-	qDebug() << Q_FUNC_INFO << query.lastError();
-	query.exec("INSERT INTO target.AUDIO_STATION_NAME SELECT * FROM AUDIO_STATION_NAME");
-	qDebug() << Q_FUNC_INFO << query.lastError();
-	query.exec("INSERT INTO target.DATA_VERSION SELECT * FROM DATA_VERSION");
-	qDebug() << Q_FUNC_INFO << query.lastError();
-	query.exec("INSERT INTO target.VIDEO_DEVICE_GROUP SELECT * FROM VIDEO_DEVICE_GROUP");
-	qDebug() << Q_FUNC_INFO << query.lastError();
-	query.exec("INSERT INTO target.VIDEO_PLAY_LIST SELECT * FROM VIDEO_PLAY_LIST");
-	qDebug() << Q_FUNC_INFO << query.lastError();
-	query.exec("INSERT INTO target.VIDEO_FILE_POOL SELECT * FROM VIDEO_FILE_POOL");
-	qDebug() << Q_FUNC_INFO << query.lastError();
+	query.exec(QString("CREATE TABLE %1.[EDITOR_TAG_TABLE] ([TABLE_INDEX] INTEGER PRIMARY KEY,[DESCRIPTION] TEXT(128),[VARIABLE] INTEGER,[TABLE_ORDER] INTEGER, GIF_FRAME INTEGER)").arg(copiedDB));
+	query.exec(QString("CREATE TABLE %1.[IMAGE_INDEX] ([TABLE_INDEX] INTEGER PRIMARY KEY,[PARENT_INDEX] INTEGER,[TABLE_ORDER] INTEGER,[TYPE] INTEGER,[TEXT_INDEX] INTEGER,[BITMAP_INDEX] INTEGER,[XPOS] INTEGER,[YPOS] INTEGER)").arg(copiedDB));
+	query.exec(QString("CREATE TABLE %1.[IMAGE_INDEX_LIST] ([TABLE_INDEX] INTEGER PRIMARY KEY,[TABLE_ORDER] INTEGER,[DURATION] INTEGER,[DESCRIPTION] TEXT(128), TYPE INTEGER)").arg(copiedDB));
+	query.exec(QString("CREATE TABLE %1.[LINEMAP_POOL] ([TABLE_INDEX] INTEGER PRIMARY KEY,[MAP_NAME] TEXT(256),[TILE_SIZE] INTEGER,[LINE_THICKNESS] INTEGER,[DATALENGTH] INTEGER,[DATAPOINTER] LONGBINARY,[WIDTH] INTEGER,[HEIGHT] INTEGER,[DATALENGTHSPOT] INTEGER,[DATAPOINTERSPOT] LONGBINARY,[BACK_COLOR] INTEGER,[LINE_COLOR] INTEGER,[PASSED_COLOR] INTEGER,[FOCUSED_COLOR] INTEGER,[REMAIN_COLOR] INTEGER,[FOCUSED_COLOR1] INTEGER,[FORWARD_ARROW_OFFSET] INTEGER,[BACKWARD_ARROW_OFFSET] INTEGER,[ARROW_THICKNESS] FLOAT,[ARROW_PASSED_COLOR] INTEGER,[ARROW_FOCUSED_COLOR] INTEGER,[ARROW_LEFT_COLOR] INTEGER,[ARROW_FOCUSED_COLOR1] INTEGER,[TABLE_ORDER] INTEGER, ROUTE_BOUND INTEGER, USUSED_LINE_COLOR INTEGER)").arg(copiedDB));
+	query.exec(QString("CREATE TABLE %1.[PID_CONTENTS] ([TABLE_INDEX] INTEGER PRIMARY KEY,[DESCRIPTION] TEXT(256),[MESSAGE_ID] INTEGER,[MESSAGE_TYPE] INTEGER,[STATION_INDEX] INTEGER,[DESTINATION_INDEX] INTEGER,[MESSAGE_TYPE_ID] INTEGER,[INTERNAL_INDEX] INTEGER,[TABLE_ORDER] INTEGER,[DEV_TYPE] INTEGER)").arg(copiedDB));
+	query.exec(QString("CREATE TABLE %1.[PID_INDEX_LIST] ([TABLE_INDEX] INTEGER PRIMARY KEY,[PARENT_INDEX] INTEGER,[TABLE_ORDER] INTEGER,[CONTENTS_POOL_INDEX] INTEGER)").arg(copiedDB));
+	query.exec(QString("CREATE TABLE %1.[STATION_DISTANCE] ([TABLE_INDEX] INTEGER PRIMARY KEY, [DEPARTURE_STATION] INTEGER, [ARRIVAL_STATION] INTEGER, [DISTANCE] INTEGER, [DESC] TEXT(256), [TABLE_ORDER] INTEGER, [DEPARTURE_CODE] INTEGER, [ARRIVAL_CODE] INTEGER)").arg(copiedDB));
+	query.exec(QString("CREATE TABLE %1.[STOP_PATTERN_HEADER] ([TABLE_INDEX] INTEGER PRIMARY KEY,[DEPARTURE_STATION] INTEGER,[ARRIVAL_STATION] INTEGER,[DESCRIPTION] TEXT(256),[LINE_MAP_INDEX] INTEGER,[TABLE_ORDER] INTEGER, DRIVE_MODE INTEGER, BOUND INTEGER)").arg(copiedDB));
 
+	query.exec(QString("CREATE TABLE %1.STATION_INFORMATION ( "
+		"TABLE_INDEX	INTEGER,	"
+		"STATION_CODE	INTEGER,	"
+		"STATION_NAME1	TEXT(128),	"
+		"STATION_NAME2	TEXT(128),	"
+		"DESCRIPTION	TEXT(256),	"
+		"TABLE_ORDER	INTEGER,	"
+		"DUR_NEXT_BM	INTEGER,	"
+		"DUR_NEXT_EN	INTEGER,	"
+		"DUR_ARRIVING_BM	INTEGER,"
+		"DUR_ARRIVING_EN	INTEGER,"
+		"DUR_ARRIVAL_BM	INTEGER,"
+		"DUR_ARRIVAL_EN	INTEGER,"
+		"DUR_EXCHANGE_BM	INTEGER,"
+		"DUR_EXCHANGE_EN	INTEGER,"
+		"HAS_EXCHANGE	INTEGER,	"
+		"IS_PROVISIONAL	INTEGER,"
+		"APPR_PA_DISTANCE	INTEGER,"
+		"SPARE1	INTEGER,		"
+		"SPARE2	INTEGER,		"
+		"PRIMARY KEY(TABLE_INDEX)) ").arg(copiedDB));
+
+	query.exec(QString("CREATE TABLE %1.STOP_PATTERN_ROUTES ("
+		"TABLE_INDEX	INTEGER,		"
+		"PARENT_INDEX	INTEGER,		"
+		"TABLE_ORDER	INTEGER,		"
+		"DISTANCE_INDEX	INTEGER,	"
+		"DESTINATION_INDEX_LED	INTEGER,"
+		"DOOR_DIRECTION	INTEGER,	"
+		"DESTINATION_INDEX	INTEGER,	"
+		"DOORCLOSE_VOICEEVENT	INTEGER,"
+		"DOORCLOSE_VIDEOEVENT	INTEGER,"
+		"DOORCLOSE_DRMEVENT	INTEGER,"
+		"DOOROPEN_VOICEEVENT	INTEGER,"
+		"DOOROPEN_VIDEOEVENT	INTEGER,"
+		"DOOROPEN_DRMEVENT	INTEGER,    "
+		"PRIMARY KEY(TABLE_INDEX))").arg(copiedDB));
+	
+
+	// copy except bitmap related
+	query.exec(QString("INSERT OR REPLACE INTO %1.AUDIO_FILE_POOL SELECT * FROM AUDIO_FILE_POOL").arg(copiedDB));
+	query.exec(QString("INSERT OR REPLACE INTO %1.AUDIO_PLAY_LIST SELECT * FROM AUDIO_PLAY_LIST").arg(copiedDB));
+	query.exec(QString("INSERT OR REPLACE INTO %1.AUDIO_STATION_NAME SELECT * FROM AUDIO_STATION_NAME").arg(copiedDB));
+	query.exec(QString("INSERT OR REPLACE INTO %1.DATA_VERSION SELECT * FROM DATA_VERSION").arg(copiedDB));
+	query.exec(QString("INSERT OR REPLACE INTO %1.VIDEO_DEVICE_GROUP SELECT * FROM VIDEO_DEVICE_GROUP").arg(copiedDB));
+	query.exec(QString("INSERT OR REPLACE INTO %1.VIDEO_PLAY_LIST SELECT * FROM VIDEO_PLAY_LIST").arg(copiedDB));
+	query.exec(QString("INSERT OR REPLACE INTO %1.VIDEO_FILE_POOL SELECT * FROM VIDEO_FILE_POOL").arg(copiedDB));
+	query.exec(QString("INSERT OR REPLACE INTO %1.EDITOR_TAG_TABLE SELECT * FROM EDITOR_TAG_TABLE").arg(copiedDB));
+	query.exec(QString("INSERT OR REPLACE INTO %1.IMAGE_INDEX SELECT * FROM IMAGE_INDEX").arg(copiedDB));
+	query.exec(QString("INSERT OR REPLACE INTO %1.IMAGE_INDEX_LIST SELECT * FROM IMAGE_INDEX_LIST").arg(copiedDB));
+	query.exec(QString("INSERT OR REPLACE INTO %1.LINEMAP_POOL SELECT * FROM LINEMAP_POOL").arg(copiedDB));
+	query.exec(QString("INSERT OR REPLACE INTO %1.PID_CONTENTS SELECT * FROM PID_CONTENTS").arg(copiedDB));
+	query.exec(QString("INSERT OR REPLACE INTO %1.PID_INDEX_LIST SELECT * FROM PID_INDEX_LIST").arg(copiedDB));
+	query.exec(QString("INSERT OR REPLACE INTO %1.STATION_DISTANCE SELECT * FROM STATION_DISTANCE").arg(copiedDB));
+	query.exec(QString("INSERT OR REPLACE INTO %1.STATION_INFORMATION SELECT * FROM STATION_INFORMATION").arg(copiedDB));
+	query.exec(QString("INSERT OR REPLACE INTO %1.STOP_PATTERN_HEADER SELECT * FROM STOP_PATTERN_HEADER").arg(copiedDB));
+	query.exec(QString("INSERT OR REPLACE INTO %1.STOP_PATTERN_ROUTES SELECT * FROM STOP_PATTERN_ROUTES").arg(copiedDB));
+	
+	query.exec(QString("DETACH '%1'").arg(copiedDB));
+	
 	return true;
 }

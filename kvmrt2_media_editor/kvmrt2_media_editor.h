@@ -93,7 +93,6 @@ private:
 	void onShowImageListPool();
 	void onShowBitmapPool();
 	void onShowRouteMapPool();
-	void onShowLedPool();
 	void onShowDisplayListPool();
 	void onShowFileUpload();
 	void onShowUserInfo();
@@ -124,7 +123,7 @@ private:
 	UserInfoWidget *m_widgetUserInfo = nullptr; // user info widget
 
 public:
-	void initNewFeature();
+	void initButtons();
 
 	public slots:
 	void onAddStnBtnClicked();
@@ -161,5 +160,5 @@ public:
 	void onDelAllDataTagBtnClicked();
 
 public:
-	bool copyAudioVideoDB();
+	bool copyDB();
 };

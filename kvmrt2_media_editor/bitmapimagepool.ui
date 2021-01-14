@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>561</width>
+    <width>898</width>
     <height>531</height>
    </rect>
   </property>
@@ -34,14 +34,14 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_3">
            <item>
-            <widget class="QToolButton" name="btnAddBitmap">
+            <widget class="QPushButton" name="btnAddBitmap">
              <property name="text">
               <string>Add</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="btnDelBitmap">
+            <widget class="QPushButton" name="btnDelBitmap">
              <property name="text">
               <string>Del</string>
              </property>
@@ -87,7 +87,7 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-479</y>
+         <y>0</y>
          <width>1017</width>
          <height>1027</height>
         </rect>

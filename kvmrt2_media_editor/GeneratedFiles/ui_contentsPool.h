@@ -63,7 +63,7 @@ public:
     {
         if (Dialog->objectName().isEmpty())
             Dialog->setObjectName(QStringLiteral("Dialog"));
-        Dialog->resize(969, 615);
+        Dialog->resize(958, 617);
         gridLayout_3 = new QGridLayout(Dialog);
         gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
         verticalLayout_3 = new QVBoxLayout();

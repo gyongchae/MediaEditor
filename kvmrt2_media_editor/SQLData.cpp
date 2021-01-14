@@ -25,11 +25,6 @@ CSQLData::CSQLData(int nState, int nChildCount)
 
 }
 
-int CSQLData::m_nETNDWidth=32;
-int CSQLData::m_nETNDHeight=64;
-int CSQLData::m_nEDDWidth= 256;
-int CSQLData::m_nEDDHeight=64;
-
 CSQLData::~CSQLData(void)
 {
 
@@ -52,17 +47,6 @@ void CSQLData::Initialize()
 		}
 	}
 }
-
-void CSQLData::SetLEDIndicatorParam(int nEDDWidth,int nEDDHeight,int nETNDWidth,int nETNDHeight)
-{
-	m_nETNDWidth = nETNDWidth;
-	m_nETNDHeight = nETNDHeight;
-	m_nEDDWidth = nEDDWidth;
-	m_nEDDHeight = nEDDHeight;
-}
-
-
-
 
 void CSQLData::SetRecordState(int nStatus)
 {

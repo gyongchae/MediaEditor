@@ -24,7 +24,6 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QTableView>
-#include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -39,8 +38,8 @@ public:
     QGridLayout *gridLayout;
     QVBoxLayout *verticalLayout_2;
     QHBoxLayout *horizontalLayout_3;
-    QToolButton *btnAddBitmap;
-    QToolButton *btnDelBitmap;
+    QPushButton *btnAddBitmap;
+    QPushButton *btnDelBitmap;
     QSpacerItem *horizontalSpacer;
     QTableView *m_tblBitmapImagePool;
     QScrollArea *scrollArea;
@@ -57,7 +56,7 @@ public:
     {
         if (bitmapImagePool->objectName().isEmpty())
             bitmapImagePool->setObjectName(QStringLiteral("bitmapImagePool"));
-        bitmapImagePool->resize(561, 531);
+        bitmapImagePool->resize(898, 531);
         QFont font;
         font.setFamily(QStringLiteral("Arial"));
         bitmapImagePool->setFont(font);
@@ -80,12 +79,12 @@ public:
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setSpacing(6);
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        btnAddBitmap = new QToolButton(groupBox);
+        btnAddBitmap = new QPushButton(groupBox);
         btnAddBitmap->setObjectName(QStringLiteral("btnAddBitmap"));
 
         horizontalLayout_3->addWidget(btnAddBitmap);
 
-        btnDelBitmap = new QToolButton(groupBox);
+        btnDelBitmap = new QPushButton(groupBox);
         btnDelBitmap->setObjectName(QStringLiteral("btnDelBitmap"));
 
         horizontalLayout_3->addWidget(btnDelBitmap);
@@ -118,7 +117,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, -479, 1017, 1027));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 1017, 1027));
         verticalLayout_4 = new QVBoxLayout(scrollAreaWidgetContents);
         verticalLayout_4->setSpacing(6);
         verticalLayout_4->setContentsMargins(11, 11, 11, 11);

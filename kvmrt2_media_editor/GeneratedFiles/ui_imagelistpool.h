@@ -65,7 +65,7 @@ public:
     {
         if (imageListPool->objectName().isEmpty())
             imageListPool->setObjectName(QStringLiteral("imageListPool"));
-        imageListPool->resize(901, 633);
+        imageListPool->resize(982, 692);
         verticalLayout_3 = new QVBoxLayout(imageListPool);
         verticalLayout_3->setSpacing(6);
         verticalLayout_3->setContentsMargins(11, 11, 11, 11);
@@ -167,7 +167,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, -883, 1017, 1027));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 1017, 1027));
         gridLayout_3 = new QGridLayout(scrollAreaWidgetContents);
         gridLayout_3->setSpacing(6);
         gridLayout_3->setContentsMargins(11, 11, 11, 11);

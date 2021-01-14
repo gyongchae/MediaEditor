@@ -990,7 +990,6 @@ public:
         menuDisplayConfig->addAction(actionDisplayListPool);
         menuDisplayConfig->addAction(actionRouteMapPool);
         menuDisplayConfig->addSeparator();
-        menuDisplayConfig->addAction(actionLedPool);
         menuHelp->addAction(actionAboutME);
         menuHelp->addAction(actionAboutQt);
         menuHelp->addAction(actionLicenseInfo);
@@ -1008,7 +1007,6 @@ public:
         mainToolBar->addSeparator();
         mainToolBar->addAction(actionDisplayListPool);
         mainToolBar->addAction(actionRouteMapPool);
-        mainToolBar->addAction(actionLedPool);
         mainToolBar->addSeparator();
         mainToolBar->addAction(actionUpdate);
         mainToolBar->addAction(actionUserInfo);

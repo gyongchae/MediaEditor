@@ -862,7 +862,6 @@
     <addaction name="actionDisplayListPool"/>
     <addaction name="actionRouteMapPool"/>
     <addaction name="separator"/>
-    <addaction name="actionLedPool"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -904,7 +903,6 @@
    <addaction name="separator"/>
    <addaction name="actionDisplayListPool"/>
    <addaction name="actionRouteMapPool"/>
-   <addaction name="actionLedPool"/>
    <addaction name="separator"/>
    <addaction name="actionUpdate"/>
    <addaction name="actionUserInfo"/>

@@ -120,11 +120,6 @@ void CDataManage::SetModel()
 	INIT_MODEL_FOR_CLASS(LineMapNode);
 	INIT_MODEL_FOR_CLASS(LineMapArrowTexture);
 	INIT_MODEL_FOR_CLASS(LineMapDisplayItem);
-
-	INIT_MODEL_FOR_CLASS(EDDIndex);
-	INIT_MODEL_FOR_CLASS(EDDIndexList);
-	INIT_MODEL_FOR_CLASS(EDDIndicator);
-	INIT_MODEL_FOR_CLASS(ETNDIndicator);
 	// !INIT_MODEL_FOR_CLASS
 
 	/************************************************************************************************************* 
@@ -149,8 +144,6 @@ void CDataManage::SetModel()
 	SET_EDITOR_FOR_MODEL(pTM, LineMapNode);
 	SET_EDITOR_FOR_MODEL(pTM, LineMapArrowTexture);
 	SET_EDITOR_FOR_MODEL(pTM, LineMapDisplayItem);
-
-	SET_EDITOR_FOR_MODEL(pTM, EDDIndexList);
 	// !SET_EDITOR_FOR_MODEL
 
 	// SET_VECTOR_FOR_MODEL_PARENT (same as DECLARE_VECTOR_FOR_CLASS)
@@ -177,10 +170,6 @@ void CDataManage::SetModel()
 
 	SET_VECTOR_FOR_MODEL_PARENT(pTM, DisplayItemPool);
 	SET_VECTOR_FOR_MODEL_PARENT(pTM, LineMapPool);
-
-	SET_VECTOR_FOR_MODEL_PARENT(pTM, EDDIndicator);
-	SET_VECTOR_FOR_MODEL_PARENT(pTM, ETNDIndicator);
-	SET_VECTOR_FOR_MODEL_PARENT(pTM, EDDIndex);
 	// !SET_VECTOR_FOR_MODEL_PARENT
 }
 
@@ -298,10 +287,8 @@ void CDataManage::setCurrPath(QString & currPath)
 	m_iconImageList =		QIcon(m_currPath + "/Res/Free/Comet.ico");
 	m_iconDisplayPool =		QIcon(m_currPath + "/Res/Free/Chewbacca.ico");
 	m_iconRouteMap =		QIcon(m_currPath + "/Res/Free/Black-hole.ico");
-	m_iconLED =				QIcon(m_currPath + "/Res/Free/Bb-8.ico");
 	m_iconUpdate =			QIcon(m_currPath + "/Res/Free/Atom.ico");
 	m_iconUserInfo =		QIcon(m_currPath + "/Res/Free/Morty.ico");
-	
 	m_iconExit =			QIcon(m_currPath + "/Res/Free/Astronaut.ico");
 
 	// tab

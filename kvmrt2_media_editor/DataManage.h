@@ -62,11 +62,6 @@ public:
 	DECLARE_MODEL_CLASS(LineMapNode)
 	DECLARE_MODEL_CLASS(LineMapArrowTexture)
 	DECLARE_MODEL_CLASS(LineMapDisplayItem)
-
-	DECLARE_MODEL_CLASS(EDDIndicator)
-	DECLARE_MODEL_CLASS(ETNDIndicator)
-	DECLARE_MODEL_CLASS(EDDIndex)
-	DECLARE_MODEL_CLASS(EDDIndexList)
 	// !DECLARE_MODEL_CLASS
 public:
 	void SetModel();
@@ -143,7 +138,6 @@ public:
 	QIcon m_iconImageList;
 	QIcon m_iconDisplayPool;
 	QIcon m_iconRouteMap;
-	QIcon m_iconLED;
 	QIcon m_iconUpdate;
 
 	QIcon m_iconUserInfo;

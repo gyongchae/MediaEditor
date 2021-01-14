@@ -102,10 +102,6 @@ void CTableManage::LoadDatabase()
 	CREATE_EDITOR_CLASS_FOR_CLASS(LineMapArrowTexture);
 	CREATE_EDITOR_CLASS_FOR_CLASS(LineMapNode);
 	CREATE_EDITOR_CLASS_FOR_CLASS(LineMapDisplayItem);
-	CREATE_EDITOR_CLASS_FOR_CLASS(EDDIndicator);
-	CREATE_EDITOR_CLASS_FOR_CLASS(ETNDIndicator);
-	CREATE_EDITOR_CLASS_FOR_CLASS(EDDIndex);
-	CREATE_EDITOR_CLASS_FOR_CLASS(EDDIndexList);
 	// !CREATE_EDITOR_CLASS_FOR_CLASS
 
 	// INIT_EDITORCLASS Parent (same as DECLARE_VECTOR_FOR_CLASS)
@@ -132,14 +128,9 @@ void CTableManage::LoadDatabase()
 
 	INIT_EDITORCLASS(DisplayItemPool, m_dbSource);
 	INIT_EDITORCLASS(LineMapPool, m_dbSource);
-
-	INIT_EDITORCLASS(EDDIndicator, m_dbSource);
-	INIT_EDITORCLASS(ETNDIndicator, m_dbSource);
-	INIT_EDITORCLASS(EDDIndex, m_dbSource);
 	// !INIT_EDITORCLASS
 
 	// temp vector (child table) editor initialize
-	INIT_EDITORCLASS_WITH_TEMPVECTORS(EDDIndexList,			m_dbSource, &TEMP_VECTOR_CLASS(EDDIndexList),			nullptr);
 	INIT_EDITORCLASS_WITH_TEMPVECTORS(StopPtnRoutes,		m_dbSource, &TEMP_VECTOR_CLASS(StopPtnRoutes),			nullptr);
 	INIT_EDITORCLASS_WITH_TEMPVECTORS(EventLists,			m_dbSource, &TEMP_VECTOR_CLASS(EventLists),				nullptr);
 	INIT_EDITORCLASS_WITH_TEMPVECTORS(PIDIndexList,			m_dbSource, &TEMP_VECTOR_CLASS(PIDIndexList),			nullptr);
@@ -160,7 +151,6 @@ void CTableManage::LoadDatabase()
 	MakeRelationShip2(&TEMP_VECTOR_CLASS(StopPtnRoutes),0,&TEMP_VECTOR_CLASS(EventLists));		//부모 자식 관계
 	MakeRelationShip2(&VECTOR_CLASS(PIDContents), 0, &TEMP_VECTOR_CLASS(PIDIndexList));		//부모 자식 관계
 	MakeRelationShip2(&VECTOR_CLASS(VideoDeviceGroup), 0, &TEMP_VECTOR_CLASS(VideoPlayList));		//부모 자식 관계
-	MakeRelationShip2(&VECTOR_CLASS(EDDIndex),0,&TEMP_VECTOR_CLASS(EDDIndexList));		//부모 자식 관계
 	MakeRelationShip2(&VECTOR_CLASS(DisplayItemPool), 0, &TEMP_VECTOR_CLASS(DisplayItem));		//부모 자식 관계
 	MakeRelationShip2(&TEMP_VECTOR_CLASS(DisplayItem), 0, &TEMP_VECTOR_CLASS(DisplayProp));		//부모 자식 관계
 	MakeRelationShip2(&VECTOR_CLASS(DisplayItemPool), 1, &TEMP_VECTOR_CLASS(DisplayMetaItem));		//부모 자식 관계
@@ -201,10 +191,6 @@ void CTableManage::SaveModified()
 	
 	SAVEDATA_FOR_CLASS(DisplayItemPool);
 	SAVEDATA_FOR_CLASS(LineMapPool);
-
-	SAVEDATA_FOR_CLASS(EDDIndicator);
-	SAVEDATA_FOR_CLASS(ETNDIndicator);
-	SAVEDATA_FOR_CLASS(EDDIndex);
 }
 
 int CTableManage::BackupDb(

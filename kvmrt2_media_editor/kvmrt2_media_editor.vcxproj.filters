@@ -35,9 +35,6 @@
     <Filter Include="MANAGER">
       <UniqueIdentifier>{315f646c-41db-4281-8b6a-d571738a6111}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LED">
-      <UniqueIdentifier>{32291bbc-efdb-45c8-80d5-4206b62f9be8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="MAIN">
       <UniqueIdentifier>{141d43b0-504e-4066-b79d-42f835422bce}</UniqueIdentifier>
     </Filter>
@@ -95,9 +92,6 @@
     <Filter Include="SCREEN\ROUTE MAP\NODE PROP">
       <UniqueIdentifier>{f2c9b5b8-e4f5-4cf7-ba72-90177219300e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SCREEN\ROUTE MAP\PREVIEW">
-      <UniqueIdentifier>{14d59441-c3b4-4087-a75d-90b43d6b1765}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SCREEN\ROUTE MAP\QGLESLineMapCanvas">
       <UniqueIdentifier>{a982b778-3fbb-4920-ae3a-4e3bfb78501b}</UniqueIdentifier>
     </Filter>
@@ -145,6 +139,33 @@
     </Filter>
     <Filter Include="SCREEN\ROUTE MAP\LINK PROP %28NEW%29">
       <UniqueIdentifier>{b2e380de-7492-42ef-afec-8b1f383b4a05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui">
+      <UniqueIdentifier>{534adc4d-b4fd-4743-b096-56dffe2bc3de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\file_pool">
+      <UniqueIdentifier>{04026029-5b2f-4328-8ec1-137a97fe51ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\first_login">
+      <UniqueIdentifier>{9037c311-e868-45b7-ad4f-2aab2011a21d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\mainwindow">
+      <UniqueIdentifier>{703c5f70-1381-444e-9fb8-0d11cb9c562b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\db_ver_setting">
+      <UniqueIdentifier>{5a17769f-990b-45c6-9853-1ec0fa5a0ed1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\image_list">
+      <UniqueIdentifier>{e286de9b-c6ff-4cd6-ae9d-c38612fcd065}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\display_pool">
+      <UniqueIdentifier>{d00ca160-3581-4355-86af-2c58f06c99e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\user_info">
+      <UniqueIdentifier>{72139599-a5d3-411f-9254-9596d5a40ed2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\route_map_pool">
+      <UniqueIdentifier>{cdb7a554-1d06-46e2-99c1-f7f59577e4ea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -277,23 +298,8 @@
     <ClCompile Include="dataModel.cpp">
       <Filter>SUBCLASS\MODEL</Filter>
     </ClCompile>
-    <ClCompile Include="LEDIndicator.cpp">
-      <Filter>LED</Filter>
-    </ClCompile>
     <ClCompile Include="imagelistpool.cpp">
       <Filter>FIEL POOL</Filter>
-    </ClCompile>
-    <ClCompile Include="ledindicatordelegate.cpp">
-      <Filter>LED</Filter>
-    </ClCompile>
-    <ClCompile Include="ledindicatoredit.cpp">
-      <Filter>LED</Filter>
-    </ClCompile>
-    <ClCompile Include="ledindicatorIndirectdelegate.cpp">
-      <Filter>LED</Filter>
-    </ClCompile>
-    <ClCompile Include="ledindicatorpool.cpp">
-      <Filter>LED</Filter>
     </ClCompile>
     <ClCompile Include="linemappooledit.cpp">
       <Filter>SCREEN\ROUTE MAP</Filter>
@@ -361,32 +367,11 @@
     <ClCompile Include="QGLESLineMapCanvas.cpp">
       <Filter>SCREEN\ROUTE MAP\QGLESLineMapCanvas</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_QGLESLineMapPreview.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_QGLESLineMapPreview.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_QGLESLineMapCanvas.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_QGLESLineMapCanvas.cpp">
       <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="QGLESLineMapPreview.cpp">
-      <Filter>SCREEN\ROUTE MAP\PREVIEW</Filter>
-    </ClCompile>
-    <ClCompile Include="CMappedValue.cpp">
-      <Filter>SCREEN\ROUTE MAP\PREVIEW</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_QLineMapPreview.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_QLineMapPreview.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="QLineMapPreview.cpp">
-      <Filter>SCREEN\ROUTE MAP\PREVIEW</Filter>
     </ClCompile>
     <ClCompile Include="displayItemPropEdit.cpp">
       <Filter>SCREEN\NORMAL DISPLAY\DISP ITEM PROP</Filter>
@@ -454,9 +439,6 @@
     <ClCompile Include="DefineFilePoolTables.cpp">
       <Filter>MAL_PIDDRM related\SQL DATA\DB TABLE DEF</Filter>
     </ClCompile>
-    <ClCompile Include="DefineLEDTables.cpp">
-      <Filter>MAL_PIDDRM related\SQL DATA\DB TABLE DEF</Filter>
-    </ClCompile>
     <ClCompile Include="DefineDisplayTables.cpp">
       <Filter>MAL_PIDDRM related\SQL DATA\DB TABLE DEF</Filter>
     </ClCompile>
@@ -496,12 +478,6 @@
     <ClCompile Include="GeneratedFiles\qrc_kvmrt2_media_editor.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\qrc_shaders.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qrc_textures.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
     <ClCompile Include="TableManage.cpp">
       <Filter>MAL_PIDDRM related</Filter>
     </ClCompile>
@@ -522,21 +498,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="LEDIndicator.h">
-      <Filter>LED</Filter>
-    </QtMoc>
-    <QtMoc Include="ledindicatordelegate.h">
-      <Filter>LED</Filter>
-    </QtMoc>
-    <QtMoc Include="ledindicatoredit.h">
-      <Filter>LED</Filter>
-    </QtMoc>
-    <QtMoc Include="ledindicatorIndirectdelegate.h">
-      <Filter>LED</Filter>
-    </QtMoc>
-    <QtMoc Include="ledindicatorpool.h">
-      <Filter>LED</Filter>
-    </QtMoc>
     <QtMoc Include="linemappooledit.h">
       <Filter>SCREEN\ROUTE MAP</Filter>
     </QtMoc>
@@ -564,9 +525,6 @@
     <QtMoc Include="scrollingmapcanvas.h">
       <Filter>SUBCLASS\WIDGET</Filter>
     </QtMoc>
-    <QtMoc Include="QLineMapPreview.h">
-      <Filter>SCREEN\ROUTE MAP\PREVIEW</Filter>
-    </QtMoc>
     <QtMoc Include="displayItemPropEdit.h">
       <Filter>SCREEN\NORMAL DISPLAY\DISP ITEM PROP</Filter>
     </QtMoc>
@@ -587,74 +545,65 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="ledindicatoredit.ui">
-      <Filter>LED</Filter>
-    </QtUic>
-    <QtUic Include="ledindicatorpool.ui">
-      <Filter>LED</Filter>
-    </QtUic>
-    <QtUic Include="kvmrt2_media_editor.ui">
-      <Filter>MAIN</Filter>
+    <QtUic Include="routemaplineproperty.ui">
+      <Filter>ui</Filter>
     </QtUic>
     <QtUic Include="bitmapimagepool.ui">
-      <Filter>FIEL POOL</Filter>
-    </QtUic>
-    <QtUic Include="contentsPool.ui">
-      <Filter>FIEL POOL</Filter>
+      <Filter>ui\file_pool</Filter>
     </QtUic>
     <QtUic Include="fontpool.ui">
-      <Filter>FIEL POOL</Filter>
-    </QtUic>
-    <QtUic Include="imagelistpool.ui">
-      <Filter>FIEL POOL</Filter>
+      <Filter>ui\file_pool</Filter>
     </QtUic>
     <QtUic Include="StationImagePool.ui">
-      <Filter>FIEL POOL</Filter>
+      <Filter>ui\file_pool</Filter>
     </QtUic>
-    <QtUic Include="linemappooledit.ui">
-      <Filter>SCREEN\ROUTE MAP</Filter>
-    </QtUic>
-    <QtUic Include="linemappreset.ui">
-      <Filter>SCREEN\ROUTE MAP</Filter>
-    </QtUic>
-    <QtUic Include="QLineMapEdit.ui">
-      <Filter>SCREEN\ROUTE MAP</Filter>
-    </QtUic>
-    <QtUic Include="QLineMapPreview.ui">
-      <Filter>SCREEN\ROUTE MAP\PREVIEW</Filter>
-    </QtUic>
-    <QtUic Include="displayItemPropEdit.ui">
-      <Filter>SCREEN\NORMAL DISPLAY\DISP ITEM PROP</Filter>
-    </QtUic>
-    <QtUic Include="editDisplayMetaItem.ui">
-      <Filter>SCREEN\NORMAL DISPLAY\DISP ITEM PROP</Filter>
-    </QtUic>
-    <QtUic Include="registrysettings.ui">
-      <Filter>MAIN\REG SETTING</Filter>
-    </QtUic>
-    <QtUic Include="qpideditor.ui">
-      <Filter>SCREEN\NORMAL DISPLAY</Filter>
-    </QtUic>
-    <QtUic Include="displayItemPreset.ui">
-      <Filter>SCREEN\NORMAL DISPLAY</Filter>
-    </QtUic>
-    <QtUic Include="editDisplayItemPool.ui">
-      <Filter>SCREEN\NORMAL DISPLAY</Filter>
-    </QtUic>
-    <QtUic Include="nodepropertydlg.ui">
-      <Filter>SCREEN\ROUTE MAP\NODE PROP</Filter>
-    </QtUic>
-    <QtUic Include="AccountManage\userinfowidget.ui">
-      <Filter>MAIN\User Manager</Filter>
+    <QtUic Include="contentsPool.ui">
+      <Filter>ui\file_pool</Filter>
     </QtUic>
     <QtUic Include="AccountManage\logindialog.ui">
-      <Filter>MAIN\User Manager</Filter>
+      <Filter>ui\first_login</Filter>
+    </QtUic>
+    <QtUic Include="kvmrt2_media_editor.ui">
+      <Filter>ui\mainwindow</Filter>
+    </QtUic>
+    <QtUic Include="registrysettings.ui">
+      <Filter>ui\db_ver_setting</Filter>
+    </QtUic>
+    <QtUic Include="imagelistpool.ui">
+      <Filter>ui\image_list</Filter>
     </QtUic>
     <QtUic Include="AccountManage\changepassworddialog.ui">
-      <Filter>MAIN\User Manager</Filter>
+      <Filter>ui\user_info</Filter>
     </QtUic>
-    <QtUic Include="routemaplineproperty.ui">
-      <Filter>SCREEN\ROUTE MAP\LINK PROP %28NEW%29</Filter>
+    <QtUic Include="AccountManage\userinfowidget.ui">
+      <Filter>ui\user_info</Filter>
+    </QtUic>
+    <QtUic Include="editDisplayItemPool.ui">
+      <Filter>ui\display_pool</Filter>
+    </QtUic>
+    <QtUic Include="qpideditor.ui">
+      <Filter>ui\display_pool</Filter>
+    </QtUic>
+    <QtUic Include="displayItemPreset.ui">
+      <Filter>ui\display_pool</Filter>
+    </QtUic>
+    <QtUic Include="displayItemPropEdit.ui">
+      <Filter>ui\display_pool</Filter>
+    </QtUic>
+    <QtUic Include="editDisplayMetaItem.ui">
+      <Filter>ui\display_pool</Filter>
+    </QtUic>
+    <QtUic Include="linemappooledit.ui">
+      <Filter>ui\route_map_pool</Filter>
+    </QtUic>
+    <QtUic Include="linemappreset.ui">
+      <Filter>ui\route_map_pool</Filter>
+    </QtUic>
+    <QtUic Include="QLineMapEdit.ui">
+      <Filter>ui\user_info</Filter>
+    </QtUic>
+    <QtUic Include="nodepropertydlg.ui">
+      <Filter>ui\user_info</Filter>
     </QtUic>
   </ItemGroup>
   <ItemGroup>
@@ -781,9 +730,6 @@
     <ClInclude Include="TileMapSupport.h">
       <Filter>SCREEN\ROUTE MAP</Filter>
     </ClInclude>
-    <ClInclude Include="CMappedValue.h">
-      <Filter>SCREEN\ROUTE MAP\PREVIEW</Filter>
-    </ClInclude>
     <ClInclude Include="defineSettings.h">
       <Filter>MAIN\REG SETTING</Filter>
     </ClInclude>
@@ -791,9 +737,6 @@
       <Filter>MAIN\VALUE MON</Filter>
     </ClInclude>
     <ClInclude Include="DefineFilePoolTables.h">
-      <Filter>MAL_PIDDRM related\SQL DATA\DB TABLE DEF</Filter>
-    </ClInclude>
-    <ClInclude Include="DefineLEDTables.h">
       <Filter>MAL_PIDDRM related\SQL DATA\DB TABLE DEF</Filter>
     </ClInclude>
     <ClInclude Include="DefineNormalTables.h">
@@ -914,15 +857,6 @@
       <Filter>SUBCLASS\DELEGATE</Filter>
     </CustomBuild>
     <CustomBuild Include="kvmrt2_media_editor.qrc">
-      <Filter>Resource Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="QGLESLineMapPreview.h">
-      <Filter>SCREEN\ROUTE MAP\PREVIEW</Filter>
-    </CustomBuild>
-    <CustomBuild Include="shaders.qrc">
-      <Filter>Resource Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="textures.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
   </ItemGroup>

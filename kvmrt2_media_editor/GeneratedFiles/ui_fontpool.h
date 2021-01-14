@@ -45,7 +45,7 @@ public:
     {
         if (fontPool->objectName().isEmpty())
             fontPool->setObjectName(QStringLiteral("fontPool"));
-        fontPool->resize(319, 527);
+        fontPool->resize(662, 669);
         verticalLayout_2 = new QVBoxLayout(fontPool);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);

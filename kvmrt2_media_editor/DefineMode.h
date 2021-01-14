@@ -11,7 +11,7 @@ const bool OFFICIAL_RELEASE = true;
 #define INI_FILE_ME_ACCOUNT "meaccount.ini"
 #define INI_FILE_ME_STNINFO "stationinfo.ini"
 
-#define OP_DATA_DB_PATH "C:/PapisProgram/PapisData/OP_DATA_FULL.DB"
+#define OP_DATA_DB_PATH "C:/PapisProgram/PapisData/TOTAL_PAPIS_DATA.DB"
 #define OP_DISPLAY_DB_PATH "C:/PapisProgram/PapisData/OP_DISPLAY_DATA.DB"
 
 //#define USING_DEBUG_WIZARD 

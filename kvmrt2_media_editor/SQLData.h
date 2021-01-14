@@ -122,11 +122,6 @@ enum TYPEDEFINE
 	TYPE_DATA,
 };
 
-#define EDD_DEFAULT_WIDTH		128
-#define EDD_DEFAULT_HEIGHT		32
-#define ETND_DEFAULT_WIDTH		128/4
-#define ETND_DEFAULT_HEIGHT		32
-
 typedef struct _TYPESETTINGS
 {
 	TYPEDEFINE nTYPE;
@@ -329,7 +324,6 @@ public:
 	void SetIndex(int nIndex);
 	int GetIndex();
 	
-	static void SetLEDIndicatorParam(int nEDDWidth, int nEDDHeight, int nETNDWidth, int nETNDHeight);
 	static void GetSelectQuery(TYC *lpStr,int nCount,TYC *pszTableName,TYPESETTINGS *pSettings,int nMember);
 	static void GetCreateQuery(TYC *lpStr,int nCount,TYC *pszTableName,TYPESETTINGS *pSettings,int nMember);
 	static void GetMaxIndexQuery		(TYC *lpStr, int nCount, TYC *pszTableName, TYPESETTINGS *pSettings, int nMember);
@@ -415,16 +409,6 @@ public:
 
 
 	SHARED_PTRC(CTreeInfo) m_pTreeInfo;
-
-protected:
-	static int m_nETNDWidth;
-	static int m_nETNDHeight;
-	static int m_nEDDWidth;
-	static int m_nEDDHeight;
-
-
-	//std::vector<SHARED_PTRC(CSQLData>> m_vSQLData;
-	//std::vector<SHARED_PTRC(CSQLData>> m_vSQLDataDelItems;
 };
 
 
