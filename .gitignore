@@ -464,9 +464,9 @@ MigrationBackup/
 
 #ignored folder - jkc
 Win32/
-kvmrt2_media_editor/Debug
-kvmrt2_media_editor/File
-kvmrt2_media_editor/GeneratedFiles
-kvmrt2_media_editor/Release
-kvmrt2_media_editor.VC.VC.opendb
-kvmrt2_media_editor.VC
+MediaEditor/Debug
+MediaEditor/File
+MediaEditor/GeneratedFiles
+MediaEditor/Release
+MediaEditor.VC.VC.opendb
+MediaEditor.VC

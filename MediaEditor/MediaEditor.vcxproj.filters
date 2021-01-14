@@ -1,0 +1,857 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{c846d334-383a-4a09-a7c4-29f80e74159f}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{a42380e8-b237-4c97-88ba-df9a00934003}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="FIEL POOL">
+      <UniqueIdentifier>{499d475f-f95a-464f-b56f-c6285e2e8a65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FIEL POOL\BITMAP PREVIEW">
+      <UniqueIdentifier>{e8b328fc-5a1c-4efc-8e09-6e5957de92db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MANAGER">
+      <UniqueIdentifier>{315f646c-41db-4281-8b6a-d571738a6111}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MAIN">
+      <UniqueIdentifier>{141d43b0-504e-4066-b79d-42f835422bce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="REFER">
+      <UniqueIdentifier>{258c0df0-cd17-413a-8499-a0d4b0f8224a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="REFER\Zip">
+      <UniqueIdentifier>{b09c281d-a54a-42c0-89bb-698186f7efe3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="REFER\WaveContentate">
+      <UniqueIdentifier>{0e927354-7601-4095-872e-8e4a1aef740f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="REFER\Ini">
+      <UniqueIdentifier>{509a51fe-8569-4be4-bb6c-8c0d1c63c580}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="REFER\Choreograph">
+      <UniqueIdentifier>{7b5cfad1-3525-4a0e-9f2e-2de18a53fa92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="REFER\BinPackedAlgorithm">
+      <UniqueIdentifier>{ea7f9bf0-0844-40e3-8a04-4bfb9061bad5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="REFER\MSSettingStorage">
+      <UniqueIdentifier>{cfa5d078-92f4-42f4-98d6-15885c61c7e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SUBCLASS">
+      <UniqueIdentifier>{76116fe8-3830-4b04-adb3-a663f065c08b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SUBCLASS\MODEL">
+      <UniqueIdentifier>{019b00b4-1e00-4539-a81f-8dd1658c6dec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SUBCLASS\DELEGATE">
+      <UniqueIdentifier>{456ba7f9-7238-4160-8a14-b636dda3895e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SUBCLASS\WIDGET">
+      <UniqueIdentifier>{82733384-3d7a-465a-aaa8-73fc70fa241c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MAIN\REG SETTING">
+      <UniqueIdentifier>{978493de-b54f-488c-891c-565a18af6903}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MAIN\VALUE MON">
+      <UniqueIdentifier>{fdc2b1b6-b3f7-4d9b-a412-6499cf7bdca9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SCREEN">
+      <UniqueIdentifier>{2156751c-d686-46a9-b72b-25875cd77fff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SCREEN\NORMAL DISPLAY">
+      <UniqueIdentifier>{72e170fc-f826-48c3-8f4c-7103dc06f58f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SCREEN\NORMAL DISPLAY\DISP ITEM PROP">
+      <UniqueIdentifier>{c2a685aa-b807-46ac-8bbc-2ba9d6d467e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SCREEN\ROUTE MAP">
+      <UniqueIdentifier>{c59b2208-240b-4cf3-af38-be9916aa0350}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SCREEN\ROUTE MAP\NODE PROP">
+      <UniqueIdentifier>{f2c9b5b8-e4f5-4cf7-ba72-90177219300e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SCREEN\ROUTE MAP\QGLESLineMapCanvas">
+      <UniqueIdentifier>{a982b778-3fbb-4920-ae3a-4e3bfb78501b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SCREEN\MOLLA">
+      <UniqueIdentifier>{e9510e76-2e54-4a32-aa3d-b2dd3b20e0b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SCREEN\MOLLA\TextureInformation">
+      <UniqueIdentifier>{9f65d0e4-f7a1-4b5f-99ec-3be2e21d1e79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SCREEN\MOLLA\TexturePool">
+      <UniqueIdentifier>{210584af-67bf-4e58-abab-b8688f8f2f02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SCREEN\MOLLA\QTimeEvent">
+      <UniqueIdentifier>{4c2bdc55-80a9-496e-9817-41b3234eefa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SCREEN\MOLLA\CFontScaler">
+      <UniqueIdentifier>{e5eb79b8-cfc0-4dec-a554-458f55b689bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="MAL_PIDDRM related">
+      <UniqueIdentifier>{7d5ce2f9-62b2-4689-8b8f-98744a5c486e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MAIN\User Manager">
+      <UniqueIdentifier>{1c8570a5-f3d6-4bc1-ae79-5daa04be802d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SCREEN\ROUTE MAP\LINK PROP %28NEW%29">
+      <UniqueIdentifier>{b2e380de-7492-42ef-afec-8b1f383b4a05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui">
+      <UniqueIdentifier>{534adc4d-b4fd-4743-b096-56dffe2bc3de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\file_pool">
+      <UniqueIdentifier>{04026029-5b2f-4328-8ec1-137a97fe51ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\first_login">
+      <UniqueIdentifier>{9037c311-e868-45b7-ad4f-2aab2011a21d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\db_ver_setting">
+      <UniqueIdentifier>{5a17769f-990b-45c6-9853-1ec0fa5a0ed1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\image_list">
+      <UniqueIdentifier>{e286de9b-c6ff-4cd6-ae9d-c38612fcd065}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\display_pool">
+      <UniqueIdentifier>{d00ca160-3581-4355-86af-2c58f06c99e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\user_info">
+      <UniqueIdentifier>{72139599-a5d3-411f-9254-9596d5a40ed2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui\route_map_pool">
+      <UniqueIdentifier>{cdb7a554-1d06-46e2-99c1-f7f59577e4ea}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BinPacked\MaxRectsPixelBuffer.cpp">
+      <Filter>REFER\BinPackedAlgorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="BinPacked\Rect.cpp">
+      <Filter>REFER\BinPackedAlgorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="BinPacked\Matrices.cpp">
+      <Filter>REFER\BinPackedAlgorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="BinPacked\MaxRectsBinPack.cpp">
+      <Filter>REFER\BinPackedAlgorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureInformation\CTextureInfo.cpp">
+      <Filter>SCREEN\MOLLA\TextureInformation</Filter>
+    </ClCompile>
+    <ClCompile Include="Choreograph\Cue.cpp">
+      <Filter>REFER\Choreograph</Filter>
+    </ClCompile>
+    <ClCompile Include="Choreograph\Timeline.cpp">
+      <Filter>REFER\Choreograph</Filter>
+    </ClCompile>
+    <ClCompile Include="Choreograph\TimelineItem.cpp">
+      <Filter>REFER\Choreograph</Filter>
+    </ClCompile>
+    <ClCompile Include="Ini.cpp">
+      <Filter>REFER\Ini</Filter>
+    </ClCompile>
+    <ClCompile Include="WaveConcentate\Wave.cpp">
+      <Filter>REFER\WaveContentate</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_QTextAligner.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_QTextAligner.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_dataModel.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_QGLESCanvas.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_QTimeEvent.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_QGLESCanvas.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_QTimeEvent.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_dataModel.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_MediaEditor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_MediaEditor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="XZip.cpp">
+      <Filter>REFER\Zip</Filter>
+    </ClCompile>
+    <ClCompile Include="XUnzip.cpp">
+      <Filter>REFER\Zip</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_StationImagePool.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_StationImagePool.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_QSFMLCanvas.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_QSFMLCanvas.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_qpideditor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_qpideditor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_bitmapimagepool.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_bitmapimagepool.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="QTimeEvent.cpp">
+      <Filter>SCREEN\MOLLA\QTimeEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_editDisplayItemPool.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_editDisplayItemPool.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_qindexcombobox.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_qindexcombobox.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_editDisplayMetaItem.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_editDisplayMetaItem.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="bitmapimagepool.cpp">
+      <Filter>FIEL POOL</Filter>
+    </ClCompile>
+    <ClCompile Include="contentsPool.cpp">
+      <Filter>FIEL POOL</Filter>
+    </ClCompile>
+    <ClCompile Include="DataManage.cpp">
+      <Filter>MANAGER</Filter>
+    </ClCompile>
+    <ClCompile Include="comboBoxDelegate.cpp">
+      <Filter>SUBCLASS\DELEGATE</Filter>
+    </ClCompile>
+    <ClCompile Include="fontPool.cpp">
+      <Filter>FIEL POOL</Filter>
+    </ClCompile>
+    <ClCompile Include="dataModel.cpp">
+      <Filter>SUBCLASS\MODEL</Filter>
+    </ClCompile>
+    <ClCompile Include="imagelistpool.cpp">
+      <Filter>FIEL POOL</Filter>
+    </ClCompile>
+    <ClCompile Include="linemappooledit.cpp">
+      <Filter>SCREEN\ROUTE MAP</Filter>
+    </ClCompile>
+    <ClCompile Include="linemappreset.cpp">
+      <Filter>SCREEN\ROUTE MAP</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>MAIN</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaEditor.cpp">
+      <Filter>MAIN</Filter>
+    </ClCompile>
+    <ClCompile Include="qcolorpickerpushbutton.cpp">
+      <Filter>SUBCLASS\WIDGET</Filter>
+    </ClCompile>
+    <ClCompile Include="MapManage.cpp">
+      <Filter>MANAGER</Filter>
+    </ClCompile>
+    <ClCompile Include="qindexcombobox.cpp">
+      <Filter>SUBCLASS\WIDGET</Filter>
+    </ClCompile>
+    <ClCompile Include="qintcheckbox.cpp">
+      <Filter>SUBCLASS\WIDGET</Filter>
+    </ClCompile>
+    <ClCompile Include="VECDelegate.cpp">
+      <Filter>SUBCLASS\DELEGATE</Filter>
+    </ClCompile>
+    <ClCompile Include="tiledelegate.cpp">
+      <Filter>SUBCLASS\DELEGATE</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMapSupport.cpp">
+      <Filter>SCREEN\ROUTE MAP</Filter>
+    </ClCompile>
+    <ClCompile Include="QLineMapEdit.cpp">
+      <Filter>SCREEN\ROUTE MAP</Filter>
+    </ClCompile>
+    <ClCompile Include="qpositionbox.cpp">
+      <Filter>SUBCLASS\WIDGET</Filter>
+    </ClCompile>
+    <ClCompile Include="scrollingmapcanvas.cpp">
+      <Filter>SUBCLASS\WIDGET</Filter>
+    </ClCompile>
+    <ClCompile Include="StationImagePool.cpp">
+      <Filter>FIEL POOL</Filter>
+    </ClCompile>
+    <ClCompile Include="stringscaler.cpp">
+      <Filter>SCREEN\MOLLA\CFontScaler</Filter>
+    </ClCompile>
+    <ClCompile Include="QTextAligner.cpp">
+      <Filter>FIEL POOL\BITMAP PREVIEW</Filter>
+    </ClCompile>
+    <ClCompile Include="QSFMLCanvas.cpp">
+      <Filter>FIEL POOL\BITMAP PREVIEW</Filter>
+    </ClCompile>
+    <ClCompile Include="SQLDelegate.cpp">
+      <Filter>SUBCLASS\DELEGATE</Filter>
+    </ClCompile>
+    <ClCompile Include="TexPool.cpp">
+      <Filter>SCREEN\MOLLA\TexturePool</Filter>
+    </ClCompile>
+    <ClCompile Include="QGLESLineMapCanvas2.cpp">
+      <Filter>SCREEN\ROUTE MAP\QGLESLineMapCanvas</Filter>
+    </ClCompile>
+    <ClCompile Include="QGLESLineMapCanvas.cpp">
+      <Filter>SCREEN\ROUTE MAP\QGLESLineMapCanvas</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_QGLESLineMapCanvas.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_QGLESLineMapCanvas.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="displayItemPropEdit.cpp">
+      <Filter>SCREEN\NORMAL DISPLAY\DISP ITEM PROP</Filter>
+    </ClCompile>
+    <ClCompile Include="editDisplayMetaItem.cpp">
+      <Filter>SCREEN\NORMAL DISPLAY\DISP ITEM PROP</Filter>
+    </ClCompile>
+    <ClCompile Include="editordelegate.cpp">
+      <Filter>SUBCLASS\DELEGATE</Filter>
+    </ClCompile>
+    <ClCompile Include="registrysettings.cpp">
+      <Filter>MAIN\REG SETTING</Filter>
+    </ClCompile>
+    <ClCompile Include="ValueMonitor.cpp">
+      <Filter>MAIN\VALUE MON</Filter>
+    </ClCompile>
+    <ClCompile Include="displayItemPreset.cpp">
+      <Filter>SCREEN\NORMAL DISPLAY</Filter>
+    </ClCompile>
+    <ClCompile Include="editDisplayItemPool.cpp">
+      <Filter>SCREEN\NORMAL DISPLAY</Filter>
+    </ClCompile>
+    <ClCompile Include="QGLESCanvas.cpp">
+      <Filter>SCREEN\NORMAL DISPLAY</Filter>
+    </ClCompile>
+    <ClCompile Include="qpideditor.cpp">
+      <Filter>SCREEN\NORMAL DISPLAY</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_registrysettings.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_registrysettings.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_contentsPool.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_contentsPool.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_fontPool.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_fontPool.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_SQLDelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_SQLDelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_imagelistpool.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_imagelistpool.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_QLineMapEdit.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_QLineMapEdit.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_nodepropertydlg.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_nodepropertydlg.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="nodepropertydlg.cpp">
+      <Filter>SCREEN\ROUTE MAP\NODE PROP</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_displayItemPreset.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_displayItemPreset.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_editordelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_editordelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_MediaEditor.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AccountManage\userinfowidget.cpp">
+      <Filter>MAIN\User Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="IniFileManager.cpp">
+      <Filter>MAIN\User Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="AccountManage\logindialog.cpp">
+      <Filter>MAIN\User Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="AccountManage\changepassworddialog.cpp">
+      <Filter>MAIN\User Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="routemaplineproperty.cpp">
+      <Filter>SCREEN\ROUTE MAP\LINK PROP %28NEW%29</Filter>
+    </ClCompile>
+    <ClCompile Include="shared_MAL_PIDDRM\DefineDisplayTables.cpp">
+      <Filter>MAL_PIDDRM related</Filter>
+    </ClCompile>
+    <ClCompile Include="shared_MAL_PIDDRM\DefineFilePoolTables.cpp">
+      <Filter>MAL_PIDDRM related</Filter>
+    </ClCompile>
+    <ClCompile Include="shared_MAL_PIDDRM\DefineLinemapTables.cpp">
+      <Filter>MAL_PIDDRM related</Filter>
+    </ClCompile>
+    <ClCompile Include="shared_MAL_PIDDRM\DefineNormalTables.cpp">
+      <Filter>MAL_PIDDRM related</Filter>
+    </ClCompile>
+    <ClCompile Include="shared_MAL_PIDDRM\DefineTables.cpp">
+      <Filter>MAL_PIDDRM related</Filter>
+    </ClCompile>
+    <ClCompile Include="shared_MAL_PIDDRM\SQLData.cpp">
+      <Filter>MAL_PIDDRM related</Filter>
+    </ClCompile>
+    <ClCompile Include="shared_MAL_PIDDRM\TableManage.cpp">
+      <Filter>MAL_PIDDRM related</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="linemappooledit.h">
+      <Filter>SCREEN\ROUTE MAP</Filter>
+    </QtMoc>
+    <QtMoc Include="linemappreset.h">
+      <Filter>SCREEN\ROUTE MAP</Filter>
+    </QtMoc>
+    <QtMoc Include="VECDelegate.h">
+      <Filter>SUBCLASS\DELEGATE</Filter>
+    </QtMoc>
+    <QtMoc Include="tiledelegate.h">
+      <Filter>SUBCLASS\DELEGATE</Filter>
+    </QtMoc>
+    <QtMoc Include="comboBoxDelegate.h">
+      <Filter>SUBCLASS\DELEGATE</Filter>
+    </QtMoc>
+    <QtMoc Include="qcolorpickerpushbutton.h">
+      <Filter>SUBCLASS\WIDGET</Filter>
+    </QtMoc>
+    <QtMoc Include="qpositionbox.h">
+      <Filter>SUBCLASS\WIDGET</Filter>
+    </QtMoc>
+    <QtMoc Include="qintcheckbox.h">
+      <Filter>SUBCLASS\WIDGET</Filter>
+    </QtMoc>
+    <QtMoc Include="scrollingmapcanvas.h">
+      <Filter>SUBCLASS\WIDGET</Filter>
+    </QtMoc>
+    <QtMoc Include="displayItemPropEdit.h">
+      <Filter>SCREEN\NORMAL DISPLAY\DISP ITEM PROP</Filter>
+    </QtMoc>
+    <QtMoc Include="AccountManage\userinfowidget.h">
+      <Filter>MAIN\User Manager</Filter>
+    </QtMoc>
+    <QtMoc Include="AccountManage\logindialog.h">
+      <Filter>MAIN\User Manager</Filter>
+    </QtMoc>
+    <QtMoc Include="IniFileManager.h">
+      <Filter>MAIN\User Manager</Filter>
+    </QtMoc>
+    <QtMoc Include="AccountManage\changepassworddialog.h">
+      <Filter>MAIN\User Manager</Filter>
+    </QtMoc>
+    <QtMoc Include="routemaplineproperty.h">
+      <Filter>SCREEN\ROUTE MAP\LINK PROP %28NEW%29</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="bitmapimagepool.ui">
+      <Filter>ui\file_pool</Filter>
+    </QtUic>
+    <QtUic Include="fontpool.ui">
+      <Filter>ui\file_pool</Filter>
+    </QtUic>
+    <QtUic Include="StationImagePool.ui">
+      <Filter>ui\file_pool</Filter>
+    </QtUic>
+    <QtUic Include="contentsPool.ui">
+      <Filter>ui\file_pool</Filter>
+    </QtUic>
+    <QtUic Include="AccountManage\logindialog.ui">
+      <Filter>ui\first_login</Filter>
+    </QtUic>
+    <QtUic Include="registrysettings.ui">
+      <Filter>ui\db_ver_setting</Filter>
+    </QtUic>
+    <QtUic Include="imagelistpool.ui">
+      <Filter>ui\image_list</Filter>
+    </QtUic>
+    <QtUic Include="AccountManage\changepassworddialog.ui">
+      <Filter>ui\user_info</Filter>
+    </QtUic>
+    <QtUic Include="AccountManage\userinfowidget.ui">
+      <Filter>ui\user_info</Filter>
+    </QtUic>
+    <QtUic Include="editDisplayItemPool.ui">
+      <Filter>ui\display_pool</Filter>
+    </QtUic>
+    <QtUic Include="qpideditor.ui">
+      <Filter>ui\display_pool</Filter>
+    </QtUic>
+    <QtUic Include="displayItemPreset.ui">
+      <Filter>ui\display_pool</Filter>
+    </QtUic>
+    <QtUic Include="displayItemPropEdit.ui">
+      <Filter>ui\display_pool</Filter>
+    </QtUic>
+    <QtUic Include="editDisplayMetaItem.ui">
+      <Filter>ui\display_pool</Filter>
+    </QtUic>
+    <QtUic Include="linemappooledit.ui">
+      <Filter>ui\route_map_pool</Filter>
+    </QtUic>
+    <QtUic Include="linemappreset.ui">
+      <Filter>ui\route_map_pool</Filter>
+    </QtUic>
+    <QtUic Include="QLineMapEdit.ui">
+      <Filter>ui\user_info</Filter>
+    </QtUic>
+    <QtUic Include="nodepropertydlg.ui">
+      <Filter>ui\user_info</Filter>
+    </QtUic>
+    <QtUic Include="routemaplineproperty.ui">
+      <Filter>ui\route_map_pool</Filter>
+    </QtUic>
+    <QtUic Include="MediaEditor.ui">
+      <Filter>ui</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BinPacked\MaxRectsBinPack.h">
+      <Filter>REFER\BinPackedAlgorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="BinPacked\MaxRectsPixelBuffer.h">
+      <Filter>REFER\BinPackedAlgorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="BinPacked\Rect.h">
+      <Filter>REFER\BinPackedAlgorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="BinPacked\Matrices.h">
+      <Filter>REFER\BinPackedAlgorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="BinPacked\Vectors.h">
+      <Filter>REFER\BinPackedAlgorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureInformation\CTextureInfo.h">
+      <Filter>SCREEN\MOLLA\TextureInformation</Filter>
+    </ClInclude>
+    <ClInclude Include="TexPool.h">
+      <Filter>SCREEN\MOLLA\TexturePool</Filter>
+    </ClInclude>
+    <ClInclude Include="Choreograph\specialization\CinderSpecialization.hpp">
+      <Filter>REFER\Choreograph</Filter>
+    </ClInclude>
+    <ClInclude Include="Choreograph\Choreograph.h">
+      <Filter>REFER\Choreograph</Filter>
+    </ClInclude>
+    <ClInclude Include="Choreograph\Cue.h">
+      <Filter>REFER\Choreograph</Filter>
+    </ClInclude>
+    <ClInclude Include="Choreograph\Easing.h">
+      <Filter>REFER\Choreograph</Filter>
+    </ClInclude>
+    <ClInclude Include="Choreograph\Motion.hpp">
+      <Filter>REFER\Choreograph</Filter>
+    </ClInclude>
+    <ClInclude Include="Choreograph\Output.hpp">
+      <Filter>REFER\Choreograph</Filter>
+    </ClInclude>
+    <ClInclude Include="Choreograph\Phrase.hpp">
+      <Filter>REFER\Choreograph</Filter>
+    </ClInclude>
+    <ClInclude Include="Choreograph\Sequence.hpp">
+      <Filter>REFER\Choreograph</Filter>
+    </ClInclude>
+    <ClInclude Include="Choreograph\Timeline.h">
+      <Filter>REFER\Choreograph</Filter>
+    </ClInclude>
+    <ClInclude Include="Choreograph\TimelineItem.h">
+      <Filter>REFER\Choreograph</Filter>
+    </ClInclude>
+    <ClInclude Include="Choreograph\TimelineOptions.hpp">
+      <Filter>REFER\Choreograph</Filter>
+    </ClInclude>
+    <ClInclude Include="Choreograph\TimeType.h">
+      <Filter>REFER\Choreograph</Filter>
+    </ClInclude>
+    <ClInclude Include="Choreograph\detail\MakeUnique.hpp">
+      <Filter>REFER\Choreograph</Filter>
+    </ClInclude>
+    <ClInclude Include="Choreograph\detail\VectorManipulation.hpp">
+      <Filter>REFER\Choreograph</Filter>
+    </ClInclude>
+    <ClInclude Include="Choreograph\phrase\Combine.hpp">
+      <Filter>REFER\Choreograph</Filter>
+    </ClInclude>
+    <ClInclude Include="Choreograph\phrase\Hold.hpp">
+      <Filter>REFER\Choreograph</Filter>
+    </ClInclude>
+    <ClInclude Include="Choreograph\phrase\Procedural.hpp">
+      <Filter>REFER\Choreograph</Filter>
+    </ClInclude>
+    <ClInclude Include="Choreograph\phrase\Ramp.hpp">
+      <Filter>REFER\Choreograph</Filter>
+    </ClInclude>
+    <ClInclude Include="Choreograph\phrase\Retime.hpp">
+      <Filter>REFER\Choreograph</Filter>
+    </ClInclude>
+    <ClInclude Include="Choreograph\phrase\Sugar.hpp">
+      <Filter>REFER\Choreograph</Filter>
+    </ClInclude>
+    <ClInclude Include="Ini.h">
+      <Filter>REFER\Ini</Filter>
+    </ClInclude>
+    <ClInclude Include="WaveConcentate\Wave.h">
+      <Filter>REFER\WaveContentate</Filter>
+    </ClInclude>
+    <ClInclude Include="XZip.h">
+      <Filter>REFER\Zip</Filter>
+    </ClInclude>
+    <ClInclude Include="XUnzip.h">
+      <Filter>REFER\Zip</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManage.h">
+      <Filter>MANAGER</Filter>
+    </ClInclude>
+    <ClInclude Include="defineTileMap.h">
+      <Filter>SCREEN\ROUTE MAP</Filter>
+    </ClInclude>
+    <ClInclude Include="MSettingsStorage.h">
+      <Filter>REFER\MSSettingStorage</Filter>
+    </ClInclude>
+    <ClInclude Include="MSettingsStorageIniFile.h">
+      <Filter>REFER\MSSettingStorage</Filter>
+    </ClInclude>
+    <ClInclude Include="MSettingsStorageRegistry.h">
+      <Filter>REFER\MSSettingStorage</Filter>
+    </ClInclude>
+    <ClInclude Include="stringscaler.h">
+      <Filter>SCREEN\MOLLA\CFontScaler</Filter>
+    </ClInclude>
+    <ClInclude Include="MapManage.h">
+      <Filter>MANAGER</Filter>
+    </ClInclude>
+    <ClInclude Include="tableViewHelper.h">
+      <Filter>MAIN</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMapSupport.h">
+      <Filter>SCREEN\ROUTE MAP</Filter>
+    </ClInclude>
+    <ClInclude Include="defineSettings.h">
+      <Filter>MAIN\REG SETTING</Filter>
+    </ClInclude>
+    <ClInclude Include="ValueMonitor.h">
+      <Filter>MAIN\VALUE MON</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_nodepropertydlg.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DefineMode.h">
+      <Filter>MAIN</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sqlite3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shared_MAL_PIDDRM\DefineDisplayTables.h">
+      <Filter>MAL_PIDDRM related</Filter>
+    </ClInclude>
+    <ClInclude Include="shared_MAL_PIDDRM\DefineFilePoolTables.h">
+      <Filter>MAL_PIDDRM related</Filter>
+    </ClInclude>
+    <ClInclude Include="shared_MAL_PIDDRM\DefineLinemapTables.h">
+      <Filter>MAL_PIDDRM related</Filter>
+    </ClInclude>
+    <ClInclude Include="shared_MAL_PIDDRM\DefineNormalTables.h">
+      <Filter>MAL_PIDDRM related</Filter>
+    </ClInclude>
+    <ClInclude Include="shared_MAL_PIDDRM\defineSettings.h">
+      <Filter>MAL_PIDDRM related</Filter>
+    </ClInclude>
+    <ClInclude Include="shared_MAL_PIDDRM\DefineTables.h">
+      <Filter>MAL_PIDDRM related</Filter>
+    </ClInclude>
+    <ClInclude Include="shared_MAL_PIDDRM\SQLData.h">
+      <Filter>MAL_PIDDRM related</Filter>
+    </ClInclude>
+    <ClInclude Include="shared_MAL_PIDDRM\TableManage.h">
+      <Filter>MAL_PIDDRM related</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="freetype.dll">
+      <Filter>REFER</Filter>
+    </None>
+    <None Include="SETTINGS.INI">
+      <Filter>REFER</Filter>
+    </None>
+    <None Include="sqlite3.dll">
+      <Filter>REFER</Filter>
+    </None>
+    <None Include="sqlite3.exp">
+      <Filter>REFER</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="freetype.lib">
+      <Filter>REFER</Filter>
+    </Library>
+    <Library Include="sqlite3.lib">
+      <Filter>REFER</Filter>
+    </Library>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="QTimeEvent.h">
+      <Filter>SCREEN\MOLLA\QTimeEvent</Filter>
+    </CustomBuild>
+    <CustomBuild Include="bitmapimagepool.h">
+      <Filter>FIEL POOL</Filter>
+    </CustomBuild>
+    <CustomBuild Include="dataModel.h">
+      <Filter>SUBCLASS\MODEL</Filter>
+    </CustomBuild>
+    <CustomBuild Include="MediaEditor.h">
+      <Filter>MAIN</Filter>
+    </CustomBuild>
+    <CustomBuild Include="QTextAligner.h">
+      <Filter>FIEL POOL\BITMAP PREVIEW</Filter>
+    </CustomBuild>
+    <CustomBuild Include="QSFMLCanvas.h">
+      <Filter>FIEL POOL\BITMAP PREVIEW</Filter>
+    </CustomBuild>
+    <CustomBuild Include="StationImagePool.h">
+      <Filter>FIEL POOL</Filter>
+    </CustomBuild>
+    <CustomBuild Include="qindexcombobox.h">
+      <Filter>SUBCLASS\WIDGET</Filter>
+    </CustomBuild>
+    <CustomBuild Include="editDisplayMetaItem.h">
+      <Filter>SCREEN\NORMAL DISPLAY\DISP ITEM PROP</Filter>
+    </CustomBuild>
+    <CustomBuild Include="QGLESLineMapCanvas.h">
+      <Filter>SCREEN\ROUTE MAP\QGLESLineMapCanvas</Filter>
+    </CustomBuild>
+    <CustomBuild Include="editDisplayItemPool.h">
+      <Filter>SCREEN\NORMAL DISPLAY</Filter>
+    </CustomBuild>
+    <CustomBuild Include="QGLESCanvas.h">
+      <Filter>SCREEN\NORMAL DISPLAY</Filter>
+    </CustomBuild>
+    <CustomBuild Include="qpideditor.h">
+      <Filter>SCREEN\NORMAL DISPLAY</Filter>
+    </CustomBuild>
+    <CustomBuild Include="registrysettings.h">
+      <Filter>MAIN\REG SETTING</Filter>
+    </CustomBuild>
+    <CustomBuild Include="contentsPool.h">
+      <Filter>FIEL POOL</Filter>
+    </CustomBuild>
+    <CustomBuild Include="fontPool.h">
+      <Filter>FIEL POOL</Filter>
+    </CustomBuild>
+    <CustomBuild Include="SQLDelegate.h">
+      <Filter>SUBCLASS\DELEGATE</Filter>
+    </CustomBuild>
+    <CustomBuild Include="imagelistpool.h">
+      <Filter>FIEL POOL</Filter>
+    </CustomBuild>
+    <CustomBuild Include="QLineMapEdit.h">
+      <Filter>SCREEN\ROUTE MAP</Filter>
+    </CustomBuild>
+    <CustomBuild Include="nodepropertydlg.h">
+      <Filter>SCREEN\ROUTE MAP\NODE PROP</Filter>
+    </CustomBuild>
+    <CustomBuild Include="displayItemPreset.h">
+      <Filter>SCREEN\NORMAL DISPLAY</Filter>
+    </CustomBuild>
+    <CustomBuild Include="editordelegate.h">
+      <Filter>SUBCLASS\DELEGATE</Filter>
+    </CustomBuild>
+    <CustomBuild Include="MediaEditor.qrc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>
