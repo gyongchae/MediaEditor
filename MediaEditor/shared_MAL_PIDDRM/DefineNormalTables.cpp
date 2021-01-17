@@ -112,7 +112,7 @@ DECLARE_STATIC_TYPESETTINGS(AudioStationName, 9) =
 };
 
 DECLARE_STATIC_VARIABLES(AudioPlayList, false, AUDIO_PLAY_LIST, -1, 1, 0)
-DECLARE_STATIC_TYPESETTINGS(AudioPlayList, 22) =
+DECLARE_STATIC_TYPESETTINGS(AudioPlayList, 23) =
 {
 	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),	0,	nullptr,true, false,false, MAKE_T("Table Index"),	100 },
 	{ TYPE_INTEGER,	MAKE_T("TABLE_ORDER"),	0,	nullptr,false,true, false, MAKE_T("Order"),			100 },
@@ -143,6 +143,7 @@ DECLARE_STATIC_TYPESETTINGS(AudioPlayList, 22) =
 	{ TYPE_INTEGER,	MAKE_T("AUDIO_DUR4"),	0,	nullptr,false,false,false, MAKE_T("Duration4"),		100 },
 	
 	{ TYPE_TEXT,	MAKE_T("DESCRIPTION"),	128,nullptr,false,false,false, MAKE_T("Description"),	400 },
+	{ TYPE_TEXT,	MAKE_T("MSG_TYPE_NAME"), 32,nullptr,false,false,false, MAKE_T("Message Type"),	400 },
 };
 
 DECLARE_STATIC_VARIABLES(VideoDeviceGroup, false, VIDEO_DEVICE_GROUP, -1, 1, 0)

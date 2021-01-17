@@ -91,11 +91,16 @@ void ContentsPool::addAudioFilePool(bool bInsert)
 	QString fileName = pDM->audioPath();
 	QStringList filePaths = QFileDialog::getOpenFileNames(this, QString::fromStdWString(L"Find audio files"),
 		pDM->audioPath(), tr("Audio File (*.mp3 *.MP3 *.wav *.WAV)"));
+
+	qDebug() << Q_FUNC_INFO << filePaths.count() << filePaths.size();
+	QString txt;
+
 	if (filePaths.size())
 	{
 		while (filePaths.size())
 		{
-			QString fileNameWithFullPath = filePaths.takeFirst();
+			int durationMS = 0;
+			QString fileNameWithFullPath = filePaths.takeLast();
 			m_audioPlayer->setMedia(QUrl::fromLocalFile(fileNameWithFullPath));
 			
 			QString strSoc, strDes;
@@ -105,23 +110,60 @@ void ContentsPool::addAudioFilePool(bool bInsert)
 			pVFM->insertRows(nRow, 1);
 			index = pVFM->index(nRow, 0);
 			uCRC = CDataManage::CheckCRCFile(strSoc, &nFileSize);
-			pVFM->setData(index.sibling(index.row(), 3), fileName, Qt::EditRole);
-			pVFM->setData(index.sibling(index.row(), 4), uCRC, Qt::EditRole);
-			pVFM->setData(index.sibling(index.row(), 5), nFileSize, Qt::EditRole);
-			//pVFM->setData(index.sibling(index.row(), 7), audioLen, Qt::DisplayRole);
+			pVFM->setData(index.sibling(nRow, 3), fileName, Qt::EditRole);
+			pVFM->setData(index.sibling(nRow, 4), uCRC, Qt::EditRole);
+			pVFM->setData(index.sibling(nRow, 5), nFileSize, Qt::EditRole);
 
 			strDes = pDM->audioPath() + '/' + fileName;
 			bool bRet = QFile::copy(strSoc, strDes);
 			GET_TABLE(AudioFilePool)->setCurrentIndex(index);
 
-			m_audioPlayer->play();
-			int audioLen = m_audioPlayer->duration();
+			// get audio duration using ffprobe.exe
+			// https://ankitshah009.blogspot.com/2018/01/how-to-get-video-or-audio-duration-of.html
+			QProcess process;
+			QStringList args;
+			QString fileFullName = QString("C:/PapisProgram/PapisData/Audio/%1").arg(fileName);
+			QFileInfo fInfo(fileFullName);
 
+			if (fInfo.exists())
+			{
+				args << "-v"
+					<< "error"
+					<< "-show_entries"
+					<< "format=duration"
+					<< "-of"
+					<< "default=noprint_wrappers=1:nokey=1"
+					<< fileFullName;
+
+				process.start(FFPROB_FILE_PATH, args);
+				process.waitForFinished();
+				QString readAll = QString(process.readAllStandardOutput());
+
+				durationMS = readAll.toDouble() * 1000;
+				pVFM->setData(index.sibling(nRow, 7), durationMS, Qt::DisplayRole);
+
+				if (process.exitCode() != 0)
+				{
+					qDebug() << "??????????" << process.errorString();
+				}
+				else
+				{
+					qDebug() << "!!!!!!!!!!!" << process.errorString();
+				}
+			}
+			else
+			{
+				QMessageBox::warning(this, "Warning!", QString("The file does not exist.\n(File Path: %1)").arg(fileFullName));
+			}
+			nRow = pVFM->rowCount();
+			txt.append(QString("[%1] %2, %3\n").arg(nRow).arg(fileName).arg(durationMS));
+			
 			//player->();//m_audioPlayer->stop();
 			//auto *pDM = CDataManage::GetInstance();
 			//QModelIndex index = GET_TABLE(AudioFilePool)->currentIndex();
 
 		}
+		QMessageBox::information(this, "result", txt);
 	}
 }
 
@@ -316,7 +358,7 @@ void ContentsPool::addVideoFilePool(bool bInsert)
 						setCursor(Qt::WaitCursor);
 						strList
 							<< "-i"
-							<< strDes
+							<< strDes 
 							<< "-vf"
 							<< "rotate=PI:bilinear=0,format=yuv420p"
 							<< "-metadata:s:v"

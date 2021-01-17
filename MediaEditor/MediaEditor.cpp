@@ -179,6 +179,14 @@ void MediaEditor::initTables()
 	CALL_INIT_FUNCTION(VideoPlayList);
 	CALL_INIT_FUNCTION(EditorTagTable);
 	// !CALL_INIT_FUNCTION
+
+	// splitter stretch
+	ui.splitTab2->setStretchFactor(0, 2);
+	ui.splitTab2->setStretchFactor(1, 1);
+	ui.splitTab3->setStretchFactor(0, 2);
+	ui.splitTab3->setStretchFactor(1, 1);
+	ui.splitTab4->setStretchFactor(0, 1);
+	ui.splitTab4->setStretchFactor(1, 2);
 }
 
 void MediaEditor::initActions()
@@ -1118,6 +1126,7 @@ void MediaEditor::onAudioSyncDuration()
 	{
 		QModelIndex index = GET_TABLE(AudioPlayList)->model()->index(i, 0);
 		int msgID = index.sibling(index.row(), 2/*message id*/).data().toInt();
+		QString msgType = "";// index.sibling(index.row(), 22/*msg type*/).data().toString();
 		QString desc = index.sibling(index.row(), 21/*desc*/).data().toString().simplified();
 		qDebug() << msgID << desc;
 		int duration =
@@ -1132,9 +1141,10 @@ void MediaEditor::onAudioSyncDuration()
 
 		audioListInfo st = { 0 };
 		st.id = msgID;
+		st.msgType = msgType;
 		st.desc = desc;
 		st.duration = duration;
-
+		
 		iniMan->addAudioListInfo(st);
 	} // for (int i = 0; i < totalAudioListRows; i++)
 	iniMan->createPaInfoIni();
@@ -1901,6 +1911,8 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, StationDistance)
 
 	QHeaderView *header = GET_TABLE(StationDistance)->horizontalHeader();
 	header->resizeSections(QHeaderView::ResizeToContents);
+	header->resizeSection(1, 200);
+	header->resizeSection(2, 200);
 	header->setStretchLastSection(true);
 
 
@@ -1933,6 +1945,8 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, StopPtnHeader)
 
 	QHeaderView *header = GET_TABLE(StopPtnHeader)->horizontalHeader();
 	header->resizeSections(QHeaderView::ResizeToContents);
+	header->resizeSection(1, 200);
+	header->resizeSection(2, 200);
 
 	connect(GET_TABLE(StopPtnHeader), SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(showContextMenu(const QPoint &)));
 	CONNECT_ROW_CHAHANGED_SLOT(StopPtnHeader, updateStopPtnRoutes(const QModelIndex &, const QModelIndex &));
@@ -2003,6 +2017,7 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, PIDIndexList)
 
 	QHeaderView *header = GET_TABLE(PIDIndexList)->horizontalHeader();
 	header->resizeSections(QHeaderView::ResizeToContents);
+	header->setStretchLastSection(true);
 
 	return false;
 }
@@ -2025,7 +2040,8 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, EditorTagTable)
 	spbox->setMinimum(0);
 	GET_TABLE(EditorTagTable)->setItemDelegateForColumn(4, new QItemDelegate(spbox));
 	QHeaderView *header = GET_TABLE(EditorTagTable)->horizontalHeader();
-	//header->resizeSections(QHeaderView::ResizeToContents);
+	header->resizeSections(QHeaderView::ResizeToContents);
+	header->resizeSection(2, 200);
 
 	return false;
 }
@@ -2102,6 +2118,7 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, AudioPlayList)
 	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(12, new SQLDelegate(SQLDelegate::AUDIO_FILE_IDX_TYPE, this, &pTM->VECTOR_CLASS(AudioFilePool), 3, 3, TYPE_TEXT));
 	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(15, new SQLDelegate(SQLDelegate::AUDIO_FILE_IDX_TYPE, this, &pTM->VECTOR_CLASS(AudioFilePool), 3, 3, TYPE_TEXT));
 	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(18, new SQLDelegate(SQLDelegate::AUDIO_FILE_IDX_TYPE, this, &pTM->VECTOR_CLASS(AudioFilePool), 3, 3, TYPE_TEXT));
+	//GET_TABLE(AudioPlayList)->setItemDelegateForColumn(22, new comboBoxDelegate(this, &pMM->m_mAudioMsgType)); // msg type
 
 	SET_SELECTION_BEHAVIOR(AudioPlayList, QAbstractItemView::SelectRows);
 	SET_SELECTION_MODE(AudioPlayList, QAbstractItemView::SingleSelection);

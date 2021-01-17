@@ -113,6 +113,7 @@ void IniFileManager::createPaInfoIni()
 	{
 		settings.setArrayIndex(index++);
 		settings.setValue("id", a.id);
+		settings.setValue("msgType", a.msgType);
 		settings.setValue("desc", a.desc);
 		settings.setValue("duration", a.duration);
 	}
@@ -158,7 +159,8 @@ void IniFileManager::readAudioListInfoIni()
 	for (int i = 0; i < size; i++)
 	{
 		settings.setArrayIndex(i);
-		qDebug() << settings.value("id").toInt() 
+		qDebug() << settings.value("id").toInt()
+			<< settings.value("msgType").toString()
 			<< settings.value("desc").toString() 
 			<< settings.value("duration").toInt();
 	}

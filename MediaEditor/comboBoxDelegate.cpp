@@ -61,9 +61,11 @@ void comboBoxDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, 
 {
 	QComboBox *comboBox;
 	unsigned int  nValue,nCurValue;
-	nValue=index.model()->data(index,Qt::DisplayRole).toUInt();
+	//nValue = index.model()->data(index, Qt::DisplayRole).toUInt();
+	nValue=index.model()->data(index).toInt();
 	comboBox=qobject_cast<QComboBox*>(editor);
-	nValue=comboBox->currentIndex();
+	nValue = comboBox->currentData().toInt();
+	//nValue=comboBox->currentIndex();
 	model->setData(index,nValue);
 		
 }

@@ -224,7 +224,7 @@ DECLARE_EDITOR_CLASS(AudioStationName);
 // AudioPlayList
 BEGIN_CLASS_FROM_SQLDATA(AudioPlayList, , );
 COMMON_VAL_FOR_SQLDATA;
-DECLARE_TYPESETTINGS(22);
+DECLARE_TYPESETTINGS(23);
 DECLARE_COMMON_FUNCTIONS OVERRIDE_DUMMY_EDITOR_FUNC;
 BEGIN_MAPPING_MEMBERS
 m_tSettings[0].POINTER = (void*)(&m_nTableIndex);
@@ -249,6 +249,7 @@ m_tSettings[18].POINTER = (void*)(&nFileIdx4);
 m_tSettings[19].POINTER = (void*)(szFileName4);
 m_tSettings[20].POINTER = (void*)(&nFileDur4);
 m_tSettings[21].POINTER = (void*)(szDesc);
+m_tSettings[22].POINTER = (void*)(szMsgType);
 END_MAPPING_MEMBERS
 int nOrder{ 1 };
 int nMsgID{ 0 };
@@ -271,6 +272,7 @@ TYC szFileName2[128]{ 0 };
 TYC szFileName3[128]{ 0 };
 TYC szFileName4[128]{ 0 };
 TYC szDesc[128]{ 0 };
+TYC szMsgType[32]{ 0 };
 END_CLASS_FROM_SQLDATA
 DECLARE_EDITOR_CLASS(AudioPlayList);
 // !AudioPlayList

@@ -28,6 +28,7 @@ const bool OFFICIAL_RELEASE = true;
 #else
 #define FFMPEG_FILE_PATH "C:/PapisProgram/MediaEditor/ffmpeg32/ffmpeg.exe"
 #define FFPLAY_FILE_PATH "C:/PapisProgram/MediaEditor/ffmpeg32/ffplay.exe"
+#define FFPROB_FILE_PATH "C:/PapisProgram/MediaEditor/ffmpeg32/ffprobe.exe"
 #endif // 
 
 
