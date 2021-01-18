@@ -2398,6 +2398,7 @@ bool MediaEditor::copyDB()
 		"AUDIO_FILE4	TEXT(128), "
 		"AUDIO_DUR4	INTEGER,   "
 		"DESCRIPTION	TEXT(128), "
+		"MSG_TYPE_NAME TEXT(32),"
 		"PRIMARY KEY(TABLE_INDEX)); ").arg(copiedDB));
 
 	query.exec(QString("CREATE TABLE %1.AUDIO_STATION_NAME ( "
