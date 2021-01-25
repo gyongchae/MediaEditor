@@ -1,14 +1,14 @@
 #include "MapManage.h"
 #include <qdebug.h>
 
-MAPPARAM gImageType[]=
+MAPPARAM gImageType[] =
 {
 	{0,L""},
 	{1,L"Text Pool"},
 	{2,L"Bitmap Pool"},
 };
 
-MAPPARAM gAlignOrigin[]=
+MAPPARAM gAlignOrigin[] =
 {
 	{0,L""},
 	{1,L"LEFT TOP"},
@@ -22,11 +22,11 @@ MAPPARAM gAlignOrigin[]=
 	{9,L"RIGHT BOTTOM"},
 };
 
-wchar_t *g_szDisplayMode[]={L"Paging Mode",L"Scroll Mode"};
-wchar_t *g_szHAlign[]={L"AlignLeft",L"AlignHCenter",L"AlignRight"};
-wchar_t *g_szVAlign[]={L"AlignTop",L"AlignVCenter",L"AlignBottom"};
+wchar_t *g_szDisplayMode[] = { L"Paging Mode",L"Scroll Mode" };
+wchar_t *g_szHAlign[] = { L"AlignLeft",L"AlignHCenter",L"AlignRight" };
+wchar_t *g_szVAlign[] = { L"AlignTop",L"AlignVCenter",L"AlignBottom" };
 
-MAPPARAM gDisplayMode[]=
+MAPPARAM gDisplayMode[] =
 {
 	{0,L"Paging Mode"},
 	{1,L"Scroll Mode"},
@@ -39,14 +39,14 @@ MAPPARAM gDisplayItemType[] =
 };
 
 
-MAPPARAM gVerticalAlign[]=
+MAPPARAM gVerticalAlign[] =
 {
 	{0,L"AlignTop"},
 	{1,L"AlignVCenter"},
 	{2,L"AlignBottom"},
 };
 
-MAPPARAM gHorizontalAlign[]=
+MAPPARAM gHorizontalAlign[] =
 {
 	{0,L"AlignLeft"},
 	{1,L"AlignHCenter"},
@@ -163,7 +163,7 @@ MAPPARAM gVideoGroup[] =
 	{ 3,L"PID 3" },
 };
 
-MAPPARAM gImageIndexListType[] = 
+MAPPARAM gImageIndexListType[] =
 {
 	{ 0, L"Normal" },
 	{ 1, L"Map Video Area" },
@@ -175,6 +175,32 @@ MAPPARAM gBoundType[] =
 	{0, L"North" },
 	{1, L"South"},
 	{2, L"-"},
+};
+
+MAPPARAM gDisplayMsgID[] =
+{
+	{ 0, L"Empty" },
+	{ 1, L"Welcome" },
+	{ 100, L"Next" },
+	{ 200, L"Arrival" },
+	{ 8886, L"Door Open" },
+	{ 8887, L"Door Faulty" },
+	{ 8889, L"Pattern Test" },
+	{ 4000, L"Emergency 1" },
+	{ 4001, L"Emergency 2" },
+	{ 4002, L"Emergency 3" },
+	{ 4003, L"Emergency 4" },
+	{ 4004, L"Emergency 5" },
+	{ 4005, L"Emergency 6" },
+	{ 4006, L"Emergency 7" },
+	{ 4007, L"Emergency 8" },
+	{ 4008, L"Emergency 9" },
+	{ 4009, L"Emergency 10" },
+	{ 4010, L"Emergency 11" },
+	{ 4011, L"Emergency 12" },
+	{ 4012, L"Emergency 13" },
+	{ 4013, L"Emergency 14" },
+	{ 4014, L"Emergency 15" },
 };
 
 CMapManage::CMapManage(void)
@@ -194,47 +220,47 @@ CMapManage *CMapManage::GetInstance()
 
 void CMapManage::InitMaps()
 {
-	for(int i=0;i<(sizeof(gImageType)/sizeof(gImageType[0]));i++)
+	for (int i = 0; i < (sizeof(gImageType) / sizeof(gImageType[0])); i++)
 	{
-		m_mImageType[gImageType[i].nValue]=std::wstring(gImageType[i].szFieldName);
+		m_mImageType[gImageType[i].nValue] = std::wstring(gImageType[i].szFieldName);
 	}
 
-	for(int i=0;i<(sizeof(gAlignOrigin)/sizeof(gAlignOrigin[0]));i++)
+	for (int i = 0; i < (sizeof(gAlignOrigin) / sizeof(gAlignOrigin[0])); i++)
 	{
-		m_mAlignType[gAlignOrigin[i].nValue]=std::wstring(gAlignOrigin[i].szFieldName);
+		m_mAlignType[gAlignOrigin[i].nValue] = std::wstring(gAlignOrigin[i].szFieldName);
 	}
 
-	for(int i=0;i<(sizeof(gVerticalAlign)/sizeof(gVerticalAlign[0]));i++)
+	for (int i = 0; i < (sizeof(gVerticalAlign) / sizeof(gVerticalAlign[0])); i++)
 	{
-		m_mVerticalAlign[gVerticalAlign[i].nValue]=std::wstring(gVerticalAlign[i].szFieldName);
+		m_mVerticalAlign[gVerticalAlign[i].nValue] = std::wstring(gVerticalAlign[i].szFieldName);
 	}
 
-	for(int i=0;i<(sizeof(gHorizontalAlign)/sizeof(gHorizontalAlign[0]));i++)
+	for (int i = 0; i < (sizeof(gHorizontalAlign) / sizeof(gHorizontalAlign[0])); i++)
 	{
-		m_mHorizontalAlign[gHorizontalAlign[i].nValue]=std::wstring(gHorizontalAlign[i].szFieldName);
+		m_mHorizontalAlign[gHorizontalAlign[i].nValue] = std::wstring(gHorizontalAlign[i].szFieldName);
 	}
 
-	for(int i=0;i<(sizeof(gDisplayMode)/sizeof(gDisplayMode[0]));i++)
+	for (int i = 0; i < (sizeof(gDisplayMode) / sizeof(gDisplayMode[0])); i++)
 	{
-		m_mDisplayMode[gDisplayMode[i].nValue]=std::wstring(gDisplayMode[i].szFieldName);
+		m_mDisplayMode[gDisplayMode[i].nValue] = std::wstring(gDisplayMode[i].szFieldName);
 	}
 
-	for (int i = 0; i<(sizeof(gDisplayItemType) / sizeof(gDisplayItemType[0])); i++)
+	for (int i = 0; i < (sizeof(gDisplayItemType) / sizeof(gDisplayItemType[0])); i++)
 	{
 		m_mDisplayItemType[gDisplayItemType[i].nValue] = std::wstring(gDisplayItemType[i].szFieldName);
 	}
 
-	for (int i = 0; i<(sizeof(gTransistionType) / sizeof(gTransistionType[0])); i++)
+	for (int i = 0; i < (sizeof(gTransistionType) / sizeof(gTransistionType[0])); i++)
 	{
 		m_mTransistionType[gTransistionType[i].nValue] = std::wstring(gTransistionType[i].szFieldName);
 	}
 
-	for (int i = 0; i<(sizeof(gDoorOpenDirection) / sizeof(gDoorOpenDirection[0])); i++)
+	for (int i = 0; i < (sizeof(gDoorOpenDirection) / sizeof(gDoorOpenDirection[0])); i++)
 	{
 		m_mDoorOpenDirection[gDoorOpenDirection[i].nValue] = std::wstring(gDoorOpenDirection[i].szFieldName);
 	}
 
-	for (int i = 0; i<(sizeof(gMappingVariables) / sizeof(gMappingVariables[0])); i++)
+	for (int i = 0; i < (sizeof(gMappingVariables) / sizeof(gMappingVariables[0])); i++)
 	{
 		m_mMappingVariables[gMappingVariables[i].nValue] = std::wstring(gMappingVariables[i].szFieldName);
 	}
@@ -249,7 +275,7 @@ void CMapManage::InitMaps()
 		m_mEventTypes[gEventTypes[i].nValue] = std::wstring(gEventTypes[i].szFieldName);
 	}
 
-	for (int i = 0; i<(sizeof(gDevTypes) / sizeof(gDevTypes[0])); i++)
+	for (int i = 0; i < (sizeof(gDevTypes) / sizeof(gDevTypes[0])); i++)
 	{
 		m_mDevTypes[gDevTypes[i].nValue] = std::wstring(gDevTypes[i].szFieldName);
 	}
@@ -293,4 +319,9 @@ void CMapManage::InitMaps()
 	{
 		m_mBoundType[gBoundType[i].nValue] = std::wstring(gBoundType[i].szFieldName);
 	}
+	for (int i = 0; i < (sizeof(gDisplayMsgID) / sizeof(gDisplayMsgID[0])); i++)
+	{
+		m_mDisplayMsgID[gDisplayMsgID[i].nValue] = std::wstring(gDisplayMsgID[i].szFieldName);
+	}
+
 }

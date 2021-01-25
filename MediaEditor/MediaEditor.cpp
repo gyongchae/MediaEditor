@@ -2058,6 +2058,8 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, PIDContents)
 	SET_SELECTION_MODE(PIDContents, QAbstractItemView::SingleSelection);
 	SET_DRAG_AND_DROP_ENABLED(PIDContents);
 
+
+	GET_TABLE(PIDContents)->setItemDelegateForColumn(2, new comboBoxDelegate(this, &pMM->m_mDisplayMsgID));
 	GET_TABLE(PIDContents)->setItemDelegateForColumn(4, new SQLDelegate(this, &pTM->VECTOR_CLASS(StationInformation), 0, 2, TYPE_TEXT));
 	GET_TABLE(PIDContents)->setItemDelegateForColumn(5, new SQLDelegate(this, &pTM->VECTOR_CLASS(StationInformation), 0, 2, TYPE_TEXT));
 
