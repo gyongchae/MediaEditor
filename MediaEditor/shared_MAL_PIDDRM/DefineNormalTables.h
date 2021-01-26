@@ -66,7 +66,7 @@ m_tSettings[7].POINTER = (void*)(&nArrCode);
 END_MAPPING_MEMBERS
 int nDepartStn{ 0 };
 int nArrivalStn{ 0 };
-int nDistance{ 999 };
+int nDistance{ 1500 };
 TYC szDesc[256]{ 0 };
 int nOrder{ 1 };
 int nDepCode{-1};

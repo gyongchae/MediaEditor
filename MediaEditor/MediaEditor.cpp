@@ -131,6 +131,7 @@ void MediaEditor::setHideItemsMainWindow(bool isRelease)
 		SET_HIDE_TABLE_COLUMN(AudioStationName, 1);
 		SET_HIDE_TABLE_COLUMN(AudioStationName, 4);
 		SET_HIDE_TABLE_COLUMN(AudioStationName, 5);
+		SET_HIDE_TABLE_COLUMN(AudioStationName, 6);
 		SET_HIDE_TABLE_COLUMN(AudioStationName, 7);
 		SET_HIDE_TABLE_COLUMN(AudioStationName, 8);
 
@@ -154,11 +155,16 @@ void MediaEditor::setHideItemsMainWindow(bool isRelease)
 
 		SET_HIDE_TABLE_COLUMN(VideoDeviceGroup, 0);
 		SET_HIDE_TABLE_COLUMN(VideoDeviceGroup, 1);
-		SET_HIDE_TABLE_COLUMN(VideoDeviceGroup, 3); // group id (no use)
+		SET_HIDE_TABLE_COLUMN(VideoDeviceGroup, 3); 
+		SET_HIDE_TABLE_COLUMN(VideoDeviceGroup, 4); 
+
 		SET_HIDE_TABLE_COLUMN(VideoPlayList, 0);
 		SET_HIDE_TABLE_COLUMN(VideoPlayList, 1);
+		SET_HIDE_TABLE_COLUMN(VideoPlayList, 2);
 		SET_HIDE_TABLE_COLUMN(VideoPlayList, 4);
+		SET_HIDE_TABLE_COLUMN(VideoPlayList, 5);
 		SET_HIDE_TABLE_COLUMN(VideoPlayList, 6);
+
 		SET_HIDE_TABLE_COLUMN(EditorTagTable, 0);
 		SET_HIDE_TABLE_COLUMN(EditorTagTable, 3);
 	}
@@ -1126,9 +1132,8 @@ void MediaEditor::onAudioSyncDuration()
 	{
 		QModelIndex index = GET_TABLE(AudioPlayList)->model()->index(i, 0);
 		int msgID = index.sibling(index.row(), 2/*message id*/).data().toInt();
-		QString msgType = "";// index.sibling(index.row(), 22/*msg type*/).data().toString();
+		int msgType = index.sibling(index.row(), 22/*msg type*/).data().toInt();
 		QString desc = index.sibling(index.row(), 21/*desc*/).data().toString().simplified();
-		qDebug() << msgID << desc;
 		int duration =
 			(
 				index.sibling(index.row(), 7).data().toInt() // bell duration (ms)
@@ -2085,6 +2090,7 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, AudioStationName)
 
 	QHeaderView *header = GET_TABLE(AudioStationName)->horizontalHeader();
 	header->resizeSections(QHeaderView::ResizeToContents);
+	header->setStretchLastSection(true);
 
 	// audio file column
 	GET_TABLE(AudioStationName)->setItemDelegateForColumn(3, new SQLDelegate(this, &pTM->VECTOR_CLASS(AudioFilePool), 3, 3, TYPE_TEXT));
@@ -2113,6 +2119,7 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, AudioPlayList)
 	//header->resizeSections(QHeaderView::ResizeToContents);
 	header->setStretchLastSection(true);
 
+	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(2, new comboBoxDelegate(this, &pMM->m_mAudioMsgID)); // message type
 	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(4, new comboBoxDelegate(this, &pMM->m_mYesOrNo)); // start bell
 	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(8, new comboBoxDelegate(this, &pMM->m_mYesOrNo)); // with station
 	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(5, new SQLDelegate(SQLDelegate::AUDIO_FILE_IDX_TYPE, this, &pTM->VECTOR_CLASS(AudioFilePool), 3, 3, TYPE_TEXT));
@@ -2120,7 +2127,7 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, AudioPlayList)
 	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(12, new SQLDelegate(SQLDelegate::AUDIO_FILE_IDX_TYPE, this, &pTM->VECTOR_CLASS(AudioFilePool), 3, 3, TYPE_TEXT));
 	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(15, new SQLDelegate(SQLDelegate::AUDIO_FILE_IDX_TYPE, this, &pTM->VECTOR_CLASS(AudioFilePool), 3, 3, TYPE_TEXT));
 	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(18, new SQLDelegate(SQLDelegate::AUDIO_FILE_IDX_TYPE, this, &pTM->VECTOR_CLASS(AudioFilePool), 3, 3, TYPE_TEXT));
-	//GET_TABLE(AudioPlayList)->setItemDelegateForColumn(22, new comboBoxDelegate(this, &pMM->m_mAudioMsgType)); // msg type
+	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(22, new comboBoxDelegate(this, &pMM->m_mSpcEmgType, true)); // msg type
 
 	SET_SELECTION_BEHAVIOR(AudioPlayList, QAbstractItemView::SelectRows);
 	SET_SELECTION_MODE(AudioPlayList, QAbstractItemView::SingleSelection);
@@ -2142,7 +2149,7 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, VideoDeviceGroup)
 	INSTALL_EVENT_FILTER(VideoDeviceGroup);
 	QHeaderView *header = GET_TABLE(VideoDeviceGroup)->horizontalHeader();
 
-	header->resizeSections(QHeaderView::ResizeToContents);
+	header->setStretchLastSection(true);
 
 	GET_TABLE(VideoDeviceGroup)->setItemDelegateForColumn(2, new comboBoxDelegate(this, &pMM->m_mVideoDevice));
 	GET_TABLE(VideoDeviceGroup)->setItemDelegateForColumn(3, new comboBoxDelegate(this, &pMM->m_mVideoGroup));
@@ -2164,7 +2171,7 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, VideoPlayList)
 	INSTALL_EVENT_FILTER(VideoPlayList);
 	QHeaderView *header = GET_TABLE(VideoPlayList)->horizontalHeader();
 
-	header->resizeSections(QHeaderView::ResizeToContents);
+	header->setStretchLastSection(true);
 
 	GET_TABLE(VideoPlayList)->setItemDelegateForColumn(3, new SQLDelegate(this, &pTM->VECTOR_CLASS(VideoFilePool), 3, 3, TYPE_TEXT));
 
@@ -2517,7 +2524,7 @@ bool MediaEditor::copyDB()
 	query.exec(QString("INSERT OR REPLACE INTO %1.STATION_INFORMATION SELECT * FROM STATION_INFORMATION").arg(copiedDB));
 	query.exec(QString("INSERT OR REPLACE INTO %1.STOP_PATTERN_HEADER SELECT * FROM STOP_PATTERN_HEADER").arg(copiedDB));
 	query.exec(QString("INSERT OR REPLACE INTO %1.STOP_PATTERN_ROUTES SELECT * FROM STOP_PATTERN_ROUTES").arg(copiedDB));
-	query.exec(QString("VACUUM"));
+	//query.exec(QString("VACUUM"));
 	query.exec(QString("DETACH '%1'").arg(copiedDB));
 	
 	setCursor(Qt::ArrowCursor);

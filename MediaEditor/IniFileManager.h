@@ -36,7 +36,7 @@ struct audioOpDurInfo
 struct audioListInfo
 {
 	int id;
-	QString msgType;
+	int msgType;
 	QString desc;
 	int duration;
 };

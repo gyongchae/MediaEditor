@@ -1,10 +1,23 @@
 #include "comboBoxDelegate.h"
 #include <qcombobox.h>
 
-comboBoxDelegate::comboBoxDelegate(QObject *parent,std::map<int,std::wstring> *pMap)
-	: QSqlRelationalDelegate(parent),m_pindexString(pMap)
+comboBoxDelegate::comboBoxDelegate(QObject *parent,std::map<int,std::wstring> *pMap, bool bSortByValue)
+	: QSqlRelationalDelegate(parent),m_pMapIdxString(pMap)
 {
+	if (bSortByValue)
+	{
+		std::vector<std::pair<int, std::wstring>> v(m_pMapIdxString->begin(), m_pMapIdxString->end());
+		std::sort(v.begin(), v.end(), compare_pair_second<std::less>());
 	
+		m_vSortByValue.resize(v.size());
+		std::copy(v.begin(), v.end(), m_vSortByValue.begin());
+	}
+	else
+	{
+		std::vector<std::pair<int, std::wstring>> v(m_pMapIdxString->begin(), m_pMapIdxString->end());
+		m_vSortByValue.resize(v.size());
+		std::copy(v.begin(), v.end(), m_vSortByValue.begin());
+	}
 }
 
 comboBoxDelegate::~comboBoxDelegate()
@@ -20,16 +33,40 @@ void comboBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 	unsigned int nValue=index.model()->data(index,Qt::DisplayRole).toUInt();
 	std::map<int,std::wstring>::iterator nit;
 	QStyleOptionViewItem myOption;
-	if(m_pindexString!=nullptr)
+	/*if(m_pMapIdxString!=nullptr)
 	{
-		nit=m_pindexString->find(nValue);
-		if(nit!=m_pindexString->end())
+		nit=m_pMapIdxString->find(nValue);
+		if(nit!=m_pMapIdxString->end())
 		{
 			myOption=option;
 			strText=QString::fromStdWString(nit->second);
-			myOption.displayAlignment=Qt::AlignCenter|Qt::AlignVCenter;
+			myOption.displayAlignment=Qt::AlignCenter;
 			drawDisplay(painter,myOption,myOption.rect,strText);
 			drawFocus(painter,myOption,myOption.rect);
+		}
+	}*/
+
+	if (!m_vSortByValue.empty())
+	{
+		int idx = 0;
+		bool found = false;
+		for (int i = 0; i < m_vSortByValue.size(); i++)
+		{
+			if (m_vSortByValue.at(i).first == nValue)
+			{
+				idx = i;
+				found = true;
+				break;
+			}
+		}
+
+		if (found)
+		{
+			myOption = option;
+			strText = QString::fromStdWString(m_vSortByValue.at(idx).second);
+			myOption.displayAlignment = Qt::AlignCenter;
+			drawDisplay(painter, myOption, myOption.rect, strText);
+			drawFocus(painter, myOption, myOption.rect);
 		}
 	}
 }
@@ -37,14 +74,21 @@ QWidget* comboBoxDelegate::createEditor(QWidget *aParent, const QStyleOptionView
 {
 	QComboBox *editor;
 	editor=new QComboBox(aParent);
-	std::map<int,std::wstring>::iterator nit;
-	if(m_pindexString!=nullptr)
+	//std::map<int,std::wstring>::iterator nit;
+
+	//if(m_pMapIdxString!=nullptr)
+	//{
+	//	for(nit=m_pMapIdxString->begin();nit!=m_pMapIdxString->end();nit++)
+	//	{
+	//		editor->addItem(QString::fromStdWString(nit->second),QVariant(nit->first));
+	//	}
+	//}
+
+	for (auto a : m_vSortByValue)
 	{
-		for(nit=m_pindexString->begin();nit!=m_pindexString->end();nit++)
-		{
-			editor->addItem(QString::fromStdWString(nit->second),QVariant(nit->first));
-		}
+		editor->addItem(QString::fromStdWString(a.second), QVariant(a.first));
 	}
+
 	connect(editor,SIGNAL(currentIndexChanged(int)),this,SLOT(commitAndCloseEditor()));
 	return editor;
 }
@@ -76,3 +120,4 @@ void comboBoxDelegate::commitAndCloseEditor()
 	emit commitData(comboBox);
 	emit closeEditor(comboBox);
 }
+

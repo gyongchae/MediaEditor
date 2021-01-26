@@ -19,6 +19,7 @@ public:
 	static CMapManage *GetInstance();
 
 	void InitMaps();
+
 	std::map<int, std::wstring> m_mImageType;
 	std::map<int, std::wstring> m_mAlignType;
 	std::map<int, std::wstring> m_mVerticalAlign;
@@ -41,4 +42,5 @@ public:
 	std::map<int, std::wstring> m_mBoundType;
 	std::map<int, std::wstring> m_mDisplayMsgID;
 	std::map<int, std::wstring> m_mAudioMsgID;
+	std::map<int, std::wstring> m_mSpcEmgType;
 };

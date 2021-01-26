@@ -78,8 +78,8 @@ DECLARE_STATIC_TYPESETTINGS(PIDContents, 10) =
 {
 	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),		0,	nullptr,true, false,false, MAKE_T("Table Index"),		100 },
 	{ TYPE_TEXT,	MAKE_T("DESCRIPTION"),		256,nullptr,false,false,false, MAKE_T("Title"),				100 },
-	{ TYPE_INTEGER,	MAKE_T("MESSAGE_ID"),		0,	nullptr,false,false,false, MAKE_T("Message ID"),		100 },
-	{ TYPE_INTEGER,	MAKE_T("MESSAGE_TYPE"),		0,	nullptr,false,false,false, MAKE_T("Message Type"),		100 },
+	{ TYPE_INTEGER,	MAKE_T("MESSAGE_ID"),		0,	nullptr,false,false,false, MAKE_T("Message Type"),		100 },
+	{ TYPE_INTEGER,	MAKE_T("MESSAGE_TYPE"),		0,	nullptr,false,false,false, MAKE_T("Message Type(nouse)"),		100 },
 	{ TYPE_INTEGER,	MAKE_T("STATION_INDEX"),	0,	nullptr,false,false,false, MAKE_T("Station Index"),		100 },
 	{ TYPE_INTEGER,	MAKE_T("DESTINATION_INDEX"),0,	nullptr,false,false,false, MAKE_T("Destination Index"), 100 },
 	{ TYPE_INTEGER,	MAKE_T("MESSAGE_TYPE_ID"),	0,	nullptr,false,false,false, MAKE_T("Message TypeID"),	100 },
@@ -102,7 +102,7 @@ DECLARE_STATIC_TYPESETTINGS(AudioStationName, 9) =
 {
 	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),	0,	nullptr,true, false,false, MAKE_T("Table Index"),	100 },
 	{ TYPE_INTEGER,	MAKE_T("TABLE_ORDER"),	0,	nullptr,false,true, false, MAKE_T("Order"),			100 },
-	{ TYPE_INTEGER,	MAKE_T("MESSAGE_ID"),	0,	nullptr,false,false,false, MAKE_T("Message ID"),	200 },
+	{ TYPE_INTEGER,	MAKE_T("MESSAGE_ID"),	0,	nullptr,false,false,false, MAKE_T("Station ID"),	200 },
 	{ TYPE_INTEGER,	MAKE_T("AUDIO_IDX1"),	0,	nullptr,false,false,false, MAKE_T("Audio (BM)"),	200 },
 	{ TYPE_TEXT,	MAKE_T("AUDIO_FILE1"),128,	nullptr,false,false,false, MAKE_T("(Audio BM)"),	400 },
 	{ TYPE_INTEGER,	MAKE_T("AUDIO_DUR1"),	0,	nullptr,false,false,false, MAKE_T("Druation (BM)"),	200 },
@@ -116,7 +116,7 @@ DECLARE_STATIC_TYPESETTINGS(AudioPlayList, 23) =
 {
 	{ TYPE_INTEGER,	MAKE_T("TABLE_INDEX"),	0,	nullptr,true, false,false, MAKE_T("Table Index"),	100 },
 	{ TYPE_INTEGER,	MAKE_T("TABLE_ORDER"),	0,	nullptr,false,true, false, MAKE_T("Order"),			100 },
-	{ TYPE_INTEGER,	MAKE_T("MESSAGE_ID"),	0,	nullptr,false,false,false, MAKE_T("Message ID"),	200 },
+	{ TYPE_INTEGER,	MAKE_T("MESSAGE_ID"),	0,	nullptr,false,false,false, MAKE_T("Audio Type"),	200 },
 	{ TYPE_INTEGER,	MAKE_T("PLAY_COUNT"),	0,	nullptr,false,false,false, MAKE_T("Num of Audio"),	100 },
 
 	{ TYPE_INTEGER,	MAKE_T("BELL_ALARM"),	0,	nullptr,false,false,false, MAKE_T("Alaram Bell"),	200 },
@@ -142,8 +142,8 @@ DECLARE_STATIC_TYPESETTINGS(AudioPlayList, 23) =
 	{ TYPE_TEXT,	MAKE_T("AUDIO_FILE4"),	128,nullptr,false,false,false, MAKE_T("(File4)"),		100 },
 	{ TYPE_INTEGER,	MAKE_T("AUDIO_DUR4"),	0,	nullptr,false,false,false, MAKE_T("Duration4"),		100 },
 	
-	{ TYPE_TEXT,	MAKE_T("DESCRIPTION"),	128,nullptr,false,false,false, MAKE_T("Description"),	400 },
-	{ TYPE_TEXT,	MAKE_T("MSG_TYPE_NAME"), 32,nullptr,false,false,false, MAKE_T("Message Type"),	400 },
+	{ TYPE_TEXT,	MAKE_T("DESCRIPTION"),	128,nullptr,false,false,false, MAKE_T("Description for ICPMC Display"),	400 },
+	{ TYPE_TEXT,	MAKE_T("MSG_TYPE_NAME"), 32,nullptr,false,false,false, MAKE_T("Special/Emg Type"),	400 },
 };
 
 DECLARE_STATIC_VARIABLES(VideoDeviceGroup, false, VIDEO_DEVICE_GROUP, -1, 1, 0)
