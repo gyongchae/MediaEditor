@@ -210,10 +210,8 @@ MAPPARAM gAudioMsgID[] =
 	{ 1, L"Welcome" },
 	{ 5000, L"Next BM" },
 	{ 5500, L"Next EN" },
-	{ 6000, L"Approaching BM" },
-	{ 6500, L"Approaching EN" },
-	{ 7000, L"Arrival BM" }, // 삭제 예정
-	{ 7500, L"Arrival EN" }, // 삭제 예정
+	{ 6000, L"Arrival BM" },
+	{ 6500, L"Arrival EN" },
 	{ 400, L"Door Open Left" },
 	{ 401, L"Door Open Right" },
 	{ 402, L"Door Open Both" },
