@@ -45,7 +45,7 @@
        <item>
         <widget class="QLabel" name="label_5">
          <property name="text">
-          <string>Data Version:</string>
+          <string>Data Version</string>
          </property>
         </widget>
        </item>
@@ -177,13 +177,6 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="3">
-         <widget class="QPushButton" name="btnOpenDBPath">
-          <property name="text">
-           <string>Open</string>
-          </property>
-         </widget>
-        </item>
        </layout>
       </item>
      </layout>
@@ -204,6 +197,13 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="btnOpenDBPath">
+       <property name="text">
+        <string>Show DB Folder</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">

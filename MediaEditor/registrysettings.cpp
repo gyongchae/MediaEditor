@@ -35,6 +35,10 @@ RegistrySettings::RegistrySettings(QWidget *parent)
 	connect(ui.sbVer2, SIGNAL(valueChanged(int)), this, SLOT(changeDataVersion(int)));
 	connect(ui.sbVer3, SIGNAL(valueChanged(int)), this, SLOT(changeDataVersion(int)));
 
+	connect(ui.btnOpenDBPath, &QPushButton::clicked, []() {
+		QDesktopServices::openUrl(QUrl::fromLocalFile(ME_DATA_PATH));
+	});
+
 	if (OFFICIAL_RELEASE == true)
 	{
 		ui.gbFilePath->setVisible(false);

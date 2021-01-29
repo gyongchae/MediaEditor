@@ -97,7 +97,6 @@ void MediaEditor::setHideItemsMainWindow(bool isRelease)
 		// hidden action
 		ui.actionNew->setVisible(false);
 		ui.actionLoad->setVisible(false);
-		ui.actionLedPool->setVisible(false);
 		ui.actionSyncAudioDur->setVisible(false);
 
 		auto *pDM = CDataManage::GetInstance();
@@ -2119,7 +2118,7 @@ IMPLEMENT_INIT_FUNCTION_FOR_CLASS(PARENT_EDITOR_CLASS, AudioPlayList)
 	//header->resizeSections(QHeaderView::ResizeToContents);
 	header->setStretchLastSection(true);
 
-	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(2, new comboBoxDelegate(this, &pMM->m_mAudioMsgID)); // message type
+	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(2, new comboBoxDelegate(this, &pMM->m_mAudioMsgID, true)); // message type
 	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(4, new comboBoxDelegate(this, &pMM->m_mYesOrNo)); // start bell
 	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(8, new comboBoxDelegate(this, &pMM->m_mYesOrNo)); // with station
 	GET_TABLE(AudioPlayList)->setItemDelegateForColumn(5, new SQLDelegate(SQLDelegate::AUDIO_FILE_IDX_TYPE, this, &pTM->VECTOR_CLASS(AudioFilePool), 3, 3, TYPE_TEXT));

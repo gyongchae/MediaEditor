@@ -965,15 +965,6 @@
     <string>Image List</string>
    </property>
   </action>
-  <action name="actionLedPool">
-   <property name="icon">
-    <iconset>
-     <normaloff>Resources/More Kidcons Win/Icons/Cookie Jar.ico</normaloff>Resources/More Kidcons Win/Icons/Cookie Jar.ico</iconset>
-   </property>
-   <property name="text">
-    <string>L.E.D</string>
-   </property>
-  </action>
   <action name="actionDisplayListPool">
    <property name="icon">
     <iconset>
@@ -1068,6 +1059,9 @@
   <action name="actionUserInfo">
    <property name="text">
     <string>&amp;User Information</string>
+   </property>
+   <property name="toolTip">
+    <string>Account Information</string>
    </property>
   </action>
   <action name="actionSyncAudioDur">

@@ -179,11 +179,11 @@ MAPPARAM gBoundType[] =
 
 MAPPARAM gDisplayMsgID[] =
 {
-	{ 0, L"Empty" },
+	{ -1, L""},
+	{ 0, L"Wait" },
 	{ 1, L"Welcome" },
 	{ 100, L"Next" },
-	{ 200, L"Approaching" },
-	{ 300, L"Arrival" },
+	{ 200, L"Arrival" },
 	{ 8886, L"Door Open" },
 	{ 8887, L"Door Faulty" },
 	{ 8889, L"Pattern Test" },
@@ -206,11 +206,14 @@ MAPPARAM gDisplayMsgID[] =
 
 MAPPARAM gAudioMsgID[] =
 {
+	{ -1, L""},
 	{ 1, L"Welcome" },
 	{ 5000, L"Next BM" },
 	{ 5500, L"Next EN" },
-	{ 6000, L"Arrival BM" },
-	{ 6500, L"Arrival EN" },
+	{ 6000, L"Approaching BM" },
+	{ 6500, L"Approaching EN" },
+	{ 7000, L"Arrival BM" }, // 삭제 예정
+	{ 7500, L"Arrival EN" }, // 삭제 예정
 	{ 400, L"Door Open Left" },
 	{ 401, L"Door Open Right" },
 	{ 402, L"Door Open Both" },
@@ -290,8 +293,6 @@ MAPPARAM gSpcEmgType[] =
 	{ 7878, L"Intrusion" },
 	{ 9911, L"Techincal Diff" },
 	{ 1199, L"Rescue" },
-
-	
 };
 
 CMapManage::CMapManage(void)
