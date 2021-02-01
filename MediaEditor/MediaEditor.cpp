@@ -372,11 +372,39 @@ void MediaEditor::onSaveDB()
 	currVersion[1] = pDM->m_pModOPDataVersion->data(index.sibling(0, 3), Qt::DisplayRole).toInt();
 	currVersion[2] = pDM->m_pModOPDataVersion->data(index.sibling(0, 4), Qt::DisplayRole).toInt();
 
-	int mbResult = QMessageBox::information(this, QString("Save TOTAL_PAPIS_DATA.DB"),
-		QString("Do you want to save TOTAL_PAPIS_DATA.DB(version %1.%2.%3)?").arg(currVersion[0]).arg(currVersion[1]).arg(currVersion[2]),
-		QMessageBox::Ok | QMessageBox::Cancel);
+	QCheckBox *chkVacuum = new QCheckBox("Running VACUUM");
+	chkVacuum->setChecked(m_bVacuum);
+	chkVacuum->setToolTip("Running VACUUM will clean the database of all traces of deleted content,\nthus preventing an adversary from recovering deleted content.\n"
+		"It may take more time than usual.");
+	QMessageBox mb;
+	mb.setWindowTitle("Save DB");
+	mb.setWindowIcon(ui.actionAboutME->icon());
+	mb.setIcon(QMessageBox::Icon::Question);
+	mb.addButton(QMessageBox::Yes);
+	mb.addButton(QMessageBox::No);
+	mb.setText(QString("Do you want to save TOTAL_PAPIS_DATA.DB(version %1.%2.%3)?")
+		.arg(currVersion[0]).arg(currVersion[1]).arg(currVersion[2]));
+	mb.setCheckBox(chkVacuum);
 
-	if (mbResult == QMessageBox::Ok)
+	connect(chkVacuum, &QCheckBox::stateChanged, [this](int state) {
+		if (static_cast<Qt::CheckState>(state) == Qt::CheckState::Checked)
+		{
+			m_bVacuum = true;
+		}
+		else
+		{
+			m_bVacuum = false;
+		}
+	});
+
+	int mbResult = mb.exec();
+
+
+	//int mbResult = QMessageBox::information(this, QString("Save TOTAL_PAPIS_DATA.DB"),
+	//	QString("Do you want to save TOTAL_PAPIS_DATA.DB(version %1.%2.%3)?").arg(currVersion[0]).arg(currVersion[1]).arg(currVersion[2]),
+	//	QMessageBox::Ok | QMessageBox::Cancel);
+
+	if (mbResult == QMessageBox::Yes)
 	{
 		setCursor(Qt::BusyCursor);
 		for (int i = 0; i < 3; ++i)
@@ -497,7 +525,6 @@ void MediaEditor::onShowFileUpload()
 	process->waitForFinished();
 	int exitCode = process->exitCode();
 	qDebug() << Q_FUNC_INFO << "exit code" << exitCode;
-	//process->close();
 }
 
 void MediaEditor::onShowUserInfo()
@@ -2353,7 +2380,9 @@ bool MediaEditor::copyDB()
 	bool rmResult = QDir().remove(QString("C:/PapisProgram/PapisData/OP_DATA.DB"));
 	if (!rmResult)
 	{
-		QMessageBox::warning(this, "Remove failed", "OP_DATA.DB didn't removed.");
+		QMessageBox::warning(this, "Remove failed", 
+			QString("The action can'be completed because the file is open.\n"
+			"Close the OP_DATA.DB and try again."));
 	}
 
 	QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
@@ -2523,7 +2552,12 @@ bool MediaEditor::copyDB()
 	query.exec(QString("INSERT OR REPLACE INTO %1.STATION_INFORMATION SELECT * FROM STATION_INFORMATION").arg(copiedDB));
 	query.exec(QString("INSERT OR REPLACE INTO %1.STOP_PATTERN_HEADER SELECT * FROM STOP_PATTERN_HEADER").arg(copiedDB));
 	query.exec(QString("INSERT OR REPLACE INTO %1.STOP_PATTERN_ROUTES SELECT * FROM STOP_PATTERN_ROUTES").arg(copiedDB));
-	//query.exec(QString("VACUUM"));
+	
+	if (m_bVacuum)
+	{
+		query.exec(QString("VACUUM"));
+	}
+
 	query.exec(QString("DETACH '%1'").arg(copiedDB));
 	
 	setCursor(Qt::ArrowCursor);

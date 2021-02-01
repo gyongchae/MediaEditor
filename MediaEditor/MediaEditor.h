@@ -156,4 +156,8 @@ public:
 
 public:
 	bool copyDB();
+
+	// db 저장할 때 vacuum 명령어 (최적화) 실행 여부
+private:
+	bool m_bVacuum = false;
 };
