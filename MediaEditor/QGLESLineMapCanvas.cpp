@@ -909,6 +909,7 @@ void QGLESLineMapCanvas::initBaseData(int nMapIndex)
 		//i->Init2ndTextureBuffer();
 	}
 
+	// 루트맵 아이템 open 시 예외 뜨는 부분
 	glBindBuffer(GL_ARRAY_BUFFER, m_uVBOsID[0]);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, vVertices.size() * sizeof(GLfloat), &vVertices[0]);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

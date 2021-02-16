@@ -28,7 +28,7 @@
 #include "DefineMode.h"
 #include "IniFileManager.h"
 
-const int added_duration = 1000; // ms
+const int added_special_duration = 1000; // ms, special, emg, door open
 const int added_operation_pa_duration = 500; // ms
 const int added_stn_name_duration = 1000; // ms
 
@@ -1167,7 +1167,7 @@ void MediaEditor::onAudioSyncDuration()
 				+ index.sibling(index.row(), 14).data().toInt() // audio file 2 duration (ms)
 				+ index.sibling(index.row(), 17).data().toInt() // audio file 3 duration (ms)
 				+ index.sibling(index.row(), 20).data().toInt() // audio file 4 duration (ms)
-				) + added_duration;
+				) + added_special_duration;
 
 
 		audioListInfo st = { 0 };

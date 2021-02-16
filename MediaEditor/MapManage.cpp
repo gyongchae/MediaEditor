@@ -202,6 +202,7 @@ MAPPARAM gDisplayMsgID[] =
 	{ 4012, L"Emergency 13" },
 	{ 4013, L"Emergency 14" },
 	{ 4014, L"Emergency 15" },
+	{ 4999, L"Test Pattern"},
 };
 
 MAPPARAM gAudioMsgID[] =
