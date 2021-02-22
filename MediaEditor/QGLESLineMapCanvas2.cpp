@@ -642,7 +642,6 @@ void QGLESLineMapCanvas::contextMenuEvent(QContextMenuEvent * e)
 					m_pDispItemMenu->popup(e->globalPos());
 				}
 			}
-
 		}
 	}
 	}
@@ -676,13 +675,21 @@ void QGLESLineMapCanvas::selectAction(QAction *action)
 				addNode(m_nLatestPosX, m_nLatestPosY);
 				break;
 			case 2:
-				deleteNode(m_nSelectedNode);
-				break;
+			{
+				int ret = QMessageBox::question(this, "Delete", "Are you sure?");
+
+				if (ret == QMessageBox::Yes)
+				{
+					deleteNode(m_nSelectedNode);
+				}
+			}
+			break;
 			case 3:
 				editNode(m_nSelectedNode);
 				break;
 			case 4:
 				editSpot(m_nSelectedNode);
+				break;
 			}
 		}
 		break;
@@ -691,7 +698,7 @@ void QGLESLineMapCanvas::selectAction(QAction *action)
 		{
 		case 1:
 			deleteArrow(m_nSelectedArrow);
-			break;;
+			break;
 		}
 		break;
 	case EDIT_DISPLAYITEM:
@@ -702,8 +709,21 @@ void QGLESLineMapCanvas::selectAction(QAction *action)
 			editDisplayItem(m_nSelectedDispItem);
 			break;
 		case 2:
+		{
 			qDebug() << Q_FUNC_INFO << "delete" << nValue;
-			deleteDisplayItem(m_nSelectedDispItem);
+			int ret = QMessageBox::question(this, "Delete", "Are you sure?");
+
+			if (ret == QMessageBox::Yes)
+			{
+				deleteDisplayItem(m_nSelectedDispItem);
+			}
+			else
+			{
+				m_bPressed = false;
+				m_nSelectedDispItem = -1;
+			}
+			break;
+		}
 		default:
 			break;
 		}
